@@ -1,0 +1,347 @@
+body {
+  font-family: $fontFamily;
+  font-weight: 400;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height);
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  padding: $paddingContent;
+  background-color: var(--color-white);
+}
+
+#map-list-wrap{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+
+  @include media('big') {
+    flex-direction: row-reverse;
+  }
+}
+
+#content-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-blue-dark-12);
+  border-radius: $borderRadiusBig;
+  overflow: hidden;
+  box-shadow: var(--shadow-app);
+}
+
+label {
+  font-size: var(--font-size-label);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: block;
+  opacity: 0.4;
+  margin-bottom: $paddingContent;
+}
+
+select {
+  border: 2px solid var(--color-blue-dark-12);
+  background-color: var(--color-white);
+  height: var(--button-map-controls-width);
+  padding: var(--padding-input);
+  width: 100%;
+  font-size: var(--font-size-buttonForm);
+
+  option {
+    font-size: var(--font-size-buttonForm);
+  }
+}
+
+button.select {
+  position: relative;
+  width: 100%;
+
+  .button-label{
+    font-size: var(--font-size-body);
+    padding: $paddingSmall calc($paddingContent + $paddingSmall) $paddingSmall $paddingMed;
+    border: var(--border-select);
+    transition: border-color $transition ease;
+    position: relative;
+    cursor: pointer;
+
+    > svg {
+      opacity: 0.30;
+      transition: opacity $transition ease;
+      position: absolute;
+      right: $paddingMed;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    @include focusKey () {
+      border-color: var(--border-select);
+    }
+
+    @include focusPointer () {
+      border-color: var(--border-select);
+
+      > svg {
+        opacity: 1;
+      }
+    }
+  }
+
+  .select-options {
+    background: radial-gradient(100% 100% at 100% 100%, var(--color-blue-dark-gradient-out) 0%, var(--color-blue-dark-gradient-in) 100%);
+    color: var(--color-white);
+    border-radius: var(--border-radius-input);
+    padding: $paddingSmall;
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: $transition, $transition;
+    transition-timing-function: ease, ease;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+
+    .select-option {
+      padding: $paddingSmall;
+      display: flex;
+      align-items: center;
+      gap: $paddingSmall;
+      cursor: pointer;
+
+      .select-icon {
+        line-height: 0;
+        
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .select-name {
+        .select-ident{
+          font-weight: 700;
+          text-transform: uppercase;
+  
+          &:after {
+            content: ',';
+            margin-right: 0.18em;
+          }
+        }
+      }
+    }
+  }
+
+  &.open {
+    .select-options {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+input,
+textarea,
+select {
+  &[type="text"],
+  &[type="number"],
+  &[type="email"] {
+    height: 20px;
+    padding: var(--padding-input);
+    border: var(--border-input);
+    transition-property: border-color, color;
+    transition-duration: $transition, $transition;
+    transition-timing-function: ease, ease;
+
+    @include media('small') {
+      height: 40px;
+    }
+
+    &::placeholder {
+      color: var(--color-blue-dark-60);
+    }
+
+    &:hover,
+    &:focus {
+      border-color: var(--color-blue30);
+      color: var(--color-blue);
+
+      &::placeholder {
+        color: var(--color-blue30);
+      }
+    }
+
+    &.error {
+      border-color: var(--color-orange60);
+      color: var(--color-orange);
+
+      &::placeholder {
+        color: var(--color-orange60);
+      }
+
+
+      &:hover,
+      &:focus {
+        border-color: var(--color-orange);
+
+        &::placeholder {
+          color: var(--color-orange);
+        }
+      }
+    }
+  }
+
+  &[type="text"].search {
+    /* 
+      todo
+    */
+  }
+}
+
+textarea {
+  height: unset;
+  min-height: 70px;
+}
+
+.button {
+  cursor: pointer;
+  font-size: var(--font-size-buttonForm);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: var(--button-height);
+  padding: var(--button-padding);
+  border-radius: var(--button-height);
+  position: relative;
+
+  .button-label {
+    font-size: var(--font-size-buttonForm);
+    font-weight: 700;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @include focusKey() {
+    &:before {
+      content: '';
+      position: absolute;
+      left: -$borderRadiusSmall;
+      top: -$borderRadiusSmall;
+      bottom: -$borderRadiusSmall;
+      right: -$borderRadiusSmall;
+      border: 1px solid var(--color-blue30);
+      border-radius: var(--button-height);
+    }
+  }
+
+  @include focusPointer() {
+    &:before {
+      display: none;
+    }
+  }
+
+  &.primary {
+    /* 
+      todo
+    */
+  }
+
+  &.secondary {
+    background-color: var(--color-blue-dark-07);
+
+    &:hover{
+      background-color: var(--color-blue-dark-12);
+    }
+
+    :disabled {
+      .button-label {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &.resize {
+    padding-left: 9px;
+    padding-right: 9px;
+
+    .shrink {
+      display: none;
+    }
+
+    &.fullscreen {
+      .shrink {
+        display: inline-block;
+      }
+      .expand {
+        display: none;
+      }
+    }
+  }
+}
+
+.tag-list { 
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: $paddingSmall;
+  gap: $paddingSmall;
+}
+
+.tag-item {
+  background-color: var(--color-blue-dark-07);
+  border-radius: var(--border-radius-input);
+  padding: var(--padding-tag-item);
+  border-radius: var(--border-radius-input);
+  font-size: var(--font-size-input);
+  cursor: pointer;
+  display: none;
+  padding-right: $paddingContent;
+  position: relative;
+
+  svg {
+    width: $fontSmall;
+    height: $fontSmall;
+    position: absolute;
+    right: $paddingSmall;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.selected {
+    display: block;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  background-color: var(--color-blue-dark-overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition-property: opacity, visibility;
+  transition-duration: $transition, $transition;
+  transition-timing-function: ease, ease;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .overlay-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+}

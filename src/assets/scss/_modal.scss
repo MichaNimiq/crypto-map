@@ -1,0 +1,27 @@
+.modal-box {
+  border-radius: var(--border-radius-overlay);
+  background-color: var(--color-white);
+  position: relative;
+  border: 1px solid var(--color-blue-dark-12);
+  max-width: 520px;
+
+  > svg.close {
+    position: absolute;
+    top: var(--padding-ui);
+    right: var(--padding-ui);
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .modal-row {
+    padding: var(--padding-primary);
+
+    &+.modal-row{
+      border-top: 1px solid var(--color-blue-dark-12);
+    }
+
+    .headline-modal {
+      text-align: center ;
+    }
+  }
+}
