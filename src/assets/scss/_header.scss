@@ -1,0 +1,41 @@
+#the-header {
+  box-shadow: var(--shadow-head);
+  padding: $paddingBig;
+  display: flex;
+  align-items: center;
+  gap: $paddingMed;
+  position: relative;
+  z-index: 1;
+
+  > .nimiq-icon {
+    width: 28px;
+  }
+
+  .input-search-wrap {
+    position: relative;
+    flex-basis: -moz-available;
+    flex-basis: fill-available;
+
+    input.search {
+      border-radius: 10px;
+      padding-right: $paddingHuge;
+      width: 100%;
+      border-color: var(--color-blue-dark-15);
+
+      &:hover{
+        border-color: var(--color-blue30);
+      }
+  
+      @include media('small') {
+        border-radius: 20px;
+      }
+    }
+
+    svg {
+      position: absolute;
+      right: $paddingMed;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

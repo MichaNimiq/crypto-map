@@ -1,0 +1,45 @@
+<template>
+  <svg
+    width="25pt"
+    height="25pt"
+    style="isolation: isolate"
+    viewBox="301.334 559.667 25 25"
+  >
+    <circle
+      cx="313.8337"
+      cy="572.166668"
+      r="12"
+      fill="none"
+      stroke="rgb(31,35,72)"
+      stroke-opacity="0.1"
+      vector-effect="non-scaling-stroke"
+    />
+    <circle
+      cx="313.8337"
+      cy="572.166668"
+      r="12"
+      fill="rgb(255,255,255)"
+      vector-effect="non-scaling-stroke"
+    />
+    <clipPath id="_clipPath_fqFz5v20DYK0WRyOfMmRrDlGPP0SrrgE">
+      <rect
+        width="16"
+        height="13.25"
+        x="305.834"
+        y="565.367"
+        fill="rgb(255,255,255)"
+        transform="matrix(1,0,0,1,0,0)"
+      />
+    </clipPath>
+    <g clip-path="url(#_clipPath_fqFz5v20DYK0WRyOfMmRrDlGPP0SrrgE)">
+      <path
+        fill="rgb(35,41,47)"
+        d=" M 319.49 565.367 L 321.803 565.367 L 316.99 570.132 C 315.247 571.856 312.422 571.856 310.678 570.132 L 305.864 565.367 L 308.178 565.367 L 311.834 568.986 C 312.367 569.511 313.085 569.806 313.833 569.806 C 314.581 569.806 315.299 569.511 315.831 568.986 L 319.49 565.367 Z "
+      />
+      <path
+        fill="rgb(35,41,47)"
+        d=" M 308.148 578.617 L 305.834 578.617 L 310.677 573.822 C 312.42 572.098 315.246 572.098 316.99 573.822 L 321.834 578.617 L 319.521 578.617 L 315.834 574.968 C 315.301 574.443 314.583 574.148 313.835 574.148 C 313.087 574.148 312.369 574.443 311.836 574.968 L 308.148 578.617 Z "
+      />
+    </g>
+  </svg>
+</template>

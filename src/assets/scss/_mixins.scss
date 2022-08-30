@@ -1,0 +1,59 @@
+@mixin media( $res ) {
+	@if small == $res {
+		@media only screen and (min-width: $small) {
+			@content;
+		}
+	}
+
+	@if med == $res {
+		@media only screen and (min-width: $med) {
+			@content;
+		}
+	}
+
+	@if big == $res {
+		@media only screen and (min-width: $big) {
+			@content;
+		}
+	}
+
+	@if bighuge == $res {
+		@media only screen and (min-width: $bighuge) {
+			@content;
+		}
+	}
+
+	@if huge == $res {
+		@media only screen and (min-width: $huge) {
+			@content;
+		}
+	}
+}
+
+@mixin focusKeyAndHover () {
+  &.focus-visible {
+    &:focus {
+			@content;
+    }
+  }
+
+	&:hover {
+		@content;
+	}
+}
+
+@mixin focusKey () {
+  &.focus-visible {
+    &:focus {
+			@content;
+    }
+  }
+}
+
+@mixin focusPointer () {
+  &:not(.focus-visible) {
+    &:focus {
+			@content;
+    }
+  }
+}

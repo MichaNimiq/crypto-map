@@ -1,0 +1,31 @@
+module.exports = {
+  plugins: [
+    "collapseGroups",
+    "cleanupEnableBackground",
+    "mergeStyles",
+    {
+      name: "removeAttrs",
+      params: {
+        attrs: "(.*xlink.*)",
+      },
+    },
+    "removeComments",
+    "removeDesc",
+    "removeDoctype",
+    "removeEditorsNSData",
+    "removeEmptyAttrs",
+    "removeEmptyContainers",
+    "removeEmptyText",
+    "removeMetadata",
+    "removeNonInheritableGroupAttrs",
+    "removeTitle",
+    "removeUnknownsAndDefaults",
+    "removeUnusedNS",
+    "removeUselessDefs",
+    "removeUselessStrokeAndFill",
+    "removeXMLNS",
+    "removeXMLProcInst",
+    "sortAttrs",
+    "sortDefsChildren",
+  ],
+};
