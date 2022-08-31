@@ -2,6 +2,8 @@
   position: fixed;
   height: calc(100% - 88px - $paddingContent * 2 - 2px);
   width: calc(100% - $paddingContent * 2 - 2px);
+  border-radius: 0 0 $borderRadiusBig $borderRadiusBig;
+  overflow: hidden;
 
   @include media('small') {
     flex-grow: 1;
@@ -10,6 +12,7 @@
     height: unset;
     width: unset;
     transition: flex-basis $transition ease;
+    border-radius: 0px;
   }
 
   #the-map {
@@ -99,11 +102,20 @@
         padding: var(--button-padding);
         border-right: 1px solid var(--color-blue-dark-15);
         color: var(--color-blue-gradient-in);
+        display: none;
+
+        @include media('small') {
+          display: inline;
+        }
       }
 
       .icon-wrap {
-        padding-left: $borderRadiusSmall;
-        padding-right: $paddingMed;
+        padding: var(--button-padding);
+
+        @include media('small') {
+          padding-left: $borderRadiusSmall;
+          padding-right: $paddingMed;
+        }
 
         svg {
           transform: translateY(2px);
