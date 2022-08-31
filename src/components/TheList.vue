@@ -15,9 +15,15 @@ window.addEventListener("resize", () => {
 });
 
 function resizing() {
-  if (!theList.value) return false;
+  if (!theList.value)
+    return false;
 
-  const listLeft = window.innerWidth >= 1024;
+  if (window.innerWidth <= 768){
+    theList.value.removeAttribute("style");
+    return false;
+  }
+
+  const listLeft = (window.innerWidth >= 1360);
 
   if (!filterListVisible.value) {
     const listWidthHeight = listLeft

@@ -52,10 +52,9 @@ class googleMapsHelper {
     neLng: null,
     neLat: null,
   };
-  markers: Array<any> = []; // todo type
-  // infoWindows: Array<any> = []; // todo type (late class decleration, other way possible?)
-  popups: Array<any> = []; // todo type
-  markersUnclustered: Array<any> = [];
+  markers: any[] = []; // todo type
+  popups: any[] = []; // todo type
+  markersUnclustered: any[] = [];
   cluster: any = null; // todo
   getBoundsTimeout: any = null; // todo type
   mapInteraction = false;
@@ -213,7 +212,7 @@ class googleMapsHelper {
   }
 
   setMarkerSingle(
-    coordinates: Array<number>,
+    coordinates: number[],
     parentId: number,
     childId: number,
     type: string,
@@ -304,7 +303,7 @@ class googleMapsHelper {
       }
     }
 
-    // creating infoWindows only for uncluttered markers
+    // creating infoWindows only for unclustered markers
     // to probably save ressources
     this.setPopups();
   }
@@ -399,7 +398,8 @@ class googleMapsHelper {
   }
 
   selectPopup(parentId: number = selectedId.value) {
-    if (parentId == -1) debug("select Entry, no parentID given");
+    if (parentId == -1)
+      debug("select Entry, no parentID given");
 
     selectedId.value = parentId;
 
@@ -407,9 +407,11 @@ class googleMapsHelper {
     for (const key in entryObjects) {
       if (Object.prototype.hasOwnProperty.call(entryObjects, key)) {
         const element = entryObjects[key] as HTMLElement;
+
         if (element.dataset.id == parentId?.toString())
           element.classList.add("selected");
-        else element.classList.remove("selected");
+        else
+          element.classList.remove("selected");
       }
     }
 

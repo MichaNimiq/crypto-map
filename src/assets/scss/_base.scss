@@ -17,10 +17,15 @@ body {
 }
 
 #map-list-wrap{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  @include media('small') {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
 
   @include media('big') {
     flex-direction: row-reverse;
@@ -152,16 +157,14 @@ select {
   &[type="text"],
   &[type="number"],
   &[type="email"] {
-    height: 20px;
+    height: var(--input-height);
     padding: var(--padding-input);
     border: var(--border-input);
+    border-radius: 20px;
+
     transition-property: border-color, color;
     transition-duration: $transition, $transition;
     transition-timing-function: ease, ease;
-
-    @include media('small') {
-      height: 40px;
-    }
 
     &::placeholder {
       color: var(--color-blue-dark-60);
@@ -223,6 +226,11 @@ textarea {
   .button-label {
     font-size: var(--font-size-buttonForm);
     font-weight: 700;
+    display: none;
+
+    @include media('small'){
+      display: inline-block;
+    }
   }
 
   &:focus {
