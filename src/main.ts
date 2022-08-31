@@ -22,10 +22,11 @@ const router = createRouter({
   ],
 });
 
+const languageUser: string = navigator.language;
 const i18n = ref(
   createI18n<false>({
     legacy: false,
-    locale: "de",
+    locale: languageUser,
     fallbackLocale: "en",
     messages,
   })
