@@ -74,7 +74,6 @@ const imageUrl: string | null = imageRef
     <div class="item-content">
       <div class="item-label">{{ props.itemData.label }}</div>
       <div class="item-addresses">
-        <!-- <div v-if="props.itemData.pickups.length > 0" class="item-addresses-cat">{{ $t('labels.pickup-stores')}}</div> -->
         <div v-for="item in pickups" :key="item.id" :id="`pickup-${item.id}`">
           <div v-if="item.place_information_parsed" class="item-address">
             {{ item.place_information_parsed.formatted_address }}
