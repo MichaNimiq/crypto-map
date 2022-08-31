@@ -8,21 +8,39 @@
   z-index: 1;
 
   > .nimiq-icon {
-    width: 28px;
+    cursor: pointer;
+    padding: 0;
+
+    .svg {
+      min-width: 28px;
+      width: 28px;
+    }
+
+    @include focusKeyAndHover() {
+      & + .info-window {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 
   .input-search-wrap {
     position: relative;
-    flex-basis: -moz-available;
-    flex-basis: fill-available;
+    flex-grow: 1;
 
     input.search {
       padding-right: $paddingHuge;
       width: 100%;
       border-color: var(--color-blue-dark-15);
 
-      &:hover{
+      @include focusKeyAndHover() {
         border-color: var(--color-blue30);
+
+        & + svg {
+          path {
+            stroke: var(--color-blue30);
+          }
+        }
       }
     }
 
@@ -31,6 +49,36 @@
       right: $paddingMed;
       top: 50%;
       transform: translateY(-50%);
+      
+      path {
+        stroke: var(--color-blue-dark-15);
+      }
+    }
+  }
+
+  button.resize{
+    display: none;
+
+    @include media('small') {
+      display: inline-block;
+    }
+  }
+
+  .info-window {
+    top: calc(100% - $paddingMed);
+    left: $paddingMed;
+
+    .hover-helper {
+      bottom: unset;
+      top: -20px;
+    }
+
+    &:before {
+      bottom: unset;
+      left: $paddingSmall;
+      top: -24px;
+      left: 22px;
+      transform: translate(-50%, 100%) rotate(180deg);
     }
   }
 }

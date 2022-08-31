@@ -43,6 +43,45 @@ body {
   box-shadow: var(--shadow-app);
 }
 
+a {
+  &.arrow {
+    padding-right: $paddingMed;
+
+    svg {
+      position: absolute;
+      bottom: 1px;
+      right: 0;
+      width: 8px;
+      height: 12px;
+      transition-property: bottom, right;
+      transition-duration: $transition, $transition;
+      transition-timing-function: ease, ease;
+    }
+
+    @include focusKeyAndHover() {
+      svg {
+        bottom: 5px;
+        right: -5px;
+      }
+    }
+  }
+
+  &.blue {
+    font-weight: 800;
+    color: var(--color-link-blue);
+    text-decoration: none;
+    line-height: 1.3;
+
+    &.arrow {
+      svg {
+        path {
+          stroke: var(--color-link-blue);
+        }
+      }
+    }
+  }
+}
+
 label {
   font-size: var(--font-size-label);
   text-transform: uppercase;
@@ -170,8 +209,7 @@ select {
       color: var(--color-blue-dark-60);
     }
 
-    &:hover,
-    &:focus {
+    @include focusKeyAndHover() {
       border-color: var(--color-blue30);
       color: var(--color-blue);
 
@@ -188,9 +226,7 @@ select {
         color: var(--color-orange60);
       }
 
-
-      &:hover,
-      &:focus {
+    @include focusKeyAndHover() {
         border-color: var(--color-orange);
 
         &::placeholder {

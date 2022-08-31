@@ -24,6 +24,14 @@ const messages = {
       eth: "Ethereum",
       xrp: "Ripple",
     },
+    infoWindows: {
+      cryptomap: {
+        title: "Crypto Map",
+        text: "Diese Karte wird Ihnen von Nimiq zur Verfügung gestellt. Es werden nur durch Google verifizierte Standorte hinzugefügt.",
+        url: "https://www.nimiq.com",
+        urlText: "Gehe zu Nimiq"
+      }
+    }
   },
   en: {
     message: {
@@ -50,6 +58,14 @@ const messages = {
       eth: "Ethereum",
       xrp: "Ripple",
     },
+    infoWindows: {
+      cryptomap: {
+        title: "Crypto Map",
+        text: "This app is brought to you by Nimiq, only places that are verified by Google are accepted for this map.",
+        url: "https://www.nimiq.com",
+        urlText: "Go to Nimiq"
+      }
+    }
   },
 };
 

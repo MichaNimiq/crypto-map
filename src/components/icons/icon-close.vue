@@ -1,18 +1,1 @@
-<template>
-  <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-    <path
-      stroke="#1F2348"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M2 2L16 16"
-    />
-    <path
-      stroke="#1F2348"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M16 2L2 16"
-    />
-  </svg>
-</template>
+<template><svg width="18" height="18" fill="none" viewBox="0 0 18 18"><path stroke="#1F2348" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 2L16 16"/><path stroke="#1F2348" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2L2 16"/></svg></template>
