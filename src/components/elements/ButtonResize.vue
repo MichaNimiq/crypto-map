@@ -1,13 +1,7 @@
 <script setup lang="ts">
+import type { HTMLElement } from "@/interfaces";
 import { ref } from "vue";
 import IconSvg from "@/components/elements/IconSvg.vue";
-
-interface HTMLElement {
-  requestFullscreen?: () => Promise<void>;
-  msRequestFullScreen?: () => Promise<void>;
-  mozRequestFullScreen?: () => Promise<void>;
-  webkitRequestFullScreen?: () => Promise<void>;
-}
 
 const isFullscreen = ref(false);
 

@@ -1,4 +1,14 @@
 /* 
+  General
+*/
+export interface HTMLElement {
+  requestFullscreen?: () => Promise<void>;
+  msRequestFullScreen?: () => Promise<void>;
+  mozRequestFullScreen?: () => Promise<void>;
+  webkitRequestFullScreen?: () => Promise<void>;
+}
+
+/* 
   Maps related
 */
 export interface bounds {
