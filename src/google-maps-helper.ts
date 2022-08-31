@@ -421,6 +421,14 @@ class googleMapsHelper {
         if (element.parentId == parentId) {
           this.mapInstance.setZoom(17);
           this.mapInstance.setCenter(element.position);
+
+          if (window.innerWidth <= 768){
+            const elList = document.querySelector('#map-list-wrap');
+            elList?.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            })
+          }
         }
       }
     }
