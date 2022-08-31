@@ -17,17 +17,12 @@
     flex-basis: fill-available;
 
     input.search {
-      border-radius: 10px;
       padding-right: $paddingHuge;
       width: 100%;
       border-color: var(--color-blue-dark-15);
 
       &:hover{
         border-color: var(--color-blue30);
-      }
-  
-      @include media('small') {
-        border-radius: 20px;
       }
     }
 

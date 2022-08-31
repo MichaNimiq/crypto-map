@@ -7,7 +7,10 @@ import ButtonResize from "@/components/elements/ButtonResize.vue";
 
 <template>
   <header id="the-header">
-    <IconSvg iconIndex="icon-nim" class="nimiq-icon" />
+    <IconSvg
+      iconIndex="icon-nim"
+      class="nimiq-icon"
+    />
     <InputSearchApi />
     <ButtonFilter />
     <ButtonResize />

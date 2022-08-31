@@ -27,6 +27,18 @@ onMounted(() => {
 
   googleMapsHelperInstance.init();
 });
+
+function clickShowList() {
+  filterListVisible.value = !filterListVisible.value;
+
+  if (window.innerWidth <= 768){
+    const elList = document.querySelector('#map-list-wrap');
+    elList?.scrollTo({
+      top: 350,
+      behavior: 'smooth'
+    })
+  }
+}
 </script>
 
 <template>
@@ -38,11 +50,7 @@ onMounted(() => {
     <div id="the-map" ref="theMap"></div>
     <ButtonMapAddLocation />
     <ButtonMapShowList
-      @click="
-        () => {
-          filterListVisible = !filterListVisible;
-        }
-      "
+      @click="clickShowList"
     />
     <ButtonMapControls />
   </main>

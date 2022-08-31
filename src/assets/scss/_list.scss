@@ -2,17 +2,45 @@
   background-color: var(--color-white);
   overflow: auto;
   transition: margin-bottom $transition ease;
+  margin-top: calc(100vh - 88px - $paddingContent * 3);
+  box-shadow: $shadowObject;
+
+  @include media('small') {
+    margin: unset;
+  }
 
   @include media('big'){
     transition: margin-left $transition ease;
   }
 
   .list-wrap{
-    padding: $paddingMed;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--padding-ui);
+    padding: $paddingHuge $paddingMed $paddingHuge $paddingMed;
+
+    &:before {
+      content: '';
+      display: block;
+      height: 4px;
+      width: 80px;
+      border-radius: 2px;
+      position: absolute;
+      top: $paddingSmall;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--color-blue-dark-30);
+
+      @include media('small') {
+        display: none;
+      }
+    }
     
+    @include media('small') {
+      flex-direction: row;
+      padding: $paddingMed;
+    }
+
     @include media('big') {
       flex-direction: column;
       padding: $paddingContent;
@@ -24,6 +52,7 @@
   flex-grow: 1;
   flex-shrink: 0;
   display: flex;
+  justify-content: center;
 }
 
 .card {
