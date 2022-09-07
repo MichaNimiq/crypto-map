@@ -27,6 +27,13 @@ export interface coords {
   lng: number | undefined;
 }
 
+export interface boundingBox {
+  swLng: number | null;
+  swLat: number | null;
+  neLng: number | null;
+  neLat: number | null;
+}
+
 /* 
   merchant-map-client
 */
@@ -147,13 +154,6 @@ export interface merchant_map_result {
   prev_page_url: string | null;
   to: number;
   total: number;
-}
-
-export interface boundingBox {
-  swLng: number | null;
-  swLat: number | null;
-  neLng: number | null;
-  neLat: number | null;
 }
 
 /* 
