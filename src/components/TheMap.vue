@@ -3,6 +3,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { filterListVisible } from "@/globals";
 import googleMapsHelperInstance from "@/google-maps-helper";
+import merchant_map_client_instance from "@/merchant-map-client";
 import ButtonMapAddLocation from "@/components/elements/ButtonMapAddLocation.vue";
 import ButtonMapShowList from "@/components/elements/ButtonMapShowList.vue";
 import ButtonMapControls from "@/components/elements/ButtonMapControls.vue";
@@ -51,6 +52,7 @@ function clickShowList() {
     <ButtonMapAddLocation />
     <ButtonMapShowList
       @click="clickShowList"
+      v-if="merchant_map_client_instance.results.value.data.length > 0"
     />
     <ButtonMapControls />
   </main>

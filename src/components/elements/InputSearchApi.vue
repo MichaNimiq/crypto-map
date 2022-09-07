@@ -3,6 +3,9 @@ import IconSvg from "@/components/elements/IconSvg.vue";
 import merchant_map_client_instance from "@/merchant-map-client";
 import { ref } from "vue";
 
+// TODO
+// don't use the coords for the text search and filter for everything
+
 const autocompleteElement = ref(null);
 
 let typingTimeout: number | undefined = undefined;

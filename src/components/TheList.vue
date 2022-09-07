@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import debug from "@/debug";
 import { filterListVisible } from "@/globals";
-import { watch, ref } from "vue";
+import { watch, ref, onMounted } from "vue";
 import merchant_map_client_instance from "@/merchant-map-client";
 import ListItem from "@/components/elements/ListItem.vue";
 
@@ -14,6 +15,10 @@ window.addEventListener("resize", () => {
   resizing();
 });
 
+onMounted(() => {
+  resizing();
+});
+
 function resizing() {
   if (!theList.value)
     return false;
@@ -24,6 +29,8 @@ function resizing() {
   }
 
   const listLeft = (window.innerWidth >= 1360);
+
+  debug(filterListVisible.value);
 
   if (!filterListVisible.value) {
     const listWidthHeight = listLeft

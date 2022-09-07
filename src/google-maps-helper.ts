@@ -10,6 +10,8 @@ import { Loader } from "google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import merchant_map_client_instance from "@/merchant-map-client";
 import { selectedId } from "./globals";
+import "./useGeoIp"
+import { useGeoIp } from "./useGeoIp";
 
 class googleMapsHelper {
   isReady = false;
@@ -76,8 +78,21 @@ class googleMapsHelper {
     this.buttonLocation =
       this.elementMapWrapper.querySelector(".button.location");
 
+    // get aprox location from nimiq
+    const currentLocation = await (await useGeoIp().locate()).location;
+    if (currentLocation){
+      this.center = {
+        lat: currentLocation.latitude,
+        lng: currentLocation.longitude,
+      };
+
+      this.zoom = 10;
+    }
+
+    // init google maps
     this.google = await this.loader.load();
 
+    // create a maps instance
     this.mapInstance = new this.google.maps.Map(this.elementMap, {
       center: this.center,
       zoom: this.zoom,
@@ -85,6 +100,7 @@ class googleMapsHelper {
       mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
     });
 
+    // init clusters
     this.cluster = new MarkerClusterer({
       // https://www.npmjs.com/package/@googlemaps/markerclusterer
       // https://github.com/googlemaps/js-markerclusterer/blob/main/src/markerclusterer.ts
@@ -146,9 +162,13 @@ class googleMapsHelper {
   }
 
   resizing() {
-    debug("resizing");
+    // nothing to do here atm
+    // just in case
   }
 
+  /* 
+    gets the current viewport of the map
+  */
   getBounds() {
     this.mapInteraction = true;
 
@@ -174,6 +194,9 @@ class googleMapsHelper {
     }
   }
 
+  /* 
+    sets the map to a specific location and zooms in
+  */
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
