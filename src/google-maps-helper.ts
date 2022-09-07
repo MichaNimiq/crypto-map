@@ -184,6 +184,48 @@ class googleMapsHelper {
   }
 
   /* 
+    check if a coord is within a bounding box
+  */
+ isWithinBoundingBox(
+  coords: coords,
+  boundingBox: boundingBox = this.boundingBox
+){
+  if (!boundingBox || !coords){
+    debug(['isWithinBoundingBox', 'no boundingBox or coords given']);
+    return false;
+  }
+
+  if (
+    !boundingBox.swLng ||
+    !boundingBox.neLng ||
+    !boundingBox.swLat ||
+    !boundingBox.neLat
+  ) {
+    debug(['isWithinBoundingBox', 'boundingBox incomplete']);
+    return false;
+  }
+
+  if (
+    !coords.lng ||
+    !coords.lat
+  ) {
+    debug(['isWithinBoundingBox', 'coords incomplete']);
+    return false;
+  }
+
+  if(
+    boundingBox.swLng <= coords.lng &&
+    coords.lng <= boundingBox.neLng &&
+    boundingBox.swLat <= coords.lat &&
+    coords.lat <= boundingBox.neLat
+  ) {
+    return true;
+  }
+
+  return false;
+ }
+
+  /* 
     gets the current viewport of the map
   */
   getBounds() {
@@ -290,7 +332,15 @@ class googleMapsHelper {
               ) {
                 const locationPickup = location.pickups[keyInner];
 
-                if (locationPickup.geo_location) {
+                if (
+                  locationPickup.geo_location &&
+                  this.isWithinBoundingBox(
+                    {
+                      lat: locationPickup.geo_location.coordinates[1],
+                      lng: locationPickup.geo_location.coordinates[0],
+                    }
+                  )
+                ) {
                   this.setMarkerSingle(
                     locationPickup.geo_location.coordinates,
                     location.id,
@@ -311,7 +361,15 @@ class googleMapsHelper {
               ) {
                 const locationShipping = location.shippings[keyInner];
 
-                if (locationShipping.geo_location) {
+                if (
+                  locationShipping.geo_location &&
+                  this.isWithinBoundingBox(
+                    {
+                      lat: locationShipping.geo_location.coordinates[1],
+                      lng: locationShipping.geo_location.coordinates[0],
+                    }
+                  )
+                ) {
                   this.setMarkerSingle(
                     locationShipping.geo_location.coordinates,
                     location.id,

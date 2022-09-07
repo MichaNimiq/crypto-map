@@ -6,7 +6,7 @@ import googleMapsHelperInstance from "@/google-maps-helper";
 import { filterListVisible } from "@/globals";
 
 class merchant_map_client {
-  searchString: string | null = null;
+  searchString: string = '';
 
   previousResultsLength: number = 0;
 
@@ -33,7 +33,7 @@ class merchant_map_client {
   getResults(
     limit = 0,
     boundingBox: boundingBox | null = googleMapsHelperInstance.boundingBox,
-    searchTerm: string | null = this.searchString
+    searchTerm: string = this.searchString
   ) {
     try {
       const queryParams: {
@@ -42,12 +42,13 @@ class merchant_map_client {
         "filter[label]"?: string;
       } = {};
 
-      if (boundingBox !== null)
+      if (searchTerm !== null) queryParams["filter[label]"] = `${searchTerm}`;
+
+      // only respect the search area if no term is set in the search input
+      if (searchTerm.length == 0 && boundingBox !== null)
         queryParams[
           "filter[bounding_box]"
         ] = `${boundingBox.swLng},${boundingBox.swLat},${boundingBox.neLng},${boundingBox.neLat}`;
-
-      if (searchTerm !== null) queryParams["filter[label]"] = `${searchTerm}`;
 
       queryParams["filter[limit]"] = limit;
 
