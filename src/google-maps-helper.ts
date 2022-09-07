@@ -78,40 +78,45 @@ class googleMapsHelper {
     this.buttonLocation =
       this.elementMapWrapper.querySelector(".button.location");
 
-    // get aprox location from nimiq
-    const currentLocation = await (await useGeoIp().locate()).location;
-    if (currentLocation){
-      this.center = {
-        lat: currentLocation.latitude,
-        lng: currentLocation.longitude,
-      };
-
-      this.zoom = 10;
-    }
-
     // init google maps
-    this.google = await this.loader.load();
+    this.loader.load().then((google) => {
+      this.google = google;
 
-    // create a maps instance
-    this.mapInstance = new this.google.maps.Map(this.elementMap, {
-      center: this.center,
-      zoom: this.zoom,
-      disableDefaultUI: true,
-      mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
+      // create a maps instance
+      this.mapInstance = new this.google.maps.Map(this.elementMap, {
+        center: this.center,
+        zoom: this.zoom,
+        disableDefaultUI: true,
+        mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
+      });
+
+      // get the location from nimiq
+      useGeoIp().locate().then((location) => {
+        if (location.location){
+          this.center = {
+            lat: location.location.latitude,
+            lng: location.location.longitude,
+          };
+  
+          this.zoom = 10;
+
+          // set the location
+          this.mapInstance.setCenter(this.center);
+          this.mapInstance.setZoom(this.zoom); // calls getBounds()
+
+          this.initCluster();
+          this.initEvents();
+        }
+      }).catch((err) => {
+        debug(err);
+
+        // continue init with the fallback location
+        this.initCluster();
+        this.initEvents();
+      });
+    }).catch((err) => {
+      debug(err);
     });
-
-    // init clusters
-    this.cluster = new MarkerClusterer({
-      // https://www.npmjs.com/package/@googlemaps/markerclusterer
-      // https://github.com/googlemaps/js-markerclusterer/blob/main/src/markerclusterer.ts
-      //
-      // todo, fine grain the cluster algorithm, currently too narrow
-      // https://googlemaps.github.io/js-markerclusterer/interfaces/MarkerClustererOptions.html
-      // https://googlemaps.github.io/js-markerclusterer/public/algorithms/
-      map: this.mapInstance,
-    });
-
-    this.initEvents();
   }
 
   initEvents() {
@@ -164,6 +169,18 @@ class googleMapsHelper {
   resizing() {
     // nothing to do here atm
     // just in case
+  }
+
+  initCluster() {
+    this.cluster = new MarkerClusterer({
+      // https://www.npmjs.com/package/@googlemaps/markerclusterer
+      // https://github.com/googlemaps/js-markerclusterer/blob/main/src/markerclusterer.ts
+      //
+      // todo, fine grain the cluster algorithm, currently too narrow
+      // https://googlemaps.github.io/js-markerclusterer/interfaces/MarkerClustererOptions.html
+      // https://googlemaps.github.io/js-markerclusterer/public/algorithms/
+      map: this.mapInstance,
+    });
   }
 
   /* 
