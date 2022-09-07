@@ -23,8 +23,8 @@ export interface bounds {
 }
 
 export interface coords {
-  lat: number;
-  lng: number;
+  lat: number | undefined;
+  lng: number | undefined;
 }
 
 /* 

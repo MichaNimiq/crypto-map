@@ -1,9 +1,14 @@
 #the-list {
   background-color: var(--color-white);
   overflow: auto;
-  transition: margin-bottom $transition ease;
+  transition-property: margin-bottom, box-shadow;
+  transition-duration: $transition, $transition;
+  transition-timing-function: ease, ease;
   margin-top: calc(100vh - 88px - $paddingContent * 3);
-  box-shadow: $shadowObject;
+
+  &.visible {
+    box-shadow: $shadowObject;
+  }
 
   @include media('small') {
     margin: unset;

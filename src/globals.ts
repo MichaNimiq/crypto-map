@@ -24,5 +24,5 @@ declare global {
 export {};
 
 export const filterVisible = ref<boolean>(false);
-export const filterListVisible = ref<boolean>(true);
+export const filterListVisible = ref<boolean>(false);
 export const selectedId = ref<number>(-1);
