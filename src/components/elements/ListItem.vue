@@ -5,7 +5,7 @@ import cryptoCurrencies from "@/currencies";
 import { reactive } from "vue";
 import googleMapsHelperInstance from "@/google-maps-helper";
 import { selectedId } from "@/globals";
-import type { itemData, pickupData } from "@/interfaces";
+import type { itemData, pickupData, boundingBox, coords } from "@/interfaces";
 
 const props = defineProps<{
   itemData: itemData;
@@ -19,6 +19,35 @@ const mapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY;
 const pickups = reactive<pickupData[]>(props.itemData.pickups);
 const shippings = reactive<pickupData[]>(props.itemData.shippings);
 
+let boundingBoxOfAllLocations: boundingBox = {
+  swLat: null,
+  swLng: null,
+  neLat: null,
+  neLng: null
+};
+
+let numberLocations: number = 0;
+
+function setBoundingBox( locationData: coords ) {
+  if (
+    typeof locationData.lat == 'undefined' ||
+    typeof locationData.lng == 'undefined'
+  )
+    return false;
+
+  if (locationData.lat <= boundingBoxOfAllLocations.swLat || boundingBoxOfAllLocations.swLat == null)
+    boundingBoxOfAllLocations.swLat = locationData.lat;
+
+  if (locationData.lng <= boundingBoxOfAllLocations.swLng || boundingBoxOfAllLocations.swLng == null)
+    boundingBoxOfAllLocations.swLng = locationData.lng;
+
+  if (locationData.lat >= boundingBoxOfAllLocations.neLat || boundingBoxOfAllLocations.neLat == null)
+    boundingBoxOfAllLocations.neLat = locationData.lat;
+
+  if (locationData.lng <= boundingBoxOfAllLocations.neLng || boundingBoxOfAllLocations.neLng == null)
+    boundingBoxOfAllLocations.neLng = locationData.lng;
+}
+
 for (const keyInner in pickups) {
   if (Object.prototype.hasOwnProperty.call(pickups, keyInner)) {
     if (pickups[keyInner].place_information) {
@@ -26,6 +55,11 @@ for (const keyInner in pickups) {
         .place_information
         ? JSON.parse(pickups[keyInner].place_information)
         : null;
+
+      if (pickups[keyInner].place_information_parsed) {
+        setBoundingBox(pickups[keyInner].place_information_parsed.geometry.location);
+        numberLocations++;
+      }
     }
   }
 }
@@ -37,9 +71,16 @@ for (const keyInner in shippings) {
         .place_information
         ? JSON.parse(shippings[keyInner].place_information)
         : null;
+
+      if (shippings[keyInner].place_information_parsed) {
+        setBoundingBox(shippings[keyInner].place_information_parsed.geometry.location);
+        numberLocations++;
+      }
     }
   }
 }
+
+debug(props.itemData);
 
 let imageRef: string | null = null;
 
@@ -66,7 +107,9 @@ const imageUrl: string | null = imageRef
     :class="`${selectedId == props.itemData.id ? 'selected' : ''}`"
     :id="`list-item-${props.itemData.id}`"
     :data-id="props.itemData.id"
-    @click="googleMapsHelperInstance.selectPopup(props.itemData.id)"
+    :data-boundingBox="JSON.stringify(boundingBoxOfAllLocations)"
+    :data-locations="numberLocations"
+    @click="googleMapsHelperInstance.navigateItem(boundingBoxOfAllLocations, numberLocations)"
   >
     <div class="item-image">
       <img :src="imageUrl" loading="lazy" />

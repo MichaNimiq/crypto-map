@@ -495,6 +495,27 @@ class googleMapsHelper {
     }
   }
 
+  navigateItem(
+    bounds: boundingBox,
+    numberLocations: number = 0
+  ) {
+    if (!bounds)
+      return false;
+
+    const boundingBox = new this.google.maps.LatLngBounds(
+      new this.google.maps.LatLng(bounds.neLat, bounds.neLng),
+      new this.google.maps.LatLng(bounds.swLat, bounds.swLng)
+    );
+
+    this.mapInstance.setCenter(boundingBox.getCenter());
+
+    // more than one location, fit bounding box, otherwise fixed zoom
+    if (numberLocations > 1)
+      this.mapInstance.fitBounds(boundingBox);
+    else
+      this.mapInstance.setZoom(17);
+  }
+
   selectPopup(parentId: number = selectedId.value) {
     if (parentId == -1)
       debug("select Entry, no parentID given");
