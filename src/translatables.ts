@@ -11,7 +11,9 @@ const messages = {
       "button-add-location": "Crypto-Location hinzufügen",
       "button-show-list": "Liste anzeigen",
       "select-crypto": "Cryptowährungen",
+      "select-location": "Art der Location",
       "select-crypto-button": "Cryptowährung wählen",
+      "select-location-button": "Location wählen",
       "pickup-stores": "Pickups",
     },
     // todo: API to get them automated?
@@ -45,7 +47,9 @@ const messages = {
       "button-add-location": "Add crypto location",
       "button-show-list": "Show List",
       "select-crypto": "Cryptocurrencies",
+      "select-location": "Type of location",
       "select-crypto-button": "Select Cryptocurrencies",
+      "select-location-button": "Select location",
       "pickup-stores": "Pickups",
     },
     // todo: API to get them automated?

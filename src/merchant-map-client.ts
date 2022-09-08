@@ -1,12 +1,15 @@
 import debug from "@/debug";
 import { ref } from "vue";
 import axios from "axios";
-import type { merchant_map_result, boundingBox } from "@/interfaces";
+import type { merchant_map_result, boundingBox, selectEntry } from "@/interfaces";
 import googleMapsHelperInstance from "@/google-maps-helper";
 import { filterListVisible } from "@/globals";
 
 class merchant_map_client {
   searchString: string = '';
+
+  cryptoCurrencies: selectEntry[] = [];
+  locationTypes: selectEntry[] = [];
 
   previousResultsLength: number = 0;
 
@@ -40,6 +43,10 @@ class merchant_map_client {
         "filter[bounding_box]"?: string;
         "filter[limit]"?: number;
         "filter[label]"?: string;
+
+        // not implemented API wise, yet
+        // "filter[currency]"?: string;
+        // "filter[location]"?: string;
       } = {};
 
       if (searchTerm !== null) queryParams["filter[label]"] = `${searchTerm}`;
@@ -51,6 +58,23 @@ class merchant_map_client {
         ] = `${boundingBox.swLng},${boundingBox.swLat},${boundingBox.neLng},${boundingBox.neLat}`;
 
       queryParams["filter[limit]"] = limit;
+
+      /*
+      NOT IMPLEMENTED API-WISE
+      so the to come filter string is currently unknown
+      this.cryptoCurrencies and this.locationTypes should
+      already be filled by the select boxes, though
+
+      for (const key in this.cryptoCurrencies) {
+        const currency = this.cryptoCurrencies[key];
+        queryParams["filter[currency]"] += `${parseInt(key) > 0 ? ',' : ''}${currency.id}`
+      }
+
+      for (const key in this.locationTypes) {
+        const currency = this.locationTypes[key];
+        queryParams["filter[location]"] += `${parseInt(key) > 0 ? ',' : ''}${currency.id}`
+      }
+      */
 
       debug(JSON.stringify(queryParams));
 

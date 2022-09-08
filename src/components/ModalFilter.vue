@@ -1,25 +1,13 @@
 <script setup lang="ts">
 import debug from "@/debug";
-import { filterVisible } from "@/globals";
+import { filterVisible, cryptoCurrencies, locationTypes } from "@/globals";
 import type { selectEntry } from "@/interfaces";
 import { ref } from "vue";
 import IconSvg from "@/components/elements/IconSvg.vue";
 import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue";
 import { onClickOutside } from "@vueuse/core";
-import cryptoCurrencies from "@/currencies";
 
 const elModalBox = ref(null);
-const selectCryptoValues: selectEntry[] = [];
-
-for (const key in cryptoCurrencies) {
-  if (Object.prototype.hasOwnProperty.call(cryptoCurrencies, key)) {
-    // currenciesSelectedValues.value[cryptoCurrencies[key].id] = false;
-    selectCryptoValues.push({
-      id: cryptoCurrencies[key].id,
-      name: cryptoCurrencies[key].name,
-    });
-  }
-}
 
 onClickOutside(elModalBox, (event: Event) => {
   debug(event);
@@ -45,10 +33,20 @@ onClickOutside(elModalBox, (event: Event) => {
         </div>
         <div class="modal-row">
           <SelectBoxMultiple
-            label="labels.select-crypto-button"
-            :entries="selectCryptoValues"
+            :label="$t('labels.select-crypto')"
+            :placeholder="$t('labels.select-crypto-button')"
+            :entries="cryptoCurrencies"
+            merchantVariable="cryptoCurrencies"
             :showAttr="true"
             :icons="true"
+          />
+        </div>
+        <div class="modal-row">
+          <SelectBoxMultiple
+            :label="$t('labels.select-location')"
+            :placeholder="$t('labels.select-location-button')"
+            :entries="locationTypes"
+            merchantVariable="locationTypes"
           />
         </div>
       </div>

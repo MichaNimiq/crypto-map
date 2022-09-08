@@ -28,6 +28,24 @@
 			@content;
 		}
 	}
+
+	@if cardSmall == $res {
+		@media only screen and (min-width: $cardSmall) {
+			@content;
+		}
+	}
+
+	@if cardMed == $res {
+		@media only screen and (min-width: $cardMed) {
+			@content;
+		}
+	}
+
+	@if cardBig == $res {
+		@media only screen and (min-width: $cardBig) {
+			@content;
+		}
+	}
 }
 
 @mixin focusKeyAndHover () {

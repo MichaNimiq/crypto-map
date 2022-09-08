@@ -2,6 +2,10 @@ $small: 768px;
 $med: 1024px;
 $big: 1360px;
 
+$cardSmall: 375px;
+$cardMed: 1152px;
+$cardBig: 1440px;
+
 $fontSmall: 12px;
 $fontPinTitle: 14px;
 
@@ -74,6 +78,9 @@ $fontFamily: "Mulish", sans-serif;
 
   --color-link-blue: #3BB5FB;
 
+  --color-select-option-hover: #FFFFFF54;
+  --color-select-option-radio-fill: #FFFFFFA8;
+
   --color-border: #3B4B68;
   --color-white: #ffffff;
   --color-white-10: #35395A;
@@ -86,7 +93,7 @@ $fontFamily: "Mulish", sans-serif;
   --color-blue-dark-gradient-in: #1f2348;
   --color-blue-dark-gradient-out: #260133;
 
-  --color-blue-dark-overlay: #1F23483C;
+  --color-blue-dark-overlay: #1F234899;
 
   --color-blue-light-on-dark: #0CA6FE;
   --color-red-on-dark: #FF5C48;

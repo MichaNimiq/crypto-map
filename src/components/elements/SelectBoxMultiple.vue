@@ -4,12 +4,15 @@ import { ref } from "vue";
 import type { selectEntry } from "@/interfaces";
 import IconSvg from "@/components/elements/IconSvg.vue";
 import { onClickOutside } from "@vueuse/core";
+import merchant_map_client_instance from "@/merchant-map-client"
 
 const props = defineProps<{
-  label: string;
+  label?: string;
+  placeholder: string;
   entries: selectEntry[];
-  showAttr: boolean;
-  icons: boolean;
+  merchantVariable?: string;
+  showAttr?: boolean; // as the object should have an ID and a description, this defines if also the ID should be shown
+  icons?: boolean; // should an icon be shown (dynamically, depending on the ID)
 }>();
 
 const elButtonSelect = ref(null);
@@ -28,26 +31,42 @@ function toggleSelected(id: number | null = null) {
 
   selectedValues.value[id] = !selectedValues.value[id];
 
+  if (props.merchantVariable) {
+    merchant_map_client_instance[props.merchantVariable] = []; // todo: better way to access?
+    
+    debug(selectedValues.value)
+    for (const key in selectedValues.value) {
+      const element = selectedValues.value[key];
+
+      if (element){
+        merchant_map_client_instance[props.merchantVariable].push( // todo: better way to access?
+          {
+            id: props.entries[key].id,
+            name: props.entries[key].name
+          }
+        )
+      }
+    }
+  }
+
   return true;
 }
 
 onClickOutside(elButtonSelect, (event: Event) => {
-  debug(event);
   selectOpen.value = false;
 });
 </script>
 
 <template>
   <div class="select-wrap">
-    <label for="modal-filter-crypto">{{ $t("labels.select-crypto") }}</label>
+    <label v-if="props.label">{{ props.label }}</label>
     <button
-      id="modal-filter-crypto"
-      class="select select-crypto"
+      class="select"
       :class="`${selectOpen ? 'open' : ''}`"
       ref="elButtonSelect"
     >
-      <div class="button-label" @click="toggleOpen()">
-        {{ $t(props.label) }}
+      <div class="button-placeholder" @click="toggleOpen()">
+        {{ props.placeholder }}
         <IconSvg iconIndex="icon-arrow-select" />
       </div>
       <div class="select-options">
@@ -59,14 +78,21 @@ onClickOutside(elButtonSelect, (event: Event) => {
           :selected="selectedValues[index]"
           @click="toggleSelected(index)"
         >
-          <div v-if="props.icons" class="select-icon">
-            <IconSvg :iconIndex="`icon-${entry.id}`" />
+          <div class="select-icon-name-flex-wrap">
+            <div v-if="props.icons" class="select-icon">
+              <IconSvg :iconIndex="`icon-${entry.id}`" />
+            </div>
+            <div class="select-name">
+              <div v-if="props.showAttr" class="select-ident">
+                {{ entry.id }}
+              </div>
+              <div class="select-desc">
+                {{ entry.name }}
+              </div>
+            </div>
           </div>
-          <div class="select-name">
-            <span v-if="props.showAttr" class="select-ident">
-              {{ entry.id }}
-            </span>
-            {{ entry.name }}
+          <div class="select-radio">
+            <div class="radio-fill"></div>
           </div>
         </option>
       </div>

@@ -108,13 +108,14 @@ button.select {
   position: relative;
   width: 100%;
 
-  .button-label{
+  .button-placeholder{
     font-size: var(--font-size-body);
     padding: $paddingSmall calc($paddingContent + $paddingSmall) $paddingSmall $paddingMed;
     border: var(--border-select);
     transition: border-color $transition ease;
     position: relative;
     cursor: pointer;
+    text-align: left;
 
     > svg {
       opacity: 0.30;
@@ -149,7 +150,7 @@ button.select {
     transition-duration: $transition, $transition;
     transition-timing-function: ease, ease;
     position: absolute;
-    width: 100%;
+    width: calc(100% - $paddingSmall);
     z-index: 1;
 
     .select-option {
@@ -157,18 +158,22 @@ button.select {
       display: flex;
       align-items: center;
       gap: $paddingSmall;
+      justify-content: space-between;
       cursor: pointer;
+      transition: background-color $transition ease;
 
-      .select-icon {
-        line-height: 0;
-        
-        svg {
-          width: 24px;
-          height: 24px;
-        }
+
+      .select-icon-name-flex-wrap{
+        display: flex;
+        align-items: center;
+        gap: $paddingSmall;
       }
 
       .select-name {
+        display: flex;
+        align-items: center;
+        font-size: var(--font-size-pinTitle);
+
         .select-ident{
           font-weight: 700;
           text-transform: uppercase;
@@ -176,6 +181,49 @@ button.select {
           &:after {
             content: ',';
             margin-right: 0.18em;
+          }
+        }
+      }
+
+      .select-radio {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid var(--color-select-option-hover);
+        position: relative;
+        transition: border-color $transition ease;
+
+        .radio-fill{
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background-color: var(--color-select-option-radio-fill);
+          opacity: 0;
+          transition: opacity $transition ease;
+        }
+      }
+
+      @include focusKeyAndHover() {
+        &,
+        &.selected{
+          background-color: var(--color-select-option-hover);
+  
+          .select-radio{
+            border-color: var(--color-white);
+          }
+        }
+      }
+
+      &.selected{
+        background-color: transparent;
+        color: var(--color-white);
+
+        .select-radio{
+          .radio-fill{
+            opacity: 1;
           }
         }
       }
@@ -372,6 +420,7 @@ textarea {
   z-index: 9;
   background-color: var(--color-blue-dark-overlay);
   opacity: 0;
+  padding: $paddingContent;
   visibility: hidden;
   transition-property: opacity, visibility;
   transition-duration: $transition, $transition;
@@ -387,5 +436,6 @@ textarea {
     align-items: center;
     justify-content: center;
     height: 100%;
+    overflow: auto;
   }
 }
