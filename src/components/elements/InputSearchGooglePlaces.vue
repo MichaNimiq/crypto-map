@@ -59,16 +59,19 @@ onMounted(async () => {
 
 <template>
   <div class="input-search-wrap">
-    <input
-      type="text"
-      class="search search-places"
-      ref="autocompleteElement"
-      :placeholder="$t('placeholders.search-places')"
-    />
-    <IconSvg
-      class="magnifier"
-      iconIndex="icon-search"
-    />
+    <label>{{ $t('labels.find-place') }}</label>
+    <div class="input-icon-wrap">
+      <input
+        type="text"
+        class="search search-places"
+        ref="autocompleteElement"
+        :placeholder="$t('placeholders.search-places')"
+      />
+      <IconSvg
+        class="magnifier"
+        iconIndex="icon-search"
+      />
+    </div>
     <div
       v-if="placeData.place !== null"
       class="places-resultset"

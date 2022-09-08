@@ -186,8 +186,11 @@ button.select {
   position: absolute;
   width: calc(100% - $paddingSmall);
   z-index: 1;
-  max-height: 0px;
-  overflow: hidden;
+
+  &.select-options{
+    max-height: 0px;
+    overflow: hidden;
+  }
 
   .select-option,
   .pac-item {
@@ -401,9 +404,18 @@ textarea {
   }
 
   &.primary {
-    /* 
-      todo
-    */
+    background: radial-gradient(100% 100% at 100% 100%, var(--color-blue-gradient-out) 0%, var(--color-blue-gradient-in) 100%);
+    color: var(--color-white);
+    font-weight: 700;
+    box-shadow: $shadowMapButton;
+    transition-property: background, box-shadow;
+    transition-duration: $transition, $transition;
+    transition-timing-function: ease, ease;
+
+    @include focusKeyAndHover() {
+      background: radial-gradient(100% 100% at 100% 100%, #2355C4 0%, #0071C3 100%);
+      box-shadow: $shadowMapButtonHover;
+    }
   }
 
   &.secondary {

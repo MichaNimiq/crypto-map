@@ -66,12 +66,21 @@
     right: calc(var(--padding-ui) * 2);
   }
 
+  label {
+    margin-bottom: $paddingSmall;
+  }
+
   .modal-row{
     border: unset;
+    padding: $paddingMed;
   }
 
   .content-row {
     text-align: center;
+
+    &+.form-row{
+      padding-top: $paddingHuge;
+    }
 
     h2 {
       margin-bottom: $paddingContent;
@@ -99,6 +108,14 @@
           }
         }
       }
+    }
+  }
+
+  .form-row{
+    .button-wrap {
+      display: flex;
+      gap: $paddingBig;
+      margin-top: $paddingMed;
     }
   }
 }

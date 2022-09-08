@@ -39,15 +39,20 @@ function onInput(event: Event) {
 
 <template>
   <div class="input-search-wrap">
-    <input
-      type="text"
-      class="search search-places"
-      ref="autocompleteElement"
-      :placeholder="$t('placeholders.search-places')"
-      @change="onInput"
-      @input="onInput"
-      v-model="currentValue"
-    />
-    <IconSvg iconIndex="icon-search" />
+    <div class="input-icon-wrap">
+      <input
+        type="text"
+        class="search search-places"
+        ref="autocompleteElement"
+        :placeholder="$t('placeholders.search-places')"
+        @change="onInput"
+        @input="onInput"
+        v-model="currentValue"
+      />
+      <IconSvg
+        iconIndex="icon-search"
+        class="magnifier"
+      />
+    </div>
   </div>
 </template>

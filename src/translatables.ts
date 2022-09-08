@@ -17,7 +17,9 @@ const messages = {
       "select-location-button": "Location wählen",
       "pickup-stores": "Pickups",
       "add-location-button": "Ort übermitteln",
-      "find-place": "Place finden"
+      "find-place": "Place finden",
+      "submit-place": "Place absenden",
+      "cancel": "Abbrechen"
     },
     // todo: API to get them automated?
     crypto: {
@@ -71,7 +73,9 @@ const messages = {
       "select-location-button": "Select location",
       "pickup-stores": "Pickups",
       "add-location-button": "Send place",
-      "find-place": "Find place"
+      "find-place": "Find place",
+      "submit-place": "Submit place",
+      "cancel": "Cancel"
     },
     // todo: API to get them automated?
     crypto: {
