@@ -17,6 +17,10 @@
   .modal-row {
     padding: var(--padding-primary);
 
+    .select-wrap {
+      width: 100%;
+    }
+
     &.form-row{
       display: flex;
       justify-content: center;
@@ -54,6 +58,7 @@
 .modal-box.modal-fullscreen {
   max-width: unset;
   border: unset;
+  max-height: 100%;
 
   > svg.close {
     position: fixed;

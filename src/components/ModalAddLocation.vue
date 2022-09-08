@@ -5,7 +5,7 @@ import type { selectEntry } from "@/interfaces";
 import IconSvg from "@/components/elements/IconSvg.vue";
 import { ref } from "vue";
 import InputSearchGooglePlaces from "./elements/InputSearchGooglePlaces.vue";
-// import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue";
+import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue";
 // import merchant_map_client_instance from "@/merchant-map-client";
 
 const elModalBox = ref(null);
@@ -39,12 +39,14 @@ const elModalBox = ref(null);
         <div class="modal-row form-row">
           <InputSearchGooglePlaces />
         </div>
-        <div class="modal-row">
+        <div class="modal-row form-row">
           <SelectBoxMultiple
-            :label="$t('labels.select-location')"
-            :placeholder="$t('labels.select-location-button')"
-            :entries="locationTypes"
-            merchantVariable="locationTypes"
+            :label="$t('labels.select-crypto')"
+            :placeholder="$t('labels.select-crypto-button')"
+            :entries="cryptoCurrencies"
+            merchantVariable="cryptoCurrencies"
+            :showAttr="true"
+            :icons="true"
           />
         </div>
       </div>
