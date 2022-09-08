@@ -19,17 +19,10 @@ const messages = {
       "add-location-button": "Ort übermitteln",
       "find-place": "Place finden",
       "submit-place": "Place absenden",
-      "cancel": "Abbrechen"
-    },
-    // todo: API to get them automated?
-    crypto: {
-      btc: "Bitcoin",
-      nim: "nimiq",
-      ltc: "Litecoin",
-      dash: "Dash",
-      xlm: "Stella Lumens",
-      eth: "Ethereum",
-      xrp: "Ripple",
+      "cancel": "Abbrechen",
+      "select-issue": "Problem wählen",
+      "describe-issue": "Beschreibe das Problem",
+      "report-issue": "Problem melden",
     },
     infoWindows: {
       cryptomap: {
@@ -44,15 +37,29 @@ const messages = {
         url: "https://www.google.de/business/",
         urlText: "Erstelle ein Google-Business-Profil"
       },
+      reportIssue: {
+        title: "Ein Problem mit einem Place melden",
+      },
     },
     // TODO: not finalised list, yet
     selectEntries: {
+      btc: "Bitcoin",
+      nim: "nimiq",
+      ltc: "Litecoin",
+      dash: "Dash",
+      xlm: "Stella Lumens",
+      eth: "Ethereum",
+      xrp: "Ripple",
       electronics: "Computer & Elektronik",
       entertainment: "Unterhaltung",
       food: "Essen & Trinken",
       restaurant: "Restaurant & Bar",
       health: "Gesundheit & Beauty",
       leisure: "Freizeit",
+      issuedesc: "Beschreibung nicht korrekt",
+      issuecurrency: "Währungen stimmen nicht überein",
+      issuelocation: "Location ist falsch gesetzt",
+      issuegone: "Geschäft existiert nicht"
     }
   },
   en: {
@@ -75,17 +82,10 @@ const messages = {
       "add-location-button": "Send place",
       "find-place": "Find place",
       "submit-place": "Submit place",
-      "cancel": "Cancel"
-    },
-    // todo: API to get them automated?
-    crypto: {
-      btc: "Bitcoin",
-      nim: "nimiq",
-      ltc: "Litecoin",
-      dash: "Dash",
-      xlm: "Stella Lumens",
-      eth: "Ethereum",
-      xrp: "Ripple",
+      "cancel": "Cancel",
+      "select-issue": "Select issue",
+      "describe-issue": "Describe the issue",
+      "report-issue": "Report issue",
     },
     infoWindows: {
       cryptomap: {
@@ -99,16 +99,30 @@ const messages = {
         text: "You can add any place that has a Google Business Profile.",
         url: "https://www.google.com/business/",
         urlText: "Create Googe Business profile"
-      }
+      },
+      reportIssue: {
+        title: "Report an issue with a place",
+      },
     },
     // TODO: not finalised list, yet
     selectEntries: {
+      btc: "Bitcoin",
+      nim: "nimiq",
+      ltc: "Litecoin",
+      dash: "Dash",
+      xlm: "Stella Lumens",
+      eth: "Ethereum",
+      xrp: "Ripple",
       electronics: "Computer & Electronics",
       entertainment: "Entertainment",
       food: "Food & Drinks",
       restaurant: "Restaurant & Bar",
       health: "Health & Beauty",
       leisure: "Leisure Activities",
+      issuedesc: "Description is incorrect",
+      issuecurrency: "Currencies do not match",
+      issuelocation: "Location is off",
+      issuegone: "Not existent anymore"
     }
   },
 };

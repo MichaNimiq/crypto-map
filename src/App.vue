@@ -6,6 +6,7 @@ import TheMap from "@/components/TheMap.vue";
 import TheList from "@/components/TheList.vue";
 import ModalFilter from "@/components/ModalFilter.vue";
 import ModalAddLocation from "@/components/ModalAddLocation.vue";
+import ModalReportIssueVue from "./components/ModalReportIssue.vue";
 </script>
 
 <template>
@@ -17,5 +18,6 @@ import ModalAddLocation from "@/components/ModalAddLocation.vue";
     </div>
     <ModalFilter />
     <ModalAddLocation />
+    <ModalReportIssueVue />
   </div>
 </template>
