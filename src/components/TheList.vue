@@ -30,8 +30,6 @@ function resizing() {
 
   const listLeft = (window.innerWidth >= 1360);
 
-  debug(filterListVisible.value);
-
   if (!filterListVisible.value) {
     const listWidthHeight = listLeft
       ? theList.value?.clientWidth

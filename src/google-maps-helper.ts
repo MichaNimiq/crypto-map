@@ -98,7 +98,7 @@ class googleMapsHelper {
             lng: location.location.longitude,
           };
   
-          this.zoom = 10;
+          this.zoom = 7;
 
           // set the location
           this.mapInstance.setCenter(this.center);
@@ -244,7 +244,7 @@ class googleMapsHelper {
           neLat: this.bounds.getNorthEast().lat(),
         };
 
-        debug(JSON.stringify(this.boundingBox));
+        debug(['current boundings', JSON.stringify(this.boundingBox)]);
 
         merchant_map_client_instance.getResults();
 

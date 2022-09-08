@@ -36,23 +36,6 @@
       text-align: center ;
     }
   }
-
-  input,
-  textarea,
-  select {
-    &[type="text"],
-    &[type="number"],
-    &[type="email"] {
-      font-size: var(--font-size-body);
-      padding: $paddingSmall calc($paddingContent + $paddingSmall) $paddingSmall $paddingMed;
-      border: var(--border-select);
-      transition: border-color $transition ease;
-      position: relative;
-      cursor: pointer;
-      text-align: left;
-      border-radius: var(--border-radius-input);
-    }
-  }
 }
 
 .modal-box.modal-fullscreen {

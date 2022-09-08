@@ -13,7 +13,6 @@ const props = defineProps<{
 const mapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY;
 
 // workaround as long as we don't have a proper JSON object
-// debug(props.itemData);
 
 const pickups = reactive<pickupData[]>(props.itemData.pickups);
 const shippings = reactive<pickupData[]>(props.itemData.shippings);
@@ -149,10 +148,10 @@ const imageUrl: string | null = imageRef
         <div class="item-currencies">
           <div
             v-for="item in cryptoCurrencies"
-            :key="item.id"
+            :key="item"
             class="item-currency"
           >
-            <IconSvg :iconIndex="`icon-${item.id}`" />
+            <IconSvg :iconIndex="`icon-${item.toLowerCase()}`" />
           </div>
         </div>
       </div>

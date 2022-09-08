@@ -76,7 +76,7 @@ class merchant_map_client {
       }
       */
 
-      debug(JSON.stringify(queryParams));
+      debug(['query params', JSON.stringify(queryParams)]);
 
       axios
         .get(`${import.meta.env.VITE_URL_BACKEND}`, {
@@ -85,7 +85,7 @@ class merchant_map_client {
         .then((resp) => {
           this.results.value = resp.data;
 
-          debug(this.results.value);
+          debug(['results fetched', this.results.value]);
 
           if (
             this.results.value.data.length == 0

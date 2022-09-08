@@ -38,7 +38,7 @@ function onInput(event: Event) {
 </script>
 
 <template>
-  <div class="input-search-wrap">
+  <div class="input-wrap">
     <div class="input-icon-wrap">
       <input
         type="text"

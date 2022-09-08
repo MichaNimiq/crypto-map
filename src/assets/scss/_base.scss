@@ -206,7 +206,15 @@ button.select {
     .select-icon-name-flex-wrap{
       display: flex;
       align-items: center;
-      gap: $paddingSmall;
+      gap: $paddingMed;
+
+      .select-icon{
+        svg {
+          color: unset;
+          width: 24px;
+          height: 24px;
+        }
+      }
     }
 
     .select-name {
@@ -275,11 +283,14 @@ textarea,
 select {
   &[type="text"],
   &[type="number"],
-  &[type="email"] {
+  &[type="email"],
+  &.textarea {
     height: var(--input-height);
     padding: var(--padding-input);
     border: var(--border-input);
-    border-radius: 20px;
+    border-radius: var(--border-radius-input);
+    border-color: var(--color-blue-dark-15);
+    width: 100%;
 
     transition-property: border-color, color;
     transition-duration: $transition, $transition;
@@ -292,6 +303,12 @@ select {
     @include focusKeyAndHover() {
       border-color: var(--color-blue30);
       color: var(--color-blue);
+
+      & + svg {
+        path {
+          stroke: var(--color-blue30);
+        }
+      }
 
       &::placeholder {
         color: var(--color-blue30);
@@ -306,7 +323,7 @@ select {
         color: var(--color-orange60);
       }
 
-    @include focusKeyAndHover() {
+      @include focusKeyAndHover() {
         border-color: var(--color-orange);
 
         &::placeholder {
@@ -317,29 +334,11 @@ select {
   }
 
   &[type="text"].search {
-    /* 
-      todo
-    */
+    padding-right: $paddingHuge;
   }
 }
 
-input.search {
-  padding-right: $paddingHuge;
-  width: 100%;
-  border-color: var(--color-blue-dark-15);
-
-  @include focusKeyAndHover() {
-    border-color: var(--color-blue30);
-
-    & + svg {
-      path {
-        stroke: var(--color-blue30);
-      }
-    }
-  }
-}
-
-.input-search-wrap {
+.input-wrap {
   position: relative;
   flex-grow: 1;
 

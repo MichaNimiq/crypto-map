@@ -13,7 +13,7 @@ const { t } = useI18n({messages: messages});
 const props = defineProps<{
   label?: string;
   placeholder: string;
-  entries: selectEntry[];
+  entries: string[];
   merchantVariable?: string;
   showAttr?: boolean; // as the object should have an ID and a description, this defines if also the ID should be shown
   icons?: boolean; // should an icon be shown (dynamically, depending on the ID)
@@ -44,15 +44,15 @@ function toggleSelected(id: number | null = null) {
       if (element){
         merchant_map_client_instance[props.merchantVariable].push( // todo: better way to access?
           {
-            id: props.entries[key].id,
-            name: props.entries[key].name.length > 0 ? props.entries[key].name : t(`selectEntries.${props.entries[key].id}`)
+            id: props.entries[key],
+            name: t(`selectEntries.${props.entries[key].toLowerCase()}`)
           }
         )
       }
     }
   }
 
-  debug(merchant_map_client_instance[props.merchantVariable])
+  debug(['selected entries', merchant_map_client_instance[props.merchantVariable]])
   
   return true;
 }
@@ -85,14 +85,14 @@ onClickOutside(elButtonSelect, (event: Event) => {
         >
           <div class="select-icon-name-flex-wrap">
             <div v-if="props.icons" class="select-icon">
-              <IconSvg :iconIndex="`icon-${entry.id}`" />
+              <IconSvg :iconIndex="`icon-${entry.toLowerCase()}`" />
             </div>
             <div class="select-name">
               <div v-if="props.showAttr" class="select-ident">
-                {{ entry.id }}
+                {{ entry }}
               </div>
               <div class="select-desc">
-                {{ entry.name.length > 0 ? entry.name : $t(`selectEntries.${entry.id}`) }}
+                {{ $t(`selectEntries.${entry.toLowerCase()}`) }}
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ onClickOutside(elButtonSelect, (event: Event) => {
         :selected="selectedValues[index]"
         @click="toggleSelected(index)"
       >
-        <div class="select-name" v-html="entry.name.length > 0 ? entry.name : $t(`selectEntries.${entry.id}`)"></div>
+        <div class="select-name" v-html="$t(`selectEntries.${entry.toLowerCase()}`)"></div>
         <IconSvg iconIndex="icon-close" class="close" />
       </div>
     </div>

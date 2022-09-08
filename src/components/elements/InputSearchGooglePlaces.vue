@@ -33,7 +33,7 @@ onMounted(async () => {
     if (places.length > 0) {
       placeData.place = places[0];
 
-      debug(placeData.place)
+      debug(['selected place', placeData.place]);
 
       if (placeData.place.photos)
         placeData.imageUrl = placeData.place
@@ -58,7 +58,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="input-search-wrap">
+  <div class="input-wrap">
     <label>{{ $t('labels.find-place') }}</label>
     <div class="input-icon-wrap">
       <input
