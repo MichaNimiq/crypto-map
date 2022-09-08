@@ -38,11 +38,11 @@
   .rating-location {
     display: flex;
     margin-top: $paddingSmall;
-    align-items: center;
 
     .stars-wrap {
       display: flex;
       gap: $borderRadiusSmall;
+      margin-top: 6px;
 
       svg {
         width: 13px;
@@ -55,6 +55,17 @@
       color: var(--color-blue-dark-60);
       display: flex;
       flex-wrap: wrap;
+
+      span {
+        &:not(:last-child){
+          margin-right: $borderRadiusSmall;
+
+          &:after{
+            content: ',';
+            display: inline-block;
+          }
+        }
+      }
     }
   }
 
