@@ -49,6 +49,15 @@ const elModalBox = ref(null);
             :icons="true"
           />
         </div>
+        <div class="modal-row form-row">
+          <div class="button-wrap">
+            <button
+              class="button secondary"
+              @click="addLocationVisible = false"
+            >{{ $t('labels.cancel')}}</button>
+            <button class="button primary">{{ $t('labels.submit-place')}}</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
