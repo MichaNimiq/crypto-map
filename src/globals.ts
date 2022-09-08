@@ -1,6 +1,7 @@
 import { ref } from "vue";
+import type { selectEntry } from "./interfaces";
 
-export const cryptoCurrencies = [
+export const cryptoCurrencies: selectEntry[] = [
   {
     id: "BTC",
     name: "Bitcoin",
@@ -31,33 +32,49 @@ export const cryptoCurrencies = [
   },
 ];
 
-export const locationTypes = [
+export const locationTypes: selectEntry[] = [
   {
     id: "electronics",
-    name: "Computer & Electronics",
+    name: '',
   },
   {
     id: "entertainment",
-    name: "Entertainment",
+    name: '',
   },
   {
     id: "food",
-    name: "Food & Drinks",
+    name: '',
   },
   {
     id: "restaurant",
-    name: "Restaurant & Bar",
+    name: '',
   },
   {
     id: "health",
-    name: "Health & Beauty",
+    name: '',
   },
   {
     id: "leisure",
-    name: "Leisure Activities",
+    name: '',
   },
 ];
 
+export function getLocationTypeNarrowed( locationType: string = '' ) {
+  if (locationType == '')
+    return false;
+
+  switch (locationType) {
+    case 'locality':
+      return ''
+      break;
+  
+    default:
+      break;
+  }
+}
+
+export const addLocationVisible = ref<boolean>(true);
+export const reportIssueVisible = ref<boolean>(true);
 export const filterVisible = ref<boolean>(false);
 export const filterListVisible = ref<boolean>(false);
 export const selectedId = ref<number>(-1);

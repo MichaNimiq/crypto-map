@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import debug from "@/debug";
 import { ref } from "vue";
+import { useI18n } from 'vue-i18n'
+import messages from "@/translatables";
 import type { selectEntry } from "@/interfaces";
 import IconSvg from "@/components/elements/IconSvg.vue";
 import { onClickOutside } from "@vueuse/core";
-import merchant_map_client_instance from "@/merchant-map-client"
+import merchant_map_client_instance from "@/merchant-map-client";
+
+const { t } = useI18n({messages: messages});
 
 const props = defineProps<{
   label?: string;
@@ -34,7 +38,6 @@ function toggleSelected(id: number | null = null) {
   if (props.merchantVariable) {
     merchant_map_client_instance[props.merchantVariable] = []; // todo: better way to access?
     
-    debug(selectedValues.value)
     for (const key in selectedValues.value) {
       const element = selectedValues.value[key];
 
@@ -42,13 +45,15 @@ function toggleSelected(id: number | null = null) {
         merchant_map_client_instance[props.merchantVariable].push( // todo: better way to access?
           {
             id: props.entries[key].id,
-            name: props.entries[key].name
+            name: props.entries[key].name.length > 0 ? props.entries[key].name : t(`selectEntries.${props.entries[key].id}`)
           }
         )
       }
     }
   }
 
+  debug(merchant_map_client_instance[props.merchantVariable])
+  
   return true;
 }
 
@@ -87,7 +92,7 @@ onClickOutside(elButtonSelect, (event: Event) => {
                 {{ entry.id }}
               </div>
               <div class="select-desc">
-                {{ entry.name }}
+                {{ entry.name.length > 0 ? entry.name : $t(`selectEntries.${entry.id}`) }}
               </div>
             </div>
           </div>
@@ -106,7 +111,7 @@ onClickOutside(elButtonSelect, (event: Event) => {
         :selected="selectedValues[index]"
         @click="toggleSelected(index)"
       >
-        <div class="select-name" v-html="entry.name"></div>
+        <div class="select-name" v-html="entry.name.length > 0 ? entry.name : $t(`selectEntries.${entry.id}`)"></div>
         <IconSvg iconIndex="icon-close" class="close" />
       </div>
     </div>

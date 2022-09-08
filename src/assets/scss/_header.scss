@@ -24,38 +24,6 @@
     }
   }
 
-  .input-search-wrap {
-    position: relative;
-    flex-grow: 1;
-
-    input.search {
-      padding-right: $paddingHuge;
-      width: 100%;
-      border-color: var(--color-blue-dark-15);
-
-      @include focusKeyAndHover() {
-        border-color: var(--color-blue30);
-
-        & + svg {
-          path {
-            stroke: var(--color-blue30);
-          }
-        }
-      }
-    }
-
-    svg {
-      position: absolute;
-      right: $paddingMed;
-      top: 50%;
-      transform: translateY(-50%);
-      
-      path {
-        stroke: var(--color-blue-dark-15);
-      }
-    }
-  }
-
   button.resize{
     display: none;
 

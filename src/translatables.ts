@@ -5,6 +5,7 @@ const messages = {
     },
     placeholders: {
       "search-places": "In Crypto Map suchen...",
+      "find-anywhere": "Nach Ort suchen"
     },
     labels: {
       "button-filter": "Filter",
@@ -15,6 +16,8 @@ const messages = {
       "select-crypto-button": "Cryptowährung wählen",
       "select-location-button": "Location wählen",
       "pickup-stores": "Pickups",
+      "add-location-button": "Ort übermitteln",
+      "find-place": "Place finden"
     },
     // todo: API to get them automated?
     crypto: {
@@ -32,7 +35,22 @@ const messages = {
         text: "Diese Karte wird Ihnen von Nimiq zur Verfügung gestellt. Es werden nur durch Google verifizierte Standorte hinzugefügt.",
         url: "https://www.nimiq.com",
         urlText: "Gehe zu Nimiq"
-      }
+      },
+      addLocation: {
+        title: "Einen Ort zur Cyptomap hinzufügen",
+        text: "Du kannst einen beliebigen Ort, der sich im Google-Places-Verzeichnis befindet, hinzufügen.",
+        url: "https://www.google.de/business/",
+        urlText: "Erstelle ein Google-Business-Profil"
+      },
+    },
+    // TODO: not finalised list, yet
+    selectEntries: {
+      electronics: "Computer & Elektronik",
+      entertainment: "Unterhaltung",
+      food: "Essen & Trinken",
+      restaurant: "Restaurant & Bar",
+      health: "Gesundheit & Beauty",
+      leisure: "Freizeit",
     }
   },
   en: {
@@ -41,6 +59,7 @@ const messages = {
     },
     placeholders: {
       "search-places": "Search crypto map...",
+      "find-anywhere": "Anywhere / Place"
     },
     labels: {
       "button-filter": "Filters",
@@ -51,6 +70,8 @@ const messages = {
       "select-crypto-button": "Select Cryptocurrencies",
       "select-location-button": "Select location",
       "pickup-stores": "Pickups",
+      "add-location-button": "Send place",
+      "find-place": "Find place"
     },
     // todo: API to get them automated?
     crypto: {
@@ -68,7 +89,22 @@ const messages = {
         text: "This app is brought to you by Nimiq, only places that are verified by Google are accepted for this map.",
         url: "https://www.nimiq.com",
         urlText: "Go to Nimiq"
+      },
+      addLocation: {
+        title: "Add a place to the Crypto Map",
+        text: "You can add any place that has a Google Business Profile.",
+        url: "https://www.google.com/business/",
+        urlText: "Create Googe Business profile"
       }
+    },
+    // TODO: not finalised list, yet
+    selectEntries: {
+      electronics: "Computer & Electronics",
+      entertainment: "Entertainment",
+      food: "Food & Drinks",
+      restaurant: "Restaurant & Bar",
+      health: "Health & Beauty",
+      leisure: "Leisure Activities",
     }
   },
 };

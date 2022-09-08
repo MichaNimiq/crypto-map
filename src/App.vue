@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import "./assets/scss/main.scss";
 
-import "@/globals";
-
 import HeaderBar from "@/components/HeaderBar.vue";
 import TheMap from "@/components/TheMap.vue";
 import TheList from "@/components/TheList.vue";
 import ModalFilter from "@/components/ModalFilter.vue";
+import ModalAddLocation from "@/components/ModalAddLocation.vue";
 </script>
 
 <template>
@@ -17,5 +16,6 @@ import ModalFilter from "@/components/ModalFilter.vue";
       <TheList />
     </div>
     <ModalFilter />
+    <ModalAddLocation />
   </div>
 </template>

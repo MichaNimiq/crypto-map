@@ -23,7 +23,7 @@ const router = createRouter({
 });
 
 const languageUser: string = navigator.language;
-const i18n = ref(
+export const i18n = ref(
   createI18n<false>({
     legacy: false,
     locale: languageUser,
@@ -42,3 +42,5 @@ app.use(createPinia());
 router.isReady().then(() => {
   app.mount("#app");
 });
+
+export default {}
