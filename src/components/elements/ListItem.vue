@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import debug from "@/debug";
 import IconSvg from "@/components/elements/IconSvg.vue";
-import cryptoCurrencies from "@/currencies";
 import { reactive } from "vue";
 import googleMapsHelperInstance from "@/google-maps-helper";
-import { selectedId } from "@/globals";
+import { selectedId, cryptoCurrencies } from "@/globals";
 import type { itemData, pickupData, boundingBox, coords } from "@/interfaces";
 
 const props = defineProps<{
@@ -28,6 +27,8 @@ let boundingBoxOfAllLocations: boundingBox = {
 
 let numberLocations: number = 0;
 
+let imageRef: string | null = null;
+
 function setBoundingBox( locationData: coords ) {
   if (
     typeof locationData.lat == 'undefined' ||
@@ -46,6 +47,11 @@ function setBoundingBox( locationData: coords ) {
 
   if (locationData.lng <= boundingBoxOfAllLocations.neLng || boundingBoxOfAllLocations.neLng == null)
     boundingBoxOfAllLocations.neLng = locationData.lng;
+}
+
+function selectEntry(){
+  googleMapsHelperInstance.navigateItem(boundingBoxOfAllLocations, numberLocations);
+  selectedId.value = props.itemData.id;
 }
 
 for (const keyInner in pickups) {
@@ -80,10 +86,6 @@ for (const keyInner in shippings) {
   }
 }
 
-debug(props.itemData);
-
-let imageRef: string | null = null;
-
 // getting the first best image for now as we currently display
 // only one list-item for all locations of one place
 if (pickups.length > 0) {
@@ -109,7 +111,7 @@ const imageUrl: string | null = imageRef
     :data-id="props.itemData.id"
     :data-boundingBox="JSON.stringify(boundingBoxOfAllLocations)"
     :data-locations="numberLocations"
-    @click="googleMapsHelperInstance.navigateItem(boundingBoxOfAllLocations, numberLocations)"
+    @click="selectEntry"
   >
     <div class="item-image">
       <img :src="imageUrl" loading="lazy" />

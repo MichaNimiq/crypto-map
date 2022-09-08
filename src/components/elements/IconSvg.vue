@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 
 const AsyncIconComp = defineAsyncComponent(
-  () => import(`@/components/icons/${props.iconIndex}.vue`)
+  () => import(`@/components/icons/${props.iconIndex.toLowerCase()}.vue`)
 );
 </script>
 
