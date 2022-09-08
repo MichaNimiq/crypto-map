@@ -113,6 +113,8 @@ class googleMapsHelper {
         // continue init with the fallback location
         this.initCluster();
         this.initEvents();
+
+        merchant_map_client_instance.getResults();
       });
     }).catch((err) => {
       debug(err);
