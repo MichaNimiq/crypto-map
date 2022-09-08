@@ -54,6 +54,23 @@ function selectEntry(){
   selectedId.value = props.itemData.id;
 }
 
+/* 
+  currently the JSON place_information is a simple string and needs to get parsed
+  the next server version will have this as a proper object
+  as of today this is not live, yet
+
+  one place could in theory hold multiple addresses (pickups[] and shippings[])
+  so for now I loop through all of them, gather the addresses of the indivitual addresses
+  and print them out in one parent list item.
+
+  the list item will then reflect only one location but could contain multiple
+  addresses.
+  when we click on a list item the map will get all the location points and calculates
+  the center of them (see google-maps-helper navigateItem()).
+
+  TODO: perhaps we then should hide all the other markers and when clicking somewhere else
+  on the map the other markers appear again
+*/
 for (const keyInner in pickups) {
   if (Object.prototype.hasOwnProperty.call(pickups, keyInner)) {
     if (pickups[keyInner].place_information) {

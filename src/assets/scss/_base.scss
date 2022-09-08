@@ -43,6 +43,23 @@ body {
   box-shadow: var(--shadow-app);
 }
 
+h1,
+.h1 {
+  line-height: var(--line-height-h1);
+  font-size: var(--font-size-h1);
+}
+
+h2,
+.h2 {
+  line-height: var(--line-height-h2);
+  font-size: var(--font-size-h2);
+}
+
+.subline {
+  font-size: var(--font-size-subline);
+  color: var(--color-blue-dark-60);
+}
+
 a {
   &.arrow {
     padding-right: $paddingMed;
@@ -56,6 +73,10 @@ a {
       transition-property: bottom, right;
       transition-duration: $transition, $transition;
       transition-timing-function: ease, ease;
+
+      path {
+        transition: stroke $transition ease;
+      }
     }
 
     @include focusKeyAndHover() {
@@ -139,101 +160,104 @@ button.select {
     }
   }
 
-  .select-options {
-    background: radial-gradient(100% 100% at 100% 100%, var(--color-blue-dark-gradient-out) 0%, var(--color-blue-dark-gradient-in) 100%);
-    color: var(--color-white);
-    border-radius: var(--border-radius-input);
-    padding: $paddingSmall;
-    opacity: 0;
-    visibility: hidden;
-    transition-property: opacity, visibility;
-    transition-duration: $transition, $transition;
-    transition-timing-function: ease, ease;
-    position: absolute;
-    width: calc(100% - $paddingSmall);
-    z-index: 1;
-
-    .select-option {
-      padding: $paddingSmall;
-      display: flex;
-      align-items: center;
-      gap: $paddingSmall;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: background-color $transition ease;
-
-
-      .select-icon-name-flex-wrap{
-        display: flex;
-        align-items: center;
-        gap: $paddingSmall;
-      }
-
-      .select-name {
-        display: flex;
-        align-items: center;
-        font-size: var(--font-size-pinTitle);
-
-        .select-ident{
-          font-weight: 700;
-          text-transform: uppercase;
-  
-          &:after {
-            content: ',';
-            margin-right: 0.18em;
-          }
-        }
-      }
-
-      .select-radio {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid var(--color-select-option-hover);
-        position: relative;
-        transition: border-color $transition ease;
-
-        .radio-fill{
-          position: absolute;
-          top: 2px;
-          left: 2px;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background-color: var(--color-select-option-radio-fill);
-          opacity: 0;
-          transition: opacity $transition ease;
-        }
-      }
-
-      @include focusKeyAndHover() {
-        &,
-        &.selected{
-          background-color: var(--color-select-option-hover);
-  
-          .select-radio{
-            border-color: var(--color-white);
-          }
-        }
-      }
-
-      &.selected{
-        background-color: transparent;
-        color: var(--color-white);
-
-        .select-radio{
-          .radio-fill{
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
-
   &.open {
     .select-options {
       opacity: 1;
       visibility: visible;
+    }
+  }
+}
+
+
+.select-options,
+.pac-container{
+  background: radial-gradient(100% 100% at 100% 100%, var(--color-blue-dark-gradient-out) 0%, var(--color-blue-dark-gradient-in) 100%);
+  color: var(--color-white);
+  border-radius: var(--border-radius-input);
+  padding: $paddingSmall;
+  opacity: 0;
+  visibility: hidden;
+  transition-property: opacity, visibility;
+  transition-duration: $transition, $transition;
+  transition-timing-function: ease, ease;
+  position: absolute;
+  width: calc(100% - $paddingSmall);
+  z-index: 1;
+
+  .select-option,
+  .pac-item {
+    padding: $paddingSmall;
+    display: flex;
+    align-items: center;
+    gap: $paddingSmall;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color $transition ease;
+
+
+    .select-icon-name-flex-wrap{
+      display: flex;
+      align-items: center;
+      gap: $paddingSmall;
+    }
+
+    .select-name {
+      display: flex;
+      align-items: center;
+      font-size: var(--font-size-pinTitle);
+
+      .select-ident{
+        font-weight: 700;
+        text-transform: uppercase;
+
+        &:after {
+          content: ',';
+          margin-right: 0.18em;
+        }
+      }
+    }
+
+    .select-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--color-select-option-hover);
+      position: relative;
+      transition: border-color $transition ease;
+
+      .radio-fill{
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: var(--color-select-option-radio-fill);
+        opacity: 0;
+        transition: opacity $transition ease;
+      }
+    }
+
+    @include focusKeyAndHover() {
+      &,
+      &.selected{
+        background-color: var(--color-select-option-hover);
+
+        .select-radio{
+          border-color: var(--color-white);
+        }
+      }
+    }
+
+    &.selected{
+      background-color: transparent;
+      color: var(--color-white);
+
+      .select-radio{
+        .radio-fill{
+          opacity: 1;
+        }
+      }
     }
   }
 }
@@ -288,6 +312,37 @@ select {
     /* 
       todo
     */
+  }
+}
+
+input.search {
+  padding-right: $paddingHuge;
+  width: 100%;
+  border-color: var(--color-blue-dark-15);
+
+  @include focusKeyAndHover() {
+    border-color: var(--color-blue30);
+
+    & + svg {
+      path {
+        stroke: var(--color-blue30);
+      }
+    }
+  }
+}
+
+.input-search-wrap {
+  position: relative;
+  flex-grow: 1;
+
+  svg.magnifier {
+    position: absolute;
+    right: $paddingMed;
+    top: 7px;
+    
+    path {
+      stroke: var(--color-blue-dark-15);
+    }
   }
 }
 
@@ -425,6 +480,10 @@ textarea {
   transition-property: opacity, visibility;
   transition-duration: $transition, $transition;
   transition-timing-function: ease, ease;
+
+  &.overlay-fullscreen {
+    background-color: var(--color-white);
+  }
 
   &.visible {
     opacity: 1;

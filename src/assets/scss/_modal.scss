@@ -17,6 +17,13 @@
   .modal-row {
     padding: var(--padding-primary);
 
+    &.form-row{
+      display: flex;
+      justify-content: center;
+      max-width: calc(520px + $paddingContent * 2);
+      margin: 0 auto;
+    }
+
     &+.modal-row{
       border-top: 1px solid var(--color-blue-dark-12);
     }
@@ -25,4 +32,69 @@
       text-align: center ;
     }
   }
+
+  input,
+  textarea,
+  select {
+    &[type="text"],
+    &[type="number"],
+    &[type="email"] {
+      font-size: var(--font-size-body);
+      padding: $paddingSmall calc($paddingContent + $paddingSmall) $paddingSmall $paddingMed;
+      border: var(--border-select);
+      transition: border-color $transition ease;
+      position: relative;
+      cursor: pointer;
+      text-align: left;
+      border-radius: var(--border-radius-input);
+    }
+  }
 }
+
+.modal-box.modal-fullscreen {
+  max-width: unset;
+  border: unset;
+
+  > svg.close {
+    position: fixed;
+    top: calc(var(--padding-ui) * 2);
+    right: calc(var(--padding-ui) * 2);
+  }
+
+  .modal-row{
+    border: unset;
+  }
+
+  .content-row {
+    text-align: center;
+
+    h2 {
+      margin-bottom: $paddingContent;
+    }
+
+    .subline {
+      margin-bottom: $paddingMed;
+    }
+
+    .blue {
+      color: var(--color-blue-gradient-in);
+      padding-right: $paddingBig;
+
+      svg {
+        width: 11px;
+        height: 17px;
+      }
+
+      @include focusKeyAndHover() {
+        color: var(--color-blue-gradient-out);
+
+        svg {
+          path {
+            stroke: var(--color-blue-gradient-out);
+          }
+        }
+      }
+    }
+  }
+}
+

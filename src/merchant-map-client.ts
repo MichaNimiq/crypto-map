@@ -9,7 +9,7 @@ class merchant_map_client {
   searchString: string = '';
 
   cryptoCurrencies: selectEntry[] = [];
-  locationTypes: selectEntry[] = [];
+  locationTypes: string[] = [];
 
   previousResultsLength: number = 0;
 
@@ -71,8 +71,8 @@ class merchant_map_client {
       }
 
       for (const key in this.locationTypes) {
-        const currency = this.locationTypes[key];
-        queryParams["filter[location]"] += `${parseInt(key) > 0 ? ',' : ''}${currency.id}`
+        const location = this.locationTypes[key];
+        queryParams["filter[location]"] += `${parseInt(key) > 0 ? ',' : ''}${location}`
       }
       */
 

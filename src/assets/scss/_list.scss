@@ -6,12 +6,20 @@
   transition-timing-function: ease, ease;
   margin-top: calc(100vh - 88px - $paddingContent * 3);
 
+  &[data-results="0"]{
+    display: none;
+  }
+
   &.visible {
     box-shadow: $shadowObject;
   }
 
   @include media('small') {
     margin: unset;
+
+    &[data-results="0"]{
+      display: unset;
+    }
   }
 
   @include media('big'){
@@ -58,6 +66,14 @@
   flex-shrink: 0;
   display: flex;
   justify-content: center;
+
+  @include media('small') {
+    justify-content: unset;
+  }
+
+  @include media('big') {
+    justify-content: center;
+  }
 }
 
 .card {

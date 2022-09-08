@@ -50,6 +50,7 @@ function resizing() {
   <div
     id="the-list"
     ref="theList"
+    :data-results="merchant_map_client_instance.results.value.data.length"
     :class="`${filterListVisible ? 'visible' : ''}`"
   >
     <div class="list-wrap">
