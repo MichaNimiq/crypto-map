@@ -87,6 +87,7 @@ class googleMapsHelper {
         center: this.center,
         zoom: this.zoom,
         disableDefaultUI: true,
+        clickableIcons: false,
         mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
       });
 
@@ -313,7 +314,7 @@ class googleMapsHelper {
       title: title,
       type: type,
       clickable: true,
-      opacity: 0,
+      opacity: 0
     });
 
     this.markers.push(currentMarker);
@@ -540,16 +541,13 @@ class googleMapsHelper {
       if (Object.prototype.hasOwnProperty.call(this.markers, key)) {
         const element = this.markers[key];
         if (element.parentId == parentId) {
-          this.mapInstance.setZoom(17);
-          this.mapInstance.setCenter(element.position);
+          // this.mapInstance.setZoom(17);
+          // this.mapInstance.setCenter(element.position);
 
-          if (window.innerWidth <= 768){
-            const elList = document.querySelector('#map-list-wrap');
-            elList?.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            })
-          }
+          const elList = document.querySelector('#map-list-wrap');
+          const elListItem = elList?.querySelector(`.list-item[data-id="${parentId}"]`);
+
+          elListItem?.scrollIntoView();
         }
       }
     }
