@@ -44,6 +44,7 @@ const elModalBox = ref(null);
             :label="$t('labels.select-crypto')"
             :placeholder="$t('labels.select-crypto-button')"
             :entries="cryptoCurrencies"
+            prefix="cur"
             merchantVariable="cryptoCurrencies"
             :showAttr="true"
             :icons="true"

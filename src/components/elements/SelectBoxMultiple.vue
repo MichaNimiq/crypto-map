@@ -13,12 +13,14 @@ const { t } = useI18n({messages: messages});
 const props = defineProps<{
   label?: string;
   placeholder: string;
+  prefix?: string;
   entries: string[];
   merchantVariable?: string;
   showAttr?: boolean; // as the object should have an ID and a description, this defines if also the ID should be shown
   icons?: boolean; // should an icon be shown (dynamically, depending on the ID)
 }>();
 
+const entryString: string = (props.prefix ? props.prefix+'-' : '');
 const elButtonSelect = ref(null);
 const selectOpen = ref<boolean>(false);
 const selectedValues = ref<boolean[]>([]);
@@ -45,7 +47,7 @@ function toggleSelected(id: number | null = null) {
         merchant_map_client_instance[props.merchantVariable].push( // todo: better way to access?
           {
             id: props.entries[key],
-            name: t(`selectEntries.${props.entries[key].toLowerCase()}`)
+            name: t(`selectEntries.${entryString}${props.entries[key].toLowerCase()}`)
           }
         )
       }
@@ -92,7 +94,7 @@ onClickOutside(elButtonSelect, (event: Event) => {
                 {{ entry }}
               </div>
               <div class="select-desc">
-                {{ $t(`selectEntries.${entry.toLowerCase()}`) }}
+                {{ $t(`selectEntries.${entryString}${entry.toLowerCase()}`) }}
               </div>
             </div>
           </div>
@@ -111,7 +113,7 @@ onClickOutside(elButtonSelect, (event: Event) => {
         :selected="selectedValues[index]"
         @click="toggleSelected(index)"
       >
-        <div class="select-name" v-html="$t(`selectEntries.${entry.toLowerCase()}`)"></div>
+        <div class="select-name" v-html="$t(`selectEntries.${entryString}${entry.toLowerCase()}`)"></div>
         <IconSvg iconIndex="icon-close" class="close" />
       </div>
     </div>

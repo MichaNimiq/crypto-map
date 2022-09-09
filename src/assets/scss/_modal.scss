@@ -80,6 +80,10 @@
       svg {
         width: 11px;
         height: 17px;
+
+        path {
+          stroke: var(--color-blue-gradient-in);
+        }
       }
 
       @include focusKeyAndHover() {

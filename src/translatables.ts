@@ -1,8 +1,5 @@
 const messages = {
   de: {
-    message: {
-      hello: "hello world",
-    },
     placeholders: {
       "search-places": "In Crypto Map suchen...",
       "find-anywhere": "Nach Ort suchen"
@@ -45,13 +42,13 @@ const messages = {
     },
     // TODO: not finalised list, yet
     selectEntries: {
-      btc: "Bitcoin",
-      nim: "nimiq",
-      ltc: "Litecoin",
-      dash: "Dash",
-      xlm: "Stella Lumens",
-      eth: "Ethereum",
-      xrp: "Ripple",
+      "cur-btc": "Bitcoin",
+      "cur-nim": "nimiq",
+      "cur-ltc": "Litecoin",
+      "cur-dash": "Dash",
+      "cur-xlm": "Stella Lumens",
+      "cur-eth": "Ethereum",
+      "cur-xrp": "Ripple",
       "type-electronics": "Computer & Elektronik",
       "type-entertainment": "Unterhaltung",
       "type-food": "Essen & Trinken",
@@ -72,9 +69,6 @@ const messages = {
     }
   },
   en: {
-    message: {
-      hello: "こんにちは、世界",
-    },
     placeholders: {
       "search-places": "Search crypto map...",
       "find-anywhere": "Anywhere / Place"
@@ -117,13 +111,13 @@ const messages = {
     },
     // TODO: not finalised list, yet
     selectEntries: {
-      btc: "Bitcoin",
-      nim: "nimiq",
-      ltc: "Litecoin",
-      dash: "Dash",
-      xlm: "Stella Lumens",
-      eth: "Ethereum",
-      xrp: "Ripple",
+      "cur-btc": "Bitcoin",
+      "cur-nim": "nimiq",
+      "cur-ltc": "Litecoin",
+      "cur-dash": "Dash",
+      "cur-xlm": "Stella Lumens",
+      "cur-eth": "Ethereum",
+      "cur-xrp": "Ripple",
       "type-electronics": "Computer & Elektronics",
       "type-entertainment": "Entertainment",
       "type-food": "Eat & Drink",
