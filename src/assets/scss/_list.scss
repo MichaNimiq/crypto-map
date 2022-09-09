@@ -133,10 +133,12 @@
       display: flex;
       gap: $paddingSmall;
       justify-content: space-between;
+      margin-bottom: $paddingSmall;
 
       .item-label-text {
         font-weight: 700;
         font-size: var(--font-size-largeForm);
+        word-wrap: anywhere;
       }
 
       .google-g{
@@ -154,7 +156,7 @@
     }
 
     .item-types {
-      margin-top: $paddingSmall;
+      margin-bottom: $borderRadiusSmall;
       display: flex;
       flex-wrap: wrap;
 
@@ -173,11 +175,24 @@
     }
 
     .item-addresses {
-      padding-top: $paddingSmall;
-
       .item-address {
         font-size: var(--font-size-label);
         color: var(--color-blue-dark-60);
+      }
+    }
+
+    .rating {
+      display: inline-block;
+      margin-left: calc($borderRadiusSmall * 2);
+
+      .star{
+        width: 13px;
+        height: 13px;
+        transform: translateY(1px);
+      }
+      .rating-number {
+        font-weight: 700;
+        margin-left: $borderRadiusSmall;
       }
     }
 

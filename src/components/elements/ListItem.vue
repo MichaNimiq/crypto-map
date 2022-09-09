@@ -17,6 +17,7 @@ const props = defineProps<{
 const mapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY;
 
 let singlePlaceUrl: string | null = null;
+let singlePlaceRating: number | null = null;
 let locationTypes = new Set();
 
 // workaround as long as we don't have a proper JSON object
@@ -98,8 +99,13 @@ for (const keyInner in pickups) {
           }
         }
 
-        if (numberLocations == 0)
-          singlePlaceUrl = pickups[keyInner].place_information_parsed.url;
+        if (numberLocations == 0){
+          if (pickups[keyInner].place_information_parsed.rating)
+            singlePlaceRating = pickups[keyInner].place_information_parsed.rating;
+
+          if (pickups[keyInner].place_information_parsed.url)
+            singlePlaceUrl = pickups[keyInner].place_information_parsed.url;
+        }
 
         numberLocations++;
       }
@@ -128,8 +134,13 @@ for (const keyInner in shippings) {
           }
         }
 
-        if (numberLocations == 0)
-          singlePlaceUrl = shippings[keyInner].place_information_parsed.url;
+        if (numberLocations == 0){
+          if (shippings[keyInner].place_information_parsed.rating)
+            singlePlaceRating = shippings[keyInner].place_information_parsed.rating;
+
+          if (shippings[keyInner].place_information_parsed.url)
+            singlePlaceUrl = shippings[keyInner].place_information_parsed.url;
+        }
 
         numberLocations++;
       }
@@ -137,8 +148,10 @@ for (const keyInner in shippings) {
   }
 }
 
-if (numberLocations > 1)
+if (numberLocations > 1) {
+  singlePlaceRating = null;
   singlePlaceUrl = null;
+}
 
 // getting the first best image for now as we currently display
 // only one list-item for all locations of one place
@@ -193,7 +206,16 @@ const imageUrl: string | null = imageRef
         v-if="locationTypes.size > 0"
         class="item-types"
       >
-        <span v-for="locationType in locationTypes" :key="locationType">{{ locationType }}</span>
+        <div class="types-wrap">
+          <span v-for="locationType in locationTypes" :key="locationType">{{ locationType }}</span>
+        </div>
+        <div
+          v-if="singlePlaceRating"
+          class="rating"
+        >
+          <IconSvg iconIndex="icon-rating-star" class="star" />
+          <span class="rating-number">{{ singlePlaceRating }}</span>
+        </div>
       </div>
       <div class="item-addresses">
         <div
@@ -206,6 +228,13 @@ const imageUrl: string | null = imageRef
             class="item-address"
           >
             {{ item.place_information_parsed.formatted_address }}
+            <div
+              v-if="item.place_information_parsed.rating > 0 && numberLocations > 1"
+              class="rating"
+            >
+              <IconSvg iconIndex="icon-rating-star" class="star" />
+              <span class="rating-number">{{ item.place_information_parsed.rating }}</span>
+            </div>
           </div>
         </div>
         <div
