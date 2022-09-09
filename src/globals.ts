@@ -20,6 +20,17 @@ export const locationTypes: string[] = [
   "leisure",
 ];
 
+export function getLocationTypeString( locationType: string = "") {
+  if ( locationType.length == 0 )
+    return false;
+
+  if (locationType.indexOf("selectEntries.type-") == -1)
+    if (locationType.length > 0)
+      return locationType;
+
+  return false;
+}
+
 export const issueTypes: string[] = [
   "issueDesc",
   "issueCurrency",
