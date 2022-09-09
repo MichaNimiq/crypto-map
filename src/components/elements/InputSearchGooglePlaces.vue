@@ -88,7 +88,7 @@ onMounted(async () => {
           <IconSvg
             v-for="key in parseInt(placeData.place.rating)"
             :key="key"
-            :iconIndex="`icon-rating-star`"
+            iconIndex="icon-rating-star"
           />
         </div>
         <div

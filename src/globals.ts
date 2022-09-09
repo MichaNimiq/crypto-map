@@ -32,10 +32,10 @@ export function getLocationTypeString( locationType: string = "") {
 }
 
 export const issueTypes: string[] = [
-  "issueDesc",
-  "issueCurrency",
-  "issueLocation",
-  "issueGone",
+  "desc",
+  "currency",
+  "location",
+  "gone",
 ];
 
 export function getLocationTypeNarrowed( locationType: string = '' ) {

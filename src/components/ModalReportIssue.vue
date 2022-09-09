@@ -35,6 +35,7 @@ const elModalBox = ref(null);
             :label="$t('labels.select-issue')"
             :placeholder="$t('labels.select-issue')"
             :entries="issueTypes"
+            prefix="issue"
           />
         </div>
         <div class="modal-row form-row">

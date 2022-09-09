@@ -39,6 +39,7 @@ onClickOutside(elModalBox, (event: Event) => {
             :label="$t('labels.select-crypto')"
             :placeholder="$t('labels.select-crypto-button')"
             :entries="cryptoCurrencies"
+            prefix="cur"
             merchantVariable="cryptoCurrencies"
             :showAttr="true"
             :icons="true"
@@ -49,6 +50,7 @@ onClickOutside(elModalBox, (event: Event) => {
             :label="$t('labels.select-location')"
             :placeholder="$t('labels.select-location-button')"
             :entries="locationTypes"
+            prefix="type"
             merchantVariable="locationTypes"
           />
         </div>
