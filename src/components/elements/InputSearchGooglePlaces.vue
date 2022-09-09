@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import debug from "@/debug";
 import IconSvg from "@/components/elements/IconSvg.vue";
+import { getLocationTypeString } from "@/globals"
 import googleMapsHelperInstance from "@/google-maps-helper";
 import { onMounted, ref, reactive } from "vue";
 import messages from "@/translatables";
@@ -43,8 +44,9 @@ onMounted(async () => {
       if (placeData.place.types.length > 0) {
         for (const key in placeData.place.types) {
           if (Object.prototype.hasOwnProperty.call(placeData.place.types, key)) {
-            const type = placeData.place.types[key];
-            placeData.locationTypes.add(t(`selectEntries.${type}`))
+            const type = getLocationTypeString(t(`selectEntries.type-${placeData.place.types[key]}`));
+            if (type)
+              placeData.locationTypes.add(type);
           }
         }
       }
