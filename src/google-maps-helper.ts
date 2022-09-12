@@ -9,7 +9,7 @@ import type { LoaderOptions } from "google-maps";
 import { Loader } from "google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import merchant_map_client_instance from "@/merchant-map-client";
-import { selectedId } from "./globals";
+import { selectedId, filterListVisible } from "./globals";
 import "./useGeoIp"
 import { useGeoIp } from "./useGeoIp";
 
@@ -548,6 +548,7 @@ class googleMapsHelper {
           const elListItem = elList?.querySelector(`.list-item[data-id="${parentId}"]`);
 
           elListItem?.scrollIntoView();
+          filterListVisible.value = true;
         }
       }
     }
