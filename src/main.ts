@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { ref } from "vue";
 import messages from "./translatables";
 import { createI18n } from "vue-i18n";
-import { createPinia } from "pinia";
+// import { createPinia } from "pinia";
 import App from "./App.vue";
 
 import "./assets/scss/main.scss";
@@ -36,7 +36,7 @@ const app = createApp(App);
 
 app.use(router);
 app.use(i18n.value);
-app.use(createPinia());
+// app.use(createPinia());
 
 // fix router.params not ready initially
 router.isReady().then(() => {

@@ -17,15 +17,20 @@ body {
 }
 
 #map-list-wrap{
-  overflow-y: auto;
-  overflow-x: hidden;
+  // overflow-y: auto;
+  // overflow-x: hidden;
 
-  @include media('small') {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-  }
+  // @include media('small') {
+  //   display: flex;
+  //   flex-direction: column;
+  //   height: 100%;
+  //   overflow: hidden;
+  // }
+
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 88px);
+  // overflow: hidden;
 
   @include media('big') {
     flex-direction: row-reverse;

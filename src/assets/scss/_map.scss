@@ -1,18 +1,30 @@
 #map-wrapper {
-  position: fixed;
-  height: calc(100% - 88px - $paddingContent * 2 - 2px);
-  width: calc(100% - $paddingContent * 2 - 2px);
-  border-radius: 0 0 $borderRadiusBig $borderRadiusBig;
-  overflow: hidden;
+  // position: fixed;
+  // height: calc(100% - 88px - $paddingContent * 2 - 2px);
+  // width: calc(100% - $paddingContent * 2 - 2px);
+  // border-radius: 0 0 $borderRadiusBig $borderRadiusBig;
+  // overflow: hidden;
+
+  // @include media('small') {
+  //   flex-grow: 1;
+  //   flex-shrink: 0;
+  //   position: relative;
+  //   height: unset;
+  //   width: unset;
+  //   transition: flex-basis $transition ease;
+  //   border-radius: 0px;
+  // }
+
+  position: relative;
+  height: 100%;
+  transition: flex-basis $transition ease;
+  border-radius: 0px;
 
   @include media('small') {
     flex-grow: 1;
     flex-shrink: 0;
-    position: relative;
     height: unset;
     width: unset;
-    transition: flex-basis $transition ease;
-    border-radius: 0px;
   }
 
   #the-map {
@@ -79,7 +91,7 @@
 
     &.show-list {
       position: absolute;
-      bottom: $paddingHuge;
+      bottom: $paddingMed;
       left: $paddingBig;
 
       @include media('small') {
@@ -91,7 +103,7 @@
       position: absolute;
       right: $paddingBig;
       padding: 0;
-      bottom: $paddingHuge;
+      bottom: $paddingMed;
 
       @include media('small') {
         bottom: $paddingBig;

@@ -1,10 +1,13 @@
 #the-list {
   background-color: var(--color-white);
-  overflow: auto;
-  transition-property: margin-bottom, box-shadow;
-  transition-duration: $transition, $transition;
-  transition-timing-function: ease, ease;
-  margin-top: calc(100vh - 88px - $paddingContent * 3);
+  transition-property: height, min-height, margin-bottom, box-shadow;
+  transition-duration: $transition, $transition, $transition, $transition;
+  transition-timing-function: ease, ease, ease, ease;
+  // margin-top: calc(100vh - 88px - $paddingContent * 3);
+  min-height: 30px;
+  height: 30px;
+  overflow: hidden;
+  padding-top: 30px;
 
   &[data-results="0"]{
     display: none;
@@ -12,28 +15,44 @@
 
   &.visible {
     box-shadow: $shadowObject;
+
+    min-height: 60%;
+    height: 60%;
+
+    @include media('small'){
+      height: unset;
+      min-height: unset;
+    }
   }
 
   @include media('small') {
-    margin: unset;
+    height: unset;
+    min-height: unset;
+    padding-top: $paddingSmall;
 
     &[data-results="0"]{
       display: unset;
     }
   }
 
-  @include media('big'){
+  @include media('big') {
     transition: margin-left $transition ease;
   }
 
-  .list-wrap{
-    display: flex;
-    flex-direction: column;
-    gap: var(--padding-ui);
-    padding: $paddingHuge $paddingMed $paddingHuge $paddingMed;
+  .mobile-handle {
+    background-color: var(--color-white);
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    cursor: grab;
 
-    &:before {
-      content: '';
+    @include media('small') {
+      display: none;
+    }
+
+    .bar {
       display: block;
       height: 4px;
       width: 80px;
@@ -43,11 +62,19 @@
       left: 50%;
       transform: translateX(-50%);
       background-color: var(--color-blue-dark-30);
-
-      @include media('small') {
-        display: none;
-      }
     }
+  }
+
+  .scroll-wrap {
+    overflow: auto;
+    height: 100%;
+  }
+
+  .list-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-ui);
+    padding: $paddingHuge $paddingMed $paddingHuge $paddingMed;
     
     @include media('small') {
       flex-direction: row;
