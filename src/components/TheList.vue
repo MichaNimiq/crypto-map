@@ -22,33 +22,28 @@ onMounted(() => {
   });
 
   window.addEventListener('dragover', (e: Event) => {
-    if (dragMobileHandle) {
-      console.log(`${window.innerHeight - e.clientY - 30}px`);
+    touchMove(e.clientY);
+  });
 
-      const calculatedHeight = window.innerHeight - e.clientY - 30;
-
-      theList.value.style.transition = 'none';
-      theList.value.style.minHeight = `${window.innerHeight - e.clientY - 30}px`
-      theList.value.style.height = `${window.innerHeight - e.clientY - 30}px`
-
-      if (calculatedHeight / window.innerHeight > 0.3) {
-        filterListVisible.value = true;
-      } else {
-        filterListVisible.value = false;
-      }
-    }
+  window.addEventListener('touchmove', (e: Event) => {
+    const touchChanged = e.changedTouches[0];
+    touchMove(touchChanged.clientY);
   });
 
   theListHandle.value?.addEventListener('dragstart', () => {
-    console.log('dragstart')
+    dragMobileHandle = true;
+  });
+
+  theListHandle.value?.addEventListener('touchstart', () => {
     dragMobileHandle = true;
   });
 
   theListHandle.value?.addEventListener('dragend', (e) => {
-    console.log('dragend')
-    dragMobileHandle = false;
-    theList.value?.removeAttribute('style');
-    resizing();
+    touchEnd();
+  });
+
+  theListHandle.value?.addEventListener('touchend', (e) => {
+    touchEnd();
   });
 
   if (window.innerWidth <= 768){
@@ -57,6 +52,28 @@ onMounted(() => {
 
   resizing();
 });
+
+function touchEnd(){
+    dragMobileHandle = false;
+    theList.value?.removeAttribute('style');
+    resizing();
+}
+
+function touchMove(offsetY: number = 0){
+  if (dragMobileHandle) {
+      const calculatedHeight = window.innerHeight - offsetY - 30;
+
+      theList.value.style.transition = 'none';
+      theList.value.style.minHeight = `${window.innerHeight - offsetY - 30}px`
+      theList.value.style.height = `${window.innerHeight - offsetY - 30}px`
+
+      if (calculatedHeight / window.innerHeight > 0.3) {
+        filterListVisible.value = true;
+      } else {
+        filterListVisible.value = false;
+      }
+    }
+}
 
 function resizing() {
   if (!theList.value)
