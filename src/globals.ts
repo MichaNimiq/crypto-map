@@ -1,14 +1,13 @@
 import { ref } from "vue";
-import type { selectEntry } from "./interfaces";
 
-export const cryptoCurrencies: string[] = [
-  "BTC",
-  "NIM",
-  "LTC",
-  "DASH",
-  "XLM",
-  "ETH",
-  "XRP",
+export const cryptoCurrencies = [
+  { name: "Bitcoin", symbol: "BTC" },
+  { name: "Nimiq", symbol: "NIM" },
+  { name: "Litcoin", symbol: "NIM" },
+  { name: "Dash", symbol: "DASH" },
+  { name: "Stellar Lumens", symbol: "XLM" },
+  { name: "Etherium", symbol: "ETH" },
+  { name: "Ripple", symbol: "XRP" },
 ];
 
 export const locationTypes: string[] = [
@@ -52,8 +51,8 @@ export function getLocationTypeNarrowed( locationType: string = '' ) {
   }
 }
 
+// TODO Move this to stores
 export const addLocationVisible = ref<boolean>(false);
 export const reportIssueVisible = ref<boolean>(false);
 export const filterVisible = ref<boolean>(false);
-export const filterListVisible = ref<boolean>(false);
 export const selectedId = ref<number>(-1);

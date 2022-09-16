@@ -3,14 +3,15 @@ import type {
   boundingBox,
   bounds,
   coords,
-  merchant_map_result,
+  merchant_map_result
 } from "@/interfaces";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { LoaderOptions } from "google-maps";
 import { Loader } from "google-maps";
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import merchant_map_client_instance from "@/merchant-map-client";
-import { selectedId, filterListVisible } from "./globals";
-import "./useGeoIp"
+import { selectedId } from "./globals";
+import { useApi } from "./stores/api";
+import { useApp } from "./stores/app";
+import "./useGeoIp";
 import { useGeoIp } from "./useGeoIp";
 
 class googleMapsHelper {
@@ -72,55 +73,56 @@ class googleMapsHelper {
       return false;
     }
 
-    this.buttonZoomOut =
-      this.elementMapWrapper.querySelector(".button.zoom.out");
-    this.buttonZoomIn = this.elementMapWrapper.querySelector(".button.zoom.in");
-    this.buttonLocation =
-      this.elementMapWrapper.querySelector(".button.location");
+    this.buttonZoomOut = document.querySelector("#zoom-out");
+    this.buttonZoomIn = document.querySelector("#zoom-in");
+    this.buttonLocation = document.querySelector("#user-geolocation");
 
     // init google maps
-    this.loader.load().then((google) => {
-      this.google = google;
+    try {
+      this.google = await this.loader.load()
+    } catch (err) {
+      debug(err)
+      return
+    }
 
-      // create a maps instance
-      this.mapInstance = new this.google.maps.Map(this.elementMap, {
-        center: this.center,
-        zoom: this.zoom,
-        disableDefaultUI: true,
-        clickableIcons: false,
-        // mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
-        styles: [{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":57}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"visibility":"on"},{"lightness":24}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]}]
-      });
-
-      // get the location from nimiq
-      useGeoIp().locate().then((location) => {
-        if (location.location){
-          this.center = {
-            lat: location.location.latitude,
-            lng: location.location.longitude,
-          };
-  
-          this.zoom = 7;
-
-          // set the location
-          this.mapInstance.setCenter(this.center);
-          this.mapInstance.setZoom(this.zoom); // calls getBounds()
-
-          this.initCluster();
-          this.initEvents();
-        }
-      }).catch((err) => {
-        debug(err);
-
-        // continue init with the fallback location
-        this.initCluster();
-        this.initEvents();
-
-        merchant_map_client_instance.getResults();
-      });
-    }).catch((err) => {
-      debug(err);
+    // create a maps instance
+    this.mapInstance = new this.google.maps.Map(this.elementMap, {
+      center: this.center,
+      zoom: this.zoom,
+      disableDefaultUI: true,
+      clickableIcons: false,
+      // mapId: import.meta.env.VITE_GOOGLE_MAP_ID,
+      styles: [{ "featureType": "landscape", "elementType": "labels", "stylers": [{ "visibility": "off" }] }, { "featureType": "poi", "elementType": "labels", "stylers": [{ "visibility": "off" }] }, { "featureType": "road", "elementType": "geometry", "stylers": [{ "lightness": 57 }] }, { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "visibility": "on" }, { "lightness": 24 }] }, { "featureType": "road", "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "featureType": "transit", "elementType": "labels", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "off" }] }]
     });
+
+    // get the location from nimiq
+    let location
+    try {
+      location = await useGeoIp().locate()
+    } catch (err) {
+      debug(err);
+      // continue init with the fallback location
+      this.initCluster();
+      this.initEvents();
+
+      await useApi().search()
+    }
+
+    if (!location || !location.location) return
+
+    this.center = {
+      lat: location.location.latitude,
+      lng: location.location.longitude,
+    };
+
+    this.zoom = 7;
+
+    // set the location
+    this.mapInstance.setCenter(this.center);
+    this.mapInstance.setZoom(this.zoom); // calls getBounds()
+
+    this.initCluster();
+    this.initEvents();
   }
 
   initEvents() {
@@ -190,44 +192,44 @@ class googleMapsHelper {
   /* 
     check if a coord is within a bounding box
   */
- isWithinBoundingBox(
-  coords: coords,
-  boundingBox: boundingBox = this.boundingBox
-){
-  if (!boundingBox || !coords){
-    debug(['isWithinBoundingBox', 'no boundingBox or coords given']);
+  isWithinBoundingBox(
+    coords: coords,
+    boundingBox: boundingBox = this.boundingBox
+  ) {
+    if (!boundingBox || !coords) {
+      debug(['isWithinBoundingBox', 'no boundingBox or coords given']);
+      return false;
+    }
+
+    if (
+      !boundingBox.swLng ||
+      !boundingBox.neLng ||
+      !boundingBox.swLat ||
+      !boundingBox.neLat
+    ) {
+      debug(['isWithinBoundingBox', 'boundingBox incomplete']);
+      return false;
+    }
+
+    if (
+      !coords.lng ||
+      !coords.lat
+    ) {
+      debug(['isWithinBoundingBox', 'coords incomplete']);
+      return false;
+    }
+
+    if (
+      boundingBox.swLng <= coords.lng &&
+      coords.lng <= boundingBox.neLng &&
+      boundingBox.swLat <= coords.lat &&
+      coords.lat <= boundingBox.neLat
+    ) {
+      return true;
+    }
+
     return false;
   }
-
-  if (
-    !boundingBox.swLng ||
-    !boundingBox.neLng ||
-    !boundingBox.swLat ||
-    !boundingBox.neLat
-  ) {
-    debug(['isWithinBoundingBox', 'boundingBox incomplete']);
-    return false;
-  }
-
-  if (
-    !coords.lng ||
-    !coords.lat
-  ) {
-    debug(['isWithinBoundingBox', 'coords incomplete']);
-    return false;
-  }
-
-  if(
-    boundingBox.swLng <= coords.lng &&
-    coords.lng <= boundingBox.neLng &&
-    boundingBox.swLat <= coords.lat &&
-    coords.lat <= boundingBox.neLat
-  ) {
-    return true;
-  }
-
-  return false;
- }
 
   /* 
     gets the current viewport of the map
@@ -235,10 +237,11 @@ class googleMapsHelper {
   getBounds() {
     this.mapInteraction = true;
 
+    // TODO this timeoff is because we cannot use async/await?
     if (this.mapInteraction) {
       clearTimeout(this.getBoundsTimeout);
 
-      this.getBoundsTimeout = setTimeout(() => {
+      this.getBoundsTimeout = setTimeout(async () => {
         this.bounds = this.mapInstance.getBounds();
 
         this.boundingBox = {
@@ -250,7 +253,7 @@ class googleMapsHelper {
 
         debug(['current boundings', JSON.stringify(this.boundingBox)]);
 
-        merchant_map_client_instance.getResults();
+        await useApi().search();
 
         this.mapInteraction = false;
       }, 400);
@@ -549,7 +552,7 @@ class googleMapsHelper {
           const elListItem = elList?.querySelector(`.list-item[data-id="${parentId}"]`);
 
           elListItem?.scrollIntoView();
-          filterListVisible.value = true;
+          useApp().showLocationsList()
         }
       }
     }
@@ -559,3 +562,7 @@ class googleMapsHelper {
 const googleMapsHelperInstance = new googleMapsHelper();
 
 export default googleMapsHelperInstance;
+function useAppStore() {
+  throw new Error("Function not implemented.");
+}
+

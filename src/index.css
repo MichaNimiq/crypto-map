@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scroll-space::-webkit-scrollbar,
+.scroll-grey::-webkit-scrollbar {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+.scroll-space::-webkit-scrollbar-thumb {
+  border-radius: 0.375rem;
+  background-color: #4b4b5c60;
+}
+
+.scroll-grey::-webkit-scrollbar-thumb {
+  border-radius: 0.375rem;
+  background-color: #3b4c6a7d;
+}
+
+.scroll-grey::-webkit-scrollbar-track {
+  background-color: #3b4c6a33;
+}

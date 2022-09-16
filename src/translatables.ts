@@ -2,7 +2,8 @@ const messages = {
   de: {
     placeholders: {
       "search-places": "In Crypto Map suchen...",
-      "find-anywhere": "Nach Ort suchen"
+      "find-anywhere": "Nach Ort suchen",
+      "describe-issue": "Schreiben Sie Ihr Problem hier...",
     },
     labels: {
       "button-filter": "Filter",
@@ -62,22 +63,25 @@ const messages = {
       "type-car_repair": "Werkstadt",
       "type-car_dealer": "Händler",
       "type-lodging": "Hotel & Unterkunft",
-      "issue-desc": "Beschreibung nicht korrekt",
-      "issue-currency": "Währungen stimmen nicht überein",
-      "issue-location": "Location ist falsch gesetzt",
-      "issue-gone": "Geschäft existiert nicht"
+      issue: {
+        'desc': "Beschreibung nicht korrekt",
+        'currency': "Währungen stimmen nicht überein",
+        'location': "Standort ist falsch gesetzt",
+        'gone': "Geschäft existiert nicht",
+      }
     }
   },
   en: {
     placeholders: {
       "search-places": "Search crypto map...",
-      "find-anywhere": "Anywhere / Place"
+      "find-anywhere": "Anywhere / Place",
+      "describe-issue": "Write your problem here ..",
     },
     labels: {
       "button-filter": "Filters",
       "button-add-location": "Add crypto location",
       "button-show-list": "Show List",
-      "select-crypto": "Cryptocurrencies",
+      "select-crypto": "Select Cryptocurrencies",
       "select-location": "Type of location",
       "select-crypto-button": "Select Cryptocurrencies",
       "select-location-button": "Select location",
@@ -131,10 +135,13 @@ const messages = {
       "type-car_repair": "Repair",
       "type-car_dealer": "Dealer",
       "type-lodging": "Hotel & Unterkunft",
-      issuedesc: "Description is incorrect",
-      issuecurrency: "Currencies do not match",
-      issuelocation: "Location is off",
-      issuegone: "Not existent anymore"
+      issue: {
+        'gone': "Place closed / does not exist",
+        'missing-currency': "Currency missing",
+        'missing-not-accepted': "Currency not accepted",
+        'not-crypto': "Place doesn't accept crypto",
+        'other': "Other",
+      }
     }
   },
 };

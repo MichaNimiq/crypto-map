@@ -1,109 +1,110 @@
-.modal-box {
-  border-radius: var(--border-radius-overlay);
-  background-color: var(--color-white);
-  position: relative;
-  border: 1px solid var(--color-blue-dark-12);
-  max-width: 520px;
-  width: 100%;
+// // TODO clean this classes
+// .modal-box {
+//   border-radius: var(--border-radius-overlay);
+//   background-color: var(--color-white);
+//   position: relative;
+//   border: 1px solid var(--color-blue-dark-12);
+//   max-width: 520px;
+//   width: 100%;
 
-  > svg.close {
-    position: absolute;
-    top: var(--padding-ui);
-    right: var(--padding-ui);
-    z-index: 1;
-    cursor: pointer;
-  }
+//   > svg.close {
+//     position: absolute;
+//     top: var(--padding-ui);
+//     right: var(--padding-ui);
+//     z-index: 1;
+//     cursor: pointer;
+//   }
 
-  .modal-row {
-    padding: var(--padding-primary);
+//   .modal-row {
+//     padding: var(--padding-primary);
 
-    .select-wrap {
-      width: 100%;
-    }
+//     .select-wrap {
+//       width: 100%;
+//     }
 
-    &.form-row{
-      display: flex;
-      justify-content: center;
-      max-width: calc(520px + $paddingContent * 2);
-      margin: 0 auto;
-    }
+//     &.form-row{
+//       display: flex;
+//       justify-content: center;
+//       max-width: calc(520px + $paddingContent * 2);
+//       margin: 0 auto;
+//     }
 
-    &+.modal-row{
-      border-top: 1px solid var(--color-blue-dark-12);
-    }
+//     &+.modal-row{
+//       border-top: 1px solid var(--color-blue-dark-12);
+//     }
 
-    .headline-modal {
-      text-align: center ;
-    }
-  }
-}
+//     .headline-modal {
+//       text-align: center ;
+//     }
+//   }
+// }
 
-.modal-box.modal-fullscreen {
-  max-width: unset;
-  border: unset;
-  max-height: 100%;
+// .modal-box.modal-fullscreen {
+//   max-width: unset;
+//   border: unset;
+//   max-height: 100%;
 
-  > svg.close {
-    position: fixed;
-    top: calc(var(--padding-ui) * 2);
-    right: calc(var(--padding-ui) * 2);
-  }
+//   > svg.close {
+//     position: fixed;
+//     top: calc(var(--padding-ui) * 2);
+//     right: calc(var(--padding-ui) * 2);
+//   }
 
-  label {
-    margin-bottom: $paddingSmall;
-  }
+//   label {
+//     margin-bottom: $paddingSmall;
+//   }
 
-  .modal-row{
-    border: unset;
-    padding: $paddingMed;
-  }
+//   .modal-row{
+//     border: unset;
+//     padding: $paddingMed;
+//   }
 
-  .content-row {
-    text-align: center;
+//   .content-row {
+//     text-align: center;
 
-    &+.form-row{
-      padding-top: $paddingHuge;
-    }
+//     &+.form-row{
+//       padding-top: $paddingHuge;
+//     }
 
-    h2 {
-      margin-bottom: $paddingContent;
-    }
+//     h2 {
+//       margin-bottom: $paddingContent;
+//     }
 
-    .subline {
-      margin-bottom: $paddingMed;
-    }
+//     .subline {
+//       margin-bottom: $paddingMed;
+//     }
 
-    .blue {
-      color: var(--color-blue-gradient-in);
-      padding-right: $paddingBig;
+//     .blue {
+//       color: var(--color-blue-gradient-in);
+//       padding-right: $paddingBig;
 
-      svg {
-        width: 11px;
-        height: 17px;
+//       svg {
+//         width: 11px;
+//         height: 17px;
 
-        path {
-          stroke: var(--color-blue-gradient-in);
-        }
-      }
+//         path {
+//           stroke: var(--color-blue-gradient-in);
+//         }
+//       }
 
-      @include focusKeyAndHover() {
-        color: var(--color-blue-gradient-out);
+//       @include focusKeyAndHover() {
+//         color: var(--color-blue-gradient-out);
 
-        svg {
-          path {
-            stroke: var(--color-blue-gradient-out);
-          }
-        }
-      }
-    }
-  }
+//         svg {
+//           path {
+//             stroke: var(--color-blue-gradient-out);
+//           }
+//         }
+//       }
+//     }
+//   }
 
-  .form-row{
-    .button-wrap {
-      display: flex;
-      gap: $paddingBig;
-      margin-top: $paddingMed;
-    }
-  }
-}
+//   .form-row{
+//     .button-wrap {
+//       display: flex;
+//       gap: $paddingBig;
+//       margin-top: $paddingMed;
+//     }
+//   }
+// }
 

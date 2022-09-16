@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue"
 
 const props = defineProps<{
-  iconIndex: string;
-}>();
+	iconIndex: string
+}>()
 
 const AsyncIconComp = defineAsyncComponent(
-  () => import(`@/components/icons/${props.iconIndex.toLowerCase()}.vue`)
-);
+	() => import(`@/components/icons/${props.iconIndex.toLowerCase()}.vue`)
+)
 </script>
 
 <template>
-  <AsyncIconComp />
+	<AsyncIconComp />
 </template>

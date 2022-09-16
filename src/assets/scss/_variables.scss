@@ -1,6 +1,6 @@
 $small: 768px;
 $med: 1024px;
-$big: 1360px;
+$big: 1280px;
 
 $cardSmall: 375px;
 $cardMed: 1152px;
@@ -45,7 +45,7 @@ $fontFamily: "Mulish", sans-serif;
   --font-size-h2: 32px;
   --font-size-h1: 40px;
   --font-size-input: 14px;
-  --font-size-label: 14px;
+  --font-size-label: 16px;
   --font-size-buttonForm: 14px;
   --font-size-bodyForm: 15px;
   --font-size-largeForm: 17px;
@@ -98,6 +98,8 @@ $fontFamily: "Mulish", sans-serif;
 
   --color-blue-light-on-dark: #0CA6FE;
   --color-red-on-dark: #FF5C48;
+
+  --color-space: #1f2348;
 
   --color-blue: #3E6EC1;
   --color-blue60: #69B4DF;
