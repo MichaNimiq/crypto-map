@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import debug from "@/debug";
 import { ref } from "vue";
 import { useI18n } from 'vue-i18n'
@@ -118,4 +118,4 @@ onClickOutside(elButtonSelect, (event: Event) => {
       </div>
     </div>
   </div>
-</template>
+</template> -->

@@ -1,0 +1,62 @@
+.form-container {
+  background-color: var(--color-blue-dark-overlay);
+  background-color: var(--color-white);
+  transition-property: opacity;
+  transition-duration: $transition, $transition;
+  transition-timing-function: ease, ease;
+  height: 100%;
+
+  .form-wrapper {
+    padding-top: var(--padding-head);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: min(calc(100% - 2 * var(--padding-ui)), 776px);
+    margin: 0 auto;
+
+    .context {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h1 {
+        font-weight: 700;
+        color: var(--color-space);
+      }
+
+      p {
+        margin-top: 32px;
+      }
+
+      a {
+        margin-top: 16px;
+        width: max-content;
+      }
+    }
+
+
+    form {
+      width: min(100%, 526px);
+      margin-top:64px;
+
+      > *:not(:first-child) {
+        margin-top: var(--padding-ui);
+      }
+
+      button {
+        margin: 0 auto;
+      }
+    }
+
+    @media screen and (max-width: $med) {
+      h1 {
+        text-align: left;
+      }
+
+      form {
+        margin-top: 54px;
+      }
+    }
+  }
+}

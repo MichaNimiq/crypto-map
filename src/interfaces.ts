@@ -1,3 +1,5 @@
+// TODO Redo this interfaces
+
 /* 
   General
 */

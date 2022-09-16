@@ -5,15 +5,16 @@ import type { selectEntry } from "@/interfaces";
 import { ref } from "vue";
 import IconSvg from "@/components/elements/IconSvg.vue";
 import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue";
-import merchant_map_client_instance from "@/merchant-map-client";
 import { onClickOutside } from "@vueuse/core";
+import { useApi } from "@/stores/api";
 
 const elModalBox = ref(null);
+const { search } = useApi()
 
 onClickOutside(elModalBox, (event: Event) => {
   if (filterVisible.value) { // so getResults() won't get triggered everytime
     filterVisible.value = false;
-    merchant_map_client_instance.getResults();
+    search()
   }
 });
 </script>
