@@ -1,9 +1,7 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import "@/assets/scss/form-layout.scss";
 
 import IconSvg from "@/components/elements/IconSvg.vue";
-import InputSearchGooglePlaces from "@/components/elements/InputSearchGooglePlaces.vue";
-import { cryptoCurrencies } from "@/globals";
 </script>
 
 <template>
@@ -48,4 +46,4 @@ import { cryptoCurrencies } from "@/globals";
 			</form>
 		</div>
 	</div>
-</template>
+</template> -->

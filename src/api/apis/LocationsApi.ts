@@ -34,7 +34,7 @@ export interface SearchLocationsRequest {
     filterNumber?: number;
     filterWebsite?: string;
     filterZip?: string;
-    filterBounding?: string;
+    filterBoundingBox?: string;
     filterLimit?: number;
     filterDigitalGoods?: boolean;
 }
@@ -94,8 +94,8 @@ export class LocationsApi extends runtime.BaseAPI {
             queryParameters['filter[zip]'] = requestParameters.filterZip;
         }
 
-        if (requestParameters.filterBounding !== undefined) {
-            queryParameters['filter[bounding]'] = requestParameters.filterBounding;
+        if (requestParameters.filterBoundingBox !== undefined) {
+            queryParameters['filter[bounding_box]'] = requestParameters.filterBoundingBox;
         }
 
         if (requestParameters.filterLimit !== undefined) {

@@ -1,33 +1,60 @@
+import { Configuration, CryptoLocationFromJSON, LocationsApi, type CryptoCurrency, type CryptoLocation as ApiCryptoLocation, type GeoLocation, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
 import { defineStore } from "pinia";
-import googleMapsHelperInstance from "@/google-maps-helper";
 import { useApp } from "./app";
+import type { BoundingBox } from "./map";
 
 
 /*
-NOT IMPLEMENTED API-WISE
-so the to come filter string is currently unknown
-this.cryptoCurrencies and this.locationTypes should
-already be filled by the select boxes, though
- 
-for (const key in this.cryptoCurrencies) {
-  const currency = this.cryptoCurrencies[key];
-  queryParams["filter[currency]"] += `${parseInt(key) > 0 ? ',' : ''}${currency.id}`
-}
- 
-for (const key in this.locationTypes) {
-  const location = this.locationTypes[key];
-  queryParams["filter[location]"] += `${parseInt(key) > 0 ? ',' : ''}${location}`
-}
+  currently the JSON place_information is a simple string and needs to get parsed
+  the next server version will have this as a proper object
+  as of today this is not live, yet
+
+  one place could in theory hold multiple addresses (pickups[] and shippings[])
+  so for now I loop through all of them, gather the addresses of the indivitual addresses
+  and print them out in one parent list item.
+
+  the list item will then reflect only one location but could contain multiple
+  addresses.
+  when we click on a list item the map will get all the location points and calculates
+  the center of them (see google-maps-helper navigateItem()).
+
+  TODO: perhaps we then should hide all the other markers and when clicking somewhere else
+  on the map the other markers appear again
 */
 
-const API_URL = import.meta.env.VITE_URL_BACKEND
+const basePath: string = import.meta.env.VITE_URL_API_URL
+const googleMapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY
+
+const partnerApi = new LocationsApi(new Configuration({
+  basePath
+}))
+
+export type CryptoLocation = {
+  id: number;
+  name: string;
+  photoUrl: string;
+  type: string;
+  // Maybe icon type won't be the same as type
+  rating: number; // From 0 to 5
+  address: string;
+  gmapsUrl: string;
+  geo_location: {
+    lng: number;
+    lat: number;
+  };
+  currencies: {
+    short: keyof CryptoCurrency;
+    name: string;
+  }[];
+}
+
 
 export const useApi = defineStore({
   id: "api",
   state: () => ({
     previousResultsLength: 0,
     current_page: 1,
-    locations: [] as Daum[],
+    locations: [] as CryptoLocation[],
     first_page_url: "",
     from: 1,
     last_page: 1,
@@ -43,31 +70,61 @@ export const useApi = defineStore({
   getters: {
   },
   actions: {
-    async search(limit = 0) {
-      console.trace();
-      const url = new URL(API_URL);
+    async search(boundingBox: BoundingBox, limit: number = 100) {
 
-      const { boundingBox } = googleMapsHelperInstance
       const boundingBoxStr = `${boundingBox.swLng},${boundingBox.swLat},${boundingBox.neLng},${boundingBox.neLat}`
 
-      url.searchParams.append("filter[limit]", limit.toString());
-      url.searchParams.append("filter[bounding_box]", boundingBoxStr);
-
-      let response
-
-      try {
-        response = await fetch(url);
-      } catch (e) {
-        return false/** Do nothing */
+      const body: SearchLocationsRequest = {
+        filterLimit: limit,
+        filterBoundingBox: boundingBoxStr
       }
 
-      // TODO Improve error
-      if (!response) {
-        throw new Error('Network response was not ok.');
-      }
-      const json = (await response.json()) as Root;
+      console.log('🔍 Searching in the API: ', body)
 
-      this.locations = json.data;
+      const response: SearchLocationsResponse = await partnerApi.searchLocations(body).catch((e) => {
+        return e;
+      })
+
+      if (response instanceof Error) {
+        console.error(response);
+        // alert('The api is not available'); // TODO Handle error
+        return;
+      }
+
+
+      this.locations = response.data
+        .filter(({ pickups }) => pickups.length > 0)
+        .map(({ id, label: name, currencies: currenciesApi, pickups }) =>
+          pickups.map(({ geo_location, place_information }) => {
+            const { photos, rating, formatted_address: address, url: gmapsUrl, types } = place_information
+            // TODO Review placeholder
+            const photoUrl = photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
+
+            const currencies = currenciesApi.reduce((acc, curr) => {
+              const short = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrency] !== undefined) as keyof CryptoCurrency | undefined
+              if (short) {
+                acc.push({ short, name: curr[short] as string })
+              }
+              return acc
+            }, [] as CryptoLocation["currencies"])
+            
+            return {
+              id,
+              name,
+              address,
+              currencies,
+              geo_location: {
+                lat: geo_location.coordinates[1],
+                lng: geo_location.coordinates[0],
+              },
+              gmapsUrl,
+              rating,
+              photoUrl,
+              // TODO Right now we are using types from GMaps
+              type: types[0] || 'other',
+            } as CryptoLocation
+          })
+        ).reduce((acc, curr) => [...acc, ...curr], []);
       const nLocations = this.locations.length;
 
       const { showLocationsList, hideLocationsList } = useApp()
@@ -77,73 +134,10 @@ export const useApi = defineStore({
       } else if (this.previousResultsLength === 0) {
         showLocationsList()
       }
-      this.previousResultsLength = nLocations;
 
-      googleMapsHelperInstance.renderMarkers(json as any);
+      this.previousResultsLength = nLocations;
 
       return true;
     }
   }
 });
-
-
-
-// TODO Improve typing with openapi
-export interface Root {
-  current_page: number
-  data: Daum[]
-  first_page_url: string
-  from: number
-  last_page: number
-  last_page_url: string
-  links: Link[]
-  next_page_url: string
-  path: string
-  per_page: number
-  prev_page_url: any
-  to: number
-  total: number
-}
-
-export interface Daum {
-  id: number
-  label: string
-  description: any
-  website: any
-  email: any
-  phone: any
-  zip: string
-  city: string
-  country: string
-  digital_goods: boolean
-  created_at: string
-  updated_at: string
-  address_line_1: string
-  address_line_2: string
-  address_line_3: string
-  accepts: string[]
-  pickups: Pickup[]
-  shippings: any[]
-}
-
-export interface Pickup {
-  id: number
-  shop_id: number
-  geo_location: GeoLocation
-  created_at: string
-  updated_at: string
-  place_id: string
-  label: any
-  place_information: string
-}
-
-export interface GeoLocation {
-  type: string
-  coordinates: number[]
-}
-
-export interface Link {
-  url?: string
-  label: string
-  active: boolean
-}

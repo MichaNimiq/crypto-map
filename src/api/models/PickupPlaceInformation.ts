@@ -115,7 +115,7 @@ export interface PickupPlaceInformation {
      * @type {Array<PickupPlaceInformationPhotosInner>}
      * @memberof PickupPlaceInformation
      */
-    photos: Array<PickupPlaceInformationPhotosInner>;
+    photos?: Array<PickupPlaceInformationPhotosInner> | null;
     /**
      * 
      * @type {string}
@@ -206,7 +206,6 @@ export function instanceOfPickupPlaceInformation(value: object): boolean {
     isInstance = isInstance && "icon_mask_base_uri" in value;
     isInstance = isInstance && "international_phone_number" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "photos" in value;
     isInstance = isInstance && "place_id" in value;
     isInstance = isInstance && "plus_code" in value;
     isInstance = isInstance && "price_level" in value;
@@ -244,7 +243,7 @@ export function PickupPlaceInformationFromJSONTyped(json: any, ignoreDiscriminat
         'icon_mask_base_uri': json['icon_mask_base_uri'],
         'international_phone_number': json['international_phone_number'],
         'name': json['name'],
-        'photos': ((json['photos'] as Array<any>).map(PickupPlaceInformationPhotosInnerFromJSON)),
+        'photos': !exists(json, 'photos') ? undefined : (json['photos'] === null ? null : (json['photos'] as Array<any>).map(PickupPlaceInformationPhotosInnerFromJSON)),
         'place_id': json['place_id'],
         'plus_code': PickupPlaceInformationPlusCodeFromJSON(json['plus_code']),
         'price_level': json['price_level'],
@@ -280,7 +279,7 @@ export function PickupPlaceInformationToJSON(value?: PickupPlaceInformation | nu
         'icon_mask_base_uri': value.icon_mask_base_uri,
         'international_phone_number': value.international_phone_number,
         'name': value.name,
-        'photos': ((value.photos as Array<any>).map(PickupPlaceInformationPhotosInnerToJSON)),
+        'photos': value.photos === undefined ? undefined : (value.photos === null ? null : (value.photos as Array<any>).map(PickupPlaceInformationPhotosInnerToJSON)),
         'place_id': value.place_id,
         'plus_code': PickupPlaceInformationPlusCodeToJSON(value.plus_code),
         'price_level': value.price_level,

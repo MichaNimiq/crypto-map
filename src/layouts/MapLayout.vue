@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import HeaderBar from "@/components/HeaderBar.vue"
+import TheHeaderBar from "@/components/TheHeaderBar.vue"
 import TheMap from "@/components/TheMap.vue"
 import TheList from "@/components/TheList.vue"
-import ModalFilter from "@/components/ModalFilter.vue"
 </script>
 
 <template>
 	<div class="flex flex-col w-screen h-full overflow-hidden">
-		<HeaderBar />
+		<TheHeaderBar />
 
-		<div class="flex flex-col h-[calc(100%-72px)] xl:flex-row-reverse relative">
+		<div class="flex h-[calc(100%-72px)] xl:flex-row-reverse relative">
 			<TheMap />
-			<TheList />
+			<TheList class="absolute" />
 		</div>
-		<ModalFilter />
 	</div>
 </template>

@@ -37,49 +37,49 @@ export interface Pickup {
      * @type {number}
      * @memberof Pickup
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
      * @memberof Pickup
      */
-    shop_id?: number;
+    shop_id: number;
     /**
      * 
      * @type {GeoLocation}
      * @memberof Pickup
      */
-    geo_location?: GeoLocation;
+    geo_location: GeoLocation;
     /**
      * 
      * @type {string}
      * @memberof Pickup
      */
-    created_at?: string;
+    created_at: string;
     /**
      * 
      * @type {string}
      * @memberof Pickup
      */
-    updated_at?: string;
+    updated_at: string;
     /**
      * 
      * @type {string}
      * @memberof Pickup
      */
-    place_id?: string;
+    place_id: string;
     /**
      * 
      * @type {string}
      * @memberof Pickup
      */
-    label?: string | null;
+    label: string | null;
     /**
      * 
      * @type {PickupPlaceInformation}
      * @memberof Pickup
      */
-    place_information?: PickupPlaceInformation;
+    place_information: PickupPlaceInformation;
 }
 
 /**
@@ -87,6 +87,14 @@ export interface Pickup {
  */
 export function instanceOfPickup(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "shop_id" in value;
+    isInstance = isInstance && "geo_location" in value;
+    isInstance = isInstance && "created_at" in value;
+    isInstance = isInstance && "updated_at" in value;
+    isInstance = isInstance && "place_id" in value;
+    isInstance = isInstance && "label" in value;
+    isInstance = isInstance && "place_information" in value;
 
     return isInstance;
 }
@@ -101,14 +109,14 @@ export function PickupFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pi
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'shop_id': !exists(json, 'shop_id') ? undefined : json['shop_id'],
-        'geo_location': !exists(json, 'geo_location') ? undefined : GeoLocationFromJSON(json['geo_location']),
-        'created_at': !exists(json, 'created_at') ? undefined : json['created_at'],
-        'updated_at': !exists(json, 'updated_at') ? undefined : json['updated_at'],
-        'place_id': !exists(json, 'place_id') ? undefined : json['place_id'],
-        'label': !exists(json, 'label') ? undefined : json['label'],
-        'place_information': !exists(json, 'place_information') ? undefined : PickupPlaceInformationFromJSON(json['place_information']),
+        'id': json['id'],
+        'shop_id': json['shop_id'],
+        'geo_location': GeoLocationFromJSON(json['geo_location']),
+        'created_at': json['created_at'],
+        'updated_at': json['updated_at'],
+        'place_id': json['place_id'],
+        'label': json['label'],
+        'place_information': PickupPlaceInformationFromJSON(json['place_information']),
     };
 }
 
