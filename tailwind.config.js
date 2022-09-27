@@ -1,4 +1,4 @@
-/* eslint-env node */
+      /* eslint-env node */
 const theme = require('tailwindcss-nimiq-theme')
 const { rem } = require('tailwindcss-nimiq-theme/src/utils')
 const defaultTheme = require('tailwindcss/defaultTheme') // TODO Remove screens in theme
@@ -16,14 +16,8 @@ module.exports = {
     extend: {
       colors: {
         sky: '#3BB5FB', // Light Blue
-        ocean: '#2C72C7', // Background Blue
-        grey: '#EDF1F7',
-        'dark-grey': '#3B4C6A',
-        carrot: '#EB971C',
-        green: '#2CC78F',
-        eur: '#2C72C7',
-        btc: '#F7931A',
-        nim: '#F6C430',
+        ocean: '#0582CA', // Background Blue
+        tomato: '#D94432', // Red
       },
       spacing: {
         2.5: rem(10),
@@ -39,6 +33,13 @@ module.exports = {
         80: 80,
         90: 90,
         100: 100,
+      },
+      backgroundImage: {
+        'location-popup': 'radial-gradient(104.37% 100% at 104.37% 100%, #260133 0%, #1F2348 100%);'
+      },
+      boxShadow: {
+        'location-popup': ' 0px 18px 38px rgba(31, 35, 72, 0.07), 0px 7px 8.5px rgba(31, 35, 72, 0.04), 0px 2px 2.5px rgba(31, 35, 72, 0.02);',
+        'location-card': '0px 2px 2.5px 0px #1F234805, 0px 7px 8.5px 0px #1F23480A, 0px 18px 38px 0px #1F234812;',
       }
     },
   },

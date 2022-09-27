@@ -11,8 +11,8 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
 1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
 ## Customize configuration
@@ -28,6 +28,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 `.env.local` can override the production environment variables for local development purposes (like adding different Google Maps and Map ID keys to it, or using a different API endpoint).
 
 Be sure the following variables are set:
+
 ```
 VITE_URL_BACKEND = # API Endpoint
 VITE_GOOGLE_MAP_ID = # Map ID associated with the maps key in Google Cloud
@@ -56,12 +57,4 @@ npm run build
 
 ```sh
 npm run lint
-```
-
-### create icon components
-Put all the source SVG files into `/icons_export/` first.
-
-```sh
-# generates .vue templates for all SVG files in src/components/icons/
-npm run icons
 ```

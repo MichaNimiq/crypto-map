@@ -1,9 +1,5 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import "@/assets/scss/form-layout.scss"
-
-
-import { reportIssueVisible, issueTypes } from "@/globals"
-import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue"
 </script>
 
 <template>
@@ -47,4 +43,4 @@ import SelectBoxMultiple from "@/components/elements/SelectBoxMultiple.vue"
 			</form>
 		</div>
 	</div>
-</template>
+</template> -->

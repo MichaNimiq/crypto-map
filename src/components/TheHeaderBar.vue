@@ -1,35 +1,14 @@
 <script setup lang="ts">
 import IconSvg from "@/components/elements/IconSvg.vue"
-import InputSearchApi from "@/components/elements/InputSearchApi.vue"
-import ButtonFilter from "@/components/elements/ButtonFilter.vue"
-import ButtonResize from "@/components/elements/ButtonResize.vue"
-import PopupInfo from "@/components/elements/PopupInfo.vue"
-import { ref } from "vue"
-import { onClickOutside } from "@vueuse/core"
-
-let infoVisible = ref<boolean>(false)
-const elInfoWindow = ref(null)
-
-onClickOutside(elInfoWindow, () => {
-	infoVisible.value = false
-})
 </script>
 
 <template>
 	<header>
 		<button class="nimiq-icon">
-			<IconSvg
-				iconIndex="icon-nim"
-				@click="
-					() => {
-						infoVisible = !infoVisible
-					}
-				"
-			/>
+			<IconSvg icon-index="icon-nim" class="w-6 aspect-square" />
 		</button>
 		<PopupInfo
 			ref="elInfoWindow"
-			:class="`${infoVisible ? 'visible' : ''}`"
 			:title="$t('infoWindows.cryptomap.title')"
 			:text="$t('infoWindows.cryptomap.text')"
 			:url="$t('infoWindows.cryptomap.url')"
