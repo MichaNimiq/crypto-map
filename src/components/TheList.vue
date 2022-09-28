@@ -9,7 +9,7 @@ import { storeToRefs } from "pinia"
 import { ref, watch } from "vue"
 const { largeScreen } = useBreakpoints()
 
-const HEADER_HEIGHT = 72
+const HEADER_HEIGHT = 88
 const MIN_HEIGHT = 260
 const scroller$ = ref<HTMLDivElement>()
 const containerBottomStyle = ref({

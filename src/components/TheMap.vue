@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Button from "@/components/elements/Button.vue"
-import IconSvg from "@/components/elements/IconSvg.vue"
+import LocationIcon from "@/components/icons/icon-location.vue"
+import PlusIcon from "@/components/icons/icon-plus.vue"
+import MinusIcon from "@/components/icons/icon-minus.vue"
 import ChevronLeftIcon from "@/components/icons/icon-arrow-small-left.vue"
 import ListIcon from "@/components/icons/icon-list.vue"
 import TheMapInstance from "@/components/TheMapInstance.vue"
@@ -27,7 +29,7 @@ const { locationListVisible } = storeToRefs(appStore)
 					size="sm"
 				>
 					<template #icon>
-						<IconSvg iconIndex="icon-location" />
+						<LocationIcon />
 					</template>
 				</Button>
 			</template>
@@ -41,7 +43,7 @@ const { locationListVisible } = storeToRefs(appStore)
 					size="sm"
 				>
 					<template #icon>
-						<IconSvg iconIndex="icon-plus" />
+						<PlusIcon />
 					</template>
 				</Button>
 			</template>
@@ -55,7 +57,7 @@ const { locationListVisible } = storeToRefs(appStore)
 					size="sm"
 				>
 					<template #icon>
-						<IconSvg iconIndex="icon-minus" />
+						<MinusIcon />
 					</template>
 				</Button>
 			</template>

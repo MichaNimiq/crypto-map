@@ -8,7 +8,7 @@ import TheList from "@/components/TheList.vue"
 	<div class="flex flex-col w-screen h-full overflow-hidden">
 		<TheHeaderBar />
 
-		<div class="flex h-[calc(100%-72px)] xl:flex-row-reverse relative">
+		<div class="flex h-[calc(100%-88px)] xl:flex-row-reverse relative">
 			<TheMap />
 			<TheList class="absolute" />
 		</div>
