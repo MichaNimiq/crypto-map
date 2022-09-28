@@ -29,11 +29,25 @@ const partnerApi = new LocationsApi(new Configuration({
   basePath
 }))
 
+export type ShortCurrency = keyof CryptoCurrency
+
+export type CryptoInformation = {
+  short: ShortCurrency;
+  name: string;
+}
+
+// TODO Model this from the API,not model it here!
+export enum Category {
+  CASH = "Cash",
+  CARS_BIKES = "Cars & Bikes",
+}
+
+
 export type CryptoLocation = {
   id: number;
   name: string;
   photoUrl: string;
-  type: string;
+  type: Category;
   // Maybe icon type won't be the same as type
   rating: number; // From 0 to 5
   address: string;
@@ -42,12 +56,8 @@ export type CryptoLocation = {
     lng: number;
     lat: number;
   };
-  currencies: {
-    short: keyof CryptoCurrency;
-    name: string;
-  }[];
+  currencies: CryptoInformation[];
 }
-
 
 export const useApi = defineStore({
   id: "api",
@@ -70,12 +80,11 @@ export const useApi = defineStore({
   getters: {
   },
   actions: {
-    async search(boundingBox: BoundingBox, limit: number = 100) {
+    async search(boundingBox: BoundingBox) {
 
       const boundingBoxStr = `${boundingBox.swLng},${boundingBox.swLat},${boundingBox.neLng},${boundingBox.neLat}`
 
       const body: SearchLocationsRequest = {
-        filterLimit: limit,
         filterBoundingBox: boundingBoxStr
       }
 
@@ -107,7 +116,7 @@ export const useApi = defineStore({
               }
               return acc
             }, [] as CryptoLocation["currencies"])
-            
+
             return {
               id,
               name,
@@ -120,8 +129,8 @@ export const useApi = defineStore({
               gmapsUrl,
               rating,
               photoUrl,
-              // TODO Right now we are using types from GMaps
-              type: types[0] || 'other',
+              // TODO Use the right category
+              type: Category.CASH,
             } as CryptoLocation
           })
         ).reduce((acc, curr) => [...acc, ...curr], []);

@@ -133,7 +133,7 @@ function setRoute() {
 				<div
 					class="rounded-full flex gap-x-3 items-center pl-1 pr-4 py-[5px]"
 					:class="{
-						'bg-location-popup': location.id !== selectedLocation,
+						'bg-radial-space': location.id !== selectedLocation,
 						'bg-ocean': location.id === selectedLocation,
 					}"
 				>

@@ -11,6 +11,7 @@
     "api:generate": "./node_modules/@openapitools/openapi-generator-cli/main.js generate -g typescript-fetch -i https://raw.githubusercontent.com/nimiq/merchant-map-backend/master/docs/openapi.yaml -o ./src --additional-properties=typescriptThreePlus=true,legacyDiscriminatorBehavior=false,modelPropertyNaming='original',enumPropertyNaming='original' -o ./src/api/ && yarn build"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.2",
     "pinia": "^2.0.16",
     "vue": "^3.2.37",
     "vue-i18n": "^9.2.2",

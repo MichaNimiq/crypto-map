@@ -35,11 +35,13 @@ module.exports = {
         100: 100,
       },
       backgroundImage: {
-        'location-popup': 'radial-gradient(104.37% 100% at 104.37% 100%, #260133 0%, #1F2348 100%);'
+        'radial-space': 'radial-gradient(104.37% 100% at 104.37% 100%, #260133 0%, #1F2348 100%);;',
       },
       boxShadow: {
+        'header': ' 0px 7px 8.5px rgba(31, 35, 72, 0.04), 0px 2px 2.5px rgba(31, 35, 72, 0.02);',
         'location-popup': ' 0px 18px 38px rgba(31, 35, 72, 0.07), 0px 7px 8.5px rgba(31, 35, 72, 0.04), 0px 2px 2.5px rgba(31, 35, 72, 0.02);',
-        'location-card': '0px 2px 2.5px 0px #1F234805, 0px 7px 8.5px 0px #1F23480A, 0px 18px 38px 0px #1F234812;',
+        'lg': '0px 2px 2.5px 0px #1F234805, 0px 7px 8.5px 0px #1F23480A, 0px 18px 38px 0px #1F234812;',
+        'select': '0px 9.09524px 18.1905px rgba(0, 0, 0, 0.111158);'
       }
     },
   },
