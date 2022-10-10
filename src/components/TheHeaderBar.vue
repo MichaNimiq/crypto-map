@@ -7,7 +7,7 @@ import FilterModal from "@/components/elements/FilterModal.vue"
 <template>
 	<header class="w-full py-6 pr-6 pl-4 shadow-header h-[88px] flex items-center gap-x-2 z-10">
 		<LearnMorePopover />
-		<SearchBox class="flex-1" />
+		<SearchBox class="flex-1" rounded-full combobox-options-classes="w-screen mt-6 -left-16 max-h-48 rounded-t-0" />
 		<FilterModal />
 	</header>
 </template>

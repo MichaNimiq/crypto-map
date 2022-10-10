@@ -5,10 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "declaration": true,
-    "declarationDir": "./types"
+    }
   },
+  "typeRoots": ["types"],
   "references": [
     {
       "path": "./tsconfig.config.json"

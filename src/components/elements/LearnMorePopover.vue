@@ -48,9 +48,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 						target="_blank"
 					>
 						Go to Nimiq
-						<ArrowLinkIcon
-							class="w-2.5 h-2.5 group-hover:ml-0.5 group-hover:-mt-0.5 transition-all duration-100"
-						/>
+						<ArrowLinkIcon class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300" />
 					</a>
 					<img
 						class="mt-4 ml-auto opacity-40"
