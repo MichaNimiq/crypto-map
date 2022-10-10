@@ -75,6 +75,15 @@ const { locationListVisible } = storeToRefs(appStore)
 
 			<template #text> {{ locationListVisible ? "Hide list" : "Show list" }} </template>
 		</Button>
+
+		<Button
+			v-if="isXlScreen"
+			class="absolute bottom-5 md:bottom-6 right-5 md:right-6"
+			bgColor="white"
+			href="/location/add"
+		>
+			<template #text> Add crypto location </template>
+		</Button>
 	</main>
 </template>
 

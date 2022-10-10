@@ -1,97 +1,140 @@
 <template>
-	<Listbox v-model="selectedOptions" multiple @update:model-value="optionsUpdated">
-		<div class="relative">
-			<ListboxButton
-				class="relative w-full ring-1 ring-space/[0.15] cursor-pointer rounded-4 bg-white py-2 pl-3 pr-10 text-left outline-none"
-			>
-				<span class="block truncate text-space">
-					<slot name="placeholder">Select an option</slot>
-				</span>
-				<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-					<ArrowSelectIcon class="h-5 w-5 text-space/80" aria-hidden="true" />
-				</span>
-			</ListboxButton>
-
-			<transition
-				leave-active-class="transition duration-100 ease-in"
-				leave-from-class="opacity-100"
-				leave-to-class="opacity-0"
-			>
-				<ListboxOptions
-					class="absolute -top-px -left-px w-[calc(100%+2px)] overflow-auto rounded-4 bg-white py-1 text-base ring-1 ring-space ring-opacity-5 focus:outline-none sm:text-sm scroll-grey z-40 bg-radial-space pb-4 max-h-60 shadow-select space-y-1"
+	<div>
+		<Listbox v-model="selectedOptions" :multiple="multiple" @update:model-value="optionsUpdated">
+			<label :for="randomId" class="text-space/40 capitalize">
+				<slot name="label">
+					{{ label }}
+				</slot>
+			</label>
+			<div class="relative">
+				<ListboxButton
+					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white pt-[8.5px] pb-[4.5px] pl-4 pr-[3.25rem] text-left outline-none"
+					:id="randomId"
 				>
-					<ListboxOption
-						v-slot="{ active, selected }"
-						v-for="option in options"
-						:key="option.id"
-						:value="option"
-						as="template"
+					<span class="block truncate text-space/60">
+						{{
+							!multiple && selectedOptions !== undefined
+								? (selectedOptions as SelectOption).name
+								: placeholder
+						}}
+					</span>
+					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 mr-2">
+						<ArrowSelectIcon class="h-5 w-5 text-space/[0.15]" aria-hidden="true" />
+					</span>
+				</ListboxButton>
+
+				<transition
+					leave-active-class="transition duration-100 ease-in"
+					leave-from-class="opacity-100"
+					leave-to-class="opacity-0"
+				>
+					<ListboxOptions
+						class="absolute -top-px -left-px w-[calc(100%+2px)] overflow-auto rounded-4 bg-white py-1 text-base ring-1 ring-space ring-opacity-5 focus:outline-none sm:text-sm scroll-grey z-40 bg-radial-space pb-4 max-h-60 shadow-select space-y-1"
 					>
-						<li
-							class="relative select-none py-2 pl-3 pr-2 text-white flex gap-x-2 items-center cursor-pointer transition-colors"
-							:class="{ 'bg-white/10': active }"
+						<ListboxOption
+							v-slot="{ active, selected }"
+							v-for="option in options"
+							:key="option.id"
+							:value="option"
+							as="template"
 						>
-							<slot name="option" v-bind="option" />
-							<div
-								class="w-5 h-5 rounded-full ml-auto"
-								:class="{
-									'bg-white': selected,
-									'border border-white/10': !selected,
-								}"
+							<li
+								class="relative select-none py-2 pl-3 pr-2 text-white flex gap-x-2 items-center cursor-pointer transition-colors"
+								:class="{ 'bg-white/10': active }"
 							>
-								<CheckIcon v-if="selected" class="w-6 h-6 -top-0.5 -left-0.5 text-space" />
-							</div>
-						</li>
-					</ListboxOption>
-					<div class="text-sm text-white/60 px-4 mt-2.5">
-						<slot name="after-options" />
-					</div>
-				</ListboxOptions>
-			</transition>
-		</div>
-	</Listbox>
-	<ul class="mt-2 flex flex-wrap gap-2">
-		<li
-			v-for="option in selectedOptions"
-			class="w-max bg-space/[0.07] rounded-4 px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center"
-		>
-			<span>
-				<slot name="selected-option" v-bind="option" />
-			</span>
-			<CloseIcon @click="removeSelectedOption(option)" class="text-space w-2 h-2 cursor-pointer" />
-		</li>
-	</ul>
+								<slot name="option" v-bind="option">{{ option.name }}</slot>
+								<div
+									class="w-5 h-5 rounded-full ml-auto"
+									:class="{
+										'bg-white': selected,
+										'border border-white/10': !selected,
+									}"
+								>
+									<CheckIcon v-if="selected" class="w-5 h-5 -top-0.5 -left-px text-space" />
+								</div>
+							</li>
+						</ListboxOption>
+						<div class="text-sm text-white/60 px-4 mt-2.5" v-if="hasSlot('after-options')">
+							<slot name="after-options" />
+						</div>
+					</ListboxOptions>
+				</transition>
+			</div>
+		</Listbox>
+		<ul class="mt-2 flex flex-wrap gap-2" v-if="hasSlot('selected-option')">
+			<li
+				v-for="option in selectedOptions"
+				class="w-max bg-space/[0.07] rounded-4 px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center"
+			>
+				<span>
+					<slot name="selected-option" v-bind="(option as SelectOption)" />
+				</span>
+				<CrossIcon
+					@click="removeSelectedOption(option as SelectOption)"
+					class="text-space w-4 h-5 cursor-pointer"
+				/>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script setup lang="ts">
 import CheckIcon from "@/components/icons/icon-check.vue"
 import ArrowSelectIcon from "@/components/icons/icon-arrow-select.vue"
-import CloseIcon from "@/components/icons/icon-close.vue"
-import { ref } from "vue"
+import CrossIcon from "@/components/icons/icon-cross.vue"
+import { ref, useSlots, type Ref } from "vue"
 
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
+import { isDefined } from "@vueuse/shared"
 
-export type SelectOption<T> = {
+export type SelectOption = {
 	id: string
-	data: T
+	name: string
 }
 
-defineProps({
+const props = defineProps({
 	options: {
-		type: Array as () => SelectOption<any>[],
+		type: Array as () => SelectOption[],
 		default: () => [],
+	},
+	multiple: {
+		type: Boolean,
+		default: true,
+	},
+	placeholder: {
+		type: String,
+		default: "Select an option",
+	},
+	label: {
+		type: String,
+		default: "Select an option",
 	},
 })
 
 const emit = defineEmits(["selected-update"])
 
-const selectedOptions = ref<SelectOption<any>[]>([])
+const selectedOptions = props.multiple ? ref<SelectOption[]>([]) : ref<SelectOption>()
 
-function removeSelectedOption(option: SelectOption<any>) {
-	selectedOptions.value = selectedOptions.value.filter((o) => o.id !== option.id)
+
+const randomId = Math.random().toString(36).substring(7)
+
+function isMultiple(value: typeof selectedOptions): asserts value is Ref<SelectOption[]> {
+	if (!props.multiple) {
+		throw new Error("Select is not multiple")
+	}
+}
+
+function removeSelectedOption(option: SelectOption) {
+	isMultiple(selectedOptions)
+	selectedOptions.value = selectedOptions.value?.filter((o) => o.id !== option.id) || []
 }
 
 function optionsUpdated() {
 	emit("selected-update", selectedOptions.value)
+}
+
+const slots = useSlots()
+function hasSlot(slotName: "selected-option" | "after-options") {
+	return slots[slotName] !== undefined
 }
 </script>

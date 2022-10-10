@@ -1,4 +1,4 @@
-import { Configuration, CryptoLocationFromJSON, LocationsApi, type CryptoCurrency, type CryptoLocation as ApiCryptoLocation, type GeoLocation, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
+import { Configuration, CryptoLocationFromJSON, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type CryptoLocation as ApiCryptoLocation, type GeoLocation, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
 import { defineStore } from "pinia";
 import { useApp } from "./app";
 import type { BoundingBox } from "./map";
@@ -29,25 +29,46 @@ const partnerApi = new LocationsApi(new Configuration({
   basePath
 }))
 
-export type ShortCurrency = keyof CryptoCurrency
-
-export type CryptoInformation = {
-  short: ShortCurrency;
+type CatalogItem = {
+  id: string;
   name: string;
 }
 
-// TODO Model this from the API,not model it here!
-export enum Category {
-  CASH = "Cash",
-  CARS_BIKES = "Cars & Bikes",
-}
+export type CryptoCurrency = CatalogItem
+export type LocationCategory = CatalogItem
+export type IssueCategory = CatalogItem
 
+// TODO Model this from the API,not model it here!
+const categories = [
+  { id: "CASH", name: "Cash" },
+  { id: "CARS_BIKES", name: "Cars & Bikes" },
+] as LocationCategory[]
+
+// TODO Model this from the API,not model it here!
+const cryptoCurrencies = [
+  { id: "NIM", name: "Nimiq" },
+  { id: "BTC", name: "Bitcoin" },
+  { id: "ETH", name: "Ethereum" },
+  { id: "DASH", name: "Dash" },
+  { id: "XLM", name: "Stella Lumens" },
+  { id: "XRP", name: "Ripple" },
+  { id: "LTC", name: "Litecoin" }
+] as CryptoCurrency[]
+
+// TODO Model this from the API,not model it here!
+const issueCategories = [
+  { id: "crypto-location-gone", name: "Place closed / does not exist" },
+  { id: "missing-currency", name: "Currency missing" },
+  { id: "missing-not-accepted", name: "Currency not accepted" },
+  { id: "no-crypto", name: "Place doesn't accept crypto" },
+  { id: "other", name: "Other" },
+] as IssueCategory[]
 
 export type CryptoLocation = {
   id: number;
   name: string;
   photoUrl: string;
-  type: Category;
+  type: LocationCategory;
   // Maybe icon type won't be the same as type
   rating: number; // From 0 to 5
   address: string;
@@ -56,7 +77,7 @@ export type CryptoLocation = {
     lng: number;
     lat: number;
   };
-  currencies: CryptoInformation[];
+  currencies: CryptoCurrency[];
 }
 
 export const useApi = defineStore({
@@ -76,6 +97,15 @@ export const useApi = defineStore({
     prev_page_url: null,
     to: 20,
     total: 0,
+
+    categories,
+    cryptoCurrencies,
+    issueCategories,
+
+    selectedFilters: {
+      cryptoCurrencies: [] as CryptoCurrency[],
+      categories: [] as LocationCategory[],
+    }
   }),
   getters: {
   },
@@ -110,9 +140,9 @@ export const useApi = defineStore({
             const photoUrl = photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
 
             const currencies = currenciesApi.reduce((acc, curr) => {
-              const short = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrency] !== undefined) as keyof CryptoCurrency | undefined
-              if (short) {
-                acc.push({ short, name: curr[short] as string })
+              const id = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrencyApi] !== undefined) as keyof CryptoCurrencyApi | undefined
+              if (id) {
+                acc.push({ id, name: curr[id] as string })
               }
               return acc
             }, [] as CryptoLocation["currencies"])
@@ -130,7 +160,7 @@ export const useApi = defineStore({
               rating,
               photoUrl,
               // TODO Use the right category
-              type: Category.CASH,
+              type: categories[0],
             } as CryptoLocation
           })
         ).reduce((acc, curr) => [...acc, ...curr], []);
