@@ -9,6 +9,8 @@
 		:disabled="isDisabled"
 		:class="{
 			'bg-space': props.bgColor === 'space',
+			'bg-ocean': props.bgColor === 'ocean' && !gradient,
+			'bg-radial-ocean': props.bgColor === 'ocean' && gradient,
 			'bg-sky': props.bgColor === 'sky',
 			'border-2 border-space/[0.15]': ['white', 'transparent'].includes(props.bgColor),
 			'bg-white hover:bg-grey': props.bgColor === 'white',
@@ -24,7 +26,7 @@
 		<span
 			v-if="hasSlot('icon')"
 			:class="{
-				'text-white/60': ['space', 'sky'].includes(props.bgColor),
+				'text-white/60': ['space', 'sky', 'ocean'].includes(props.bgColor),
 				'text-space/60': ['white', 'transparent', 'grey'].includes(props.bgColor),
 				'text-opacity-40': isDisabled,
 			}"
@@ -35,7 +37,9 @@
 			v-if="hasSlot('text')"
 			class="font-extrabold text-center whitespace-nowrap"
 			:class="{
-				'text-white [button:disabled>&]:!text-white/40': ['space', 'sky'].includes(props.bgColor),
+				'text-white [button:disabled>&]:!text-white/40': ['space', 'sky', 'ocean'].includes(
+					props.bgColor
+				),
 				'text-space': ['white', 'grey'].includes(props.bgColor),
 				'text-space/60': props.bgColor === 'transparent',
 				'text-opacity-40': isDisabled,
@@ -68,7 +72,7 @@ const CircleSpinner = defineAsyncComponent(
 
 const props = defineProps({
 	bgColor: {
-		type: String as () => "space" | "transparent" | "white" | "sky" | "grey",
+		type: String as () => "space" | "transparent" | "white" | "sky" | "grey" | "ocean",
 		default: () => "space",
 	},
 	type: {
@@ -94,6 +98,10 @@ const props = defineProps({
 	size: {
 		type: String as () => "sm" | "lg",
 		default: "lg",
+	},
+	gradient: {
+		type: Boolean,
+		default: false,
 	},
 })
 

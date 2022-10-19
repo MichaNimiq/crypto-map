@@ -5,10 +5,10 @@ import TheList from "@/components/TheList.vue"
 </script>
 
 <template>
-	<div class="flex flex-col w-screen h-full overflow-hidden">
+	<div class="flex flex-col w-screen overflow-hidden min-h-screen">
 		<TheHeaderBar />
 
-		<div class="flex h-[calc(100%-88px)] xl:flex-row-reverse relative">
+		<div class="flex h-[calc(100vh-88px)] xl:flex-row-reverse relative">
 			<TheMap />
 			<TheList class="absolute" />
 		</div>

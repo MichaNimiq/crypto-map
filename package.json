@@ -22,6 +22,8 @@
     "@googlemaps/markerclusterer": "^2.0.10",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@rushstack/eslint-patch": "^1.1.0",
+    "@types/google.maps": "^3.50.4",
+    "@types/grecaptcha": "^3.0.4",
     "@types/node": "^16.11.45",
     "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^3.0.1",
