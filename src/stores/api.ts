@@ -1,7 +1,7 @@
-import { Configuration, CryptoLocationFromJSON, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type CryptoLocation as ApiCryptoLocation, type GeoLocation, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
+import { Configuration, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
 import { defineStore } from "pinia";
 import { useApp } from "./app";
-import type { BoundingBox } from "./map";
+import { type Location } from "./map";
 
 
 /*
@@ -110,9 +110,9 @@ export const useApi = defineStore({
   getters: {
   },
   actions: {
-    async search(boundingBox: BoundingBox) {
+    async search({ northEast, southWest }: Location) {
 
-      const boundingBoxStr = `${boundingBox.swLng},${boundingBox.swLat},${boundingBox.neLng},${boundingBox.neLat}`
+      const boundingBoxStr = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`
 
       const body: SearchLocationsRequest = {
         filterBoundingBox: boundingBoxStr

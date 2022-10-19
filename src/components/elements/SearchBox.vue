@@ -1,5 +1,11 @@
 <template>
-	<Combobox v-model="selected" v-slot="{ open }" as="div">
+	<Combobox
+		v-model="selected"
+		v-slot="{ open }"
+		as="div"
+		nullable
+		@update:model-value="mapStore.goToPlaceId(selected?.place_id)"
+	>
 		<label v-if="label || hasSlot('label')" :for="randomId" class="text-space/40 capitalize">
 			<slot name="label">
 				{{ label }}
@@ -20,13 +26,19 @@
 					:class="{ 'text-space': !open, 'text-ocean': open }"
 					autocomplete="off"
 					placeholder="Search crypto map"
-					:displayValue="(match) => (match as QueryMatch).city"
+					:displayValue="(region) => (region as Option)?.description "
 					@change="query = $event.target.value"
 					:id="randomId"
 				/>
-				<ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-4">
-					<component :is="inputRightIcon" class="w-5 h-6 text-space/40" />
-				</ComboboxButton>
+
+				<template class="absolute inset-y-0 right-0 flex items-center pr-4">
+					<ComboboxButton v-if="!userCanCleanInput">
+						<SearchIcon class="w-5 h-6 text-space/40" />
+					</ComboboxButton>
+					<button v-else>
+						<CrossIcon class="w-5 h-6 text-space/40" @click="clearInput()" />
+					</button>
+				</template>
 			</div>
 			<TransitionRoot
 				leave="transition ease-in duration-100"
@@ -45,28 +57,39 @@
 					]"
 				>
 					<div
-						v-if="filteredMatches.length === 0 && query !== ''"
 						class="relative cursor-default select-none py-2 px-4"
 						:class="{
 							'text-space/80': bgCombobox === 'white',
 							'text-white/80': bgCombobox === 'space',
 						}"
+						v-if="
+							status && [AutocompleteStatus.NO_RESULTS, AutocompleteStatus.LOADING].includes(status)
+						"
 					>
-						Nothing found.
+						<span v-if="status === AutocompleteStatus.LOADING">Loading...</span>
+						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query === ''">
+							Start typing...
+						</span>
+						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query !== ''"
+							>Nothing found.</span
+						>
 					</div>
 
 					<ComboboxOption
-						v-for="match in filteredMatches"
+						v-else
+						v-for="suggestion in suggestions"
 						as="template"
-						:key="match.id"
-						:value="match"
+						:key="suggestion.place_id"
+						:value="suggestion"
 						v-slot="{ selected, active }"
 					>
 						<li
 							class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer"
 							:class="{
-								'hover:bg-space/[0.06] ': bgCombobox === 'white',
-								'hover:bg-space/60 ': bgCombobox === 'space',
+								'hover:bg-space/[0.06]': bgCombobox === 'white',
+								'hover:bg-space/60': bgCombobox === 'space',
+								'bg-space/[0.06]': bgCombobox === 'white' && active,
+								'bg-space/60': bgCombobox === 'space' && active,
 								'px-6 gap-x-6': size === 'md',
 								'px-3 gap-x-2': size === 'sm',
 							}"
@@ -78,8 +101,7 @@
 									'bg-white/10': bgCombobox === 'space' && size === 'md',
 								}"
 							>
-								<component
-									:is="match.icon"
+								<CarsAndBikesIcon
 									class="w-full h-full"
 									:class="{
 										'text-space': bgCombobox === 'white',
@@ -88,13 +110,13 @@
 								/>
 							</div>
 							<span
-								class="block truncate font-bold"
+								class="block truncate"
 								:class="{
 									'text-space': bgCombobox === 'white',
 									'text-white': bgCombobox === 'space',
 								}"
+								v-html="makeBold(suggestion.description, suggestion.matched_substrings)"
 							>
-								{{ match.city }}
 							</span>
 							<span
 								v-if="selected"
@@ -116,11 +138,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, useSlots } from "vue"
+import { ref, computed, useSlots, watch } from "vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
 import CarsAndBikesIcon from "@/components/icons/categories/cars-&-bikes.vue"
 import CrossIcon from "@/components/icons/icon-cross.vue"
-
 import {
 	Combobox,
 	ComboboxInput,
@@ -129,12 +150,10 @@ import {
 	ComboboxOption,
 	TransitionRoot,
 } from "@headlessui/vue"
+import { useMap, AutocompleteStatus } from "@/stores/map"
+import { storeToRefs } from "pinia"
 
-type QueryMatch = {
-	id: number
-	city: string
-	icon: typeof CarsAndBikesIcon
-}
+type Option = google.maps.places.AutocompletePrediction
 
 defineProps({
 	roundedFull: {
@@ -161,37 +180,34 @@ defineProps({
 
 const randomId = Math.random().toString(36).substring(7)
 
-const inputRightIcon = computed(() => (query.value !== "" ? CrossIcon : SearchIcon))
+const userCanCleanInput = computed(() => query.value !== "")
 
-const possibleMatches = [
-	{ id: 1, city: "Berlin", icon: CarsAndBikesIcon },
-	{ id: 2, city: "Stockholm", icon: CarsAndBikesIcon },
-	{ id: 3, city: "Barcelona", icon: CarsAndBikesIcon },
-	{ id: 4, city: "Oslo", icon: CarsAndBikesIcon },
-	{ id: 5, city: "Paris", icon: CarsAndBikesIcon },
-	{ id: 6, city: "Rome", icon: CarsAndBikesIcon },
-	{ id: 7, city: "Brussels", icon: CarsAndBikesIcon },
-	{ id: 8, city: "Amsterdam", icon: CarsAndBikesIcon },
-	{ id: 9, city: "Athens", icon: CarsAndBikesIcon },
-	{ id: 10, city: "Lisbon", icon: CarsAndBikesIcon },
-] as QueryMatch[]
-
-let selected = ref("")
+let selected = ref<Option>()
 let query = ref("")
 
-let filteredMatches = computed(() =>
-	query.value === ""
-		? possibleMatches
-		: possibleMatches.filter((m) =>
-				m.city
-					.toLowerCase()
-					.replace(/\s+/g, "")
-					.includes(query.value.toLowerCase().replace(/\s+/g, ""))
-		  )
+const mapStore = useMap()
+const { suggestions, autocompleteStatus: status } = storeToRefs(mapStore)
+
+watch(
+	() => query.value,
+	() => mapStore.autocomplete(query.value)
 )
 
 const slots = useSlots()
 function hasSlot(slotName: "label") {
 	return slots[slotName] !== undefined
+}
+
+function makeBold(str: string, matches: Option["matched_substrings"]) {
+	matches.forEach((match) => {
+		const bolded = str.slice(match.offset, match.offset + match.length)
+		str = str.replace(bolded, `<b>${bolded}</b>`)
+	})
+	return str
+}
+
+function clearInput() {
+	selected.value = undefined
+	query.value = ""
 }
 </script>

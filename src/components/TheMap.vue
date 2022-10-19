@@ -21,9 +21,9 @@ const { locationListVisible } = storeToRefs(appStore)
 	<!-- TODO Aria with the controls -->
 	<main id="map-wrapper" class="w-full" ref="mapWrapper">
 		<TheMapInstance>
-			<template #button-calculate-position="{ getUserLocation }">
+			<template #button-calculate-position="{ navigateToUserLocation }">
 				<Button
-					@click="getUserLocation"
+					@click="navigateToUserLocation"
 					style="width: 34px; height: 34px"
 					bgColor="white"
 					size="sm"
