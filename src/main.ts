@@ -1,5 +1,5 @@
 import { createPinia } from "pinia";
-import { createApp, ref } from "vue";
+import { createApp, ref, markRaw } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./App.vue";
 import "./index.css";
@@ -20,13 +20,14 @@ export const i18n = ref(
 );
 
 const app = createApp(App);
+const pinia = createPinia();
 
-app.use(router);
-app.use(i18n.value);
-app.use(createPinia());
+pinia.use(({ store }) => {
+  store.router = markRaw(router)
+});
+app.use(pinia);
+app.use(router)
 
-// fix router.params not ready initially
-// await router.isReady()
 app.mount("#app");
 
 export default {}

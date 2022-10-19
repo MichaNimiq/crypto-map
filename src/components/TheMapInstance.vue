@@ -2,18 +2,11 @@
 import googleMapStyles from "@/assets/google-map-styles"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
-import { useMap, type LatLng, type MapPosition } from "@/stores/map"
-import { useGeoIp } from "@/composables/useGeoIp"
-import { useDebounceFn } from "@vueuse/core"
+import { useMap } from "@/stores/map"
 import { storeToRefs } from "pinia"
-import { onMounted, ref } from "vue"
+import { onMounted, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { CustomMarker, GoogleMap } from "vue3-google-map"
-
-const map$ = ref<typeof GoogleMap>()
-
-const center = ref({ lat: 0, lng: 0 })
-const zoom = ref(7)
 
 const apiStore = useApi()
 const { locations } = storeToRefs(apiStore)
@@ -21,74 +14,33 @@ const { locations } = storeToRefs(apiStore)
 const appStore = useApp()
 const { selectedLocation } = storeToRefs(appStore)
 
-const { setBoundingBox } = useMap()
+const mapStore = useMap()
+const {
+	navigateToUserLocation,
+	increaseZoom,
+	decreaseZoom,
+	setCenter,
+	setZoom,
+	computeBoundingBox,
+} = mapStore
+const { center, zoom, map$ } = storeToRefs(mapStore)
 
-const router = useRouter()
 const route = useRoute()
 
 const googleMapsKey = import.meta.env.VITE_GOOGLE_MAP_KEY
 
 onMounted(async () => {
 	const { lat, lng, zoom: zoomLevel } = route.params
-	if (
-		lat &&
-		typeof lat === "string" &&
-		lng &&
-		typeof lng === "string" &&
-		zoomLevel &&
-		typeof zoomLevel === "string"
-	) {
+	const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
+	const lngOk = lng && typeof lng === "string" && !isNaN(Number(lng))
+	const zoomOk = zoomLevel && typeof zoomLevel === "string" && !isNaN(Number(zoomLevel))
+	if (latOk && lngOk && zoomOk) {
 		setCenter({ lat: Number(lat), lng: Number(lng) })
-		zoom.value = Number(zoomLevel)
+		setZoom(Number(zoomLevel))
 	} else {
-		setCenter()
-		zoom.value = 7
+		navigateToUserLocation()
 	}
 })
-
-const setBoundingBoxDebouncer = useDebounceFn(setBoundingBox, 100)
-
-function computeBoundingBox() {
-	const bounds = (map$.value as any).map.getBounds()
-	const sw = bounds.getSouthWest()
-	const ne = bounds.getNorthEast()
-	const boundingBox = { swLng: sw.lng(), swLat: sw.lat(), neLng: ne.lng(), neLat: ne.lat() }
-	setBoundingBoxDebouncer(boundingBox)
-	setRoute()
-}
-
-async function setCenter(location?: LatLng) {
-	center.value = location ? { ...location } : { ...(await useGeoIp().locate()) }
-}
-
-function getMapInstance() {
-	return (map$.value as any).map
-}
-
-function getPosition() {
-	return {
-		zoomLevel: getMapInstance().getZoom(),
-		...(getMapInstance().getCenter().toJSON() as { lat: number; lng: number }),
-	}
-}
-
-function setZoom(zoomLevel: number) {
-	getMapInstance().setZoom(zoomLevel)
-}
-
-function getUserLocation() {
-	if (!navigator.geolocation) return
-
-	navigator.geolocation.getCurrentPosition(({ coords }) => {
-		getMapInstance().setCenter({ lat: coords.latitude, lng: coords.longitude })
-		getMapInstance().setZoom(15)
-	})
-}
-
-function setRoute() {
-	const { zoomLevel: zoom, lat, lng } = getPosition()
-	router.push({ name: "coords", params: { lat, lng, zoom } })
-}
 </script>
 
 <template>
@@ -145,14 +97,14 @@ function setRoute() {
 	</GoogleMap>
 
 	<div class="absolute top-5 right-5 md:top-6 md:right-6 flex flex-col gap-y-4">
-		<slot name="button-calculate-position" :getUserLocation="getUserLocation" />
+		<slot name="button-calculate-position" :navigateToUserLocation="navigateToUserLocation" />
 
 		<div class="flex flex-col bg-white rounded-full">
-			<slot name="button-zoom-in" :zoomIn="() => setZoom(getPosition().zoomLevel + 1)" />
+			<slot name="button-zoom-in" :zoomIn="increaseZoom" />
 
 			<hr class="bg-space/10 h-px self-stretch" />
 
-			<slot name="button-zoom-out" :zoomOut="() => setZoom(getPosition().zoomLevel - 1)" />
+			<slot name="button-zoom-out" :zoomOut="decreaseZoom" />
 		</div>
 	</div>
 </template>
