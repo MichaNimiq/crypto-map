@@ -3,7 +3,7 @@ const theme = require('tailwindcss-nimiq-theme')
 const { rem } = require('tailwindcss-nimiq-theme/src/utils')
 const defaultTheme = require('tailwindcss/defaultTheme') // TODO Remove screens in theme
 
-/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */ 
 module.exports = {
   preflight: false,
   content: [
