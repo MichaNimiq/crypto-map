@@ -41,12 +41,12 @@
 							<DialogTitle as="h2" class="text-2xl font-bold text-space text-center">
 								Filters
 							</DialogTitle>
-							<hr class="w-[calc(100%+5rem)] bg-space/10 h-px my-8 -left-10" />
+							<hr class="w-full bg-space/10 h-px my-8" />
 
 							<Select
 								placeholder="Select cryptocurrencies"
 								:options="cryptoCurrencies"
-								@selected-update="selectedFilters.cryptoCurrencies = $event"
+								v-model="selectedCurrencies"
 							>
 								<template #label>
 									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
@@ -55,22 +55,16 @@
 								</template>
 								<template #option="{ id, name }">
 									<CryptoIcon class="w-6 h-6" :crypto="id" />
-									<span>
-										<span class="font-bold">{{ id }}</span
-										>, {{ name }}
-									</span>
+									<span>{{ name }}</span>
 								</template>
 								<template #after-options> More cryptocurrencies supported in the future </template>
-								<template #selected-option="{ id, name }"> Icon -> {{ id }}: {{ name }} </template>
+								<template #selected-option="{ name }"> {{ name }} </template>
 							</Select>
-							<hr class="w-[calc(100%+5rem)] bg-space/10 h-px my-8 -left-10" />
-							<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
-								Type of location
-							</h3>
+							<hr class="w-full bg-space/10 h-px my-8" />
 							<Select
-								placeholder="Select category"
 								:options="categories"
-								@update:selected-updated="selectedFilters.categories = $event"
+								v-model="selectedCategories"
+								placeholder="Select category"
 							>
 								<template #label>
 									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
@@ -103,14 +97,15 @@ import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 
 const isOpen = ref(false)
 
 const { smallScreen } = useBreakpoints()
 
 const apiStore = useApi()
-const { cryptoCurrencies, categories, selectedFilters } = storeToRefs(apiStore)
+const { cryptoCurrencies, categories, selectedCategories, selectedCurrencies } =
+	storeToRefs(apiStore)
 
 function closeModal() {
 	isOpen.value = false

@@ -1,22 +1,17 @@
 <template>
 	<div>
-		<Listbox v-model="selectedOptions" :multiple="multiple" @update:model-value="optionsUpdated">
-			<label :for="randomId" class="text-space/40 capitalize">
+		<Listbox v-model="selected" :multiple="multiple">
+			<ListboxLabel class="text-space/40 capitalize">
 				<slot name="label">
 					{{ label }}
 				</slot>
-			</label>
+			</ListboxLabel>
 			<div class="relative">
 				<ListboxButton
 					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white pt-[8.5px] pb-[4.5px] pl-4 pr-[3.25rem] text-left outline-none"
-					:id="randomId"
 				>
 					<span class="block truncate text-space/60">
-						{{
-							!multiple && selectedOptions !== undefined
-								? (selectedOptions as SelectOption).name
-								: placeholder
-						}}
+						{{ placeholder }}
 					</span>
 					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 mr-2">
 						<ArrowSelectIcon class="h-5 w-5 text-space/[0.15]" aria-hidden="true" />
@@ -63,14 +58,14 @@
 		</Listbox>
 		<ul class="mt-2 flex flex-wrap gap-2" v-if="hasSlot('selected-option')">
 			<li
-				v-for="option in selectedOptions"
+				v-for="selectedOption in selected"
 				class="w-max bg-space/[0.07] rounded-4 px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center"
 			>
 				<span>
-					<slot name="selected-option" v-bind="(option as SelectOption)" />
+					<slot name="selected-option" v-bind="selectedOption" />
 				</span>
 				<CrossIcon
-					@click="removeSelectedOption(option as SelectOption)"
+					@click="removeSelected(selectedOption)"
 					class="text-space w-4 h-5 cursor-pointer"
 				/>
 			</li>
@@ -79,13 +74,18 @@
 </template>
 
 <script setup lang="ts">
-import CheckIcon from "@/components/icons/icon-check.vue"
 import ArrowSelectIcon from "@/components/icons/icon-arrow-select.vue"
+import CheckIcon from "@/components/icons/icon-check.vue"
 import CrossIcon from "@/components/icons/icon-cross.vue"
-import { ref, useSlots, type Ref } from "vue"
+import { ref, useSlots, watch } from "vue"
 
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue"
-import { isDefined } from "@vueuse/shared"
+import {
+Listbox,
+ListboxButton,
+ListboxLabel,
+ListboxOption,
+ListboxOptions
+} from "@headlessui/vue"
 
 export type SelectOption = {
 	id: string
@@ -93,6 +93,10 @@ export type SelectOption = {
 }
 
 const props = defineProps({
+	modelValue: {
+		type: Array as () => SelectOption[],
+		default: () => [],
+	},
 	options: {
 		type: Array as () => SelectOption[],
 		default: () => [],
@@ -111,26 +115,15 @@ const props = defineProps({
 	},
 })
 
-const emit = defineEmits(["selected-update"])
+const emit = defineEmits({
+	"update:modelValue": (value: SelectOption[]) => value,
+})
 
-const selectedOptions = props.multiple ? ref<SelectOption[]>([]) : ref<SelectOption>()
+const selected = ref<SelectOption[]>(props.modelValue)
+watch(selected, (value) => emit("update:modelValue", value))
 
-
-const randomId = Math.random().toString(36).substring(7)
-
-function isMultiple(value: typeof selectedOptions): asserts value is Ref<SelectOption[]> {
-	if (!props.multiple) {
-		throw new Error("Select is not multiple")
-	}
-}
-
-function removeSelectedOption(option: SelectOption) {
-	isMultiple(selectedOptions)
-	selectedOptions.value = selectedOptions.value?.filter((o) => o.id !== option.id) || []
-}
-
-function optionsUpdated() {
-	emit("selected-update", selectedOptions.value)
+function removeSelected(option: SelectOption) {
+	selected.value = selected.value.filter((o) => o.id !== option.id)
 }
 
 const slots = useSlots()

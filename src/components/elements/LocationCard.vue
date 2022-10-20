@@ -40,7 +40,7 @@ const { selectedLocation } = storeToRefs(appStore) // TODO Add styles for the se
 			<h2 class="mt-5 text-space text-lg font-bold flex-1">{{ location.name }}</h2>
 
 			<p class="mt-2 flex items-center text-sm">
-				<span class="text-space/60">{{ location.type }}</span>
+				<span class="text-space/60 capitalize">{{ location.type }}</span>
 				<template v-if="location.rating">
 					<StarIcon class="ml-2 text-gold" style="width: 13px; height: 13px" />
 					<span class="ml-1 font-bold">{{ location.rating }}</span>
@@ -52,8 +52,8 @@ const { selectedLocation } = storeToRefs(appStore) // TODO Add styles for the se
 			</p>
 
 			<ul class="flex gap-x-1 mt-4 pb-6">
-				<li v-for="{ short } in location.currencies" :key="short" class="w-6 h-6 rounded-full">
-					<CryptoIcon :crypto="short" />
+				<li v-for="{ id } in location.currencies" :key="id" class="w-6 h-6 rounded-full">
+					<CryptoIcon :crypto="id" />
 				</li>
 			</ul>
 		</RouterLink>
