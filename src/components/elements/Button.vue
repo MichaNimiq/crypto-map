@@ -12,7 +12,6 @@
 			'bg-ocean': props.bgColor === 'ocean' && !gradient,
 			'bg-radial-ocean': props.bgColor === 'ocean' && gradient,
 			'bg-sky': props.bgColor === 'sky',
-			'border-2 border-space/[0.15]': ['white', 'transparent'].includes(props.bgColor),
 			'bg-white hover:bg-grey': props.bgColor === 'white',
 			'bg-space/10': props.bgColor === 'grey',
 			'py-2.5 px-4 sm:py-3 sm:px-5 sm:h-10 gap-3': props.size === 'lg',

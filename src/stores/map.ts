@@ -2,6 +2,7 @@ import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApi } from "./api";
 
@@ -56,6 +57,8 @@ export const useMap = defineStore("map", () => {
 
   const setBoundingBoxDebouncer = useDebounceFn(setBoundingBox, 100)
 
+  const route = useRoute()
+
   function computeBoundingBox() {
     const bounds = map.value.getBounds()
     if (!bounds) return
@@ -63,7 +66,7 @@ export const useMap = defineStore("map", () => {
     const { lat: swLat, lng: swLng } = bounds.getSouthWest()
     setBoundingBoxDebouncer({ southWest: { lat: swLat(), lng: swLng() }, northEast: { lat: neLat(), lng: neLng() } })
     // @ts-ignore
-    this.router.push({ name: "coords", params: { ...center.value, zoom: zoom.value } })
+    this.router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
   }
 
   function navigateToUserLocation() {

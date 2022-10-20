@@ -41,11 +41,11 @@ const appStore = useApp()
 const { locationListVisible, selectedLocation } = storeToRefs(appStore)
 
 const apiStore = useApi()
-const { locations } = storeToRefs(apiStore)
+const { cryptoLocations } = storeToRefs(apiStore)
 
 watch(selectedLocation, (id) => {
 	if (!id) return
-	const i = locations.value.map((l) => l.id).indexOf(id)
+	const i = cryptoLocations.value.map((l) => l.id).indexOf(id)
 	slideTo(i)
 })
 
@@ -65,7 +65,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		:style="containerBottomStyle"
 	>
 		<ul
-			v-if="locations.length > 0"
+			v-if="cryptoLocations.length > 0"
 			ref="scroller$"
 			class="scroll-space p-6 h-full flex flex-row flex-wrap overflow-auto lg:flex-nowrap items-stretch lg:flex-col gap-6 lg:snap-y lg:snap-mandatory scroll-py-6 transition-transform"
 			:class="{
@@ -74,7 +74,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		>
 			<li
 				class="list-item-wrap lg:snap-start flex-1"
-				v-for="location in locations"
+				v-for="location in cryptoLocations"
 				:key="location.id"
 			>
 				<LocationCard :location="location" />

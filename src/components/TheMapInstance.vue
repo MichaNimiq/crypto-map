@@ -9,7 +9,7 @@ import { useRoute, useRouter } from "vue-router"
 import { CustomMarker, GoogleMap } from "vue3-google-map"
 
 const apiStore = useApi()
-const { locations } = storeToRefs(apiStore)
+const { cryptoLocations } = storeToRefs(apiStore)
 
 const appStore = useApp()
 const { selectedLocation } = storeToRefs(appStore)
@@ -58,7 +58,7 @@ onMounted(async () => {
 		@idle="computeBoundingBox"
 	>
 		<CustomMarker
-			v-for="location in locations"
+			v-for="location in cryptoLocations"
 			:key="location.id"
 			:options="{ position: location.geo_location, anchorPoint: 'TOP_CENTER' }"
 		>
