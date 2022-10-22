@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useApi, type LocationCategory, type CryptoCurrency } from "@/stores/api";
 
 export const useApp = defineStore("app", () => {
   const locationListVisible = ref(false);

@@ -18,7 +18,8 @@ const { locationListVisible } = storeToRefs(appStore)
 			<TheList
 				class="absolute transition-transform-width"
 				:class="{
-					'-translate-x-96': !locationListVisible,
+					'xl:-translate-x-96': !locationListVisible,
+					'max-xl:-translate-y-96': locationListVisible,
 				}"
 			/>
 		</div>

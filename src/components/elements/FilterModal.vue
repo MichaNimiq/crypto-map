@@ -1,7 +1,7 @@
 <template>
-	<Button @click="openModal" bgColor="grey">
+	<Button @click="openModal" bgColor="grey" size="md">
 		<template #icon>
-			<FilterIcon class="text-space w-6 h-6" />
+			<FilterIcon class="text-space w-4.5 h-4.5" />
 		</template>
 		<template #text v-if="!smallScreen"> Filters </template>
 	</Button>

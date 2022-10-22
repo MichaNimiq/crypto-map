@@ -4,15 +4,10 @@ import LocationIcon from "@/components/icons/icon-location.vue"
 import MinusIcon from "@/components/icons/icon-minus.vue"
 import PlusIcon from "@/components/icons/icon-plus.vue"
 import TheMapInstance from "@/components/TheMapInstance.vue"
-import { useApp } from "@/stores/app"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
-import { storeToRefs } from "pinia"
 
 const { greater } = useBreakpoints(breakpointsTailwind)
 const isXlScreen = greater("xl")
-
-const appStore = useApp()
-const { locationListVisible } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -61,9 +56,11 @@ const { locationListVisible } = storeToRefs(appStore)
 			</template>
 		</TheMapInstance>
 		<Button
-			class="absolute bottom-5 md:bottom-6 right-5 md:right-6"
+			class="absolute bottom-5 md:bottom-6 right-5 md:right-6 shadow"
 			bgColor="white"
 			href="/location/add"
+			size="md"
+			text-color="ocean"
 		>
 			<template #text> Add crypto location </template>
 		</Button>

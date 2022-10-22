@@ -15,7 +15,9 @@
 			'bg-white hover:bg-grey': props.bgColor === 'white',
 			'bg-space/10': props.bgColor === 'grey',
 			'py-2.5 px-4 sm:py-3 sm:px-5 sm:h-10 gap-3': props.size === 'lg',
+			'px-2 py-1.5 sm:py-2.5 sm:px-3 h-[30px] sm:h-8 gap-2.5': props.size === 'md',
 			'px-2 sm:px-2.5 h-[22px] sm:h-6 gap-2': props.size === 'sm',
+			'aspect-square': hasSlot('icon') && !hasSlot('text'),
 			'focus-visible:ring-offset-2': props.as !== 'div' && props.bgColor === 'space',
 			'focus-visible:ring-space focus-visible:ring-1': props.as !== 'div',
 			'group-button-focus-visible:ring-offset-2': props.as === 'div' && props.bgColor === 'space',
@@ -39,10 +41,13 @@
 				'text-white [button:disabled>&]:!text-white/40': ['space', 'sky', 'ocean'].includes(
 					props.bgColor
 				),
-				'text-space': ['white', 'grey'].includes(props.bgColor),
-				'text-space/60': props.bgColor === 'transparent',
+				'text-space': ['white', 'grey'].includes(props.bgColor) && !textColor,
+				'text-space/60': props.bgColor === 'transparent' && !textColor,
+				'text-ocean': textColor === 'ocean',
+				'text-sky': textColor === 'sky',
 				'text-opacity-40': isDisabled,
 				'text-sm md:text-base': props.size === 'lg',
+				'text-xs md:text-sm': props.size === 'md',
 				'text-11 md:text-xs': props.size === 'sm',
 			}"
 		>
@@ -95,12 +100,16 @@ const props = defineProps({
 		default: undefined,
 	},
 	size: {
-		type: String as () => "sm" | "lg",
-		default: "lg",
+		type: String as () => "sm" | "md" | "lg",
+		default: "md",
 	},
 	gradient: {
 		type: Boolean,
 		default: false,
+	},
+	textColor: {
+		type: String as () => "sky" | "ocean",
+		default: undefined,
 	},
 })
 
