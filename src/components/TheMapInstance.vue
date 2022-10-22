@@ -4,8 +4,8 @@ import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
 import { storeToRefs } from "pinia"
-import { onMounted, watch } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { onMounted } from "vue"
+import { useRoute } from "vue-router"
 import { CustomMarker, GoogleMap } from "vue3-google-map"
 
 const apiStore = useApi()
@@ -96,7 +96,7 @@ onMounted(async () => {
 		</CustomMarker>
 	</GoogleMap>
 
-	<div class="absolute top-5 right-5 md:top-6 md:right-6 flex flex-col gap-y-4">
+	<div class="absolute top-5 right-5 md:top-6 md:right-6 flex flex-col gap-y-4 children:shadow">
 		<slot name="button-calculate-position" :navigateToUserLocation="navigateToUserLocation" />
 
 		<div class="flex flex-col bg-white rounded-full">

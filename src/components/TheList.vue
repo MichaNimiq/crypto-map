@@ -11,7 +11,8 @@ import { useScroll, useWindowSize } from "@vueuse/core"
 import { storeToRefs } from "pinia"
 import { ref, watch } from "vue"
 
-const { largeScreen } = useBreakpoints()
+const { smallScreen, largeScreen, smaller } = useBreakpoints()
+const notXlScreen = smaller("xl")
 
 const HEADER_HEIGHT = 88
 const MIN_HEIGHT = 260
@@ -24,6 +25,12 @@ const { y } = useScroll(scroller$)
 
 const { height: windowHeight } = useWindowSize()
 
+const fullScreen = ref(false)
+
+// This value is used to change the ratio of the scroll
+// If the user scrolls 100px, the list will scroll 185px
+const SCROLL_RATIO = 1.85
+
 watch(
 	[y, windowHeight, largeScreen],
 	([y, windowHeight]) => {
@@ -33,7 +40,9 @@ watch(
 			const maxHeight = windowHeight - HEADER_HEIGHT
 			const minHeight = windowHeight - HEADER_HEIGHT - MIN_HEIGHT
 
-			const height = Math.min(windowHeight - minHeight + y, maxHeight)
+			const height = Math.min(windowHeight - minHeight + y * SCROLL_RATIO, maxHeight)
+			fullScreen.value = height === maxHeight
+
 			const bottom = Math.max(0, -height)
 			containerBottomStyle.value = { height: `${height}px`, bottom: `${bottom}px` }
 		}
@@ -61,35 +70,79 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		behavior,
 	})
 }
+
+function scrollToTop() {
+	if (!scroller$.value) return
+	scroller$.value.scrollTo({
+		top: 0,
+		left: 0,
+		behavior: "smooth",
+	})
+}
 </script>
 
 <template>
-	<div :style="containerBottomStyle" class="flex gap-x-6">
+	<div
+		:style="containerBottomStyle"
+		class="flex flex-row xl:flex-col gap-x-6 max-xl:justify-center"
+	>
 		<ul
 			ref="scroller$"
-			class="scroll-space p-6 h-full flex flex-row flex-wrap overflow-auto lg:flex-nowrap items-stretch lg:flex-col gap-6 lg:snap-y lg:snap-mandatory scroll-py-6 w-96 bg-white"
+			class="scroll-space p-6 h-full grid grid-cols-2 md:grid-cols-3 overflow-auto items-stretch xl:grid-cols-1 gap-6 xl:snap-y xl:snap-mandatory scroll-py-6 w-screen xl:w-96 bg-white"
 			v-if="cryptoLocations.length > 0"
 		>
 			<li
-				class="list-item-wrap lg:snap-start flex-1"
+				class="list-item-wrap xl:snap-start xl:flex-1 max-xl:w-sm"
 				v-for="location in cryptoLocations"
 				:key="location.id"
 			>
-				<LocationCard :location="location" />
+				<LocationCard class="h-full" :location="location" />
 			</li>
 		</ul>
 
-		<div v-else class="grid place-content-center p-6 w-96 bg-white items-center gap-6">
+		<div v-else class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6">
 			<CactusIcon class="text-space w-20 justify-self-center" />
-			<p class="text-space text-center text-base lg:text-lg">Oops, no businesses around here</p>
+			<p class="text-space text-center text-base xl:text-xl">Oops, no businesses around here</p>
 		</div>
 
-		<Button bgColor="white" class="self-end mb-5" @click="appStore.toggleLocationList()">
+		<Button
+			bgColor="white"
+			class="self-end mb-5 shadow"
+			size="md"
+			@click="appStore.showLocationsList()"
+		>
 			<template #icon>
-				<component :is="locationListVisible ? ChevronLeftIcon : ListIcon" />
+				<component
+					:is="locationListVisible ? ChevronLeftIcon : ListIcon"
+					class="text-space w-4.5"
+					:class="{
+						'h-4.5': locationListVisible,
+						'h-4': !locationListVisible,
+					}"
+				/>
 			</template>
 
-			<template #text> {{ locationListVisible ? "Hide list" : "Show list" }} </template>
+			<template #text v-if="!smallScreen">
+				{{ locationListVisible ? "Hide list" : "Show list" }}
+			</template>
 		</Button>
+
+		<transition
+			enter-active-class="duration-300 ease-out"
+			enter-from-class="opacity-0 translate-y-12"
+			enter-to-class="opacity-100 translate-y-0"
+			leave-active-class="duration-200 ease-in"
+			leave-from-class="opacity-100 translate-y-0"
+			leave-to-class="opacity-0 translate-y-12"
+		>
+			<Button
+				v-if="notXlScreen && fullScreen"
+				bg-color="ocean"
+				class="absolute bottom-5 shadow z-20"
+				@click="scrollToTop()"
+			>
+				<template #text>Back to the Map </template>
+			</Button>
+		</transition>
 	</div>
 </template>
