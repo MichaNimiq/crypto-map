@@ -42,16 +42,16 @@ function onSubmit() {
 
 		<form class="mt-14 lg:mt-16 text-left" @submit.prevent="onSubmit">
 			<SearchBox
-				label="Find place"	
+				label="Find place"
 				combobox-options-classes="w-[calc(100%+16px)] -left-2"
 				bg-combobox="space"
 				input-id="search-input"
-				size="sm"
+				size="md"
 			/>
 
 			<Select
 				class="mt-6"
-				label="Select cryptocurrency"	
+				label="Select cryptocurrency"
 				input-id="cryptocurrency-input"
 				:options="cryptoCurrencies"
 				@selected-update="selectedCurrencies = $event"

@@ -6,9 +6,9 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 </script>
 
 <template>
-	<Popover class="relative">
+	<Popover class="relative mr-1">
 		<PopoverButton
-			class="focus-visible:ring-1 outline-none focus-visible:ring-space/10 rounded-4 p-2"
+			class="focus-visible:ring-1 outline-none focus-visible:ring-space/10 rounded-4 grid place-content-center"
 		>
 			<NimIcon class="w-6" />
 		</PopoverButton>
@@ -24,10 +24,8 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 			<PopoverPanel class="absolute -left-1.5 z-10 mt-1 w-screen sm:px-0 max-w-xs">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="28"
-					height="10"
 					viewBox="0 0 28 10"
-					class="text-space ml-3"
+					class="text-space ml-3 h-8 w-full"
 				>
 					<path
 						fill="currentColor"
@@ -48,7 +46,9 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 						target="_blank"
 					>
 						Go to Nimiq
-						<ArrowLinkIcon class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300" />
+						<ArrowLinkIcon
+							class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300"
+						/>
 					</a>
 					<img
 						class="mt-4 ml-auto opacity-40"

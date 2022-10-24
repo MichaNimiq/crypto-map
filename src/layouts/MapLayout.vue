@@ -13,7 +13,7 @@ const { locationListVisible } = storeToRefs(appStore)
 	<div class="flex flex-col w-screen overflow-hidden min-h-screen">
 		<TheHeaderBar />
 
-		<div class="flex h-[calc(100vh-88px)] relative">
+		<div class="flex h-[calc(100vh-80px)] relative">
 			<TheMap class="relative w-screen" />
 			<TheList
 				class="absolute transition-transform-width"
