@@ -13,17 +13,24 @@
 		</label>
 		<div class="relative z-20">
 			<div
-				class="h-10 relative w-full cursor-default overflow-hidden text-left ring-[1.5px]"
+				class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]"
 				:class="{
 					'ring-space/[0.15]': !open,
 					'ring-ocean/30': open,
 					'rounded-full': roundedFull,
 					'rounded-4': !roundedFull,
+					'h-[38px]': size === 'lg',
+					'h-[30px]': size === 'md',
 				}"
 			>
 				<ComboboxInput
-					class="w-full border-none pt-[8.5px] pb-[4.5px] pl-4 pr-[3.25rem] text-lg leading-5 placeholder:text-space/60 focus:ring-0 outline-none"
-					:class="{ 'text-space': !open, 'text-ocean': open }"
+					class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none"
+					:class="{
+						'text-space': !open,
+						'text-ocean': open,
+						'pt-[7px] pb-[5px] pl-4 pr-[3.25rem] text-sm': size === 'md',
+						'py-1.5 sm:py-2.5 pl-4 pr-[3.25rem] text-lg': size === 'lg',
+					}"
 					autocomplete="off"
 					placeholder="Search crypto map"
 					:displayValue="(region) => (region as Option)?.description "
@@ -33,10 +40,10 @@
 
 				<template class="absolute inset-y-0 right-0 flex items-center pr-4">
 					<ComboboxButton v-if="!userCanCleanInput">
-						<SearchIcon class="w-5 h-6 text-space/40" />
+						<SearchIcon class="w-4 h-5 text-space/40" />
 					</ComboboxButton>
 					<button v-else>
-						<CrossIcon class="w-5 h-6 text-space/40" @click="clearInput()" />
+						<CrossIcon class="w-4 h-5 text-space/40" @click="clearInput()" />
 					</button>
 				</template>
 			</div>
@@ -91,7 +98,7 @@
 								'bg-space/[0.06]': bgCombobox === 'white' && active,
 								'bg-space/60': bgCombobox === 'space' && active,
 								'px-6 gap-x-6': size === 'md',
-								'px-3 gap-x-2': size === 'sm',
+								'px-3 gap-x-2': size === 'lg',
 							}"
 						>
 							<div
@@ -169,7 +176,7 @@ defineProps({
 		default: "white",
 	},
 	size: {
-		type: String as () => "sm" | "md",
+		type: String as () => "md" | "lg",
 		default: "md",
 	},
 	label: {
