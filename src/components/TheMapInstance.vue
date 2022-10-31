@@ -12,7 +12,7 @@ const apiStore = useApi()
 const { cryptoLocations } = storeToRefs(apiStore)
 
 const appStore = useApp()
-const { selectedLocation } = storeToRefs(appStore)
+const { selectedLocationId } = storeToRefs(appStore)
 
 const mapStore = useMap()
 const {
@@ -59,11 +59,11 @@ onMounted(async () => {
 	>
 		<CustomMarker
 			v-for="location in cryptoLocations"
-			:key="location.id"
-			:options="{ position: location.geo_location, anchorPoint: 'TOP_CENTER' }"
+			:key="location.placeId"
+			:options="{ position: location.geoLocation, anchorPoint: 'TOP_CENTER' }"
 		>
 			<RouterLink
-				:to="`/location/${location.id}`"
+				:to="`/location/${location.placeId}`"
 				class="flex flex-col items-center shadow-location-popup cursor-pointer"
 			>
 				<svg
@@ -72,8 +72,8 @@ onMounted(async () => {
 					height="10"
 					viewBox="0 0 28 10"
 					:class="{
-						'text-space': location.id !== selectedLocation,
-						'text-ocean': location.id === selectedLocation,
+						'text-space': location.placeId !== selectedLocationId,
+						'text-ocean': location.placeId === selectedLocationId,
 					}"
 				>
 					<path
@@ -85,8 +85,8 @@ onMounted(async () => {
 				<div
 					class="rounded-full flex gap-x-3 items-center pl-1 pr-4 py-[5px]"
 					:class="{
-						'bg-radial-space': location.id !== selectedLocation,
-						'bg-ocean': location.id === selectedLocation,
+						'bg-radial-space': location.placeId !== selectedLocationId,
+						'bg-ocean': location.placeId === selectedLocationId,
 					}"
 				>
 					<div class="h-8 w-8 bg-white rounded-full p-2 grid place-items-center">I</div>
