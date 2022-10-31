@@ -3,6 +3,7 @@ apis/index.ts
 index.ts
 models/CryptoCurrency.ts
 models/CryptoLocation.ts
+models/CurrenciesInner.ts
 models/GeoLocation.ts
 models/Link.ts
 models/Pickup.ts

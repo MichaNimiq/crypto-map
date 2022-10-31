@@ -8,16 +8,18 @@ export const useApp = defineStore("app", () => {
   const showLocationsList = () => locationListVisible.value = true;
   const hideLocationsList = () => locationListVisible.value = false;
 
-  const selectedLocation = ref<number>();
+  const selectedLocationId = ref<string>();
 
   const route = useRoute();
-  watch(route, () => selectedLocation.value = route.name === 'location_detail' ? Number(route.params.id) : undefined);
+  watch(route, () => selectedLocationId.value = route.name === 'location_detail' ? String(route.params.id) : undefined);
+
+
 
   return {
     locationListVisible,
     toggleLocationList,
     showLocationsList,
     hideLocationsList,
-    selectedLocation,
+    selectedLocationId,
   }
 });

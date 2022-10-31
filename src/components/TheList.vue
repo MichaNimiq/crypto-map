@@ -51,14 +51,14 @@ watch(
 )
 
 const appStore = useApp()
-const { locationListVisible, selectedLocation } = storeToRefs(appStore)
+const { locationListVisible, selectedLocationId } = storeToRefs(appStore)
 
 const apiStore = useApi()
 const { cryptoLocations } = storeToRefs(apiStore)
 
-watch(selectedLocation, (id) => {
-	if (!id) return
-	const i = cryptoLocations.value.map((l) => l.id).indexOf(id)
+watch(selectedLocationId, (placeId) => {
+	if (!placeId) return
+	const i = cryptoLocations.value.map((l) => l.placeId).indexOf(placeId)
 	slideTo(i)
 })
 

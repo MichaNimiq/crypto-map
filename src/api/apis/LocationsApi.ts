@@ -15,16 +15,27 @@
 
 import * as runtime from '../runtime';
 import type {
+  CryptoLocation,
+  CurrenciesInner,
   SearchLocationsResponse,
 } from '../models';
 import {
+    CryptoLocationFromJSON,
+    CryptoLocationToJSON,
+    CurrenciesInnerFromJSON,
+    CurrenciesInnerToJSON,
     SearchLocationsResponseFromJSON,
     SearchLocationsResponseToJSON,
 } from '../models';
 
+export interface GetLocationByIdRequest {
+    locationId: string;
+}
+
 export interface SearchLocationsRequest {
     filterCity?: string;
     filterCountry?: string;
+    filterCurrency?: Array<string>;
     filterDescription?: string;
     filterEmail?: string;
     filterLabel?: string;
@@ -45,6 +56,62 @@ export interface SearchLocationsRequest {
 export class LocationsApi extends runtime.BaseAPI {
 
     /**
+     * Currencies
+     */
+    async getCurrenciesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CurrenciesInner>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/currencies`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CurrenciesInnerFromJSON));
+    }
+
+    /**
+     * Currencies
+     */
+    async getCurrencies(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CurrenciesInner>> {
+        const response = await this.getCurrenciesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get location by id
+     */
+    async getLocationByIdRaw(requestParameters: GetLocationByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CryptoLocation>> {
+        if (requestParameters.locationId === null || requestParameters.locationId === undefined) {
+            throw new runtime.RequiredError('locationId','Required parameter requestParameters.locationId was null or undefined when calling getLocationById.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/location/{locationId}`.replace(`{${"locationId"}}`, encodeURIComponent(String(requestParameters.locationId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CryptoLocationFromJSON(jsonValue));
+    }
+
+    /**
+     * Get location by id
+     */
+    async getLocationById(requestParameters: GetLocationByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CryptoLocation> {
+        const response = await this.getLocationByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * search
      */
     async searchLocationsRaw(requestParameters: SearchLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchLocationsResponse>> {
@@ -56,6 +123,10 @@ export class LocationsApi extends runtime.BaseAPI {
 
         if (requestParameters.filterCountry !== undefined) {
             queryParameters['filter[country]'] = requestParameters.filterCountry;
+        }
+
+        if (requestParameters.filterCurrency) {
+            queryParameters['filter[currency]'] = requestParameters.filterCurrency;
         }
 
         if (requestParameters.filterDescription !== undefined) {
