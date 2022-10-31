@@ -108,9 +108,13 @@ export const useMap = defineStore("map", () => {
     if (!placeId) return
     const res = await geocoder.geocode({ placeId })
     if (res.results.length === 0) return
-    const { lat, lng } = res.results[0].geometry.location.toJSON()
-    setCenter({ lat, lng })
-    setZoom(13)
+    fitBounds(res.results[0].geometry.viewport)
+  }
+
+  function fitBounds(bounds: google.maps.LatLngBounds) {
+    map.value.fitBounds(bounds)
+    center.value = map.value.getCenter()?.toJSON() || center.value
+    zoom.value = map.value.getZoom() || zoom.value
   }
 
   return {
