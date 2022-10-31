@@ -82,10 +82,7 @@ function scrollToTop() {
 </script>
 
 <template>
-	<div
-		:style="containerBottomStyle"
-		class="flex flex-row xl:flex-col gap-x-6 max-xl:justify-center"
-	>
+	<div :style="containerBottomStyle" class="flex flex-row gap-x-6 max-xl:justify-center">
 		<ul
 			ref="scroller$"
 			class="scroll-space p-6 h-full grid grid-cols-2 md:grid-cols-3 overflow-auto items-stretch xl:grid-cols-1 gap-6 xl:snap-y xl:snap-mandatory scroll-py-6 w-screen xl:w-96 bg-white"
@@ -109,7 +106,7 @@ function scrollToTop() {
 			bgColor="white"
 			class="self-end mb-5 shadow"
 			size="md"
-			@click="appStore.showLocationsList()"
+			@click="appStore.toggleLocationList()"
 		>
 			<template #icon>
 				<component
