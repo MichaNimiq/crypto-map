@@ -7,48 +7,14 @@ import ListIcon from "@/components/icons/icon-list.vue"
 import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
-import { useScroll, useWindowSize } from "@vueuse/core"
 import { storeToRefs } from "pinia"
 import { ref, watch } from "vue"
 
-const { smallScreen, largeScreen, smaller } = useBreakpoints()
-const notXlScreen = smaller("xl")
+const { smallScreen, xlScreen } = useBreakpoints()
 
-const HEADER_HEIGHT = 88
-const MIN_HEIGHT = 260
 const scroller$ = ref<HTMLDivElement>()
-const containerBottomStyle = ref({
-	bottom: "unset",
-	height: largeScreen.value ? `calc(100%-${HEADER_HEIGHT})` : `${MIN_HEIGHT}px`,
-})
-const { y } = useScroll(scroller$)
-
-const { height: windowHeight } = useWindowSize()
 
 const fullScreen = ref(false)
-
-// This value is used to change the ratio of the scroll
-// If the user scrolls 100px, the list will scroll 185px
-const SCROLL_RATIO = 1.85
-
-watch(
-	[y, windowHeight, largeScreen],
-	([y, windowHeight]) => {
-		if (largeScreen.value) {
-			containerBottomStyle.value = { bottom: "unset", height: "100%" }
-		} else {
-			const maxHeight = windowHeight - HEADER_HEIGHT
-			const minHeight = windowHeight - HEADER_HEIGHT - MIN_HEIGHT
-
-			const height = Math.min(windowHeight - minHeight + y * SCROLL_RATIO, maxHeight)
-			fullScreen.value = height === maxHeight
-
-			const bottom = Math.max(0, -height)
-			containerBottomStyle.value = { height: `${height}px`, bottom: `${bottom}px` }
-		}
-	},
-	{ immediate: true }
-)
 
 const appStore = useApp()
 const { locationListVisible, selectedLocationId } = storeToRefs(appStore)
@@ -70,76 +36,94 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		behavior,
 	})
 }
-
-function scrollToTop() {
-	if (!scroller$.value) return
-	scroller$.value.scrollTo({
-		top: 0,
-		left: 0,
-		behavior: "smooth",
-	})
-}
 </script>
 
 <template>
-	<div :style="containerBottomStyle" class="flex flex-row gap-x-6 max-xl:justify-center">
+	<div
+		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-h-main bottom-0"
+		:class="{
+			'xl:-translate-x-96': !locationListVisible,
+			'max-xl:bottom-0': locationListVisible && cryptoLocations.length === 0,
+		}"
+	>
 		<ul
 			ref="scroller$"
-			class="scroll-space p-6 h-full grid grid-cols-2 md:grid-cols-3 overflow-auto items-stretch xl:grid-cols-1 gap-6 xl:snap-y xl:snap-mandatory scroll-py-6 w-screen xl:w-96 bg-white"
+			class="w-screen xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white shadow overflow-y-auto h-auto min-h-main scroll-space z-2"
 			v-if="cryptoLocations.length > 0"
 		>
 			<li
-				class="list-item-wrap xl:snap-start xl:flex-1 max-xl:w-sm"
+				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-8 flex flex-col break-inside-avoid-column"
 				v-for="location in cryptoLocations"
 				:key="location.id"
+				style="
+					border-image-source: linear-gradient(
+						180deg,
+						rgba(59, 75, 104, 0.01) 0%,
+						rgba(59, 75, 104, 0) 100%
+					);
+				"
 			>
-				<LocationCard class="h-full" :location="location" />
+				<LocationCard :location="location" />
 			</li>
 		</ul>
 
-		<div v-else class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6">
+		<div
+			v-else
+			class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6 max-xl:py-20 shadow xl:h-main"
+		>
 			<CactusIcon class="text-space w-20 justify-self-center" />
 			<p class="text-space text-center text-base xl:text-xl">Oops, no businesses around here</p>
 		</div>
 
-		<Button
-			bgColor="white"
-			class="self-end mb-5 shadow"
-			size="md"
-			@click="appStore.toggleLocationList()"
-		>
-			<template #icon>
-				<component
-					:is="locationListVisible ? ChevronLeftIcon : ListIcon"
-					class="text-space w-4.5"
-					:class="{
-						'h-4.5': locationListVisible,
-						'h-4': !locationListVisible,
-					}"
-				/>
-			</template>
-
-			<template #text v-if="!smallScreen">
-				{{ locationListVisible ? "Hide list" : "Show list" }}
-			</template>
-		</Button>
-
 		<transition
-			enter-active-class="duration-300 ease-out"
+			enter-active-class="duration-200 ease-out"
 			enter-from-class="opacity-0 translate-y-12"
 			enter-to-class="opacity-100 translate-y-0"
-			leave-active-class="duration-200 ease-in"
+			leave-active-class="duration-100 ease-in"
 			leave-from-class="opacity-100 translate-y-0"
 			leave-to-class="opacity-0 translate-y-12"
 		>
-			<Button
-				v-if="notXlScreen && fullScreen"
-				bg-color="ocean"
-				class="absolute bottom-5 shadow z-20"
-				@click="scrollToTop()"
+			<div v-if="xlScreen || !locationListVisible" class="self-end">
+				<Button
+					bgColor="white"
+					class="max-xl:fixed bottom-0 mb-5 max-xl:left-5 shadow z-1"
+					size="md"
+					@click="appStore.toggleLocationList()"
+				>
+					<template #icon>
+						<component
+							:is="locationListVisible ? ChevronLeftIcon : ListIcon"
+							class="text-space w-4.5"
+							:class="{
+								'h-4.5': locationListVisible,
+								'h-4': !locationListVisible,
+							}"
+						/>
+					</template>
+
+					<template #text v-if="!smallScreen">
+						{{ locationListVisible ? "Hide list" : "Show list" }}
+					</template>
+				</Button>
+			</div>
+		</transition>
+
+		<transition
+			enter-active-class="duration-200 ease-out"
+			enter-from-class="opacity-0 translate-y-12"
+			enter-to-class="opacity-100 translate-y-0"
+			leave-active-class="duration-100 ease-in"
+			leave-from-class="opacity-100 translate-y-0"
+			leave-to-class="opacity-0 translate-y-12"
+		>
+			<div
+				v-if="!xlScreen && locationListVisible"
+				class="w-full flex justify-center max-xl:fixed bottom-5 z-10"
 			>
-				<template #text>Back to the Map </template>
-			</Button>
+				<Button bg-color="ocean" class="shadow" @click="appStore.hideLocationsList()">
+					<template #text>Back to the Map</template>
+				</Button>
+			</div>
 		</transition>
 	</div>
 </template>

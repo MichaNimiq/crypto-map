@@ -15,7 +15,7 @@ export function useBreakpoints() {
   const useBreakpoints = _useBreakpoints(breakpoints)
   const smallScreen = useBreakpoints.smaller('sm')
   const largeScreen = useBreakpoints.greater('lg')
-  const extraLargeScreen = useBreakpoints.greater('xl')
+  const xlScreen = useBreakpoints.greater('xl')
   const mediumScreen = computed(() => !smallScreen.value && !largeScreen.value) // Using useBreakpoints.between('sm', 'lg') doesn't work
-  return { ...useBreakpoints, smallScreen, mediumScreen, largeScreen, extraLargeScreen }
+  return { ...useBreakpoints, smallScreen, mediumScreen, largeScreen, xlScreen }
 }
