@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './CryptoCurrency';
 export * from './CryptoLocation';
+export * from './CurrenciesInner';
 export * from './GeoLocation';
 export * from './Link';
 export * from './Pickup';

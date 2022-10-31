@@ -1,4 +1,4 @@
-import { Configuration, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type SearchLocationsRequest, type SearchLocationsResponse } from "@/api";
+import { Configuration, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type SearchLocationsRequest, type SearchLocationsResponse, type CryptoLocation as CryptoLocationApi } from "@/api";
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -61,6 +61,7 @@ const issueCategories = [
 
 export type CryptoLocation = {
   id: number;
+  placeId: string;
   name: string;
   photoUrl: string;
   category: LocationCategory;
@@ -69,7 +70,7 @@ export type CryptoLocation = {
   rating: number; // From 0 to 5
   address: string;
   gmapsUrl: string;
-  geo_location: {
+  geoLocation: {
     lng: number;
     lat: number;
   };
@@ -101,6 +102,54 @@ export const useApi = defineStore("api", () => {
     })
   })
 
+  // Converts crypto location model from the API to the model used in the app
+  // The model in the API is built the following way:
+  // 1. A business can have multiple locations in the world. Each location will be a separated item in the 'pickups' array.
+  //    Each of this items is a unique location which its own store, place id, address...
+  // 2. A businness can have also online presence. But this for now does not happen.
+
+  // So the API returns an array of business, which each one of them has an array of locations. We need to flatten this array into a single array of locations.
+  // This functions just does that.
+  function parseLocations(locationApi: CryptoLocationApi): CryptoLocation[] {
+    const { id, label: name, currencies: currenciesApi, pickups } = locationApi
+
+    if (pickups.length === 0) return []
+
+    const locations: CryptoLocation[] = pickups.map(({ geo_location, place_information, place_id: placeId }) => {
+      const { photos, rating, formatted_address: address, url: gmapsUrl, types } = place_information
+      // TODO Review placeholder
+      const photoUrl = photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
+
+      const currencies = currenciesApi.reduce((acc, curr) => {
+        const id = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrencyApi] !== undefined) as keyof CryptoCurrencyApi | undefined
+        if (id) {
+          acc.push({ id, name: curr[id] as string })
+        }
+        return acc
+      }, [] as CryptoLocation["currencies"])
+
+      return {
+        id,
+        placeId,
+        name,
+        address,
+        currencies,
+        geoLocation: {
+          lat: geo_location.coordinates[1],
+          lng: geo_location.coordinates[0],
+        },
+        gmapsUrl,
+        rating,
+        photoUrl,
+        // TODO Use the right category
+        category: locationCategories[0],
+        type: types?.[0].replace(/_/g, " ").toLowerCase() || "Miscellaneous",
+      } as CryptoLocation
+    })
+
+    return locations
+  }
+
   async function search({ northEast, southWest }: Location) {
     const boundingBoxStr = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`
 
@@ -122,39 +171,15 @@ export const useApi = defineStore("api", () => {
 
 
     cryptoLocations.value = response.data
-      .filter(({ pickups }) => pickups.length > 0)
-      .map(({ id, label: name, currencies: currenciesApi, pickups }) =>
-        pickups.map(({ geo_location, place_information }) => {
-          const { photos, rating, formatted_address: address, url: gmapsUrl, types } = place_information
-          // TODO Review placeholder
-          const photoUrl = photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
+      .map(parseLocations)
+      .reduce((acc, curr) => [...acc, ...curr], []) // flatten the array
+  }
 
-          const currencies = currenciesApi.reduce((acc, curr) => {
-            const id = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrencyApi] !== undefined) as keyof CryptoCurrencyApi | undefined
-            if (id) {
-              acc.push({ id, name: curr[id] as string })
-            }
-            return acc
-          }, [] as CryptoLocation["currencies"])
-
-          return {
-            id,
-            name,
-            address,
-            currencies,
-            geo_location: {
-              lat: geo_location.coordinates[1],
-              lng: geo_location.coordinates[0],
-            },
-            gmapsUrl,
-            rating,
-            photoUrl,
-            // TODO Use the right category
-            category: locationCategories[0],
-            type: types?.[0].replace(/_/g, " ").toLowerCase() || "Miscellaneous",
-          } as CryptoLocation
-        })
-      ).reduce((acc, curr) => [...acc, ...curr], []);
+  async function getLocationById(locationId: string) {
+    const rawLocation = await partnerApi.getLocationById({ locationId }).catch((e) => {
+      return e;
+    })
+    return parseLocations(rawLocation)?.[0] || undefined
   }
 
   return {
@@ -164,6 +189,7 @@ export const useApi = defineStore("api", () => {
     cryptoCurrencies: ref(cryptoCurrencies),
     issueCategories: ref(issueCategories),
     selectedCurrencies,
-    selectedCategories
+    selectedCategories,
+    getLocationById
   }
 })
