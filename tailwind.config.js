@@ -23,6 +23,13 @@ module.exports = {
         2.5: rem(10),
         4.5: rem(18),
         6.5: rem(26),
+        'main': 'calc(100vh - 80px)',
+      },
+      maxHeight: {
+        'main': 'calc(100vh - 80px)',
+      },
+      minHeight: {
+        'main': 'calc(100vh - 80px)',
       },
       overflow: {
         'initial': 'initial'
