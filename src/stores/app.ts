@@ -9,9 +9,11 @@ export const useApp = defineStore("app", () => {
   const selectedLocationId = ref<string>();
 
   const route = useRoute();
-  watch(route, () => selectedLocationId.value = route.name === 'location_detail' ? String(route.params.id) : undefined);
-
-
+  watch(route, () => {
+    if(route.name === "location_detail") {
+      selectedLocationId.value = String(route.params.place_id)
+    }
+  });
 
   return {
     showList,

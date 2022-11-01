@@ -1,10 +1,11 @@
 import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApi } from "./api";
+import { useApp } from "./app";
 
 export interface LatLng {
   lat: number;
@@ -103,12 +104,17 @@ export const useMap = defineStore("map", () => {
     })
   }
 
+  const appStore = useApp()
+  const { selectedLocationId } = storeToRefs(appStore)
+
   async function goToPlaceId(placeId?: string) {
     const geocoder = new google.maps.Geocoder();
     if (!placeId) return
     const res = await geocoder.geocode({ placeId })
     if (res.results.length === 0) return
     fitBounds(res.results[0].geometry.viewport)
+    selectedLocationId.value = placeId
+    computeBoundingBox()
   }
 
   function fitBounds(bounds: google.maps.LatLngBounds) {

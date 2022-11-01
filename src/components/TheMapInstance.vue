@@ -3,8 +3,9 @@ import googleMapStyles from "@/assets/google-map-styles"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
+import { onClickOutside } from "@vueuse/core"
 import { storeToRefs } from "pinia"
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import { CustomMarker, GoogleMap } from "vue3-google-map"
 
@@ -30,6 +31,8 @@ const route = useRoute()
 
 const googleMapsKey = import.meta.env.VITE_GOOGLE_MAP_KEY
 
+const markers$ = ref<typeof CustomMarker[]>([])
+
 onMounted(async () => {
 	const { lat, lng, zoom: zoomLevel } = route.params
 	const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
@@ -50,7 +53,6 @@ function onIdle() {
 	const placeIdOk = placeId && typeof placeId === "string"
 	if (placeIdOk) {
 		goToPlaceId(placeId)
-		computeBoundingBox()
 	} else {
 		computeBoundingBox()
 	}
@@ -69,9 +71,11 @@ function onIdle() {
 		:clickable-icons="false"
 		:styles="googleMapStyles"
 		@dragend="computeBoundingBox"
+		@zoom_changed="computeBoundingBox"
 		@idle="onIdle"
 	>
 		<CustomMarker
+			ref="markers$"
 			v-for="location in cryptoLocations"
 			:key="location.placeId"
 			:options="{ position: location.geoLocation, anchorPoint: 'TOP_CENTER' }"
