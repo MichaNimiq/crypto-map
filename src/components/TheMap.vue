@@ -19,6 +19,9 @@ const { greater } = useBreakpoints(breakpointsTailwind)
 					style="width: 34px; height: 34px"
 					bgColor="white"
 					size="sm"
+					draggable="false"
+					aria-label="Show your location"
+					title="Show your location"
 				>
 					<template #icon>
 						<LocationIcon />
@@ -33,6 +36,9 @@ const { greater } = useBreakpoints(breakpointsTailwind)
 					class="rounded-b-0"
 					bgColor="white"
 					size="sm"
+					draggable="false"
+					aria-label="Zoom in"
+					title="Zoom in"
 				>
 					<template #icon>
 						<PlusIcon />
@@ -47,6 +53,9 @@ const { greater } = useBreakpoints(breakpointsTailwind)
 					class="rounded-t-0"
 					bgColor="white"
 					size="sm"
+					draggable="false"
+					aria-label="Zoom out"
+					title="Zoom out"
 				>
 					<template #icon>
 						<MinusIcon />
@@ -60,6 +69,9 @@ const { greater } = useBreakpoints(breakpointsTailwind)
 			href="/location/add"
 			size="md"
 			text-color="ocean"
+			draggable="false"
+			aria-label="Add crypto location"
+			title="Add crypto location"
 		>
 			<template #text> Add crypto location </template>
 		</Button>
