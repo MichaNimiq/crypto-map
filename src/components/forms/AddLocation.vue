@@ -5,19 +5,30 @@ import ArrowLinkIcon from "@/components/icons/icon-arrow-link.vue"
 import { useCaptcha } from "@/composables/useCaptcha"
 import { useApi } from "@/stores/api"
 import { storeToRefs } from "pinia"
-import { ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import SearchBox from "../elements/SearchBox.vue"
 import Select from "../elements/Select.vue"
 
 const apiStore = useApi()
-const { cryptoCurrencies } = storeToRefs(apiStore)
+const { cryptoCurrencies, mapApi } = storeToRefs(apiStore)
 
 const selectedCurrencies = ref([])
 
-const { captchaOk } = useCaptcha()
-function onSubmit() {
-	console.log("submit")
-	console.log(captchaOk())
+const { captchaOk, loadRecaptcha, removeRecaptcha } = useCaptcha()
+
+onMounted(() => {
+	loadRecaptcha()
+})
+
+onUnmounted(() => {
+	removeRecaptcha()
+})
+
+async function onSubmit() {
+	console.log("TODO Captcha verification")
+	// console.log(captchaOk())
+
+	// TODO Post to API
 }
 </script>
 
@@ -43,10 +54,10 @@ function onSubmit() {
 		<form class="mt-14 lg:mt-16 text-left" @submit.prevent="onSubmit">
 			<SearchBox
 				label="Find place"
-				combobox-options-classes="w-[calc(100%+16px)] -left-2"
+				combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset"
 				bg-combobox="space"
 				input-id="search-input"
-				size="md"
+				:types="['establishment']"
 			/>
 
 			<Select
@@ -60,7 +71,7 @@ function onSubmit() {
 				<template #option="{ id, name }">
 					<CryptoIcon class="w-6 h-6" :crypto="id" />
 					<span>
-						<span class="font-bold">{{ id }}</span>
+						<span class="font-bold">{{ id.toUpperCase() }}</span>
 						{{ name }}
 					</span>
 				</template>
@@ -69,7 +80,7 @@ function onSubmit() {
 			</Select>
 
 			<!-- TODO add color -->
-			<Button bgColor="ocean" type="submit" class="mx-auto mt-10">
+			<Button bgColor="ocean" type="submit" class="mx-auto mt-10" size="lg">
 				<template #text>Submit Place</template>
 			</Button>
 		</form>

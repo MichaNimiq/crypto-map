@@ -25,7 +25,7 @@ import type { SelectOption } from "../components/elements/Select.vue"
 const basePath: string = import.meta.env.VITE_URL_API_URL
 const googleMapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY
 
-const partnerApi = new LocationsApi(new Configuration({
+const mapApi = new LocationsApi(new Configuration({
   basePath
 }))
 
@@ -118,7 +118,7 @@ export const useApi = defineStore("api", () => {
     const locations: CryptoLocation[] = pickups.map(({ geo_location, place_information, place_id: placeId }) => {
       const { photos, rating, formatted_address: address, url: gmapsUrl, types } = place_information
       // TODO Review placeholder
-      const photoUrl = photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
+      const photoUrl = photos && photos.length > 0 ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
 
       const currencies = currenciesApi.reduce((acc, curr) => {
         const id = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrencyApi] !== undefined) as keyof CryptoCurrencyApi | undefined
@@ -159,7 +159,7 @@ export const useApi = defineStore("api", () => {
 
     console.log('🔍 Searching in the API: ', body)
 
-    const response: SearchLocationsResponse = await partnerApi.searchLocations(body).catch((e) => {
+    const response: SearchLocationsResponse = await mapApi.searchLocations(body).catch((e) => {
       return e;
     })
 
@@ -176,7 +176,7 @@ export const useApi = defineStore("api", () => {
   }
 
   async function getLocationById(locationId: string) {
-    const rawLocation = await partnerApi.getLocationById({ locationId }).catch((e) => {
+    const rawLocation = await mapApi.getLocationById({ locationId }).catch((e) => {
       return e;
     })
     return parseLocations(rawLocation)?.[0] || undefined
@@ -190,6 +190,7 @@ export const useApi = defineStore("api", () => {
     issueCategories: ref(issueCategories),
     selectedCurrencies,
     selectedCategories,
-    getLocationById
+    getLocationById,
+    mapApi
   }
 })

@@ -1,7 +1,7 @@
 import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore, storeToRefs } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApi } from "./api";
@@ -26,6 +26,8 @@ export enum AutocompleteStatus {
 
 export const useMap = defineStore("map", () => {
   const map$ = ref<typeof GoogleMap>();
+  const mapReady = computed(() => !!map$.value);
+
   const location = ref<Location>({
     southWest: { lat: 0, lng: 0 },
     northEast: { lat: 0, lng: 0 },
@@ -45,9 +47,6 @@ export const useMap = defineStore("map", () => {
   function decreaseZoom() { setZoom(zoom.value - 1) }
 
   async function setBoundingBox(newLocation: Location) {
-    if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
-    if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
-
     location.value = newLocation;
     await useApi().search(location.value);
     // @ts-ignore
@@ -79,7 +78,6 @@ export const useMap = defineStore("map", () => {
     })
   }
 
-
   // Autocomplete 
   const sessionToken = ref<google.maps.places.AutocompleteSessionToken>();
   const autocompleteService = ref<google.maps.places.AutocompleteService>();
@@ -87,13 +85,22 @@ export const useMap = defineStore("map", () => {
 
   const suggestions = ref<google.maps.places.AutocompletePrediction[]>([])
 
-  function autocomplete(input: string) {
+  async function autocomplete(input: string, types?: string[]) {
+    if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
+    if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
+
     autocompleteStatus.value = AutocompleteStatus.LOADING
     if (!input || !autocompleteService.value) {
       autocompleteStatus.value = AutocompleteStatus.NO_RESULTS
       return suggestions.value = []
     }
-    autocompleteService.value.getPlacePredictions({ input, sessionToken: sessionToken.value }, (predictions, status) => {
+    autocompleteService.value.getPlacePredictions({
+      input,
+      sessionToken: sessionToken.value,
+      location: mapReady.value && map.value.getCenter(),
+      bounds: mapReady.value && map.value.getBounds(),
+      types
+    }, (predictions, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
         autocompleteStatus.value = AutocompleteStatus.ERROR
         return

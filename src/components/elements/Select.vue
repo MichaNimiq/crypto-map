@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<Listbox v-model="selected" :multiple="multiple">
-			<ListboxLabel class="text-space/40 capitalize">
+			<ListboxLabel v-if="hasLabel" class="text-space/40 capitalize">
 				<slot name="label">
 					{{ label }}
 				</slot>
 			</ListboxLabel>
-			<div class="relative">
+			<div class="relative" :class="{ 'mt-1': hasLabel }">
 				<ListboxButton
-					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white pt-[8.5px] pb-[4.5px] pl-4 pr-[3.25rem] text-left outline-none"
+					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none"
 				>
 					<span class="block truncate text-space/60">
 						{{ placeholder }}
@@ -77,7 +77,7 @@
 import ArrowSelectIcon from "@/components/icons/icon-arrow-select.vue"
 import CheckIcon from "@/components/icons/icon-check.vue"
 import CrossIcon from "@/components/icons/icon-cross.vue"
-import { ref, useSlots, watch } from "vue"
+import { ref, useSlots, watch, computed } from "vue"
 
 import {
 Listbox,
@@ -127,7 +127,8 @@ function removeSelected(option: SelectOption) {
 }
 
 const slots = useSlots()
-function hasSlot(slotName: "selected-option" | "after-options") {
+const hasLabel = computed(() => props.label || hasSlot("label"))
+function hasSlot(slotName: "selected-option" | "after-options" | "label") {
 	return slots[slotName] !== undefined
 }
 </script>

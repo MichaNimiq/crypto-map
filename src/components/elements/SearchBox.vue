@@ -4,14 +4,14 @@
 		v-slot="{ open }"
 		as="div"
 		nullable
-		@update:model-value="mapStore.goToPlaceId(selected?.place_id)"
+		@update:model-value="emit('selected', selected)"
 	>
-		<label v-if="label || hasSlot('label')" :for="randomId" class="text-space/40 capitalize">
+		<label v-if="hasLabel" :for="randomId" class="text-space/40 capitalize">
 			<slot name="label">
 				{{ label }}
 			</slot>
 		</label>
-		<div class="relative z-20">
+		<div class="relative z-20" :class="{'mt-1': hasLabel}">
 			<div
 				class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]"
 				:class="{
@@ -19,17 +19,15 @@
 					'ring-ocean/30': open,
 					'rounded-full': roundedFull,
 					'rounded-4': !roundedFull,
-					'h-[38px]': size === 'lg',
-					'h-[30px]': size === 'md',
 				}"
 			>
 				<ComboboxInput
-					class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none"
+					class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none pr-[3.25rem] pl-4"
 					:class="{
 						'text-space': !open,
 						'text-ocean': open,
-						'pt-[7px] pb-[5px] pl-4 pr-[3.25rem] text-sm': size === 'md',
-						'py-1.5 sm:py-2.5 pl-4 pr-[3.25rem] text-lg': size === 'lg',
+						'text-sm py-[5px]': size === 'sm',
+						'text-base py-2': size === 'md',
 					}"
 					autocomplete="off"
 					placeholder="Search crypto map"
@@ -97,11 +95,11 @@
 								'hover:bg-space/60': bgCombobox === 'space',
 								'bg-space/[0.06]': bgCombobox === 'white' && active,
 								'bg-space/60': bgCombobox === 'space' && active,
-								'px-6 gap-x-6': size === 'md',
-								'px-3 gap-x-2': size === 'lg',
+								'px-6 gap-x-6': size === 'sm',
+								'px-3 gap-x-2': size === 'md',
 							}"
 						>
-							<div
+							<!-- <div
 								class="rounded-full w-8 h-8 grid place-content-center"
 								:class="{
 									'bg-space/10': bgCombobox === 'white' && size === 'md',
@@ -115,7 +113,7 @@
 										'text-white': bgCombobox === 'space',
 									}"
 								/>
-							</div>
+							</div> -->
 							<span
 								class="block truncate"
 								:class="{
@@ -145,24 +143,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, useSlots, watch } from "vue"
-import SearchIcon from "@/components/icons/icon-search.vue"
-import CarsAndBikesIcon from "@/components/icons/categories/cars-&-bikes.vue"
 import CrossIcon from "@/components/icons/icon-cross.vue"
+import SearchIcon from "@/components/icons/icon-search.vue"
+import { AutocompleteStatus, useMap } from "@/stores/map"
 import {
-	Combobox,
-	ComboboxInput,
-	ComboboxButton,
-	ComboboxOptions,
-	ComboboxOption,
-	TransitionRoot,
+Combobox,
+ComboboxButton,
+ComboboxInput,
+ComboboxOption,
+ComboboxOptions,
+TransitionRoot
 } from "@headlessui/vue"
-import { useMap, AutocompleteStatus } from "@/stores/map"
 import { storeToRefs } from "pinia"
+import { computed, ref, useSlots, watch } from "vue"
 
 type Option = google.maps.places.AutocompletePrediction
 
-defineProps({
+const props = defineProps({
 	roundedFull: {
 		type: Boolean,
 		default: false,
@@ -176,13 +173,21 @@ defineProps({
 		default: "white",
 	},
 	size: {
-		type: String as () => "md" | "lg",
+		type: String as () => "sm" | "md",
 		default: "md",
 	},
 	label: {
 		type: String,
 		default: "",
 	},
+	types: {
+		type: Array as () => string[],
+		default: undefined,
+	},
+})
+
+const emit = defineEmits({
+	selected: (value?: google.maps.places.AutocompletePrediction) => value,
 })
 
 const randomId = Math.random().toString(36).substring(7)
@@ -197,10 +202,11 @@ const { suggestions, autocompleteStatus: status } = storeToRefs(mapStore)
 
 watch(
 	() => query.value,
-	() => mapStore.autocomplete(query.value)
+	() => mapStore.autocomplete(query.value, props.types)
 )
 
 const slots = useSlots()
+const hasLabel = computed(() => props.label || hasSlot("label"))
 function hasSlot(slotName: "label") {
 	return slots[slotName] !== undefined
 }
