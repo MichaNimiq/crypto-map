@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TheHeaderBar from "@/components/TheHeaderBar.vue";
-import TheList from "@/components/TheList.vue";
-import TheMap from "@/components/TheMap.vue";
+import TheHeaderBar from "@/components/TheHeaderBar.vue"
+import TheList from "@/components/TheList.vue"
+import TheMap from "@/components/TheMap.vue"
 </script>
 
 <template>

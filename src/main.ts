@@ -5,6 +5,7 @@ import App from "./App.vue";
 import "./index.css";
 import messages from "./translatables";
 import "/node_modules/focus-visible/dist/focus-visible.min.js";
+import { Loader } from "@googlemaps/js-api-loader";
 
 import '@/assets/scss/main.scss';
 import { router } from "./router";
@@ -27,6 +28,8 @@ pinia.use(({ store }) => {
 });
 app.use(pinia);
 app.use(router)
+
+await (new Loader({ apiKey: import.meta.env.VITE_GOOGLE_MAP_KEY, version: "weekly", libraries: ['places'] })).load();
 
 app.mount("#app");
 

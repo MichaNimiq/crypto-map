@@ -7,7 +7,7 @@ import { useCaptcha } from "@/composables/useCaptcha"
 import { useApi } from "@/stores/api"
 import { computed } from "@vue/reactivity"
 import { storeToRefs } from "pinia"
-import { ref } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 
 const apiStore = useApi()
 const { cryptoCurrencies, issueCategories } = storeToRefs(apiStore)
@@ -24,7 +24,16 @@ const showCurrencies = computed(
 		["missing-currency", "missing-not-accepted"].includes(userInput.selectedIssue.value.id)
 )
 
-const { captchaOk } = useCaptcha()
+const { captchaOk, loadRecaptcha, removeRecaptcha } = useCaptcha()
+
+onMounted(() => {
+	loadRecaptcha()
+})
+
+onUnmounted(() => {
+	removeRecaptcha()
+})
+
 function onSubmit() {
 	console.log("submit")
 	console.log(captchaOk())

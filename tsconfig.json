@@ -8,10 +8,11 @@
       "@/*": ["./src/*"]
     },
   },
+  "baseUrl": "types",
   "typeRoots": ["types", "google.maps"],
   "references": [
     {
       "path": "./tsconfig.config.json"
     }
-  ]
+  ],
 }

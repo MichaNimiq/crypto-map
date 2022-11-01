@@ -2,6 +2,9 @@
 import LearnMorePopover from "@/components/elements/LearnMorePopover.vue"
 import SearchBox from "@/components/elements/SearchBox.vue"
 import FilterModal from "@/components/elements/FilterModal.vue"
+import { useMap } from "@/stores/map"
+
+const mapStore = useMap()
 </script>
 
 <template>
@@ -11,7 +14,8 @@ import FilterModal from "@/components/elements/FilterModal.vue"
 			class="flex-1"
 			rounded-full
 			combobox-options-classes="w-screen mt-12 -left-16 max-h-[220px] rounded-t-0"
-			size="md"
+			size="sm"
+			@selected="mapStore.goToPlaceId($event?.place_id)"
 		/>
 		<FilterModal />
 	</header>
