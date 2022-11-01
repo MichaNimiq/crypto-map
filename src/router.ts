@@ -13,12 +13,12 @@ export const router = createRouter({
       component: () => import("./components/forms/AddLocation.vue"),
     },
     {
-      path: "/location/:location_id",
+      path: "/location/:place_id",
       name: "location_detail",
       component: MapLayout,
     },
     {
-      path: "/location/:location_id/report",
+      path: "/location/:place_id/report",
       name: "report_location",
       component: () => import("./components/forms/ReportLocation.vue"),
     },

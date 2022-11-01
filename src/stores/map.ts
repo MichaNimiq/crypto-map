@@ -74,7 +74,7 @@ export const useMap = defineStore("map", () => {
 
     navigator.geolocation.getCurrentPosition(({ coords }) => {
       setCenter({ lat: coords.latitude, lng: coords.longitude })
-      setZoom(15)
+      setZoom(13)
     })
   }
 

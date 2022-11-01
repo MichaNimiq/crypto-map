@@ -7,7 +7,6 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core"
 
 const { greater } = useBreakpoints(breakpointsTailwind)
-const isXlScreen = greater("xl")
 </script>
 
 <template>
