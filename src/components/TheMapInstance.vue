@@ -22,6 +22,7 @@ const {
 	setCenter,
 	setZoom,
 	computeBoundingBox,
+	goToPlaceId,
 } = mapStore
 const { center, zoom, map$ } = storeToRefs(mapStore)
 
@@ -41,6 +42,19 @@ onMounted(async () => {
 		navigateToUserLocation()
 	}
 })
+
+// We have to wait until GoogleMap component is mounted in order to compute
+// the bounding box of the map if user is accessing the map from a location
+function onIdle() {
+	const { place_id: placeId } = route.params
+	const placeIdOk = placeId && typeof placeId === "string"
+	if (placeIdOk) {
+		goToPlaceId(placeId)
+		computeBoundingBox()
+	} else {
+		computeBoundingBox()
+	}
+}
 </script>
 
 <template>
@@ -55,7 +69,7 @@ onMounted(async () => {
 		:clickable-icons="false"
 		:styles="googleMapStyles"
 		@dragend="computeBoundingBox"
-		@idle="computeBoundingBox"
+		@idle="onIdle"
 	>
 		<CustomMarker
 			v-for="location in cryptoLocations"
