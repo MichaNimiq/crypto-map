@@ -17,7 +17,7 @@ const scroller$ = ref<HTMLDivElement>()
 const fullScreen = ref(false)
 
 const appStore = useApp()
-const { locationListVisible, selectedLocationId } = storeToRefs(appStore)
+const { showList, selectedLocationId } = storeToRefs(appStore)
 
 const apiStore = useApi()
 const { cryptoLocations } = storeToRefs(apiStore)
@@ -40,15 +40,15 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 
 <template>
 	<div
-		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-h-main bottom-0"
+		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 overflow-auto scroll-space max-xl:bg-white max-xl:shadow max-xl:w-screen"
 		:class="{
-			'xl:-translate-x-96': !locationListVisible,
-			'max-xl:bottom-0': locationListVisible && cryptoLocations.length === 0,
+			'xl:-translate-x-96 max-xl:top-full': !showList,
+			'h-main': cryptoLocations.length > 0,
 		}"
 	>
 		<ul
 			ref="scroller$"
-			class="w-screen xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white shadow overflow-y-auto h-auto min-h-main scroll-space z-2"
+			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative"
 			v-if="cryptoLocations.length > 0"
 		>
 			<li
@@ -69,7 +69,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 
 		<div
 			v-else
-			class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6 max-xl:py-20 shadow xl:h-main"
+			class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6 max-xl:py-20 xl:shadow xl:h-main"
 		>
 			<CactusIcon class="text-space w-20 justify-self-center" />
 			<p class="text-space text-center text-base xl:text-xl">Oops, no businesses around here</p>
@@ -83,26 +83,26 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			leave-from-class="opacity-100 translate-y-0"
 			leave-to-class="opacity-0 translate-y-12"
 		>
-			<div v-if="xlScreen || !locationListVisible" class="self-end">
+			<div class="self-end" v-if="xlScreen || !showList">
 				<Button
 					bgColor="white"
 					class="max-xl:fixed bottom-0 mb-5 max-xl:left-5 shadow z-1"
 					size="md"
-					@click="appStore.toggleLocationList()"
+					@click="appStore.toggleList()"
 				>
 					<template #icon>
 						<component
-							:is="locationListVisible ? ChevronLeftIcon : ListIcon"
+							:is="showList ? ChevronLeftIcon : ListIcon"
 							class="text-space w-4.5"
 							:class="{
-								'h-4.5': locationListVisible,
-								'h-4': !locationListVisible,
+								'h-4.5': showList,
+								'h-4': !showList,
 							}"
 						/>
 					</template>
 
 					<template #text v-if="!smallScreen">
-						{{ locationListVisible ? "Hide list" : "Show list" }}
+						{{ showList ? "Hide list" : "Show list" }}
 					</template>
 				</Button>
 			</div>
@@ -116,11 +116,8 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			leave-from-class="opacity-100 translate-y-0"
 			leave-to-class="opacity-0 translate-y-12"
 		>
-			<div
-				v-if="!xlScreen && locationListVisible"
-				class="w-full flex justify-center max-xl:fixed bottom-5 z-10"
-			>
-				<Button bg-color="ocean" class="shadow" @click="appStore.hideLocationsList()">
+			<div v-if="!xlScreen && showList" class="w-full flex justify-center fixed bottom-5 z-10">
+				<Button bg-color="ocean" class="shadow" @click="showList = false">
 					<template #text>Back to the Map</template>
 				</Button>
 			</div>

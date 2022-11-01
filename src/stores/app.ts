@@ -3,10 +3,8 @@ import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 export const useApp = defineStore("app", () => {
-  const locationListVisible = ref(false);
-  const toggleLocationList = () => locationListVisible.value = !locationListVisible.value;
-  const showLocationsList = () => locationListVisible.value = true;
-  const hideLocationsList = () => locationListVisible.value = false;
+  const showList = ref(false);
+  const toggleList = () => showList.value = !showList.value;
 
   const selectedLocationId = ref<string>();
 
@@ -16,10 +14,8 @@ export const useApp = defineStore("app", () => {
 
 
   return {
-    locationListVisible,
-    toggleLocationList,
-    showLocationsList,
-    hideLocationsList,
+    showList,
+    toggleList,
     selectedLocationId,
   }
 });

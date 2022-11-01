@@ -19,7 +19,7 @@ const { selectedLocationId } = storeToRefs(appStore) // TODO Add styles for the 
 </script>
 
 <template>
-	<RouterLink :to="`/location/${location.id}`" class="children:px-6">
+	<RouterLink :to="`/location/${location.placeId}`" class="children:px-6">
 		<img
 			:src="location.photoUrl"
 			:alt="`Image of ${location.name}`"
