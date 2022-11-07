@@ -1,4 +1,4 @@
-import { Configuration, LocationsApi, type CategoriesIssues as CategoriesIssuesApi, type CryptoLocation as CryptoLocationApi, type SearchLocationsRequest } from "@/api";
+import { Configuration, LocationsApi, type CategoriesIssuesInner as CategoriesIssuesApi, type CryptoLocation as CryptoLocationApi, type SearchLocationsRequest } from "@/api";
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";

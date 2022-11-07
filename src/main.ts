@@ -27,9 +27,11 @@ pinia.use(({ store }) => {
   store.router = markRaw(router)
 });
 app.use(pinia);
-app.use(router)
+app.use(router);
 
-await (new Loader({ apiKey: import.meta.env.VITE_GOOGLE_MAP_KEY, version: "weekly", libraries: ['places'] })).load();
+(async () => {
+  await (new Loader({ apiKey: import.meta.env.VITE_GOOGLE_MAP_KEY, version: "weekly", libraries: ['places'] })).load();
+})();
 
 app.mount("#app");
 

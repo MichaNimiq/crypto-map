@@ -2,6 +2,7 @@ const recapthaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 
 export function useCaptcha() {
   async function getToken() {
+    // @ts-ignore
     const token = await grecaptcha.execute(recapthaKey, { action: "submit" })
     return token
   }
