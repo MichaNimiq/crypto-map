@@ -29,10 +29,8 @@ pinia.use(({ store }) => {
 app.use(pinia);
 app.use(router);
 
-(async () => {
-  await (new Loader({ apiKey: import.meta.env.VITE_GOOGLE_MAP_KEY, version: "weekly", libraries: ['places'] })).load();
-})();
-
-app.mount("#app");
-
+new Loader({ apiKey: import.meta.env.VITE_GOOGLE_MAP_KEY, version: "weekly", libraries: ['places'] }).load().then(() => {
+  app.mount("#app");
+});
+  
 export default {}
