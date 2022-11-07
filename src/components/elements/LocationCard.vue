@@ -43,7 +43,7 @@ const { selectedLocationId } = storeToRefs(appStore) // TODO Add styles for the 
 
 		<ul class="flex gap-x-1 mt-4 pb-6">
 			<li v-for="{ id } in location.currencies" :key="id" class="w-6 h-6 rounded-full">
-				<CryptoIcon :crypto="id" />
+				<CryptoIcon :crypto="id as string" />
 			</li>
 		</ul>
 	</RouterLink>

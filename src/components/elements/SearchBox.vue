@@ -11,7 +11,7 @@
 				{{ label }}
 			</slot>
 		</label>
-		<div class="relative z-20" :class="{'mt-1': hasLabel}">
+		<div class="relative z-20" :class="{ 'mt-1': hasLabel }">
 			<div
 				class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]"
 				:class="{
@@ -31,7 +31,7 @@
 					}"
 					autocomplete="off"
 					placeholder="Search crypto map"
-					:displayValue="(region) => (region as Option)?.description "
+					:displayValue="(region) => (region as typeof Option)?.description "
 					@change="query = $event.target.value"
 					:id="randomId"
 				/>
@@ -147,12 +147,12 @@ import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
 import { AutocompleteStatus, useMap } from "@/stores/map"
 import {
-Combobox,
-ComboboxButton,
-ComboboxInput,
-ComboboxOption,
-ComboboxOptions,
-TransitionRoot
+	Combobox,
+	ComboboxButton,
+	ComboboxInput,
+	ComboboxOption,
+	ComboboxOptions,
+	TransitionRoot,
 } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
 import { computed, ref, useSlots, watch } from "vue"

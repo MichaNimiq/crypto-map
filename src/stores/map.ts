@@ -97,8 +97,8 @@ export const useMap = defineStore("map", () => {
     autocompleteService.value.getPlacePredictions({
       input,
       sessionToken: sessionToken.value,
-      location: mapReady.value && map.value.getCenter(),
-      bounds: mapReady.value && map.value.getBounds(),
+      location: mapReady.value ? map.value.getCenter() : undefined,
+      bounds: mapReady.value ? map.value.getBounds() : undefined,
       types
     }, (predictions, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {

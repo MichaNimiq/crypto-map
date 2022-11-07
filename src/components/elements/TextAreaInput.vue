@@ -11,7 +11,6 @@
 			:placeholder="placeholder"
 			class="w-full min-h-[224px] ring-[1.5px] ring-space/[0.15] rounded-4 max-h-[50vh] pt-[8.5px] pb-[4.5px] px-4"
 			v-model="value"
-			@update="$emit('update:value', $event.target.value)"
 		></textarea>
 	</div>
 </template>

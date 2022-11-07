@@ -42,7 +42,7 @@ onMounted(async () => {
 })
 
 async function onSubmit() {
-	if (disabled.value) return
+	if (disabled.value || !selectedIssue.value) return
 
 	errorMsg.value = ""
 	sending.value = true
@@ -52,13 +52,13 @@ async function onSubmit() {
 		.postLocationIssue({
 			locationIssueBody: {
 				token,
-				issue_category_id: selectedIssue.value?.id || "0",
+				issue_category_id: selectedIssue.value?.id as string,
 				google_place_id: route.params.place_id as string,
 				description: issueDescription.value,
 			},
 		})
 		.catch((err) => {
-			errorMsg.value = 'Unable to report the issue. Please try again later.'
+			errorMsg.value = "Unable to report the issue. Please try again later."
 		})
 	sending.value = false
 }

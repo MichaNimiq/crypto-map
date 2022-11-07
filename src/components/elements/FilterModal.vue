@@ -54,7 +54,7 @@
 									</h3>
 								</template>
 								<template #option="{ id, name }">
-									<CryptoIcon class="w-6 h-6" :crypto="id" />
+									<CryptoIcon class="w-6 h-6" :crypto="id as string" />
 									<span>{{ name }}</span>
 								</template>
 								<template #after-options> More cryptocurrencies supported in the future </template>
