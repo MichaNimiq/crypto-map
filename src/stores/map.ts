@@ -7,14 +7,14 @@ import type { GoogleMap } from "vue3-google-map/*";
 import { useApi } from "./api";
 import { useApp } from "./app";
 
-export interface LatLng {
+export interface Point {
   lat: number;
   lng: number;
 }
 
-export interface Location {
-  southWest: LatLng;
-  northEast: LatLng;
+export interface BoundingBox {
+  southWest: Point;
+  northEast: Point;
 }
 
 export enum AutocompleteStatus {
@@ -28,17 +28,17 @@ export const useMap = defineStore("map", () => {
   const map$ = ref<typeof GoogleMap>();
   const mapReady = computed(() => !!map$.value);
 
-  const location = ref<Location>({
+  const location = ref<BoundingBox>({
     southWest: { lat: 0, lng: 0 },
     northEast: { lat: 0, lng: 0 },
   });
   const zoom = ref(7);
-  const center = ref<LatLng>({ lat: 50.5, lng: 10.5 });
+  const center = ref<Point>({ lat: 50.5, lng: 10.5 });
 
   // @ts-ignore
   const map = computed(() => map$.value.map as google.maps.Map);
 
-  async function setCenter(location?: LatLng) {
+  async function setCenter(location?: Point) {
     center.value = location ? { ...location } : { ...(await useGeoIp().locate()) }
   }
 
@@ -46,7 +46,7 @@ export const useMap = defineStore("map", () => {
   function increaseZoom() { setZoom(zoom.value + 1) }
   function decreaseZoom() { setZoom(zoom.value - 1) }
 
-  async function setBoundingBox(newLocation: Location) {
+  async function setBoundingBox(newLocation: BoundingBox) {
     location.value = newLocation;
     await useApi().search(location.value);
     // @ts-ignore

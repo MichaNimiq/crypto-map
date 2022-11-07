@@ -19,12 +19,12 @@ import {
     CryptoCurrencyFromJSONTyped,
     CryptoCurrencyToJSON,
 } from './CryptoCurrency';
-import type { Pickup } from './Pickup';
+import type { CryptoLocationGeoLocation } from './CryptoLocationGeoLocation';
 import {
-    PickupFromJSON,
-    PickupFromJSONTyped,
-    PickupToJSON,
-} from './Pickup';
+    CryptoLocationGeoLocationFromJSON,
+    CryptoLocationGeoLocationFromJSONTyped,
+    CryptoLocationGeoLocationToJSON,
+} from './CryptoLocationGeoLocation';
 
 /**
  * 
@@ -43,97 +43,55 @@ export interface CryptoLocation {
      * @type {string}
      * @memberof CryptoLocation
      */
-    label: string;
+    place_id: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    description: string | null;
+    name: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    website: string | null;
+    photo_reference: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    email: string | null;
+    category: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    phone: string | null;
+    type: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CryptoLocation
+     */
+    rating: number;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    zip: string;
+    address: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoLocation
      */
-    city: string;
+    gmaps_url: string;
     /**
      * 
-     * @type {string}
+     * @type {CryptoLocationGeoLocation}
      * @memberof CryptoLocation
      */
-    country: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CryptoLocation
-     */
-    digital_goods: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoLocation
-     */
-    created_at: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoLocation
-     */
-    updated_at: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoLocation
-     */
-    address_line_1: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoLocation
-     */
-    address_line_2: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoLocation
-     */
-    address_line_3: string;
-    /**
-     * 
-     * @type {Array<Pickup>}
-     * @memberof CryptoLocation
-     */
-    pickups: Array<Pickup>;
-    /**
-     * 
-     * @type {Array<Pickup>}
-     * @memberof CryptoLocation
-     */
-    shippings: Array<Pickup>;
+    geo_location: CryptoLocationGeoLocation;
     /**
      * 
      * @type {Array<CryptoCurrency>}
@@ -148,22 +106,15 @@ export interface CryptoLocation {
 export function instanceOfCryptoLocation(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "label" in value;
-    isInstance = isInstance && "description" in value;
-    isInstance = isInstance && "website" in value;
-    isInstance = isInstance && "email" in value;
-    isInstance = isInstance && "phone" in value;
-    isInstance = isInstance && "zip" in value;
-    isInstance = isInstance && "city" in value;
-    isInstance = isInstance && "country" in value;
-    isInstance = isInstance && "digital_goods" in value;
-    isInstance = isInstance && "created_at" in value;
-    isInstance = isInstance && "updated_at" in value;
-    isInstance = isInstance && "address_line_1" in value;
-    isInstance = isInstance && "address_line_2" in value;
-    isInstance = isInstance && "address_line_3" in value;
-    isInstance = isInstance && "pickups" in value;
-    isInstance = isInstance && "shippings" in value;
+    isInstance = isInstance && "place_id" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photo_reference" in value;
+    isInstance = isInstance && "category" in value;
+    isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "rating" in value;
+    isInstance = isInstance && "address" in value;
+    isInstance = isInstance && "gmaps_url" in value;
+    isInstance = isInstance && "geo_location" in value;
     isInstance = isInstance && "currencies" in value;
 
     return isInstance;
@@ -180,22 +131,15 @@ export function CryptoLocationFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'id': json['id'],
-        'label': json['label'],
-        'description': json['description'],
-        'website': json['website'],
-        'email': json['email'],
-        'phone': json['phone'],
-        'zip': json['zip'],
-        'city': json['city'],
-        'country': json['country'],
-        'digital_goods': json['digital_goods'],
-        'created_at': json['created_at'],
-        'updated_at': json['updated_at'],
-        'address_line_1': json['address_line_1'],
-        'address_line_2': json['address_line_2'],
-        'address_line_3': json['address_line_3'],
-        'pickups': ((json['pickups'] as Array<any>).map(PickupFromJSON)),
-        'shippings': ((json['shippings'] as Array<any>).map(PickupFromJSON)),
+        'place_id': json['place_id'],
+        'name': json['name'],
+        'photo_reference': json['photo_reference'],
+        'category': json['category'],
+        'type': json['type'],
+        'rating': json['rating'],
+        'address': json['address'],
+        'gmaps_url': json['gmaps_url'],
+        'geo_location': CryptoLocationGeoLocationFromJSON(json['geo_location']),
         'currencies': ((json['currencies'] as Array<any>).map(CryptoCurrencyFromJSON)),
     };
 }
@@ -210,22 +154,15 @@ export function CryptoLocationToJSON(value?: CryptoLocation | null): any {
     return {
         
         'id': value.id,
-        'label': value.label,
-        'description': value.description,
-        'website': value.website,
-        'email': value.email,
-        'phone': value.phone,
-        'zip': value.zip,
-        'city': value.city,
-        'country': value.country,
-        'digital_goods': value.digital_goods,
-        'created_at': value.created_at,
-        'updated_at': value.updated_at,
-        'address_line_1': value.address_line_1,
-        'address_line_2': value.address_line_2,
-        'address_line_3': value.address_line_3,
-        'pickups': ((value.pickups as Array<any>).map(PickupToJSON)),
-        'shippings': ((value.shippings as Array<any>).map(PickupToJSON)),
+        'place_id': value.place_id,
+        'name': value.name,
+        'photo_reference': value.photo_reference,
+        'category': value.category,
+        'type': value.type,
+        'rating': value.rating,
+        'address': value.address,
+        'gmaps_url': value.gmaps_url,
+        'geo_location': CryptoLocationGeoLocationToJSON(value.geo_location),
         'currencies': ((value.currencies as Array<any>).map(CryptoCurrencyToJSON)),
     };
 }

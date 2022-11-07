@@ -1,4 +1,4 @@
-import type { LatLng } from "../stores/map";
+import type { Point } from "../stores/map";
 
 export type GeoIpResponse = {
     location?: {
@@ -15,13 +15,13 @@ const DEFAULT_LOCATION = { lat: 50.8503, lng: 12.8510535 }
 
 
 const CACHE_MAX_SIZE = 1000;
-const cacheStore = new Map<string, LatLng>();
+const cacheStore = new Map<string, Point>();
 
 function cached(host: string) {
     return cacheStore.get(host);
 }
 
-function cache(host: string, location: LatLng) {
+function cache(host: string, location: Point) {
     // Clear cache
     while (cacheStore.size > CACHE_MAX_SIZE) {
         // Don't remove own location
@@ -32,7 +32,7 @@ function cache(host: string, location: LatLng) {
     cacheStore.set(host, location);
 }
 
-async function locate(host = ''): Promise<LatLng> {
+async function locate(host = ''): Promise<Point> {
     const cachedResponse = cached(host);
     if (cachedResponse) return cachedResponse;
     const url = new URL(`https://geoip.nimiq-network.com:8443/v1/locate`);

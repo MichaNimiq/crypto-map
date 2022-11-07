@@ -1,30 +1,23 @@
 <script setup lang="ts">
 import Button from "@/components/elements/Button.vue"
-import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import Select, { type SelectOption } from "@/components/elements/Select.vue"
 import TextAreaInput from "@/components/elements/TextAreaInput.vue"
 import { useCaptcha } from "@/composables/useCaptcha"
-import { useApi } from "@/stores/api"
+import { mapApi, useApi } from "@/stores/api"
 import { computed } from "@vue/reactivity"
 import { storeToRefs } from "pinia"
-import { ref, onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
+import { useRoute } from "vue-router"
 
 const apiStore = useApi()
-const { cryptoCurrencies, issueCategories } = storeToRefs(apiStore)
+const { categoriesIssue } = storeToRefs(apiStore)
 
-const userInput = {
-	issueDescription: ref(""),
-	selectedCurrencies: ref<SelectOption[]>([]),
-	selectedIssue: ref<SelectOption>(),
-}
+const selectedIssue = ref<SelectOption>()
+const issueDescription = ref<string>("")
 
-const showCurrencies = computed(
-	() =>
-		userInput.selectedIssue.value &&
-		["missing-currency", "missing-not-accepted"].includes(userInput.selectedIssue.value.id)
-)
+const { getToken, loadRecaptcha, removeRecaptcha } = useCaptcha()
 
-const { captchaOk, loadRecaptcha, removeRecaptcha } = useCaptcha()
+const route = useRoute()
 
 onMounted(() => {
 	loadRecaptcha()
@@ -34,9 +27,40 @@ onUnmounted(() => {
 	removeRecaptcha()
 })
 
-function onSubmit() {
-	console.log("submit")
-	console.log(captchaOk())
+const disabled = computed(() => {
+	return !selectedIssue.value || !issueDescription.value || sending.value
+})
+
+const sending = ref(false)
+const errorMsg = ref("")
+
+onMounted(async () => {
+	console.log("mounted", categoriesIssue.value.length)
+	if (categoriesIssue.value.length === 0) {
+		await apiStore.setIssueCategories()
+	}
+})
+
+async function onSubmit() {
+	if (disabled.value) return
+
+	errorMsg.value = ""
+	sending.value = true
+
+	const token = await getToken()
+	const res = await mapApi
+		.postLocationIssue({
+			locationIssueBody: {
+				token,
+				issue_category_id: selectedIssue.value?.id || "0",
+				google_place_id: route.params.place_id as string,
+				description: issueDescription.value,
+			},
+		})
+		.catch((err) => {
+			errorMsg.value = 'Unable to report the issue. Please try again later.'
+		})
+	sending.value = false
 }
 </script>
 
@@ -49,43 +73,34 @@ function onSubmit() {
 		<form class="mt-14 lg:mt-16 text-left" @submit.prevent="onSubmit">
 			<Select
 				label="Select issue"
-				:options="issueCategories"
+				:options="categoriesIssue"
+				v-model:selected-single="selectedIssue"
 				:multiple="false"
 				placeholder="Select issue"
-				@selected-update="userInput.selectedIssue = $event"
+				replace-placeholder
 			/>
-
-			<Select
-				v-if="showCurrencies"
-				class="mt-6"
-				label="Select currency"
-				:options="cryptoCurrencies"
-				@selected-update="userInput.selectedCurrencies = $event"
-				placeholder="Select cryptocurrency"
-			>
-				<template #option="{ id, name }">
-					<CryptoIcon class="w-6 h-6" :crypto="id" />
-					<span>
-						<span class="font-bold">{{ id }}</span>
-						{{ name }}
-					</span>
-				</template>
-				<template #selected-option="{ name }">
-					{{ name }}
-				</template>
-			</Select>
 
 			<TextAreaInput
 				placeholder="Write your problem here"
 				class="mt-6"
 				label="Describe the issue"
-				v-model="userInput.issueDescription"
+				v-model="issueDescription"
 			/>
 
-			<!-- TODO add color -->
-			<Button bgColor="ocean" type="submit" class="mx-auto mt-10">
+			<Button
+				bgColor="ocean"
+				type="submit"
+				class="mx-auto mt-10"
+				:loading="sending"
+				size="lg"
+				:disabled="disabled"
+			>
 				<template #text>Report Place</template>
 			</Button>
+
+			<p class="text-tomato text-sm mt-2 absolute">
+				{{ errorMsg }}
+			</p>
 		</form>
 	</main>
 </template>
