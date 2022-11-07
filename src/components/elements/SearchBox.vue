@@ -31,7 +31,7 @@
 					}"
 					autocomplete="off"
 					placeholder="Search crypto map"
-					:displayValue="(region) => (region as typeof Option)?.description "
+					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description "
 					@change="query = $event.target.value"
 					:id="randomId"
 				/>
@@ -187,7 +187,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits({
-	selected: (value?: google.maps.places.AutocompletePrediction) => value,
+	selected: (value?: Option) => value,
 })
 
 const randomId = Math.random().toString(36).substring(7)
