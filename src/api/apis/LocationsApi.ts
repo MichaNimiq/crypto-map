@@ -15,21 +15,41 @@
 
 import * as runtime from '../runtime';
 import type {
+  CategoriesIssuesInner,
   CryptoLocation,
   CurrenciesInner,
-  SearchLocationsResponse,
+  LocationCandidateBody,
+  LocationCandidateResponse,
+  LocationIssueBody,
+  LocationIssueResponse,
 } from '../models';
 import {
+    CategoriesIssuesInnerFromJSON,
+    CategoriesIssuesInnerToJSON,
     CryptoLocationFromJSON,
     CryptoLocationToJSON,
     CurrenciesInnerFromJSON,
     CurrenciesInnerToJSON,
-    SearchLocationsResponseFromJSON,
-    SearchLocationsResponseToJSON,
+    LocationCandidateBodyFromJSON,
+    LocationCandidateBodyToJSON,
+    LocationCandidateResponseFromJSON,
+    LocationCandidateResponseToJSON,
+    LocationIssueBodyFromJSON,
+    LocationIssueBodyToJSON,
+    LocationIssueResponseFromJSON,
+    LocationIssueResponseToJSON,
 } from '../models';
 
 export interface GetLocationByIdRequest {
     locationId: string;
+}
+
+export interface PostCandidateRequest {
+    locationCandidateBody?: LocationCandidateBody;
+}
+
+export interface PostLocationIssueRequest {
+    locationIssueBody?: LocationIssueBody;
 }
 
 export interface SearchLocationsRequest {
@@ -82,6 +102,32 @@ export class LocationsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get issue categories with its label
+     */
+    async getIssueCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CategoriesIssuesInner>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/issue_categories`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CategoriesIssuesInnerFromJSON));
+    }
+
+    /**
+     * Get issue categories with its label
+     */
+    async getIssueCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CategoriesIssuesInner>> {
+        const response = await this.getIssueCategoriesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get location by id
      */
     async getLocationByIdRaw(requestParameters: GetLocationByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CryptoLocation>> {
@@ -112,9 +158,67 @@ export class LocationsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Create a new candidate for a location
+     */
+    async postCandidateRaw(requestParameters: PostCandidateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LocationCandidateResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/location`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: LocationCandidateBodyToJSON(requestParameters.locationCandidateBody),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LocationCandidateResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Create a new candidate for a location
+     */
+    async postCandidate(requestParameters: PostCandidateRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LocationCandidateResponse> {
+        const response = await this.postCandidateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Create a new issue for a location
+     */
+    async postLocationIssueRaw(requestParameters: PostLocationIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LocationIssueResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/issue`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: LocationIssueBodyToJSON(requestParameters.locationIssueBody),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => LocationIssueResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Create a new issue for a location
+     */
+    async postLocationIssue(requestParameters: PostLocationIssueRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LocationIssueResponse> {
+        const response = await this.postLocationIssueRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * search
      */
-    async searchLocationsRaw(requestParameters: SearchLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchLocationsResponse>> {
+    async searchLocationsRaw(requestParameters: SearchLocationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CryptoLocation>>> {
         const queryParameters: any = {};
 
         if (requestParameters.filterCity !== undefined) {
@@ -186,13 +290,13 @@ export class LocationsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SearchLocationsResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CryptoLocationFromJSON));
     }
 
     /**
      * search
      */
-    async searchLocations(requestParameters: SearchLocationsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchLocationsResponse> {
+    async searchLocations(requestParameters: SearchLocationsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CryptoLocation>> {
         const response = await this.searchLocationsRaw(requestParameters, initOverrides);
         return await response.value();
     }

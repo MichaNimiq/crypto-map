@@ -1,9 +1,9 @@
-import { Configuration, LocationsApi, type CryptoCurrency as CryptoCurrencyApi, type SearchLocationsRequest, type SearchLocationsResponse, type CryptoLocation as CryptoLocationApi } from "@/api";
+import { Configuration, LocationsApi, type CategoriesIssues as CategoriesIssuesApi, type CryptoLocation as CryptoLocationApi, type SearchLocationsRequest } from "@/api";
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import type { Location } from "./map";
-import type { SelectOption } from "../components/elements/Select.vue"
+import type { SelectOption } from "../components/elements/Select.vue";
+import type { BoundingBox } from "./map";
 /*
   currently the JSON place_information is a simple string and needs to get parsed
   the next server version will have this as a proper object
@@ -25,13 +25,12 @@ import type { SelectOption } from "../components/elements/Select.vue"
 const basePath: string = import.meta.env.VITE_URL_API_URL
 const googleMapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY
 
-const mapApi = new LocationsApi(new Configuration({
+export const mapApi = new LocationsApi(new Configuration({
   basePath
 }))
 
 export type CryptoCurrency = SelectOption
 export type LocationCategory = SelectOption
-export type IssueCategory = SelectOption
 
 // TODO Model this from the API,not model it here!
 const locationCategories = [
@@ -50,15 +49,6 @@ const cryptoCurrencies = [
   { id: "ltc", name: "Litecoin" }
 ] as CryptoCurrency[]
 
-// TODO Model this from the API,not model it here!
-const issueCategories = [
-  { id: "crypto-location-gone", name: "Place closed / does not exist" },
-  { id: "missing-currency", name: "Currency missing" },
-  { id: "missing-not-accepted", name: "Currency not accepted" },
-  { id: "no-crypto", name: "Place doesn't accept crypto" },
-  { id: "other", name: "Other" },
-] as IssueCategory[]
-
 export type CryptoLocation = {
   id: number;
   placeId: string;
@@ -76,9 +66,11 @@ export type CryptoLocation = {
   };
   currencies: CryptoCurrency[];
 }
+
 export const useApi = defineStore("api", () => {
-  // Loaded cryptoLocations from the API
+  // Data from API
   const cryptoLocations = ref<CryptoLocation[]>([])
+  const categoriesIssue = ref<SelectOption[]>([])
 
   const route = useRoute()
   const router = useRouter()
@@ -103,54 +95,34 @@ export const useApi = defineStore("api", () => {
   })
 
   // Converts crypto location model from the API to the model used in the app
-  // The model in the API is built the following way:
-  // 1. A business can have multiple locations in the world. Each location will be a separated item in the 'pickups' array.
-  //    Each of this items is a unique location which its own store, place id, address...
-  // 2. A businness can have also online presence. But this for now does not happen.
-
-  // So the API returns an array of business, which each one of them has an array of locations. We need to flatten this array into a single array of locations.
-  // This functions just does that.
-  function parseLocations(locationApi: CryptoLocationApi): CryptoLocation[] {
-    const { id, label: name, currencies: currenciesApi, pickups } = locationApi
-
-    if (pickups.length === 0) return []
-
-    const locations: CryptoLocation[] = pickups.map(({ geo_location, place_information, place_id: placeId }) => {
-      const { photos, rating, formatted_address: address, url: gmapsUrl, types } = place_information
-      // TODO Review placeholder
-      const photoUrl = photos && photos.length > 0 ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photos[0].photo_reference}&key=${googleMapsKey}` : "/img/place-placeholder.jpg"
-
-      const currencies = currenciesApi.reduce((acc, curr) => {
-        const id = Object.keys(curr).find((key) => curr[key as keyof CryptoCurrencyApi] !== undefined) as keyof CryptoCurrencyApi | undefined
-        if (id) {
-          acc.push({ id, name: curr[id] as string })
+  function parseLocation(locationApi: CryptoLocationApi): CryptoLocation {
+    const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${locationApi.photo_reference}&key=${googleMapsKey}`
+    const currencies = locationApi.currencies.map((currencySymbol) => {
+      const currency = cryptoCurrencies.find((currency) => currency.id === currencySymbol)
+      if (currency) {
+        return {
+          id: currency.id,
+          name: currency.name,
         }
-        return acc
-      }, [] as CryptoLocation["currencies"])
+      }
+    }).filter(Boolean) as CryptoCurrency[]
 
-      return {
-        id,
-        placeId,
-        name,
-        address,
-        currencies,
-        geoLocation: {
-          lat: geo_location.coordinates[1],
-          lng: geo_location.coordinates[0],
-        },
-        gmapsUrl,
-        rating,
-        photoUrl,
-        // TODO Use the right category
-        category: locationCategories[0],
-        type: types?.[0].replace(/_/g, " ").toLowerCase() || "Miscellaneous",
-      } as CryptoLocation
-    })
-
-    return locations
+    return {
+      id: locationApi.id,
+      placeId: locationApi.place_id,
+      name: locationApi.name,
+      photoUrl,
+      category: locationCategories[0], // TODO
+      type: locationApi.type,
+      rating: locationApi.rating,
+      address: locationApi.address,
+      currencies,
+      gmapsUrl: locationApi.gmaps_url,
+      geoLocation: { ...locationApi.geo_location }
+    }
   }
 
-  async function search({ northEast, southWest }: Location) {
+  async function search({ northEast, southWest }: BoundingBox) {
     const boundingBoxStr = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`
 
     const body: SearchLocationsRequest = {
@@ -159,9 +131,7 @@ export const useApi = defineStore("api", () => {
 
     console.log('🔍 Searching in the API: ', body)
 
-    const response: SearchLocationsResponse = await mapApi.searchLocations(body).catch((e) => {
-      return e;
-    })
+    const response: CryptoLocationApi[] = await mapApi.searchLocations(body).catch((e) => e)
 
     if (response instanceof Error) {
       console.error(response);
@@ -169,17 +139,25 @@ export const useApi = defineStore("api", () => {
       return;
     }
 
-
-    cryptoLocations.value = response.data
-      .map(parseLocations)
-      .reduce((acc, curr) => [...acc, ...curr], []) // flatten the array
+    cryptoLocations.value = response.map(parseLocation)
   }
 
   async function getLocationById(locationId: string) {
-    const rawLocation = await mapApi.getLocationById({ locationId }).catch((e) => {
-      return e;
-    })
-    return parseLocations(rawLocation)?.[0] || undefined
+    const rawLocation = await mapApi.getLocationById({ locationId }).catch((e) => e)
+    return parseLocation(rawLocation) || undefined
+  }
+
+  async function setIssueCategories() {
+    console.log('🔍 Getting categories from the API')
+    const res: CategoriesIssuesApi[] = await mapApi.getIssueCategories().catch((e) => e)
+    console.log('🔍 Got categories from the API', res)
+    if (res instanceof Error) {
+      console.error(res);
+      // TODO Handle error
+      return;
+    }
+    console.log({ res })
+    categoriesIssue.value = res
   }
 
   return {
@@ -187,10 +165,10 @@ export const useApi = defineStore("api", () => {
     cryptoLocations,
     categories: ref(locationCategories),
     cryptoCurrencies: ref(cryptoCurrencies),
-    issueCategories: ref(issueCategories),
+    categoriesIssue,
+    setIssueCategories,
     selectedCurrencies,
     selectedCategories,
     getLocationById,
-    mapApi
   }
 })

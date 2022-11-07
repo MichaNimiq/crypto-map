@@ -11,7 +11,11 @@
 					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none"
 				>
 					<span class="block truncate text-space/60">
-						{{ placeholder }}
+						{{
+							replacePlaceholder && !!selected && !Array.isArray(selected)
+								? (selected as SelectOption).name
+								: placeholder
+						}}
 					</span>
 					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 mr-2">
 						<ArrowSelectIcon class="h-5 w-5 text-space/[0.15]" aria-hidden="true" />
@@ -80,21 +84,25 @@ import CrossIcon from "@/components/icons/icon-cross.vue"
 import { ref, useSlots, watch, computed } from "vue"
 
 import {
-Listbox,
-ListboxButton,
-ListboxLabel,
-ListboxOption,
-ListboxOptions
+	Listbox,
+	ListboxButton,
+	ListboxLabel,
+	ListboxOption,
+	ListboxOptions,
 } from "@headlessui/vue"
 
 export type SelectOption = {
-	id: string
+	id: string | number
 	name: string
 }
 
 const props = defineProps({
 	modelValue: {
 		type: Array as () => SelectOption[],
+		default: () => [],
+	},
+	selectedSingle: {
+		type: Object as () => SelectOption,
 		default: () => [],
 	},
 	options: {
@@ -113,14 +121,23 @@ const props = defineProps({
 		type: String,
 		default: "Select an option",
 	},
+	replacePlaceholder: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits({
 	"update:modelValue": (value: SelectOption[]) => value,
+	"update:selectedSingle": (value: SelectOption) => value,
 })
 
 const selected = ref<SelectOption[]>(props.modelValue)
-watch(selected, (value) => emit("update:modelValue", value))
+watch(selected, (value) => {
+	props.multiple
+		? emit("update:modelValue", value)
+		: emit("update:selectedSingle", (value as unknown as SelectOption))
+})
 
 function removeSelected(option: SelectOption) {
 	selected.value = selected.value.filter((o) => o.id !== option.id)

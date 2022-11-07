@@ -60,7 +60,7 @@ const { selectedLocationId } = storeToRefs(appStore) // TODO Add styles for the 
 		</a>
 
 		<RouterLink
-			:to="`/location/${location.id}/report`"
+			:to="`/location/${location.placeId}/report`"
 			class="z-1 bg-tomato hover:bg-tomato/80 focus-visible:bg-tomato/80 transition-colors shadow rounded-full text-center w-[35px] py-[7.5px] h-max"
 		>
 			<FlagIcon class="text-white mx-auto" />

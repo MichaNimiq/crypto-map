@@ -3,18 +3,19 @@ import Button from "@/components/elements/Button.vue"
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import ArrowLinkIcon from "@/components/icons/icon-arrow-link.vue"
 import { useCaptcha } from "@/composables/useCaptcha"
-import { useApi } from "@/stores/api"
+import { useApi, mapApi } from "@/stores/api"
 import { storeToRefs } from "pinia"
-import { onMounted, onUnmounted, ref } from "vue"
+import { onMounted, onUnmounted, ref, computed } from "vue"
 import SearchBox from "../elements/SearchBox.vue"
 import Select from "../elements/Select.vue"
 
 const apiStore = useApi()
-const { cryptoCurrencies, mapApi } = storeToRefs(apiStore)
+const { cryptoCurrencies } = storeToRefs(apiStore)
 
-const selectedCurrencies = ref([])
+const selectedCurrencies = ref<typeof cryptoCurrencies.value>([])
+const selectedPlace = ref<google.maps.places.AutocompletePrediction>()
 
-const { captchaOk, loadRecaptcha, removeRecaptcha } = useCaptcha()
+const { getToken, loadRecaptcha, removeRecaptcha } = useCaptcha()
 
 onMounted(() => {
 	loadRecaptcha()
@@ -24,11 +25,34 @@ onUnmounted(() => {
 	removeRecaptcha()
 })
 
-async function onSubmit() {
-	console.log("TODO Captcha verification")
-	// console.log(captchaOk())
+const sending = ref(false)
+const disabled = computed(
+	() => selectedCurrencies.value.length === 0 || !selectedPlace.value || sending.value
+)
+const errorMsg = ref("")
 
-	// TODO Post to API
+async function onSubmit() {
+	if (disabled.value) return
+
+	errorMsg.value = ""
+	sending.value = true
+
+	const token = await getToken()
+	const res = await mapApi
+		.postCandidate({
+			locationCandidateBody: {
+				currencies: selectedCurrencies.value.map((c) => (c.id as string).toUpperCase()),
+				token,
+				google_place_id: selectedPlace.value?.place_id || "",
+				name: selectedPlace.value?.description || "",
+			},
+		})
+		.catch((err) => {
+			errorMsg.value = "Unable to submit location. Please try again later."
+		})
+	sending.value = false
+
+	console.log(res)
 }
 </script>
 
@@ -58,6 +82,7 @@ async function onSubmit() {
 				bg-combobox="space"
 				input-id="search-input"
 				:types="['establishment']"
+				@selected="selectedPlace = $event"
 			/>
 
 			<Select
@@ -65,13 +90,13 @@ async function onSubmit() {
 				label="Select cryptocurrency"
 				input-id="cryptocurrency-input"
 				:options="cryptoCurrencies"
-				@selected-update="selectedCurrencies = $event"
+				v-model="selectedCurrencies"
 				placeholder="Select cryptocurrency"
 			>
 				<template #option="{ id, name }">
-					<CryptoIcon class="w-6 h-6" :crypto="id" />
+					<CryptoIcon class="w-6 h-6" :crypto="id as string" />
 					<span>
-						<span class="font-bold">{{ id.toUpperCase() }}</span>
+						<span class="font-bold">{{ (id as string).toUpperCase() }}</span>
 						{{ name }}
 					</span>
 				</template>
@@ -80,9 +105,20 @@ async function onSubmit() {
 			</Select>
 
 			<!-- TODO add color -->
-			<Button bgColor="ocean" type="submit" class="mx-auto mt-10" size="lg">
+			<Button
+				bgColor="ocean"
+				type="submit"
+				class="mx-auto mt-10"
+				size="lg"
+				:loading="sending"
+				:disabled="disabled"
+			>
 				<template #text>Submit Place</template>
 			</Button>
+
+			<p class="text-tomato text-sm mt-2 absolute">
+				{{ errorMsg }}
+			</p>
 		</form>
 	</main>
 </template>

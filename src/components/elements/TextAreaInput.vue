@@ -17,8 +17,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-	value: {
+import { ref, watch } from "vue"
+
+const props = defineProps({
+	modelValue: {
 		type: String,
 	},
 	label: {
@@ -31,7 +33,10 @@ defineProps({
 	},
 })
 
-defineEmits(["update:value"])
+const emit = defineEmits(["update:modelValue"])
+
+const value = ref<string>(props.modelValue || "")
+watch(value, (value) => emit("update:modelValue", value))
 
 const randomId = Math.random().toString(36).substring(7)
 </script>
