@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Crypto Map API documentation
- * The Shop Directory API is serves a list of shops that accept crypto as a payment method.
+ * The Establishments map API is serves a list of establishments that accept crypto as a payment method.
  *
  * The version of the OpenAPI document: 1.0
  * 

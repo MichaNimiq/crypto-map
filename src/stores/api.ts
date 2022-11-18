@@ -1,8 +1,8 @@
 import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type SearchEstablishmentsRequest, type CurrencyInner as Currency, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type PostCandidateRequest as CandidateRequest } from "@/api";
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch, type Ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import type { BoundingBox } from "./map";
+import { useMap, type BoundingBox } from "./map";
 
 const basePath: string = import.meta.env.VITE_URL_API_URL
 const googleMapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY
@@ -56,6 +56,9 @@ export const useApi = defineStore("api", () => {
   const route = useRoute()
   const router = useRouter()
 
+  const mapStore = useMap()
+  const { boundingBox } = storeToRefs(mapStore)
+
   // Converts crypto location model from the API to the model used in the app
   function parseEstablishment({
     id, address, category, currencies: establishmentCurrencySymbols, gmaps_place_id, gmaps_type, gmaps_url, geo_location, name, photo_reference, rating
@@ -70,7 +73,7 @@ export const useApi = defineStore("api", () => {
       category: category,
       currencies: establishmentCurrencies,
       gmapsPlaceId: gmaps_place_id,
-      gmapsType: gmaps_type,
+      gmapsType: capitalize(gmaps_type.replace(/_/g, ' ')),
       gmapsUrl: gmaps_url,
       geoLocation: geo_location,
       id: id,
@@ -81,11 +84,14 @@ export const useApi = defineStore("api", () => {
     return parsedEstablishment
   }
 
-  async function search({ northEast, southWest }: BoundingBox) {
+  async function search() {
+    const { northEast, southWest } = boundingBox.value
     const boundingBoxStr = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`
 
     const body: SearchEstablishmentsRequest = {
-      filterBoundingBox: boundingBoxStr
+      filterBoundingBox: boundingBoxStr,
+      filterEstablishmentCategoryLabel: selectedCategories.value || undefined,
+      filterCurrency: selectedCurrencies.value || undefined,
     }
 
     console.log('🔍 Searching in the API: ', body)
@@ -98,7 +104,9 @@ export const useApi = defineStore("api", () => {
       return;
     }
 
-    establishments.value = response.map(parseEstablishment)
+    establishments.value = response
+      .map(parseEstablishment)
+      .sort((a, b) => b.geoLocation.lat - a.geoLocation.lat)
   }
 
   async function getEstablishmentById(establishmentId: string) {
@@ -147,8 +155,6 @@ export const useApi = defineStore("api", () => {
 
     const priorityOrder = ['NIM', 'BTC']
 
-    console.log('🔍 Sorting currencies by priority', priorityOrder)
-
     currencies.value = res.sort((a, b) => {
       const aIndex = priorityOrder.indexOf(a.symbol)
       const bIndex = priorityOrder.indexOf(b.symbol)
@@ -170,14 +176,17 @@ export const useApi = defineStore("api", () => {
   const selectedCurrencies = ref(pathParamToStringList('currencies'))
   const selectedCategories = ref(pathParamToStringList('categories'))
 
-  watch([selectedCategories, selectedCurrencies], ([newCategories, newCurrencies]) => {
+  watch([selectedCategories, selectedCurrencies], async ([newCategories, newCurrencies]) => {
     router.push({
       query: {
         categories: newCategories,
         currencies: newCurrencies,
       }
     })
+    await search()
   })
+
+  watch([boundingBox], async () => await search())
 
   async function reportEstablishment(establishmentIssueBody: EstablishmentIssueRequest["establishmentIssueBody"]) {
     await establishmentsApi.postEstablishmentIssue({ establishmentIssueBody })

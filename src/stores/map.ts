@@ -28,7 +28,7 @@ export const useMap = defineStore("map", () => {
   const map$ = ref<typeof GoogleMap>();
   const mapReady = computed(() => !!map$.value);
 
-  const establishment = ref<BoundingBox>({
+  const boundingBox = ref<BoundingBox>({
     southWest: { lat: 0, lng: 0 },
     northEast: { lat: 0, lng: 0 },
   });
@@ -46,9 +46,9 @@ export const useMap = defineStore("map", () => {
   function increaseZoom() { setZoom(zoom.value + 1) }
   function decreaseZoom() { setZoom(zoom.value - 1) }
 
-  async function setBoundingBox(newEstablishment: BoundingBox) {
-    establishment.value = newEstablishment;
-    await useApi().search(establishment.value);
+  async function setBoundingBox(newBoundingBox: BoundingBox) {
+    boundingBox.value = newBoundingBox;
+
     // @ts-ignore
     center.value = map.value.getCenter().toJSON();
     // @ts-ignore
@@ -131,7 +131,7 @@ export const useMap = defineStore("map", () => {
 
   return {
     map$,
-    establishment,
+    boundingBox,
     zoom,
     center,
 
