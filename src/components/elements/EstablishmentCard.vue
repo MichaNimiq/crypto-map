@@ -13,9 +13,9 @@ const props = defineProps<{
 </script>
 
 <template>
-	<RouterLink :to="`/establishment/${establishment.gmapsPlaceId}`" class="children:px-6">
+	<RouterLink :to="`/establishment/${establishment.id}`" class="children:px-6">
 		<img :src="establishment.photoUrl" :alt="`Image of ${establishment.name}`"
-			class="h-36 object-cover w-full !px-1.5 rounded-4" loading="lazy" />
+			class="h-36 object-cover w-full !px-1.5 rounded-sm" loading="lazy" />
 
 		<h2 class="mt-5 text-space text-lg font-bold flex-1">{{ establishment.name }}</h2>
 

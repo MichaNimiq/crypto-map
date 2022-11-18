@@ -48,8 +48,8 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative"
 			v-if="establishments.length > 0">
 			<li v-for="establishment in establishments" :key="establishment.id"
-				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-8 flex flex-col break-inside-avoid-column"
-				:class="{ 'ring ring-cherry': establishment.id === selectedEstablishmentId }">
+				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column"
+				:class="{ 'ring ring-ocean': establishment.id === selectedEstablishmentId }">
 				<EstablishmentCard :establishment="establishment" />
 			</li>
 		</ul>

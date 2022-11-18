@@ -80,8 +80,7 @@ const render = (cluster: any) => {
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
 			<CustomMarker ref="markers$" v-for="establishment in establishments" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
-				<RouterLink :to="`/establishment/${establishment.id}`"
-					class="flex flex-col items-center shadow-establishment-popup cursor-pointer">
+				<RouterLink :to="`/establishment/${establishment.id}`" class="flex flex-col items-center shadow cursor-pointer">
 					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="10" viewBox="0 0 28 10" :class="{
 						'text-space': establishment.id !== selectedEstablishmentId,
 						'text-ocean': establishment.id === selectedEstablishmentId,
@@ -91,7 +90,7 @@ const render = (cluster: any) => {
 					</svg>
 
 					<div class="rounded-full flex gap-x-3 items-center pl-1 pr-4 py-[5px]" :class="{
-						'bg-radial-space': establishment.id !== selectedEstablishmentId,
+						'bg-gradient-space': establishment.id !== selectedEstablishmentId,
 						'bg-ocean': establishment.id === selectedEstablishmentId,
 					}">
 						<CategoryIcon class="h-8 w-8 p-0.5 bg-white rounded-full grid place-items-center"

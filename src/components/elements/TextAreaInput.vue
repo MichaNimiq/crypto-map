@@ -5,13 +5,9 @@
 				{{ label }}
 			</slot>
 		</label>
-		<textarea
-			width="100%"
-			:id="randomId"
-			:placeholder="placeholder"
-			class="w-full min-h-[224px] ring-[1.5px] ring-space/[0.15] rounded-4 max-h-[50vh] pt-[8.5px] pb-[4.5px] px-4"
-			v-model="value"
-		></textarea>
+		<textarea width="100%" :id="randomId" :placeholder="placeholder"
+			class="w-full min-h-[224px] ring-[1.5px] ring-space/[0.15] rounded-sm max-h-[50vh] pt-[8.5px] pb-[4.5px] px-4"
+			v-model="value"></textarea>
 	</div>
 </template>
 

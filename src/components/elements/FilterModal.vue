@@ -47,7 +47,7 @@ function openModal() {
 						enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
 						leave-to="opacity-0 scale-95">
 						<DialogPanel
-							class="relative w-full md:max-w-lg transform rounded-t-8 md:rounded-8 bg-white py-8 px-10 text-left align-middle shadow-lg transition-all">
+							class="relative w-full md:max-w-lg transform rounded-t-8 md:rounded-lg bg-white py-8 px-10 text-left align-middle shadow-lg transition-all">
 							<CrossIcon @click="closeModal" class="absolute top-6.5 right-6.5 text-space/40 w-4 h-6 cursor-pointer" />
 
 							<DialogTitle as="h2" class="text-2xl font-bold text-space text-center">
