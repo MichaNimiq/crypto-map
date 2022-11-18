@@ -33,7 +33,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 	if (!listIsShown) appStore.showList()
 	listIsShown.value = true
 	const li = scroller$.value.children[index] as HTMLLIElement
-	li.scrollIntoView({ inline: "nearest", block: "nearest", behavior })
+	li.scrollIntoView({ inline: "center", block: "center", behavior })
 }
 </script>
 
@@ -47,15 +47,9 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		<ul ref="scroller$"
 			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative"
 			v-if="establishments.length > 0">
-			<li
+			<li v-for="establishment in establishments" :key="establishment.id"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-8 flex flex-col break-inside-avoid-column"
-				v-for="establishment in establishments" :key="establishment.id" style="
-					border-image-source: linear-gradient(
-						180deg,
-						rgba(59, 75, 104, 0.01) 0%,
-						rgba(59, 75, 104, 0) 100%
-					);
-				">
+				:class="{ 'ring ring-cherry': establishment.id === selectedEstablishmentId }">
 				<EstablishmentCard :establishment="establishment" />
 			</li>
 		</ul>

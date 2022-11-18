@@ -1,5 +1,5 @@
 /* eslint-env node */
-const theme = require('tailwindcss-nimiq-theme')
+const { theme } = require('tailwindcss-nimiq-theme')
 const { rem } = require('tailwindcss-nimiq-theme/src/utils')
 const defaultTheme = require('tailwindcss/defaultTheme') // TODO Remove screens in theme
 
@@ -17,7 +17,7 @@ module.exports = {
       colors: {
         sky: '#3BB5FB', // Light Blue
         ocean: '#0582CA', // Background Blue
-        tomato: '#D94432', // Red
+        cherry: '#D94432', // Red
       },
       spacing: {
         2.5: rem(10),
