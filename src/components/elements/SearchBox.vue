@@ -1,40 +1,26 @@
 <template>
-	<Combobox
-		v-model="selected"
-		v-slot="{ open }"
-		as="div"
-		nullable
-		@update:model-value="emit('selected', selected)"
-	>
+	<Combobox v-model="selected" v-slot="{ open }" as="div" nullable @update:model-value="emit('selected', selected)">
 		<label v-if="hasLabel" :for="randomId" class="text-space/40 capitalize">
 			<slot name="label">
 				{{ label }}
 			</slot>
 		</label>
 		<div class="relative z-20" :class="{ 'mt-1': hasLabel }">
-			<div
-				class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]"
-				:class="{
-					'ring-space/[0.15]': !open,
-					'ring-ocean/30': open,
-					'rounded-full': roundedFull,
-					'rounded-4': !roundedFull,
-				}"
-			>
-				<ComboboxInput
-					class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none pr-[3.25rem] pl-4"
+			<div class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]" :class="{
+				'ring-space/[0.15]': !open,
+				'ring-ocean/30': open,
+				'rounded-full': roundedFull,
+				'rounded-sm': !roundedFull,
+			}">
+				<ComboboxInput class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none pr-[3.25rem] pl-4"
 					:class="{
 						'text-space': !open,
 						'text-ocean': open,
 						'text-sm py-[5px]': size === 'sm',
 						'text-base py-2': size === 'md',
-					}"
-					autocomplete="off"
-					placeholder="Search crypto map"
-					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description "
-					@change="query = $event.target.value"
-					:id="randomId"
-				/>
+					}" autocomplete="off" placeholder="Search crypto map"
+					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description"
+					@change="query = $event.target.value" :id="randomId" />
 
 				<template class="absolute inset-y-0 right-0 flex items-center pr-4">
 					<ComboboxButton v-if="!userCanCleanInput">
@@ -45,60 +31,40 @@
 					</button>
 				</template>
 			</div>
-			<TransitionRoot
-				leave="transition ease-in duration-100"
-				leaveFrom="opacity-100"
-				leaveTo="opacity-0"
-				@after-leave="query = ''"
-			>
+			<TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0"
+				@after-leave="query = ''">
 				<ComboboxOptions
-					class="absolute w-full scroll-space overflow-auto rounded-4 text-base focus:outline-none shadow-lg top-0.5"
+					class="absolute w-full scroll-space overflow-auto rounded-sm text-base focus:outline-none shadow-lg top-0.5"
 					:class="[
 						comboboxOptionsClasses,
 						{
 							'bg-white': bgCombobox === 'white',
 							'bg-space': bgCombobox === 'space',
 						},
-					]"
-				>
-					<div
-						class="relative cursor-default select-none py-2 px-4"
-						:class="{
-							'text-space/80': bgCombobox === 'white',
-							'text-white/80': bgCombobox === 'space',
-						}"
-						v-if="
-							status && [AutocompleteStatus.NO_RESULTS, AutocompleteStatus.LOADING].includes(status)
-						"
-					>
+					]">
+					<div class="relative cursor-default select-none py-2 px-4" :class="{
+						'text-space/80': bgCombobox === 'white',
+						'text-white/80': bgCombobox === 'space',
+					}" v-if="
+	status && [AutocompleteStatus.NO_RESULTS, AutocompleteStatus.LOADING].includes(status)
+">
 						<span v-if="status === AutocompleteStatus.LOADING">Loading...</span>
 						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query === ''">
 							Start typing...
 						</span>
-						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query !== ''"
-							>Nothing found.</span
-						>
+						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query !== ''">Nothing found.</span>
 					</div>
 
-					<ComboboxOption
-						v-else
-						v-for="suggestion in suggestions"
-						as="template"
-						:key="suggestion.place_id"
-						:value="suggestion"
-						v-slot="{ selected, active }"
-					>
-						<li
-							class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer"
-							:class="{
-								'hover:bg-space/[0.06]': bgCombobox === 'white',
-								'hover:bg-space/60': bgCombobox === 'space',
-								'bg-space/[0.06]': bgCombobox === 'white' && active,
-								'bg-space/60': bgCombobox === 'space' && active,
-								'px-6 gap-x-6': size === 'sm',
-								'px-3 gap-x-2': size === 'md',
-							}"
-						>
+					<ComboboxOption v-else v-for="suggestion in suggestions" as="template" :key="suggestion.place_id"
+						:value="suggestion" v-slot="{ selected, active }">
+						<li class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer" :class="{
+							'hover:bg-space/[0.06]': bgCombobox === 'white',
+							'hover:bg-space/60': bgCombobox === 'space',
+							'bg-space/[0.06]': bgCombobox === 'white' && active,
+							'bg-space/60': bgCombobox === 'space' && active,
+							'px-6 gap-x-6': size === 'sm',
+							'px-3 gap-x-2': size === 'md',
+						}">
 							<!-- <div
 								class="rounded-full w-8 h-8 grid place-content-center"
 								:class="{
@@ -114,25 +80,17 @@
 									}"
 								/>
 							</div> -->
-							<span
-								class="block truncate"
-								:class="{
-									'text-space': bgCombobox === 'white',
-									'text-white': bgCombobox === 'space',
-								}"
-								v-html="makeBold(suggestion.description, suggestion.matched_substrings)"
-							>
+							<span class="block truncate" :class="{
+								'text-space': bgCombobox === 'white',
+								'text-white': bgCombobox === 'space',
+							}" v-html="makeBold(suggestion.description, suggestion.matched_substrings)">
 							</span>
-							<span
-								v-if="selected"
-								class="absolute inset-y-0 left-0 flex items-center pl-3"
-								:class="{
-									'text-white':
-										(active && bgCombobox === 'white') || (!active && bgCombobox === 'space'),
-									'text-space':
-										(!active && bgCombobox === 'white') || (active && bgCombobox === 'space'),
-								}"
-							>
+							<span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3" :class="{
+								'text-white':
+									(active && bgCombobox === 'white') || (!active && bgCombobox === 'space'),
+								'text-space':
+									(!active && bgCombobox === 'white') || (active && bgCombobox === 'space'),
+							}">
 							</span>
 						</li>
 					</ComboboxOption>
