@@ -7,14 +7,14 @@ const messages = {
     },
     labels: {
       "button-filter": "Filter",
-      "button-add-location": "Crypto-Location hinzufügen",
+      "button-add-establishment": "Crypto-Establishment hinzufügen",
       "button-show-list": "Liste anzeigen",
       "select-crypto": "Cryptowährungen",
-      "select-location": "Art der Location",
+      "select-establishment": "Art der Establishment",
       "select-crypto-button": "Cryptowährung wählen",
-      "select-location-button": "Location wählen",
+      "select-establishment-button": "Establishment wählen",
       "pickup-stores": "Pickups",
-      "add-location-button": "Ort übermitteln",
+      "add-establishment-button": "Ort übermitteln",
       "find-place": "Place finden",
       "submit-place": "Place absenden",
       "cancel": "Abbrechen",
@@ -31,7 +31,7 @@ const messages = {
         url: "https://www.nimiq.com",
         urlText: "Gehe zu Nimiq"
       },
-      addLocation: {
+      addEstablishment: {
         title: "Einen Ort zur Cyptomap hinzufügen",
         text: "Du kannst einen beliebigen Ort, der sich im Google-Places-Verzeichnis befindet, hinzufügen.",
         url: "https://www.google.de/business/",
@@ -66,7 +66,7 @@ const messages = {
       issue: {
         'desc': "Beschreibung nicht korrekt",
         'currency': "Währungen stimmen nicht überein",
-        'location': "Standort ist falsch gesetzt",
+        'establishment': "Standort ist falsch gesetzt",
         'gone': "Geschäft existiert nicht",
       }
     }
@@ -79,14 +79,14 @@ const messages = {
     },
     labels: {
       "button-filter": "Filters",
-      "button-add-location": "Add crypto location",
+      "button-add-establishment": "Add crypto establishment",
       "button-show-list": "Show List",
       "select-crypto": "Select Cryptocurrencies",
-      "select-location": "Type of location",
+      "select-establishment": "Type of establishment",
       "select-crypto-button": "Select Cryptocurrencies",
-      "select-location-button": "Select location",
+      "select-establishment-button": "Select establishment",
       "pickup-stores": "Pickups",
-      "add-location-button": "Send place",
+      "add-establishment-button": "Send place",
       "find-place": "Find place",
       "submit-place": "Submit place",
       "cancel": "Cancel",
@@ -103,7 +103,7 @@ const messages = {
         url: "https://www.nimiq.com",
         urlText: "Go to Nimiq"
       },
-      addLocation: {
+      addEstablishment: {
         title: "Add a place to the Crypto Map",
         text: "You can add any place that has a Google Business Profile.",
         url: "https://www.google.com/business/",

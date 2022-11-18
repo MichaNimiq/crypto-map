@@ -3,21 +3,23 @@ import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 export const useApp = defineStore("app", () => {
-  const showList = ref(false);
-  const toggleList = () => showList.value = !showList.value;
+  const listIsShown = ref(false);
+  const toggleList = () => listIsShown.value = !listIsShown.value;
+  const showList = () => listIsShown.value = true;
 
-  const selectedLocationId = ref<string>();
+  const selectedEstablishmentId = ref<number>();
 
   const route = useRoute();
   watch(route, () => {
-    if(route.name === "location_detail") {
-      selectedLocationId.value = String(route.params.place_id)
+    if (route.name === "establishment_detail") {
+      selectedEstablishmentId.value = Number(route.params.id);
     }
   });
 
   return {
-    showList,
+    listIsShown,
     toggleList,
-    selectedLocationId,
+    showList,
+    selectedEstablishmentId: selectedEstablishmentId,
   }
 });

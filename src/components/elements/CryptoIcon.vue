@@ -7,12 +7,13 @@ import XlmIcon from "@/components/icons/cryptos/icon-xlm.vue"
 import DashIcon from "@/components/icons/cryptos/icon-dash.vue"
 import XrpIcon from "@/components/icons/cryptos/icon-xrp.vue"
 
-defineProps({
+const props = defineProps({
 	crypto: {
 		type: String,
 		required: true,
 	},
 })
+const crypto = props.crypto.toLocaleLowerCase() 
 </script>
 
 <template>

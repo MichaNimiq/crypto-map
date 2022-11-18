@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface LocationCandidateResponse
+ * @interface EstablishmentIssueResponse
  */
-export interface LocationCandidateResponse {
+export interface EstablishmentIssueResponse {
     /**
      * 
      * @type {string}
-     * @memberof LocationCandidateResponse
+     * @memberof EstablishmentIssueResponse
      */
     message: string;
 }
 
 /**
- * Check if a given object implements the LocationCandidateResponse interface.
+ * Check if a given object implements the EstablishmentIssueResponse interface.
  */
-export function instanceOfLocationCandidateResponse(value: object): boolean {
+export function instanceOfEstablishmentIssueResponse(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "message" in value;
 
     return isInstance;
 }
 
-export function LocationCandidateResponseFromJSON(json: any): LocationCandidateResponse {
-    return LocationCandidateResponseFromJSONTyped(json, false);
+export function EstablishmentIssueResponseFromJSON(json: any): EstablishmentIssueResponse {
+    return EstablishmentIssueResponseFromJSONTyped(json, false);
 }
 
-export function LocationCandidateResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocationCandidateResponse {
+export function EstablishmentIssueResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstablishmentIssueResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -51,7 +51,7 @@ export function LocationCandidateResponseFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function LocationCandidateResponseToJSON(value?: LocationCandidateResponse | null): any {
+export function EstablishmentIssueResponseToJSON(value?: EstablishmentIssueResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

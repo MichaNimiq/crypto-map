@@ -16,50 +16,50 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface CategoriesIssues
+ * @interface EstablishmentIssue
  */
-export interface CategoriesIssues {
+export interface EstablishmentIssue {
     /**
      * 
      * @type {string}
-     * @memberof CategoriesIssues
+     * @memberof EstablishmentIssue
      */
-    name: string;
+    label: string;
     /**
      * 
      * @type {number}
-     * @memberof CategoriesIssues
+     * @memberof EstablishmentIssue
      */
     id: number;
 }
 
 /**
- * Check if a given object implements the CategoriesIssues interface.
+ * Check if a given object implements the EstablishmentIssue interface.
  */
-export function instanceOfCategoriesIssues(value: object): boolean {
+export function instanceOfEstablishmentIssue(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "label" in value;
     isInstance = isInstance && "id" in value;
 
     return isInstance;
 }
 
-export function CategoriesIssuesFromJSON(json: any): CategoriesIssues {
-    return CategoriesIssuesFromJSONTyped(json, false);
+export function EstablishmentIssueFromJSON(json: any): EstablishmentIssue {
+    return EstablishmentIssueFromJSONTyped(json, false);
 }
 
-export function CategoriesIssuesFromJSONTyped(json: any, ignoreDiscriminator: boolean): CategoriesIssues {
+export function EstablishmentIssueFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstablishmentIssue {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'name': json['name'],
+        'label': json['label'],
         'id': json['id'],
     };
 }
 
-export function CategoriesIssuesToJSON(value?: CategoriesIssues | null): any {
+export function EstablishmentIssueToJSON(value?: EstablishmentIssue | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -68,7 +68,7 @@ export function CategoriesIssuesToJSON(value?: CategoriesIssues | null): any {
     }
     return {
         
-        'name': value.name,
+        'label': value.label,
         'id': value.id,
     };
 }
