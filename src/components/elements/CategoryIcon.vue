@@ -1,5 +1,17 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue"
+import CarsBikesIcon from '@/components/icons/categories/cars_bikes.vue'
+import CashIcon from "@/components/icons/categories/cash.vue"
+import ComputerElectronicsIcon from "@/components/icons/categories/computer_electronics.vue"
+import EntertainmentIcon from "@/components/icons/categories/entertainment.vue"
+import FoodDrinksIcon from "@/components/icons/categories/food_drinks.vue"
+import HealthBeautyIcon from "@/components/icons/categories/health_beauty.vue"
+import HotelLodgingIcon from "@/components/icons/categories/hotel_lodging.vue"
+import LeisureActivitiesIcon from "@/components/icons/categories/leisure_activities.vue"
+import MiscellaneousIcon from "@/components/icons/categories/miscellaneous.vue"
+import RestaurantBarIcon from "@/components/icons/categories/restaurant_bar.vue"
+import ShopIcon from "@/components/icons/categories/shop.vue"
+import SportsFitnessIcon from "@/components/icons/categories/sports_fitness.vue"
+
 
 const props = defineProps({
 	category: {
@@ -9,18 +21,18 @@ const props = defineProps({
 })
 
 const icon = {
-	cars_bikes: defineAsyncComponent(() => import("@/components/icons/categories/cars_bikes.vue")),
-	cash: defineAsyncComponent(() => import("@/components/icons/categories/cash.vue")),
-	computer_electronics: defineAsyncComponent(() => import("@/components/icons/categories/computer_electronics.vue")),
-	entertainment: defineAsyncComponent(() => import("@/components/icons/categories/entertainment.vue")),
-	food_drinks: defineAsyncComponent(() => import("@/components/icons/categories/food_drinks.vue")),
-	health_beauty: defineAsyncComponent(() => import("@/components/icons/categories/health_beauty.vue")),
-	hotel_lodging: defineAsyncComponent(() => import("@/components/icons/categories/hotel_lodging.vue")),
-	leisure_activities: defineAsyncComponent(() => import("@/components/icons/categories/leisure_activities.vue")),
-	miscellaneous: defineAsyncComponent(() => import("@/components/icons/categories/miscellaneous.vue")),
-	restaurant_bar: defineAsyncComponent(() => import("@/components/icons/categories/restaurant_bar.vue")),
-	shop: defineAsyncComponent(() => import("@/components/icons/categories/shop.vue")),
-	sports_fitness: defineAsyncComponent(() => import("@/components/icons/categories/sports_fitness.vue")),
+	cars_bikes: CarsBikesIcon,
+	cash: CashIcon,
+	computer_electronics: ComputerElectronicsIcon,
+	entertainment: EntertainmentIcon,
+	food_drinks: FoodDrinksIcon,
+	health_beauty: HealthBeautyIcon,
+	hotel_lodging: HotelLodgingIcon,
+	leisure_activities: LeisureActivitiesIcon,
+	miscellaneous: MiscellaneousIcon,
+	restaurant_bar: RestaurantBarIcon,
+	shop: ShopIcon,
+	sports_fitness: SportsFitnessIcon,
 }[props.category]
 </script>
 
