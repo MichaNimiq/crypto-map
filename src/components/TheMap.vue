@@ -11,15 +11,8 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 	<main class="h-full" ref="mapWrapper">
 		<TheMapInstance>
 			<template #button-calculate-position="{ navigateToUserEstablishment }">
-				<Button
-					@click="navigateToUserEstablishment"
-					style="width: 34px; height: 34px"
-					bgColor="white"
-					size="sm"
-					draggable="false"
-					aria-label="Show your establishment"
-					title="Show your establishment"
-				>
+				<Button @click="navigateToUserEstablishment" style="width: 34px; height: 34px" bgColor="white" size="sm"
+					draggable="false" aria-label="Show your establishment" title="Show your establishment">
 					<template #icon>
 						<EstablishmentIcon />
 					</template>
@@ -27,16 +20,8 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 			</template>
 
 			<template #button-zoom-in="{ zoomIn }">
-				<Button
-					@click="zoomIn"
-					style="width: 34px; height: 34px"
-					class="rounded-b-0"
-					bgColor="white"
-					size="sm"
-					draggable="false"
-					aria-label="Zoom in"
-					title="Zoom in"
-				>
+				<Button @click="zoomIn" style="width: 34px; height: 34px" class="rounded-b-0" bgColor="white" size="sm"
+					draggable="false" aria-label="Zoom in" title="Zoom in">
 					<template #icon>
 						<PlusIcon />
 					</template>
@@ -44,33 +29,17 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 			</template>
 
 			<template #button-zoom-out="{ zoomOut }">
-				<Button
-					@click="zoomOut"
-					style="width: 34px; height: 34px"
-					class="rounded-t-0"
-					bgColor="white"
-					size="sm"
-					draggable="false"
-					aria-label="Zoom out"
-					title="Zoom out"
-				>
+				<Button @click="zoomOut" style="width: 34px; height: 34px" class="rounded-t-0" bgColor="white" size="sm"
+					draggable="false" aria-label="Zoom out" title="Zoom out">
 					<template #icon>
 						<MinusIcon />
 					</template>
 				</Button>
 			</template>
 		</TheMapInstance>
-		<Button
-			class="absolute bottom-5 md:bottom-6 right-5 md:right-6 shadow"
-			bgColor="white"
-			href="/establishment/add"
-			size="md"
-			text-color="ocean"
-			draggable="false"
-			aria-label="Add crypto establishment"
-			title="Add crypto establishment"
-		>
-			<template #text> Add crypto establishment </template>
+		<Button class="absolute bottom-5 md:bottom-6 right-5 md:right-6 shadow" bgColor="white" href="/establishment/add"
+			size="md" text-color="ocean" draggable="false" aria-label="Add establishment" title="Add establishment">
+			<template #text> Add establishment </template>
 		</Button>
 	</main>
 </template>
