@@ -16,41 +16,41 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface LocationCandidateBody
+ * @interface EstablishmentCandidateBody
  */
-export interface LocationCandidateBody {
+export interface EstablishmentCandidateBody {
     /**
      * 
      * @type {string}
-     * @memberof LocationCandidateBody
+     * @memberof EstablishmentCandidateBody
      */
-    google_place_id: string;
+    gmaps_place_id: string;
     /**
      * 
      * @type {string}
-     * @memberof LocationCandidateBody
+     * @memberof EstablishmentCandidateBody
      */
     token: string;
     /**
      * 
      * @type {string}
-     * @memberof LocationCandidateBody
+     * @memberof EstablishmentCandidateBody
      */
     name: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof LocationCandidateBody
+     * @memberof EstablishmentCandidateBody
      */
     currencies: Array<string>;
 }
 
 /**
- * Check if a given object implements the LocationCandidateBody interface.
+ * Check if a given object implements the EstablishmentCandidateBody interface.
  */
-export function instanceOfLocationCandidateBody(value: object): boolean {
+export function instanceOfEstablishmentCandidateBody(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "google_place_id" in value;
+    isInstance = isInstance && "gmaps_place_id" in value;
     isInstance = isInstance && "token" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "currencies" in value;
@@ -58,24 +58,24 @@ export function instanceOfLocationCandidateBody(value: object): boolean {
     return isInstance;
 }
 
-export function LocationCandidateBodyFromJSON(json: any): LocationCandidateBody {
-    return LocationCandidateBodyFromJSONTyped(json, false);
+export function EstablishmentCandidateBodyFromJSON(json: any): EstablishmentCandidateBody {
+    return EstablishmentCandidateBodyFromJSONTyped(json, false);
 }
 
-export function LocationCandidateBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocationCandidateBody {
+export function EstablishmentCandidateBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstablishmentCandidateBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'google_place_id': json['google_place_id'],
+        'gmaps_place_id': json['gmaps_place_id'],
         'token': json['token'],
         'name': json['name'],
         'currencies': json['currencies'],
     };
 }
 
-export function LocationCandidateBodyToJSON(value?: LocationCandidateBody | null): any {
+export function EstablishmentCandidateBodyToJSON(value?: EstablishmentCandidateBody | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -84,7 +84,7 @@ export function LocationCandidateBodyToJSON(value?: LocationCandidateBody | null
     }
     return {
         
-        'google_place_id': value.google_place_id,
+        'gmaps_place_id': value.gmaps_place_id,
         'token': value.token,
         'name': value.name,
         'currencies': value.currencies,

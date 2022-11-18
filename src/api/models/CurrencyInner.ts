@@ -16,50 +16,50 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface LocationIssue
+ * @interface CurrencyInner
  */
-export interface LocationIssue {
+export interface CurrencyInner {
     /**
      * 
      * @type {string}
-     * @memberof LocationIssue
+     * @memberof CurrencyInner
      */
-    label: string;
+    name: string;
     /**
      * 
-     * @type {number}
-     * @memberof LocationIssue
+     * @type {string}
+     * @memberof CurrencyInner
      */
-    id: number;
+    symbol: string;
 }
 
 /**
- * Check if a given object implements the LocationIssue interface.
+ * Check if a given object implements the CurrencyInner interface.
  */
-export function instanceOfLocationIssue(value: object): boolean {
+export function instanceOfCurrencyInner(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "label" in value;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "symbol" in value;
 
     return isInstance;
 }
 
-export function LocationIssueFromJSON(json: any): LocationIssue {
-    return LocationIssueFromJSONTyped(json, false);
+export function CurrencyInnerFromJSON(json: any): CurrencyInner {
+    return CurrencyInnerFromJSONTyped(json, false);
 }
 
-export function LocationIssueFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocationIssue {
+export function CurrencyInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): CurrencyInner {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'label': json['label'],
-        'id': json['id'],
+        'name': json['name'],
+        'symbol': json['symbol'],
     };
 }
 
-export function LocationIssueToJSON(value?: LocationIssue | null): any {
+export function CurrencyInnerToJSON(value?: CurrencyInner | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -68,8 +68,8 @@ export function LocationIssueToJSON(value?: LocationIssue | null): any {
     }
     return {
         
-        'label': value.label,
-        'id': value.id,
+        'name': value.name,
+        'symbol': value.symbol,
     };
 }
 

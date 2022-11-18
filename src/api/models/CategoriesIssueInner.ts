@@ -16,50 +16,50 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface CategoriesIssuesInner
+ * @interface CategoriesIssueInner
  */
-export interface CategoriesIssuesInner {
+export interface CategoriesIssueInner {
     /**
      * 
      * @type {string}
-     * @memberof CategoriesIssuesInner
+     * @memberof CategoriesIssueInner
      */
-    name: string;
+    label: string;
     /**
      * 
      * @type {number}
-     * @memberof CategoriesIssuesInner
+     * @memberof CategoriesIssueInner
      */
     id: number;
 }
 
 /**
- * Check if a given object implements the CategoriesIssuesInner interface.
+ * Check if a given object implements the CategoriesIssueInner interface.
  */
-export function instanceOfCategoriesIssuesInner(value: object): boolean {
+export function instanceOfCategoriesIssueInner(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "label" in value;
     isInstance = isInstance && "id" in value;
 
     return isInstance;
 }
 
-export function CategoriesIssuesInnerFromJSON(json: any): CategoriesIssuesInner {
-    return CategoriesIssuesInnerFromJSONTyped(json, false);
+export function CategoriesIssueInnerFromJSON(json: any): CategoriesIssueInner {
+    return CategoriesIssueInnerFromJSONTyped(json, false);
 }
 
-export function CategoriesIssuesInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): CategoriesIssuesInner {
+export function CategoriesIssueInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): CategoriesIssueInner {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'name': json['name'],
+        'label': json['label'],
         'id': json['id'],
     };
 }
 
-export function CategoriesIssuesInnerToJSON(value?: CategoriesIssuesInner | null): any {
+export function CategoriesIssueInnerToJSON(value?: CategoriesIssueInner | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -68,7 +68,7 @@ export function CategoriesIssuesInnerToJSON(value?: CategoriesIssuesInner | null
     }
     return {
         
-        'name': value.name,
+        'label': value.label,
         'id': value.id,
     };
 }

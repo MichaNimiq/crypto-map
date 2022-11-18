@@ -16,66 +16,66 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface LocationIssueBody
+ * @interface EstablishmentIssueBody
  */
-export interface LocationIssueBody {
+export interface EstablishmentIssueBody {
     /**
      * 
-     * @type {string}
-     * @memberof LocationIssueBody
+     * @type {number}
+     * @memberof EstablishmentIssueBody
      */
-    issue_category_id: string;
+    issue_category_id: number;
     /**
      * 
-     * @type {string}
-     * @memberof LocationIssueBody
+     * @type {number}
+     * @memberof EstablishmentIssueBody
      */
-    google_place_id: string;
+    establishment_id: number;
     /**
      * 
      * @type {string}
-     * @memberof LocationIssueBody
+     * @memberof EstablishmentIssueBody
      */
     token: string;
     /**
      * 
      * @type {string}
-     * @memberof LocationIssueBody
+     * @memberof EstablishmentIssueBody
      */
     description: string;
 }
 
 /**
- * Check if a given object implements the LocationIssueBody interface.
+ * Check if a given object implements the EstablishmentIssueBody interface.
  */
-export function instanceOfLocationIssueBody(value: object): boolean {
+export function instanceOfEstablishmentIssueBody(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "issue_category_id" in value;
-    isInstance = isInstance && "google_place_id" in value;
+    isInstance = isInstance && "establishment_id" in value;
     isInstance = isInstance && "token" in value;
     isInstance = isInstance && "description" in value;
 
     return isInstance;
 }
 
-export function LocationIssueBodyFromJSON(json: any): LocationIssueBody {
-    return LocationIssueBodyFromJSONTyped(json, false);
+export function EstablishmentIssueBodyFromJSON(json: any): EstablishmentIssueBody {
+    return EstablishmentIssueBodyFromJSONTyped(json, false);
 }
 
-export function LocationIssueBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocationIssueBody {
+export function EstablishmentIssueBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstablishmentIssueBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'issue_category_id': json['issue_category_id'],
-        'google_place_id': json['google_place_id'],
+        'establishment_id': json['establishment_id'],
         'token': json['token'],
         'description': json['description'],
     };
 }
 
-export function LocationIssueBodyToJSON(value?: LocationIssueBody | null): any {
+export function EstablishmentIssueBodyToJSON(value?: EstablishmentIssueBody | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -85,7 +85,7 @@ export function LocationIssueBodyToJSON(value?: LocationIssueBody | null): any {
     return {
         
         'issue_category_id': value.issue_category_id,
-        'google_place_id': value.google_place_id,
+        'establishment_id': value.establishment_id,
         'token': value.token,
         'description': value.description,
     };

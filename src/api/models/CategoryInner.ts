@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface LocationIssue1
+ * @interface CategoryInner
  */
-export interface LocationIssue1 {
+export interface CategoryInner {
     /**
      * 
      * @type {string}
-     * @memberof LocationIssue1
+     * @memberof CategoryInner
      */
     label: string;
     /**
      * 
      * @type {number}
-     * @memberof LocationIssue1
+     * @memberof CategoryInner
      */
     id: number;
 }
 
 /**
- * Check if a given object implements the LocationIssue1 interface.
+ * Check if a given object implements the CategoryInner interface.
  */
-export function instanceOfLocationIssue1(value: object): boolean {
+export function instanceOfCategoryInner(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "label" in value;
     isInstance = isInstance && "id" in value;
@@ -44,11 +44,11 @@ export function instanceOfLocationIssue1(value: object): boolean {
     return isInstance;
 }
 
-export function LocationIssue1FromJSON(json: any): LocationIssue1 {
-    return LocationIssue1FromJSONTyped(json, false);
+export function CategoryInnerFromJSON(json: any): CategoryInner {
+    return CategoryInnerFromJSONTyped(json, false);
 }
 
-export function LocationIssue1FromJSONTyped(json: any, ignoreDiscriminator: boolean): LocationIssue1 {
+export function CategoryInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): CategoryInner {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -59,7 +59,7 @@ export function LocationIssue1FromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function LocationIssue1ToJSON(value?: LocationIssue1 | null): any {
+export function CategoryInnerToJSON(value?: CategoryInner | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -8,13 +8,12 @@
 			</ListboxLabel>
 			<div class="relative" :class="{ 'mt-1': hasLabel }">
 				<ListboxButton
-					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none"
-				>
-					<span class="block truncate text-space/60">
+					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-4 bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none">
+					<span class="block truncate" :class="{ 'text-space': usePlaceholder, 'text-space/60': !usePlaceholder, }">
 						{{
-							replacePlaceholder && !!selected && !Array.isArray(selected)
-								? (selected as SelectOption).name
-								: placeholder
+						usePlaceholder
+						? geOptionById(selected as unknown as string | number)?.label
+						: placeholder
 						}}
 					</span>
 					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 mr-2">
@@ -22,33 +21,20 @@
 					</span>
 				</ListboxButton>
 
-				<transition
-					leave-active-class="transition duration-100 ease-in"
-					leave-from-class="opacity-100"
-					leave-to-class="opacity-0"
-				>
+				<transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
+					leave-to-class="opacity-0">
 					<ListboxOptions
-						class="absolute -top-px -left-px w-[calc(100%+2px)] overflow-auto rounded-4 bg-white py-1 text-base ring-1 ring-space ring-opacity-5 focus:outline-none sm:text-sm scroll-grey z-40 bg-radial-space pb-4 max-h-60 shadow-select space-y-1"
-					>
-						<ListboxOption
-							v-slot="{ active, selected }"
-							v-for="option in options"
-							:key="option.id"
-							:value="option"
-							as="template"
-						>
+						class="absolute -top-px -left-px w-[calc(100%+2px)] overflow-auto rounded-4 bg-white py-1 text-base ring-1 ring-space ring-opacity-5 focus:outline-none sm:text-sm scroll-grey z-40 bg-radial-space pb-4 max-h-60 shadow-select space-y-1">
+						<ListboxOption v-slot="{ active, selected }" v-for="option in options" :key="option.id" :value="option.id"
+							as="template">
 							<li
 								class="relative select-none py-2 pl-3 pr-2 text-white flex gap-x-2 items-center cursor-pointer transition-colors"
-								:class="{ 'bg-white/10': active }"
-							>
-								<slot name="option" v-bind="option">{{ option.name }}</slot>
-								<div
-									class="w-5 h-5 rounded-full ml-auto"
-									:class="{
-										'bg-white': selected,
-										'border border-white/10': !selected,
-									}"
-								>
+								:class="{ 'bg-white/10': active }">
+								<slot name="option" v-bind="option">{{ option.label }}</slot>
+								<div class="w-5 h-5 rounded-full ml-auto" :class="{
+									'bg-white': selected,
+									'border border-white/10': !selected,
+								}">
 									<CheckIcon v-if="selected" class="w-5 h-5 -top-0.5 -left-px text-space" />
 								</div>
 							</li>
@@ -61,17 +47,12 @@
 			</div>
 		</Listbox>
 		<ul class="mt-2 flex flex-wrap gap-2" v-if="hasSlot('selected-option')">
-			<li
-				v-for="selectedOption in selected"
-				class="w-max bg-space/[0.07] rounded-4 px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center"
-			>
+			<li v-for="selectedOption in selected"
+				class="w-max bg-space/[0.07] rounded-4 px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center">
 				<span>
-					<slot name="selected-option" v-bind="selectedOption" />
+					<slot name="selected-option" v-bind="geOptionById(selectedOption)" />
 				</span>
-				<CrossIcon
-					@click="removeSelected(selectedOption)"
-					class="text-space w-4 h-5 cursor-pointer"
-				/>
+				<CrossIcon @click="removeSelected(selectedOption)" class="text-space w-4 h-5 cursor-pointer" />
 			</li>
 		</ul>
 	</div>
@@ -93,12 +74,12 @@ import {
 
 export type SelectOption = {
 	id: string | number
-	name: string
+	label: string
 }
 
 const props = defineProps({
 	modelValue: {
-		type: Array as () => SelectOption[],
+		type: Array as () => SelectOption["id"][],
 		default: () => [],
 	},
 	selectedSingle: {
@@ -127,20 +108,30 @@ const props = defineProps({
 	},
 })
 
+const usePlaceholder = computed(() => props.replacePlaceholder && !!selected.value && !Array.isArray(selected.value))
+
 const emit = defineEmits({
-	"update:modelValue": (value: SelectOption[]) => value,
+	"update:modelValue": (value: SelectOption["id"][]) => value,
 	"update:selectedSingle": (value: SelectOption) => value,
 })
 
-const selected = ref<SelectOption[]>(props.modelValue)
+const selected = ref<SelectOption["id"][]>(props.modelValue)
 watch(selected, (value) => {
-	props.multiple
-		? emit("update:modelValue", value)
-		: emit("update:selectedSingle", (value as unknown as SelectOption))
+	if(props.multiple) {
+		emit("update:modelValue", value)
+	} else {
+		const item = geOptionById(value as unknown as string | number)
+		if(!item) return
+		emit("update:selectedSingle", item)
+	}
 })
 
-function removeSelected(option: SelectOption) {
-	selected.value = selected.value.filter((o) => o.id !== option.id)
+function removeSelected(option: SelectOption["id"]) {
+	selected.value = selected.value.filter((o) => o !== option)
+}
+
+function geOptionById(id: SelectOption["id"]) {
+	return props.options.find((o) => o.id === id)
 }
 
 const slots = useSlots()

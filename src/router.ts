@@ -8,19 +8,19 @@ export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/location/add",
-      name: "add_location",
-      component: () => import("./components/forms/AddLocation.vue"),
+      path: "/establishment/add",
+      name: "add_establishment",
+      component: () => import("@/components/forms/NewCandidate.vue"),
     },
     {
-      path: "/location/:place_id",
-      name: "location_detail",
+      path: "/establishment/:id",
+      name: "establishment_detail",
       component: MapLayout,
     },
     {
-      path: "/location/:place_id/report",
-      name: "report_location",
-      component: () => import("./components/forms/ReportLocation.vue"),
+      path: "/establishment/:id/report",
+      name: "report_establishment",
+      component: () => import("@/components/forms/ReportEstablishment.vue"),
     },
     {
       path: "/@:lat(-\?\\d\+\.\?\\d\+\?),:lng(-\?\\d\+\.\?\\d\+\?),:zoom(\\d\+)z",
