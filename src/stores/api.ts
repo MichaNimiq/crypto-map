@@ -167,7 +167,8 @@ export const useApi = defineStore("api", () => {
   }
 
   function pathParamToStringList(param: 'currencies' | 'categories') {
-    const values = route.params[param] as string
+    const values = route.query[param] as string
+    console.log('🔍 pathParamToStringList', param, values)
     if (!values) return []
     if (typeof values === 'string') return [values]
     return values
