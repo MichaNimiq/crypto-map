@@ -2612,10 +2612,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tailwindcss-nimiq-theme@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.npmjs.org/tailwindcss-nimiq-theme/-/tailwindcss-nimiq-theme-0.0.5.tgz"
-  integrity sha512-BtpN3HGtrjA4K9O2KGeY/lVHL+sirWpDybrGI+9IDY/OjIw7TIDkAPwFSP+3eoVKMzfCpmUCD3Cod7VEC5trtw==
+tailwindcss-nimiq-theme@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/tailwindcss-nimiq-theme/-/tailwindcss-nimiq-theme-0.2.2.tgz#dac7eab9747e061ef8f02e6c9a1c634349a38337"
+  integrity sha512-fksK2aO/4V/y0OTE1hZM2I3zuEGJsnAz2rR+qAAP4zrOSSkfsWQK7RGY4IlUioE62tguedIg78OCkPtNb3t2zg==
 
 tailwindcss@^3.2:
   version "3.2.0"
