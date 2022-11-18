@@ -1,60 +1,38 @@
-# nimiq-map
+<img src="./docs/background.png" alt="Nimiq Crypto Map banner" />
 
-## Recommended IDE Setup
+# Crypto Nimiq Map
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+A map of the crypto world, powered by Nimiq.
 
 ## Environment Variables
 
-> ❗.git-ignore'd, need to get created
+Duplicate `.env.example` and rename it to `.env`. Then fill in the values.
 
-`.env` is used for the production environment
 
-`.env.local` can override the production environment variables for local development purposes (like adding different Google Maps and Map ID keys to it, or using a different API endpoint).
-
-Be sure the following variables are set:
-
-```
-VITE_URL_BACKEND = # API Endpoint
-VITE_GOOGLE_MAP_ID = # Map ID associated with the maps key in Google Cloud
-VITE_GOOGLE_MAP_KEY = # Maps API key
+```bash
+VITE_URL_API_URL=             # API Endpoint
+VITE_GOOGLE_MAP_KEY=          # Map ID associated with the maps key in Google Cloud
+VITE_RECAPTCHA_SITE_KEY=      # Recaptcha Site Key
 ```
 
 ## Project Setup
 
 ```sh
 npm install
+
+yarn install
 ```
 
 ### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
+
+yarn dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## API
 
-```sh
-npm run build
-```
+The API specification is hosted at [https://github.com/nimiq/establishments-map-backend/blob/main/docs/openapi.yaml](https://github.com/nimiq/establishments-map-backend/blob/main/docs/openapi.yaml). 
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Run `yarn api:generate` to generate the API client.
