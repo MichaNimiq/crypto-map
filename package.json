@@ -8,7 +8,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "api:generate": "./node_modules/@openapitools/openapi-generator-cli/main.js generate -g typescript-fetch -i openapi.yaml -o ./src --additional-properties=typescriptThreePlus=true,legacyDiscriminatorBehavior=false,modelPropertyNaming='original',enumPropertyNaming='original' -o ./src/api/ && yarn build"
+    "api:generate": "./node_modules/@openapitools/openapi-generator-cli/main.js generate -g typescript-fetch -i https://raw.githubusercontent.com/nimiq/establishments-map-backend/main/docs/openapi.yaml?token=GHSAT0AAAAAABXIQWRZ73YVMYT6KA6HAP6OY3XZL7A -o ./src --additional-properties=typescriptThreePlus=true,legacyDiscriminatorBehavior=false,modelPropertyNaming='original',enumPropertyNaming='original' -o ./src/api/ && yarn build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
