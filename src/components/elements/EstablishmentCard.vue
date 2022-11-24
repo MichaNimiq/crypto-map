@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FlagIcon from "@/components/icons/icon-flag.vue"
+import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import GoogleIcon from "@/components/icons/icon-google-g.vue"
 import StarIcon from "@/components/icons/icon-star.vue"
 
@@ -32,8 +33,8 @@ const props = defineProps<{
 		</p>
 
 		<ul class="flex gap-x-1 mt-4 pb-6">
-			<li v-for="{ symbol } in establishment.currencies" :key="symbol" class="w-6 h-6 rounded-full">
-				<CryptoIcon :crypto="symbol" />
+			<li v-for="({ symbol }) in establishment.currencies" :key="symbol" class="w-6 h-6 rounded-full">
+				<CryptoIcon :crypto="symbol.toLowerCase()" />
 			</li>
 		</ul>
 	</RouterLink>
