@@ -30,7 +30,7 @@ async function onSubmit(token: string) {
 		<template #title>Add a place to the Crypto Map</template>
 		<template #description>You can add any place that has a Google Business Profile.</template>
 		<template #link>
-			<a href="https://nimiq.com" target="_blank"> Create Google Business profile </a>
+			<a href="https://www.google.com/business/" target="_blank"> Create Google Business profile </a>
 		</template>
 		<template #form>
 			<SearchBox label="Find place" combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset"
