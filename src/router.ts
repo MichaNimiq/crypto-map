@@ -34,6 +34,7 @@ export const router = createRouter({
       component: MapLayout,
       name: 'map'
     },
+    { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
 });
 
