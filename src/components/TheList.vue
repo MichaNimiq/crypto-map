@@ -84,7 +84,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			enter-to-class="opacity-100 translate-y-0" leave-active-class="duration-100 ease-in"
 			leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-12">
 			<div v-if="!xlScreen && listIsShown" class="w-full flex justify-center fixed bottom-5 z-10">
-				<Button bg-color="ocean" class="shadow" @click="listIsShown = false">
+				<Button bg-color="ocean" class="shadow" @click="appStore.hideList">
 					<template #text>Back to the Map</template>
 				</Button>
 			</div>

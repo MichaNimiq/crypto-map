@@ -80,7 +80,8 @@ const render = (cluster: any) => {
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
 			<CustomMarker ref="markers$" v-for="establishment in establishments" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
-				<RouterLink :to="`/establishment/${establishment.id}`" class="flex flex-col items-center shadow cursor-pointer">
+				<RouterLink :to="`/establishment/${establishment.id}`" @click="appStore.showList"
+					class="flex flex-col items-center shadow cursor-pointer">
 					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="10" viewBox="0 0 28 10" :class="{
 						'text-space': establishment.id !== selectedEstablishmentId,
 						'text-ocean': establishment.id === selectedEstablishmentId,
