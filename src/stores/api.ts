@@ -1,4 +1,4 @@
-import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type SearchEstablishmentsRequest, type CurrencyInner as Currency, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type PostCandidateRequest as CandidateRequest } from "@/api";
+import { Configuration, EstablishmentsApi, type CryptoEstablishmentBaseInner as CryptoEstablishmentBaseApi, type CryptoEstablishment as CryptoEstablishmentApi, type SearchEstablishmentsRequest, type CurrencyInner as Currency, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type PostCandidateRequest as CandidateRequest } from "@/api";
 import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch, type Ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -24,31 +24,33 @@ interface CategoriesIssue {
   label: string;
 }
 
-// TODO - this is an future improvement
-// export type BaseCryptoEstablishment = {
-//   id: number;
-//   name: string;
-//   category: string;
-//   geoEstablishment: {
-//     lng: number;
-//     lat: number;
-//   };
-// }
-// export type CryptoEstablishment = BaseCryptoEstablishment & {
+export type BaseEstablishment = Pick<CryptoEstablishmentApi, "id" | "name" | "category"> & {
+  geoLocation: CryptoEstablishmentApi["geo_location"];
+  hasAllInfo: false;
+  gmapsUrl: undefined;
+  gmapsPlaceId: undefined;
+  gmapsType: undefined;
+  photoUrl: undefined;
+  currencies: undefined;
+  rating: undefined;
+  address: undefined;
+}
 
-export type Establishment =
-  Pick<CryptoEstablishmentApi, "id" | "name" | "rating" | "address" | "category"> & {
-    gmapsUrl: CryptoEstablishmentApi["gmaps_url"],
-    gmapsPlaceId: CryptoEstablishmentApi["gmaps_place_id"],
-    geoLocation: CryptoEstablishmentApi["geo_location"],
-    gmapsType: CryptoEstablishmentApi["gmaps_type"],
-    photoUrl: string;
-    currencies: Currency[];
-  }
+export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" | "geoLocation"> & {
+  hasAllInfo: true;
+  gmapsUrl: CryptoEstablishmentApi["gmaps_url"];
+  gmapsPlaceId: CryptoEstablishmentApi["gmaps_place_id"];
+  geoLocation: CryptoEstablishmentApi["geo_location"];
+  gmapsType: CryptoEstablishmentApi["gmaps_type"];
+  photoUrl: string;
+  currencies: Currency[];
+  rating: CryptoEstablishmentApi["rating"];
+  address: CryptoEstablishmentApi["address"];
+}
 
 export const useApi = defineStore("api", () => {
   // Data from API
-  const establishments = ref<Establishment[]>([])
+  const establishments = ref(new Map<number, BaseEstablishment | Establishment>([]))
   const categoriesIssue = ref<CategoriesIssue[]>([])
   const categories = ref<Category[]>([])
   const currencies = ref<Currency[]>([])
@@ -59,7 +61,24 @@ export const useApi = defineStore("api", () => {
   const mapStore = useMap()
   const { boundingBox } = storeToRefs(mapStore)
 
+  const establishmentsInView = computed(() => {
+    const { northEast, southWest } = boundingBox.value
+    const establishmentsInView = new Map<number, BaseEstablishment | Establishment>([])
+    for (const [id, establishment] of establishments.value) {
+      const { lat, lng } = establishment.geoLocation
+      if (lat < northEast.lat && lat > southWest.lat && lng < northEast.lng && lng > southWest.lng) {
+        establishmentsInView.set(id, establishment)
+      }
+    }
+    return establishmentsInView
+  })
+
   // Converts crypto location model from the API to the model used in the app
+  function parseBaseEstablishment({ id, name, category, geo_location: geoLocation }: CryptoEstablishmentBaseApi): BaseEstablishment {
+    const parsedEstablishment: BaseEstablishment = { id, name, category, geoLocation, hasAllInfo: false, address: undefined, currencies: undefined, gmapsPlaceId: undefined, gmapsType: undefined, gmapsUrl: undefined, photoUrl: undefined, rating: undefined }
+    return parsedEstablishment
+  }
+
   function parseEstablishment({
     id, address, category, currencies: establishmentCurrencySymbols, gmaps_place_id, gmaps_type, gmaps_url, geo_location, name, photo_reference, rating
   }: CryptoEstablishmentApi): Establishment {
@@ -69,6 +88,7 @@ export const useApi = defineStore("api", () => {
     const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
 
     const parsedEstablishment: Establishment = {
+      hasAllInfo: true,
       address: address,
       category: category,
       currencies: establishmentCurrencies,
@@ -96,7 +116,7 @@ export const useApi = defineStore("api", () => {
 
     console.log('🔍 Searching in the API: ', body)
 
-    const response: CryptoEstablishmentApi[] = await establishmentsApi.searchEstablishments(body).catch((e) => e)
+    const response: CryptoEstablishmentBaseApi[] = await establishmentsApi.searchEstablishments(body).catch((e) => e)
 
     if (response instanceof Error) {
       console.error(response);
@@ -104,14 +124,26 @@ export const useApi = defineStore("api", () => {
       return;
     }
 
-    establishments.value = response
-      .map(parseEstablishment)
+    response
+      .map(parseBaseEstablishment)
       .sort((a, b) => b.geoLocation.lat - a.geoLocation.lat)
+      .filter((e) => !establishments.value.has(e.id)) // ignore already loaded establishments
+      .forEach((establishment) => establishments.value.set(establishment.id, establishment))
   }
 
-  async function getEstablishmentById(establishmentId: string) {
+  async function getEstablishmentById(establishmentIdNumber: number) {
+    const establishmentId = String(establishmentIdNumber)
     const rawEstablishment = await establishmentsApi.getEstablishmentById({ establishmentId }).catch((e) => e)
     return parseEstablishment(rawEstablishment) || undefined
+  }
+
+  function setEstablishment(establishment: Establishment) {
+    // check that the establishment is not already in the map
+    if (establishments.value.get(establishment.id)?.hasAllInfo) {
+      return
+    }
+
+    establishments.value.set(establishment.id, establishment)
   }
 
   const capitalize = (s: string) => s.replace(/(?:^|\s)\S/g, (a) => a.toUpperCase())
@@ -224,6 +256,7 @@ export const useApi = defineStore("api", () => {
   return {
     search,
     establishments,
+    establishmentsInView,
     categories,
     currencies,
     categoriesIssue,
@@ -231,6 +264,7 @@ export const useApi = defineStore("api", () => {
     selectedCurrencies,
     selectedCategories,
     getEstablishmentById,
+    setEstablishment,
     reportEstablishment,
     addCandidate,
 

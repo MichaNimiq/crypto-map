@@ -5,7 +5,8 @@ models/CategoriesIssueInner.ts
 models/CategoryInner.ts
 models/CryptoCurrency.ts
 models/CryptoEstablishment.ts
-models/CryptoEstablishmentGeoLocation.ts
+models/CryptoEstablishmentBaseInner.ts
+models/CryptoEstablishmentBaseInnerGeoLocation.ts
 models/CurrenciesInner.ts
 models/CurrencyInner.ts
 models/EstablishmentCandidateBody.ts

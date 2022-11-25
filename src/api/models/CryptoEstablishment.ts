@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { CryptoEstablishmentGeoLocation } from './CryptoEstablishmentGeoLocation';
+import type { CryptoEstablishmentBaseInnerGeoLocation } from './CryptoEstablishmentBaseInnerGeoLocation';
 import {
-    CryptoEstablishmentGeoLocationFromJSON,
-    CryptoEstablishmentGeoLocationFromJSONTyped,
-    CryptoEstablishmentGeoLocationToJSON,
-} from './CryptoEstablishmentGeoLocation';
+    CryptoEstablishmentBaseInnerGeoLocationFromJSON,
+    CryptoEstablishmentBaseInnerGeoLocationFromJSONTyped,
+    CryptoEstablishmentBaseInnerGeoLocationToJSON,
+} from './CryptoEstablishmentBaseInnerGeoLocation';
 
 /**
  * 
@@ -100,10 +100,10 @@ export interface CryptoEstablishment {
     enabled?: boolean;
     /**
      * 
-     * @type {CryptoEstablishmentGeoLocation}
+     * @type {CryptoEstablishmentBaseInnerGeoLocation}
      * @memberof CryptoEstablishment
      */
-    geo_location: CryptoEstablishmentGeoLocation;
+    geo_location: CryptoEstablishmentBaseInnerGeoLocation;
     /**
      * 
      * @type {Array<string>}
@@ -155,7 +155,7 @@ export function CryptoEstablishmentFromJSONTyped(json: any, ignoreDiscriminator:
         'address': json['address'],
         'rating': json['rating'],
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
-        'geo_location': CryptoEstablishmentGeoLocationFromJSON(json['geo_location']),
+        'geo_location': CryptoEstablishmentBaseInnerGeoLocationFromJSON(json['geo_location']),
         'currencies': json['currencies'],
     };
 }
@@ -181,7 +181,7 @@ export function CryptoEstablishmentToJSON(value?: CryptoEstablishment | null): a
         'address': value.address,
         'rating': value.rating,
         'enabled': value.enabled,
-        'geo_location': CryptoEstablishmentGeoLocationToJSON(value.geo_location),
+        'geo_location': CryptoEstablishmentBaseInnerGeoLocationToJSON(value.geo_location),
         'currencies': value.currencies,
     };
 }

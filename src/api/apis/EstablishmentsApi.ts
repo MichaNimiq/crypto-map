@@ -18,6 +18,7 @@ import type {
   CategoriesIssueInner,
   CategoryInner,
   CryptoEstablishment,
+  CryptoEstablishmentBaseInner,
   CurrencyInner,
   EstablishmentCandidateBody,
   EstablishmentCandidateResponse,
@@ -31,6 +32,8 @@ import {
     CategoryInnerToJSON,
     CryptoEstablishmentFromJSON,
     CryptoEstablishmentToJSON,
+    CryptoEstablishmentBaseInnerFromJSON,
+    CryptoEstablishmentBaseInnerToJSON,
     CurrencyInnerFromJSON,
     CurrencyInnerToJSON,
     EstablishmentCandidateBodyFromJSON,
@@ -235,7 +238,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     /**
      * Search for establishments
      */
-    async searchEstablishmentsRaw(requestParameters: SearchEstablishmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CryptoEstablishment>>> {
+    async searchEstablishmentsRaw(requestParameters: SearchEstablishmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CryptoEstablishmentBaseInner>>> {
         const queryParameters: any = {};
 
         if (requestParameters.filterCurrency) {
@@ -259,13 +262,13 @@ export class EstablishmentsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CryptoEstablishmentFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CryptoEstablishmentBaseInnerFromJSON));
     }
 
     /**
      * Search for establishments
      */
-    async searchEstablishments(requestParameters: SearchEstablishmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CryptoEstablishment>> {
+    async searchEstablishments(requestParameters: SearchEstablishmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CryptoEstablishmentBaseInner>> {
         const response = await this.searchEstablishmentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
