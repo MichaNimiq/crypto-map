@@ -56,21 +56,11 @@ const hasSlot = (name: string) => {
 
 <template>
 	<template
-		class="flex flex-col h-full justify-center md:text-center md:max-w-sm lg:max-w-3xl mx-auto min-h-screen"
-	>
-		<transition
-			mode="out-in"
-			enter-active-class="transition duration-500 lg:duration-100 ease-out"
-			:enter-from-class="`opacity-0 ${
-				state === FormState.Initial ? '-translate-x-12' : 'translate-x-12'
-			}`"
-			enter-to-class="translate-x-0 opacity-100"
-			leave-active-class="transition duration-300 ease-in"
-			leave-from-class="translate-x-0 opacity-100"
-			:leave-to-class="`opacity-0 ${
-				state === FormState.Initial ? 'translate-x-12' : '-translate-x-12'
-			}`"
-		>
+		class="flex flex-col h-full justify-center md:text-center w-[clamp(284px,768px,calc(100vw-3rem))] mx-auto min-h-screen">
+		<transition mode="out-in" enter-active-class="transition duration-500 lg:duration-100 ease-out" :enter-from-class="`opacity-0 ${state === FormState.Initial ? '-translate-x-12' : 'translate-x-12'
+		}`" enter-to-class="translate-x-0 opacity-100" leave-active-class="transition duration-300 ease-in"
+			leave-from-class="translate-x-0 opacity-100" :leave-to-class="`opacity-0 ${state === FormState.Initial ? 'translate-x-12' : '-translate-x-12'
+			}`">
 			<main v-if="[FormState.Initial, FormState.Loading].includes(state)">
 				<h1 class="font-bold text-4xl lg:text-5xl text-space" v-if="hasSlot('title')">
 					<slot name="title" />
@@ -79,27 +69,17 @@ const hasSlot = (name: string) => {
 					<slot name="description" />
 				</p>
 
-				<div
-					class="text-sky font-bold text-sm group flex justify-center items-center gap-x-1.5 mt-4"
-					v-if="hasSlot('link')"
-				>
+				<div class="text-sky font-bold text-sm group flex justify-center items-center gap-x-1.5 mt-4"
+					v-if="hasSlot('link')">
 					<slot name="link" />
-					<ArrowLinkIcon
-						class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300"
-					/>
+					<ArrowLinkIcon class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300" />
 				</div>
 
 				<form class="mt-14 lg:mt-16 text-left" @submit.prevent="onSubmit" v-if="hasSlot('form')">
 					<slot name="form" />
 
-					<Button
-						bgColor="ocean"
-						type="submit"
-						class="mx-auto mt-10"
-						size="lg"
-						:loading="state === FormState.Loading"
-						:disabled="disabled"
-					>
+					<Button bgColor="ocean" type="submit" class="mx-auto mt-10" size="lg" :loading="state === FormState.Loading"
+						:disabled="disabled">
 						<template #text>
 							<slot name="button-label">Send</slot>
 						</template>
@@ -114,13 +94,7 @@ const hasSlot = (name: string) => {
 				<p class="text-space/60 font-semibold mt-6 lg:mt-8" v-if="hasSlot('success-description')">
 					<slot name="success-description" />
 				</p>
-				<Button
-					bgColor="ocean"
-					class="mx-auto mt-10"
-					size="lg"
-					href="/"
-					v-if="hasSlot('success-button-label')"
-				>
+				<Button bgColor="ocean" class="mx-auto mt-10" size="lg" href="/" v-if="hasSlot('success-button-label')">
 					<template #text>
 						<slot name="success-button-label">Back to Crypto map</slot>
 					</template>
@@ -134,13 +108,8 @@ const hasSlot = (name: string) => {
 				<p class="text-space/60 font-semibold mt-6 lg:mt-8" v-if="hasSlot('error-description')">
 					<slot name="error-description" />
 				</p>
-				<Button
-					bgColor="ocean"
-					class="mx-auto mt-10"
-					size="lg"
-					@click="state = FormState.Initial"
-					v-if="hasSlot('error-button-label')"
-				>
+				<Button bgColor="ocean" class="mx-auto mt-10" size="lg" @click="state = FormState.Initial"
+					v-if="hasSlot('error-button-label')">
 					<template #text>
 						<slot name="error-button-label">Back to Crypto map</slot>
 					</template>
