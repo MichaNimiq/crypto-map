@@ -1,13 +1,8 @@
 <template>
-	<component
-		:is="getComponent()"
-		:to="!isExternalLink ? props.href : undefined"
-		:href="isExternalLink ? props.href : undefined"
-		:target="isExternalLink ? '_blank' : undefined"
+	<component :is="getComponent()" :to="!isExternalLink ? props.href : undefined"
+		:href="isExternalLink ? props.href : undefined" :target="isExternalLink ? '_blank' : undefined"
 		class="group flex items-center justify-center w-max rounded-full cursor-pointer outline-none transition-colors"
-		v-bind="$attrs"
-		:disabled="isDisabled"
-		:class="{
+		v-bind="$attrs" :disabled="isDisabled" :class="{
 			'bg-space': props.bgColor === 'space',
 			'bg-ocean': props.bgColor === 'ocean' && !gradient,
 			'bg-radial-ocean': props.bgColor === 'ocean' && gradient,
@@ -22,47 +17,42 @@
 			'focus-visible:ring-space focus-visible:ring-1': props.as !== 'div',
 			'group-button-focus-visible:ring-offset-2': props.as === 'div' && props.bgColor === 'space',
 			'group-button-focus-visible:ring-space group-button-focus-visible:ring-1': props.as === 'div',
-		}"
-	>
-		<span
-			v-if="hasSlot('icon')"
-			:class="{
-				'text-white/60': ['space', 'sky', 'ocean'].includes(props.bgColor),
-				'text-space/60': ['white', 'transparent', 'grey'].includes(props.bgColor),
-				'text-opacity-40': isDisabled,
-			}"
-		>
+			'relative': hasSlot('badge')
+		}">
+		<span v-if="hasSlot('icon')" :class="{
+			'text-white/60': ['space', 'sky', 'ocean'].includes(props.bgColor),
+			'text-space/60': ['white', 'transparent', 'grey'].includes(props.bgColor),
+			'text-opacity-40': isDisabled,
+		}">
 			<slot name="icon" />
 		</span>
-		<span
-			v-if="hasSlot('text')"
-			class="font-extrabold text-center whitespace-nowrap"
-			:class="{
-				'text-white [button:disabled>&]:!text-white/40': ['space', 'sky', 'ocean'].includes(
-					props.bgColor
-				),
-				'text-space': ['white', 'grey'].includes(props.bgColor) && !textColor,
-				'text-space/60': props.bgColor === 'transparent' && !textColor,
-				'text-ocean': textColor === 'ocean',
-				'text-sky': textColor === 'sky',
-				'text-opacity-40': isDisabled,
-				'text-sm md:text-base': props.size === 'lg',
-				'text-xs md:text-sm': props.size === 'md',
-				'text-11 md:text-xs': props.size === 'sm',
-			}"
-		>
+		<span v-if="hasSlot('text')" class="font-extrabold text-center whitespace-nowrap" :class="{
+			'text-white [button:disabled>&]:!text-white/40': ['space', 'sky', 'ocean'].includes(
+				props.bgColor
+			),
+			'text-space': ['white', 'grey'].includes(props.bgColor) && !textColor,
+			'text-space/60': props.bgColor === 'transparent' && !textColor,
+			'text-ocean': textColor === 'ocean',
+			'text-sky': textColor === 'sky',
+			'text-opacity-40': isDisabled,
+			'text-sm md:text-base': props.size === 'lg',
+			'text-xs md:text-sm': props.size === 'md',
+			'text-11 md:text-xs': props.size === 'sm',
+		}">
 			<slot name="text" />
 		</span>
 
+		<div v-if="hasSlot('badge')"
+			class="rounded-full absolute translate-x-1/2 -translate-y-1/2 top-0.5 right-0.5 bg-space text-white text-xs grid place-content-center font-bold w-4 h-4">
+			<slot name="badge" />
+		</div>
+
 		<transition name="loading">
-			<CircleSpinner
-				v-if="props.loading"
-				:class="{
-					'text-white': !['transparent', 'white'].includes(props.bgColor),
-					'text-space/60': ['transparent', 'white'].includes(props.bgColor),
-					'w-3 h-3': props.size === 'sm',
-				}"
-			/>
+			<CircleSpinner v-if="props.loading" :class="{
+				'text-white': !['transparent', 'white'].includes(props.bgColor),
+				'text-space/60': ['transparent', 'white'].includes(props.bgColor),
+				'w-3 h-3': props.size === 'sm',
+			}" />
 		</transition>
 	</component>
 </template>
@@ -116,7 +106,7 @@ const props = defineProps({
 const isDisabled = computed(() => props.disabled || props.loading)
 
 const slots = useSlots()
-const hasSlot = (name: "icon" | "text") => {
+const hasSlot = (name: "icon" | "text" | "badge") => {
 	return !!slots[name]
 }
 

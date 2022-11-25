@@ -9,7 +9,7 @@ import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 
 const isOpen = ref(false)
 
@@ -18,6 +18,10 @@ const { smallScreen } = useBreakpoints()
 const apiStore = useApi()
 const { currenciesOptions, categoriesOptions, selectedCategories, selectedCurrencies } =
 	storeToRefs(apiStore)
+
+const nFilters = computed(() => {
+	return selectedCategories.value.length + selectedCurrencies.value.length
+})
 
 function closeModal() {
 	isOpen.value = false
@@ -33,6 +37,7 @@ function openModal() {
 			<FilterIcon class="text-space w-4.5 h-4.5" />
 		</template>
 		<template #text v-if="!smallScreen"> Filters </template>
+		<template #badge v-if="nFilters > 0"> {{ nFilters }} </template>
 	</Button>
 	<TransitionRoot appear :show="isOpen" as="template">
 		<Dialog as="div" @close="closeModal" class="relative z-20">
