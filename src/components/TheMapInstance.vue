@@ -78,7 +78,7 @@ const render = (cluster: any) => {
 		:center="center" :zoom="zoom" disable-default-ui :clickable-icons="false" :styles="googleMapStyles"
 		@dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
-			<CustomMarker ref="markers$" v-for="establishment in establishments" :key="establishment.id"
+			<CustomMarker ref="markers$" v-for="[_, establishment] in establishments" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
 				<RouterLink :to="`/establishment/${establishment.id}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer">

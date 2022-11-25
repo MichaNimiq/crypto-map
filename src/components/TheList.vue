@@ -7,6 +7,7 @@ import ListIcon from "@/components/icons/icon-list.vue"
 import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
+import { computed } from "@vue/reactivity"
 import { storeToRefs } from "pinia"
 import { ref, watch } from "vue"
 
@@ -14,18 +15,19 @@ const { smallScreen, xlScreen } = useBreakpoints()
 
 const scroller$ = ref<HTMLDivElement>()
 
-const fullScreen = ref(false)
-
 const appStore = useApp()
 const { listIsShown, selectedEstablishmentId } = storeToRefs(appStore)
 
 const apiStore = useApi()
-const { establishments } = storeToRefs(apiStore)
+const { establishmentsInView } = storeToRefs(apiStore)
+
+const listIsEmpty = computed(() => establishmentsInView.value.size === 0)
 
 watch(selectedEstablishmentId, (id) => {
-	if (!id) return
-	const i = establishments.value.map((l) => l.id).indexOf(id)
-	slideTo(i, listIsShown.value ? "smooth" : "auto")
+	if (!id || !scroller$.value) return
+	const item = scroller$.value.querySelector(`[data-establishment-id="${id}"]`)
+	const index = item ? Array.from(scroller$.value.children).indexOf(item) : 0
+	slideTo(index, listIsShown.value ? "smooth" : "auto")
 })
 
 function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
@@ -42,14 +44,15 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 overflow-auto scroll-space max-xl:bg-white max-xl:shadow max-xl:w-screen"
 		:class="{
 			'xl:-translate-x-96 max-xl:top-full': !listIsShown,
-			'h-main': establishments.length > 0,
+			'h-main': !listIsEmpty,
 		}">
 		<ul ref="scroller$"
 			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16 "
-			v-if="establishments.length > 0">
-			<li v-for="establishment in establishments" :key="establishment.id"
+			v-if="!listIsEmpty">
+			<li v-for="[_, establishment] in establishmentsInView" :key="establishment.id"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column"
-				:class="{ 'ring ring-ocean': establishment.id === selectedEstablishmentId }">
+				:class="{ 'ring ring-ocean': establishment.id === selectedEstablishmentId }"
+				:data-establishment-id="establishment.id">
 				<EstablishmentCard :establishment="establishment" />
 			</li>
 		</ul>
