@@ -45,7 +45,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			'h-main': establishments.length > 0,
 		}">
 		<ul ref="scroller$"
-			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative"
+			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16 "
 			v-if="establishments.length > 0">
 			<li v-for="establishment in establishments" :key="establishment.id"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column"
