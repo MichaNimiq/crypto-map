@@ -6,6 +6,7 @@ export const useApp = defineStore("app", () => {
   const listIsShown = ref(false);
   const toggleList = () => listIsShown.value = !listIsShown.value;
   const showList = () => listIsShown.value = true;
+  const hideList = () => listIsShown.value = false;
 
   const selectedEstablishmentId = ref<number>();
 
@@ -20,6 +21,7 @@ export const useApp = defineStore("app", () => {
     listIsShown,
     toggleList,
     showList,
+    hideList,
     selectedEstablishmentId: selectedEstablishmentId,
   }
 });
