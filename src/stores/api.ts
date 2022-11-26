@@ -31,19 +31,18 @@ export type BaseEstablishment = Pick<CryptoEstablishmentApi, "id" | "name" | "ca
   gmapsPlaceId: undefined;
   gmapsType: undefined;
   photoUrl: undefined;
-  currencies: undefined;
+  currencies: Currency[];
   rating: undefined;
   address: undefined;
 }
 
-export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" | "geoLocation"> & {
+export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" | "geoLocation" | "currencies"> & {
   hasAllInfo: true;
   gmapsUrl: CryptoEstablishmentApi["gmaps_url"];
   gmapsPlaceId: CryptoEstablishmentApi["gmaps_place_id"];
   geoLocation: CryptoEstablishmentApi["geo_location"];
   gmapsType: CryptoEstablishmentApi["gmaps_type"];
   photoUrl: string;
-  currencies: Currency[];
   rating: CryptoEstablishmentApi["rating"];
   address: CryptoEstablishmentApi["address"];
 }
@@ -58,6 +57,17 @@ export const useApi = defineStore("api", () => {
   const route = useRoute()
   const router = useRouter()
 
+  // Filters
+  const selectedCurrencies = ref(pathParamToStringList('currencies'))
+  const selectedCategories = ref(pathParamToStringList('categories'))
+
+  function pathParamToStringList(param: 'currencies' | 'categories') {
+    const values = route.query[param] as string
+    if (!values) return []
+    if (typeof values === 'string') return [values]
+    return values
+  }
+
   const mapStore = useMap()
   const { boundingBox } = storeToRefs(mapStore)
 
@@ -65,17 +75,39 @@ export const useApi = defineStore("api", () => {
     const { northEast, southWest } = boundingBox.value
     const establishmentsInView = new Map<number, BaseEstablishment | Establishment>([])
     for (const [id, establishment] of establishments.value) {
+      // Check if the establishment is in the bounding box
       const { lat, lng } = establishment.geoLocation
-      if (lat < northEast.lat && lat > southWest.lat && lng < northEast.lng && lng > southWest.lng) {
+      const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
+
+      // Check if the establishment should be hidden by the filters
+      const filteredByCurrencies = filterByCategories(establishment, selectedCurrencies.value)
+      const filteredByCategories = filterByCurrencies(establishment, selectedCategories.value)
+
+      if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
         establishmentsInView.set(id, establishment)
       }
     }
     return establishmentsInView
   })
 
+  function filterByCurrencies(establishment: BaseEstablishment | Establishment, selectedCurrencies: string[]) {
+    if (selectedCurrencies.length === 0) return true
+    return establishment.currencies.some(c => selectedCurrencies.includes(c.symbol))
+  }
+
+  function filterByCategories(establishment: BaseEstablishment | Establishment, selectedCategories: string[]) {
+    if (selectedCategories.length === 0) return true
+    return selectedCategories.includes(establishment.category)
+  }
+
   // Converts crypto location model from the API to the model used in the app
-  function parseBaseEstablishment({ id, name, category, geo_location: geoLocation }: CryptoEstablishmentBaseApi): BaseEstablishment {
-    const parsedEstablishment: BaseEstablishment = { id, name, category, geoLocation, hasAllInfo: false, address: undefined, currencies: undefined, gmapsPlaceId: undefined, gmapsType: undefined, gmapsUrl: undefined, photoUrl: undefined, rating: undefined }
+  function parseBaseEstablishment({ id, name, category, geo_location: geoLocation, currencies: establishmentCurrencySymbols }: CryptoEstablishmentBaseApi): BaseEstablishment {
+    const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
+    const parsedEstablishment: BaseEstablishment = {
+      id, name, category, geoLocation, hasAllInfo: false,
+      address: undefined, gmapsPlaceId: undefined, gmapsType: undefined, gmapsUrl: undefined, photoUrl: undefined, rating: undefined,
+      currencies: establishmentCurrencies,
+    }
     return parsedEstablishment
   }
 
@@ -197,17 +229,6 @@ export const useApi = defineStore("api", () => {
       return aIndex - bIndex
     })
   }
-
-  function pathParamToStringList(param: 'currencies' | 'categories') {
-    const values = route.query[param] as string
-    console.log('🔍 pathParamToStringList', param, values)
-    if (!values) return []
-    if (typeof values === 'string') return [values]
-    return values
-  }
-
-  const selectedCurrencies = ref(pathParamToStringList('currencies'))
-  const selectedCategories = ref(pathParamToStringList('categories'))
 
   watch([selectedCategories, selectedCurrencies], async ([newCategories, newCurrencies]) => {
     router.push({

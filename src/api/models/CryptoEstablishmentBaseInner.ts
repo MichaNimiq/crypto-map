@@ -46,6 +46,12 @@ export interface CryptoEstablishmentBaseInner {
     category: string;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof CryptoEstablishmentBaseInner
+     */
+    currencies: Array<string>;
+    /**
+     * 
      * @type {CryptoEstablishmentBaseInnerGeoLocation}
      * @memberof CryptoEstablishmentBaseInner
      */
@@ -60,6 +66,7 @@ export function instanceOfCryptoEstablishmentBaseInner(value: object): boolean {
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "category" in value;
+    isInstance = isInstance && "currencies" in value;
     isInstance = isInstance && "geo_location" in value;
 
     return isInstance;
@@ -78,6 +85,7 @@ export function CryptoEstablishmentBaseInnerFromJSONTyped(json: any, ignoreDiscr
         'id': json['id'],
         'name': json['name'],
         'category': json['category'],
+        'currencies': json['currencies'],
         'geo_location': CryptoEstablishmentBaseInnerGeoLocationFromJSON(json['geo_location']),
     };
 }
@@ -94,6 +102,7 @@ export function CryptoEstablishmentBaseInnerToJSON(value?: CryptoEstablishmentBa
         'id': value.id,
         'name': value.name,
         'category': value.category,
+        'currencies': value.currencies,
         'geo_location': CryptoEstablishmentBaseInnerGeoLocationToJSON(value.geo_location),
     };
 }

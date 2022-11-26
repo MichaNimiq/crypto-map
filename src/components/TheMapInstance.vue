@@ -11,7 +11,7 @@ import { useRoute } from "vue-router"
 import { CustomMarker, GoogleMap, MarkerCluster } from "vue3-google-map"
 
 const apiStore = useApi()
-const { establishments } = storeToRefs(apiStore)
+const { establishmentsInView } = storeToRefs(apiStore)
 
 const appStore = useApp()
 const { selectedEstablishmentId } = storeToRefs(appStore)
@@ -26,7 +26,7 @@ const {
 	computeBoundingBox,
 	goToPlaceId,
 } = mapStore
-const { center, zoom, map$, map } = storeToRefs(mapStore)
+const { center, zoom, map$ } = storeToRefs(mapStore)
 
 const route = useRoute()
 
@@ -78,7 +78,7 @@ const render = (cluster: any) => {
 		:center="center" :zoom="zoom" disable-default-ui :clickable-icons="false" :styles="googleMapStyles"
 		@dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
-			<CustomMarker ref="markers$" v-for="[_, establishment] in establishments" :key="establishment.id"
+			<CustomMarker ref="markers$" v-for="[_, establishment] in establishmentsInView" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
 				<RouterLink :to="`/establishment/${establishment.id}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer rounded-full">
