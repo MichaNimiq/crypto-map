@@ -103,7 +103,8 @@
 <script setup lang="ts">
 import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
-import { AutocompleteStatus, useMap } from "@/stores/map"
+import { useMap } from "@/stores/map"
+import { AutocompleteStatus, useApp } from "@/stores/app"
 import {
 	Combobox,
 	ComboboxButton,
@@ -155,12 +156,13 @@ const userCanCleanInput = computed(() => query.value !== "")
 let selected = ref<Option>()
 let query = ref("")
 
-const mapStore = useMap()
-const { suggestions, autocompleteStatus: status } = storeToRefs(mapStore)
+const appStore = useApp()
+const { autocomplete } = appStore;
+const { suggestions, autocompleteStatus: status } = storeToRefs(appStore)
 
 watch(
 	() => query.value,
-	() => mapStore.autocomplete(query.value, props.types)
+	() => autocomplete(query.value, props.types)
 )
 
 const slots = useSlots()

@@ -1,11 +1,9 @@
 import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
-import { useApi } from "./api";
-import { useApp } from "./app";
 
 export interface Point {
   lat: number;
@@ -15,13 +13,6 @@ export interface Point {
 export interface BoundingBox {
   southWest: Point;
   northEast: Point;
-}
-
-export enum AutocompleteStatus {
-  LOADING = "loading",
-  WITH_RESULTS = "with-results",
-  NO_RESULTS = "no-results",
-  ERROR = "error",
 }
 
 export const useMap = defineStore("map", () => {
@@ -78,51 +69,6 @@ export const useMap = defineStore("map", () => {
     })
   }
 
-  // Autocomplete 
-  const sessionToken = ref<google.maps.places.AutocompleteSessionToken>();
-  const autocompleteService = ref<google.maps.places.AutocompleteService>();
-  const autocompleteStatus = ref<AutocompleteStatus>();
-
-  const suggestions = ref<google.maps.places.AutocompletePrediction[]>([])
-
-  async function autocomplete(input: string, types?: string[]) {
-    if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
-    if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
-
-    autocompleteStatus.value = AutocompleteStatus.LOADING
-    if (!input || !autocompleteService.value) {
-      autocompleteStatus.value = AutocompleteStatus.NO_RESULTS
-      return suggestions.value = []
-    }
-    autocompleteService.value.getPlacePredictions({
-      input,
-      sessionToken: sessionToken.value,
-      location: mapReady.value ? map.value.getCenter() : undefined,
-      bounds: mapReady.value ? map.value.getBounds() : undefined,
-      types
-    }, (predictions, status) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        autocompleteStatus.value = AutocompleteStatus.ERROR
-        return
-      }
-
-      suggestions.value = predictions || []
-      autocompleteStatus.value = suggestions.value.length > 0 ? AutocompleteStatus.WITH_RESULTS : AutocompleteStatus.NO_RESULTS
-    })
-  }
-
-  const appStore = useApp()
-  const { selectedEstablishmentId } = storeToRefs(appStore)
-
-  async function goToPlaceId(placeId?: string) {
-    const geocoder = new google.maps.Geocoder();
-    if (!placeId) return
-    const res = await geocoder.geocode({ placeId })
-    if (res.results.length === 0) return
-    fitBounds(res.results[0].geometry.viewport)
-    computeBoundingBox()
-  }
-
   function fitBounds(bounds: google.maps.LatLngBounds) {
     map.value.fitBounds(bounds)
     center.value = map.value.getCenter()?.toJSON() || center.value
@@ -136,6 +82,7 @@ export const useMap = defineStore("map", () => {
     center,
 
     map,
+    mapReady,
 
     setCenter,
     setZoom,
@@ -143,11 +90,7 @@ export const useMap = defineStore("map", () => {
     decreaseZoom,
     setBoundingBox,
     computeBoundingBox,
-    navigateToUserEstablishment,
-
-    suggestions,
-    autocomplete,
-    autocompleteStatus,
-    goToPlaceId
+    fitBounds,
+    navigateToUserEstablishment
   }
 });

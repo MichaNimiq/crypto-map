@@ -2,21 +2,16 @@
 import LearnMorePopover from "@/components/elements/LearnMorePopover.vue"
 import SearchBox from "@/components/elements/SearchBox.vue"
 import FilterModal from "@/components/elements/FilterModal.vue"
-import { useMap } from "@/stores/map"
+import { useApp } from "@/stores/app"
 
-const mapStore = useMap()
+const appStore = useApp()
 </script>
 
 <template>
 	<header class="w-full py-6 pr-6 pl-4 shadow-header flex items-center gap-x-2 z-10">
 		<LearnMorePopover />
-		<SearchBox
-			class="flex-1"
-			rounded-full
-			combobox-options-classes="w-screen mt-12 -left-16 max-h-[220px] rounded-t-0"
-			size="sm"
-			@selected="mapStore.goToPlaceId($event?.place_id)"
-		/>
+		<SearchBox class="flex-1" rounded-full combobox-options-classes="w-screen mt-12 -left-16 max-h-[220px] rounded-t-0"
+			size="sm" @selected="appStore.goToPlaceId($event?.place_id)" />
 		<FilterModal />
 	</header>
 </template>
