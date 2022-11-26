@@ -109,9 +109,9 @@ onMounted(() => {
 
 		<hr class="bg-space/20 h-0.5" />
 
-		<div class="px-6 flex gap-x-2 mt-4 flex-1 items-end h-[35px] ">
-			<div class="flex-1 rounded-full bg-space/[0.06] animate-pulse"></div>
-			<div class="w-[35px] rounded-full bg-space/[0.06] animate-pulse"></div>
+		<div class="px-6 flex gap-x-2 mt-4 flex-1 items-end">
+			<div class="flex-1 h-[35px] rounded-full bg-space/[0.06] animate-pulse"></div>
+			<div class="w-[35px] h-[35px] rounded-full bg-space/[0.06] animate-pulse"></div>
 		</div>
 	</template>
 
