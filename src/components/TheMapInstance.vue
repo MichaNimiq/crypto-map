@@ -14,6 +14,7 @@ const apiStore = useApi()
 const { establishmentsInView } = storeToRefs(apiStore)
 
 const appStore = useApp()
+const { goToPlaceId } = appStore
 const { selectedEstablishmentId } = storeToRefs(appStore)
 
 const mapStore = useMap()
@@ -24,7 +25,6 @@ const {
 	setCenter,
 	setZoom,
 	computeBoundingBox,
-	goToPlaceId,
 } = mapStore
 const { center, zoom, map$ } = storeToRefs(mapStore)
 
