@@ -10,8 +10,9 @@ const appStore = useApp()
 <template>
 	<header class="w-full py-6 pr-6 pl-4 shadow-header flex items-center gap-x-2 z-10">
 		<LearnMorePopover />
-		<SearchBox class="flex-1" rounded-full combobox-options-classes="w-screen mt-12 -left-16 max-h-[220px] rounded-t-0"
-			size="sm" @selected="appStore.goToPlaceId($event?.place_id)" />
+		<SearchBox class="flex-1" rounded-full
+			combobox-options-classes="w-[calc(100vw)] mt-12 left-[-51px] max-h-[220px] rounded-t-0" size="sm"
+			@selected="appStore.goToPlaceId($event?.place_id)" />
 		<FilterModal />
 	</header>
 </template>
