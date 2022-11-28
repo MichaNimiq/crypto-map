@@ -1,10 +1,10 @@
-w<template>
+<template>
 	<Combobox v-model="selected" v-slot="{ open }" as="div" nullable @update:model-value="emit('selected', selected)">
-		<label v-if="hasLabel" :for="randomId" class="text-space/40 capitalize">
+		<ComboboxLabel v-if="hasLabel" class="text-space/40 capitalize">
 			<slot name="label">
 				{{ label }}
 			</slot>
-		</label>
+		</ComboboxLabel>
 		<div class="relative z-20" :class="{ 'mt-1': hasLabel }">
 			<div class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]" :class="{
 				'ring-space/[0.15]': !open,
@@ -20,7 +20,7 @@ w<template>
 						'text-base py-2': size === 'md',
 					}" autocomplete="off" :placeholder="$t('Search_Crypto_Map')"
 					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description"
-					@change="query = $event.target.value" :id="randomId" />
+					@change="query = $event.target.value" />
 
 				<template class="absolute inset-y-0 right-0 flex items-center pr-4">
 					<ComboboxButton v-if="!userCanCleanInput">
@@ -92,12 +92,13 @@ import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
 import { AutocompleteStatus, useApp } from "@/stores/app"
 import {
-Combobox,
-ComboboxButton,
-ComboboxInput,
-ComboboxOption,
-ComboboxOptions,
-TransitionRoot
+	Combobox,
+	ComboboxButton,
+	ComboboxInput,
+	ComboboxLabel,
+	ComboboxOption,
+	ComboboxOptions,
+	TransitionRoot
 } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
 import { computed, ref, useSlots, watch } from "vue"
@@ -136,8 +137,6 @@ const emit = defineEmits({
 	selected: (value?: Option) => value,
 })
 
-const randomId = Math.random().toString(36).substring(7)
-
 const userCanCleanInput = computed(() => query.value !== "")
 
 const selected = ref<Option>()
@@ -167,6 +166,7 @@ function makeBold(str: string, matches: Option["matched_substrings"]) {
 }
 
 function clearInput() {
+	console.log("clearInput")
 	selected.value = undefined
 	query.value = ""
 }
