@@ -5,6 +5,7 @@ import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
 import { SuperClusterAlgorithm } from "@googlemaps/markerclusterer"
+import { useDebounceFn } from "@vueuse/shared"
 import { storeToRefs } from "pinia"
 import { onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
@@ -47,6 +48,8 @@ onMounted(async () => {
 	}
 })
 
+const debouncer = useDebounceFn(computeBoundingBox, 2000)
+
 // We have to wait until GoogleMap component is mounted in order to compute
 // the bounding box of the map if user is accessing the map from an establishment
 function onIdle() {
@@ -55,7 +58,7 @@ function onIdle() {
 	if (placeIdOk) {
 		goToPlaceId(placeId)
 	} else {
-		computeBoundingBox()
+		debouncer()
 	}
 }
 
