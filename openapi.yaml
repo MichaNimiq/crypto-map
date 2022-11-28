@@ -1,0 +1,376 @@
+openapi: 3.0.1
+info:
+  title: Crypto Map API documentation
+  description: The Establishments map API is serves a list of establishments that accept crypto as a payment method.
+  contact: {}
+  license:
+    name: MIT
+    url: https://github.com/nimiq/establishments-map-backend/blob/master/LICENSE
+  version: "1.0"
+tags:
+  - name: establishments
+    description: Establishments Controller
+paths:
+  /api/establishments/search:
+    get:
+      tags:
+        - establishments
+      summary: Search for establishments
+      operationId: searchEstablishments
+      parameters:
+        - name: "filter[currency]"
+          description: "Filter by cryptocurrency, using the symbol. See more at /api/currencies"
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: "filter[establishmentCategory.label]"
+          description: "Filter by our Nimiq category, not google's type. You can see more at /api/establishments/categories"
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: "filter[bounding_box]"
+          description: "SW longitude, SW latitude, NE longitude, NE latitude"
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                title: CryptoEstablishmentBase
+                items:
+                  description: This is the basic information of an establishment that we show only in the map. If more information is required, you can use the /api/establishments/{establishmentId} endpoint.
+                  additionalProperties: false
+                  required:
+                    - id
+                    - name
+                    - geo_location
+                    - category
+                    - currencies
+                  properties:
+                    id:
+                      type: number
+                    name:
+                      type: string
+                    category:
+                      type: string
+                    currencies:
+                      type: array
+                      items:
+                        type: string
+                    geo_location:
+                      type: object
+                      additionalProperties: false
+                      required:
+                        - lat
+                        - lng
+                      properties:
+                        lat:
+                          type: number
+                        lng:
+                          type: number
+  /api/establishments/{establishmentId}:
+    get:
+      tags:
+        - establishments
+      summary: Get establishment by id
+      operationId: getEstablishmentById
+      parameters:
+        - in: path
+          name: establishmentId
+          schema:
+            type: string
+          required: true
+          description: Place id from Google Maps
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CryptoEstablishment"
+        "201":
+          description: Create
+        "404":
+          description: Not Found
+  /api/establishments/categories:
+    get:
+      tags:
+        - establishments
+      summary: Nimiq Categories
+      operationId: getCategories
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Category
+                description: All nimiq categories
+                type: array
+                items:
+                  type: object
+                  required:
+                    - "id"
+                    - "label"
+                  properties:
+                    label:
+                      type: string
+                      example: "shop"
+                    id:
+                      type: number
+                      example: 1
+        "201":
+          description: Create
+        "404":
+          description: Not Found
+  /api/currencies:
+    get:
+      tags:
+        - establishments
+      summary: CryptoCurrencies
+      operationId: getCurrencies
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Currency
+                description: All supported cryptocurrencies
+                type: array
+                items:
+                  type: object
+                  required:
+                    - "symbol"
+                    - "name"
+                  properties:
+                    name:
+                      type: string
+                      example: "Nimiq"
+                    symbol:
+                      type: string
+                      example: "NIM"
+        "201":
+          description: Create
+        "404":
+          description: Not Found
+  /api/establishments/issues/categories:
+    get:
+      tags:
+        - establishments
+      summary: Get issue categories with its label
+      operationId: getIssueCategories
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: CategoriesIssue
+                type: array
+                items:
+                  type: object
+                  required:
+                    - "id"
+                    - "label"
+                  properties:
+                    label:
+                      type: string
+                    id:
+                      type: number
+  /api/establishments/issues:
+    post:
+      tags:
+        - establishments
+      summary: Create a new issue for an establishment
+      operationId: postEstablishmentIssue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: EstablishmentIssueBody
+              type: object
+              required:
+                - "establishment_id"
+                - "issue_category_id"
+                - "description"
+                - "token"
+              properties:
+                issue_category_id:
+                  type: number
+                establishment_id:
+                  type: number
+                token:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: EstablishmentIssueResponse
+                type: object
+                required:
+                  - "message"
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Bad Request
+  /api/establishments/candidates:
+    post:
+      tags:
+        - establishments
+      summary: Create a new candidate for an establishment
+      operationId: postCandidate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: EstablishmentCandidateBody
+              type: object
+              required:
+                - "gmaps_place_id"
+                - "token"
+                - "name"
+                - "currencies"
+              properties:
+                gmaps_place_id:
+                  type: string
+                token:
+                  type: string
+                name:
+                  type: string
+                currencies:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: EstablishmentCandidateResponse
+                type: object
+                required:
+                  - "message"
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Bad Request
+components:
+  schemas:
+    CryptoEstablishment:
+      type: object
+      title: CryptoEstablishment
+      additionalProperties: false
+      required:
+        - id
+        - gmaps_place_id
+        - created_at
+        - updated_at
+        - name
+        - category
+        - gmaps_type
+        - gmaps_url
+        - address
+        - rating
+        - geo_location
+        - currencies
+      properties:
+        id:
+          type: integer
+          format: int32
+        gmaps_place_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        gmaps_type:
+          type: string
+        gmaps_url:
+          type: string
+        photo_reference:
+          type: string
+        address:
+          type: string
+        rating:
+          type: number
+        # FIXME: `enabled` flag should not be in the response as it is useless
+        enabled:
+          type: boolean
+        geo_location:
+          type: object
+          additionalProperties: false
+          required:
+            - lat
+            - lng
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+        currencies:
+          type: array
+          items:
+            type: string
+            description: Symbol of the crypto
+    CryptoCurrency:
+      type: object
+      properties:
+        BTC:
+          type: string
+        DASH:
+          type: string
+        LTC:
+          type: string
+        ETH:
+          type: string
+        XRP:
+          type: string
+        XLM:
+          type: string
+        NIM:
+          type: string
+    Currencies:
+      title: Currency
+      description: All supported currencies
+      type: array
+      items:
+        type: object
+        required:
+          - "symbol"
+          - "name"
+        properties:
+          name:
+            type: string
+          symbol:
+            type: string
+    EstablishmentIssue:
+      title: EstablishmentIssue
+      type: object
+      required:
+        - "id"
+        - "label"
+      properties:
+        label:
+          type: string
+        id:
+          type: number

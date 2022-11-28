@@ -7,7 +7,6 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 </script>
 
 <template>
-	<!-- TODO Aria with the controls -->
 	<main class="h-full" ref="mapWrapper">
 		<TheMapInstance>
 			<template #button-calculate-position="{ navigateToUserEstablishment }">
@@ -38,8 +37,9 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 			</template>
 		</TheMapInstance>
 		<Button class="absolute bottom-5 md:bottom-6 right-5 md:right-6 shadow" bgColor="white" href="/establishment/add"
-			size="md" text-color="ocean" draggable="false" aria-label="Add establishment" title="Add establishment">
-			<template #text> Add establishment </template>
+			size="md" text-color="ocean" draggable="false" :aria-label="$t('Add_establishment')"
+			:title="$t('Add_establishment')">
+			<template #text> {{ $t('Add_establishment') }} </template>
 		</Button>
 	</main>
 </template>

@@ -11,9 +11,9 @@
 					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-sm bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none">
 					<span class="block truncate" :class="{ 'text-space': usePlaceholder, 'text-space/60': !usePlaceholder, }">
 						{{
-											usePlaceholder
-										? geOptionById(selected as unknown as string | number)?.label
-						: placeholder
+								usePlaceholder
+									? geOptionById(selected as unknown as string | number)?.label
+									: placeholder
 						}}
 					</span>
 					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 mr-2">
@@ -25,7 +25,7 @@
 					leave-to-class="opacity-0">
 					<ListboxOptions
 						class="absolute -top-px -left-px w-[calc(100%+2px)] overflow-auto rounded-sm bg-white py-1 text-base ring-1 ring-space ring-opacity-5 focus:outline-none sm:text-sm scroll-grey z-40 bg-gradient-space pb-4 max-h-60 shadow-select space-y-1">
-						<ListboxOption v-slot="{ active, selected }" v-for="option in 	options" :key="option.id" :value="option.id"
+						<ListboxOption v-slot="{ active, selected }" v-for="option in options" :key="option.id" :value="option.id"
 							as="template">
 							<li
 								class="relative select-none py-2 pl-3 pr-2 text-white flex gap-x-2 items-center cursor-pointer transition-colors"
@@ -33,7 +33,7 @@
 								<slot name="option" v-bind="option">{{ option.label }}</slot>
 								<div class="w-5 h-5 rounded-full ml-auto" :class="{
 									'bg-white': selected,
-								'border border-white/10': !selected,
+									'border border-white/10': !selected,
 								}">
 									<CheckIcon v-if="selected" class="w-5 h-5 -top-0.5 -left-px text-space" />
 								</div>
@@ -47,7 +47,7 @@
 			</div>
 		</Listbox>
 		<ul class="mt-2 flex flex-wrap gap-2" v-if="hasSlot('selected-option')">
-			<li v-for="selectedOption in 	selected"
+			<li v-for="selectedOption in selected" :key="selectedOption"
 				class="w-max bg-space/[0.07] rounded-sm px-2 pt-1.5 pb-1 text-sm text-space flex gap-x-2.5 items-center">
 				<span>
 					<slot name="selected-option" v-bind="geOptionById(selectedOption)" />
@@ -84,7 +84,7 @@ const props = defineProps({
 	},
 	selectedSingle: {
 		type: Object as () => SelectOption,
-		default: () => [],
+		default: () => undefined,
 	},
 	options: {
 		type: Array as () => SelectOption[],
@@ -117,11 +117,11 @@ const emit = defineEmits({
 
 const selected = ref<SelectOption["id"][]>(props.modelValue)
 watch(selected, (value) => {
-	if(props.multiple) {
+	if (props.multiple) {
 		emit("update:modelValue", value)
 	} else {
 		const item = geOptionById(value as unknown as string | number)
-		if(!item) return
+		if (!item) return
 		emit("update:selectedSingle", item)
 	}
 })

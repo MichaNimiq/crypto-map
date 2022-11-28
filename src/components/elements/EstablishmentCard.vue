@@ -7,8 +7,7 @@ import StarIcon from "@/components/icons/icon-star.vue"
 
 import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
 import { RouterLink } from "vue-router"
-import { onMounted, ref } from "vue"
-import { computed } from "@vue/reactivity"
+import { computed, onMounted, ref } from "vue"
 
 const card$ = ref<BaseEstablishment | Establishment>()
 

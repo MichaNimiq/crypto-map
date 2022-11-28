@@ -81,7 +81,7 @@ const hasSlot = (name: string) => {
 					<Button bgColor="ocean" type="submit" class="mx-auto mt-10" size="lg" :loading="state === FormState.Loading"
 						:disabled="disabled">
 						<template #text>
-							<slot name="button-label">Send</slot>
+							<slot name="button-label">{{ $t('Send') }}</slot>
 						</template>
 					</Button>
 				</form>
@@ -96,7 +96,7 @@ const hasSlot = (name: string) => {
 				</p>
 				<Button bgColor="ocean" class="mx-auto mt-10" size="lg" href="/" v-if="hasSlot('success-button-label')">
 					<template #text>
-						<slot name="success-button-label">Back to Crypto map</slot>
+						<slot name="success-button-label">{{ $t('Back_to_the_Map') }}</slot>
 					</template>
 				</Button>
 			</main>
@@ -111,7 +111,7 @@ const hasSlot = (name: string) => {
 				<Button bgColor="ocean" class="mx-auto mt-10" size="lg" @click="state = FormState.Initial"
 					v-if="hasSlot('error-button-label')">
 					<template #text>
-						<slot name="error-button-label">Back to Crypto map</slot>
+						<slot name="error-button-label">{{ $t('Try_again') }}</slot>
 					</template>
 				</Button>
 			</main>

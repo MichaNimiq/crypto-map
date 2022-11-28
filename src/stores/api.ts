@@ -1,8 +1,8 @@
-import { Configuration, EstablishmentsApi, type CryptoEstablishmentBaseInner as CryptoEstablishmentBaseApi, type CryptoEstablishment as CryptoEstablishmentApi, type SearchEstablishmentsRequest, type CurrencyInner as Currency, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type PostCandidateRequest as CandidateRequest } from "@/api";
+import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type CryptoEstablishmentBaseInner as CryptoEstablishmentBaseApi, type CurrencyInner as Currency, type PostCandidateRequest as CandidateRequest, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type SearchEstablishmentsRequest } from "@/api";
 import { defineStore, storeToRefs } from "pinia";
-import { computed, onMounted, ref, watch, type Ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useMap, type BoundingBox } from "./map";
+import { useMap } from "./map";
 
 const basePath: string = import.meta.env.VITE_URL_API_URL
 const googleMapsKey: string = import.meta.env.VITE_GOOGLE_MAP_KEY
@@ -188,9 +188,9 @@ export const useApi = defineStore("api", () => {
       // TODO Handle error
       return;
     }
-    categoriesIssue.value = res.map(r => ({
-      id: r.id,
-      label: capitalize(r.label.replace(/_/g, ' '))
+    categoriesIssue.value = res.map(({ id, label }) => ({
+      id,
+      label,
     }))
   }
 
@@ -202,9 +202,9 @@ export const useApi = defineStore("api", () => {
       // TODO Handle error
       return;
     }
-    categories.value = res.map(r => ({
-      id: r.label,
-      label: capitalize(r.label.replace(/_/g, ' & '))
+    categories.value = res.map(({ label }) => ({
+      id: label,
+      label
     }))
   }
 

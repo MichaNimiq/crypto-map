@@ -1,4 +1,4 @@
-<template>
+w<template>
 	<Combobox v-model="selected" v-slot="{ open }" as="div" nullable @update:model-value="emit('selected', selected)">
 		<label v-if="hasLabel" :for="randomId" class="text-space/40 capitalize">
 			<slot name="label">
@@ -18,7 +18,7 @@
 						'text-ocean': open,
 						'text-sm py-[5px]': size === 'sm',
 						'text-base py-2': size === 'md',
-					}" autocomplete="off" placeholder="Search crypto map"
+					}" autocomplete="off" :placeholder="$t('Search_Crypto_Map')"
 					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description"
 					@change="query = $event.target.value" :id="randomId" />
 
@@ -45,17 +45,19 @@
 					<div class="relative cursor-default select-none py-2 px-4" :class="{
 						'text-space/80': bgCombobox === 'white',
 						'text-white/80': bgCombobox === 'space',
-					}" v-if="
-	status && [AutocompleteStatus.NO_RESULTS, AutocompleteStatus.LOADING].includes(status)
-">
-						<span v-if="status === AutocompleteStatus.LOADING">Loading...</span>
-						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query === ''">
-							Start typing...
+					}" v-if="status && [AutocompleteStatus.NO_RESULTS, AutocompleteStatus.LOADING].includes(status)">
+						<span v-if="status === AutocompleteStatus.LOADING">
+							{{ $t('Loading') }}
 						</span>
-						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query !== ''">Nothing found.</span>
+						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query === ''">
+							{{ $t('Start_Typing') }}
+						</span>
+						<span v-else-if="status === AutocompleteStatus.NO_RESULTS && query !== ''">
+							{{ $t('Nothing_found') }}
+						</span>
 					</div>
 
-					<ComboboxOption v-else v-for="suggestion in suggestions" as="template" :key="suggestion.place_id"
+					<ComboboxOption v-else v-for="suggestion in 	suggestions" as="template" :key="suggestion.place_id"
 						:value="suggestion" v-slot="{ selected, active }">
 						<li class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer" :class="{
 							'hover:bg-space/[0.06]': bgCombobox === 'white',
@@ -65,21 +67,6 @@
 							'px-6 gap-x-6': size === 'sm',
 							'px-3 gap-x-2': size === 'md',
 						}">
-							<!-- <div
-								class="rounded-full w-8 h-8 grid place-content-center"
-								:class="{
-									'bg-space/10': bgCombobox === 'white' && size === 'md',
-									'bg-white/10': bgCombobox === 'space' && size === 'md',
-								}"
-							>
-								<CarsAndBikesIcon
-									class="w-full h-full"
-									:class="{
-										'text-space': bgCombobox === 'white',
-										'text-white': bgCombobox === 'space',
-									}"
-								/>
-							</div> -->
 							<span class="block truncate" :class="{
 								'text-space': bgCombobox === 'white',
 								'text-white': bgCombobox === 'space',
@@ -103,19 +90,19 @@
 <script setup lang="ts">
 import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
-import { useMap } from "@/stores/map"
 import { AutocompleteStatus, useApp } from "@/stores/app"
 import {
-	Combobox,
-	ComboboxButton,
-	ComboboxInput,
-	ComboboxOption,
-	ComboboxOptions,
-	TransitionRoot,
+Combobox,
+ComboboxButton,
+ComboboxInput,
+ComboboxOption,
+ComboboxOptions,
+TransitionRoot
 } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
 import { computed, ref, useSlots, watch } from "vue"
 
+// eslint-disable-next-line no-undef
 type Option = google.maps.places.AutocompletePrediction
 
 const props = defineProps({
@@ -153,8 +140,8 @@ const randomId = Math.random().toString(36).substring(7)
 
 const userCanCleanInput = computed(() => query.value !== "")
 
-let selected = ref<Option>()
-let query = ref("")
+const selected = ref<Option>()
+const query = ref("")
 
 const appStore = useApp()
 const { autocomplete } = appStore;

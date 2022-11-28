@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  CategoriesIssueInner,
-  CategoryInner,
-  CryptoEstablishment,
-  CryptoEstablishmentBaseInner,
-  CurrencyInner,
-  EstablishmentCandidateBody,
-  EstablishmentCandidateResponse,
-  EstablishmentIssueBody,
-  EstablishmentIssueResponse,
+    CategoriesIssueInner,
+    CategoryInner,
+    CryptoEstablishment,
+    CryptoEstablishmentBaseInner,
+    CurrencyInner,
+    EstablishmentCandidateBody,
+    EstablishmentCandidateResponse,
+    EstablishmentIssueBody,
+    EstablishmentIssueResponse,
 } from '../models';
 import {
     CategoriesIssueInnerFromJSON,
@@ -126,7 +126,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      */
     async getEstablishmentByIdRaw(requestParameters: GetEstablishmentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CryptoEstablishment>> {
         if (requestParameters.establishmentId === null || requestParameters.establishmentId === undefined) {
-            throw new runtime.RequiredError('establishmentId','Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
+            throw new runtime.RequiredError('establishmentId', 'Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
         }
 
         const queryParameters: any = {};
@@ -178,7 +178,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new candidate for a establishment
+     * Create a new candidate for an establishment
      */
     async postCandidateRaw(requestParameters: PostCandidateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentCandidateResponse>> {
         const queryParameters: any = {};
@@ -199,7 +199,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new candidate for a establishment
+     * Create a new candidate for an establishment
      */
     async postCandidate(requestParameters: PostCandidateRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EstablishmentCandidateResponse> {
         const response = await this.postCandidateRaw(requestParameters, initOverrides);
@@ -207,7 +207,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new issue for a establishment
+     * Create a new issue for an establishment
      */
     async postEstablishmentIssueRaw(requestParameters: PostEstablishmentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentIssueResponse>> {
         const queryParameters: any = {};
@@ -228,7 +228,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new issue for a establishment
+     * Create a new issue for an establishment
      */
     async postEstablishmentIssue(requestParameters: PostEstablishmentIssueRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EstablishmentIssueResponse> {
         const response = await this.postEstablishmentIssueRaw(requestParameters, initOverrides);
