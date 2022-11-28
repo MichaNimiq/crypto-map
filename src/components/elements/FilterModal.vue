@@ -36,7 +36,7 @@ function openModal() {
 		<template #icon>
 			<FilterIcon class="text-space w-4.5 h-4.5" />
 		</template>
-		<template #text v-if="!smallScreen"> Filters </template>
+		<template #text v-if="!smallScreen"> {{ $t('Filters') }} </template>
 		<template #badge v-if="nFilters > 0"> {{ nFilters }} </template>
 	</Button>
 	<TransitionRoot appear :show="isOpen" as="template">
@@ -56,30 +56,31 @@ function openModal() {
 							<CrossIcon @click="closeModal" class="absolute top-6.5 right-6.5 text-space/40 w-4 h-6 cursor-pointer" />
 
 							<DialogTitle as="h2" class="text-2xl font-bold text-space text-center">
-								Filters
+								{{ $t('Filters') }}
 							</DialogTitle>
 							<hr class="w-full bg-space/10 h-px my-8" />
 
 							<Select placeholder="Select cryptocurrencies" :options="currenciesOptions" v-model="selectedCurrencies">
 								<template #label>
 									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
-										Cryptocurrencies
+										{{ $t('Cryptocurrencies') }}
 									</h3>
 								</template>
 								<template #option="{ id, label }">
 									<div class="flex items-center gap-x-2">
 										<CryptoIcon class="w-6 h-6" :crypto="id as string" />
-										<span><b>{{ id }}</b>, {{ label }}</span>
+										<span><b>{{ id }}</b>, {{ $t(label) }}</span>
 									</div>
 								</template>
 								<template #after-options> More cryptocurrencies supported in the future </template>
 								<template #selected-option="{ label }"> {{ label }} </template>
 							</Select>
 							<hr class="w-full bg-space/10 h-px my-8" />
-							<Select :options="categoriesOptions" v-model="selectedCategories" placeholder="Select category">
+							<Select :options="categoriesOptions.map(({ id, label }) => ({ id, label: $t(label) }))"
+								v-model="selectedCategories" placeholder="Select category">
 								<template #label>
 									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
-										Category
+										{{ $t('Categories') }}
 									</h3>
 								</template>
 								<template #option="{ id, label }">
@@ -87,7 +88,7 @@ function openModal() {
 									{{ label }}
 								</template>
 								<template #selected-option="{ label }">
-									{{ label }}
+									{{ $t(label) }}
 								</template>
 							</Select>
 						</DialogPanel>

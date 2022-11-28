@@ -7,9 +7,8 @@ import ListIcon from "@/components/icons/icon-list.vue"
 import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
-import { computed } from "@vue/reactivity"
 import { storeToRefs } from "pinia"
-import { ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 
 const { smallScreen, xlScreen } = useBreakpoints()
 
@@ -49,7 +48,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		<ul ref="scroller$"
 			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16 "
 			v-if="!listIsEmpty">
-			<li v-for="[_, establishment] in establishmentsInView" :key="establishment.id"
+			<li v-for="[, establishment] in establishmentsInView" :key="establishment.id"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"
 				:class="{ 'ring ring-ocean': establishment.id === selectedEstablishmentId }"
 				:data-establishment-id="establishment.id">
@@ -60,7 +59,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		<div v-else
 			class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6 max-xl:py-20 xl:shadow xl:h-main">
 			<CactusIcon class="text-space w-20 justify-self-center" />
-			<p class="text-space text-center text-base xl:text-xl">Oops, no businesses around here</p>
+			<p class="text-space text-center text-base xl:text-xl">{{ $t('Oops_no_businesses_around_here') }}</p>
 		</div>
 
 		<transition enter-active-class="duration-200 ease-out" enter-from-class="opacity-0 translate-y-12"
@@ -77,7 +76,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 					</template>
 
 					<template #text v-if="!smallScreen">
-						{{ listIsShown ? "Hide list" : "Show list" }}
+						{{ listIsShown ? $t("Hide_list") : $t("Show_list") }}
 					</template>
 				</Button>
 			</div>
@@ -88,7 +87,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 			leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-12">
 			<div v-if="!xlScreen && listIsShown" class="w-full flex justify-center fixed bottom-5 z-10">
 				<Button bg-color="ocean" class="shadow" @click="appStore.hideList">
-					<template #text>Back to the Map</template>
+					<template #text>{{ $t('Back_to_the_Map') }}</template>
 				</Button>
 			</div>
 		</transition>

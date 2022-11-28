@@ -3,9 +3,8 @@ import Select, { type SelectOption } from "@/components/elements/Select.vue"
 import TextAreaInput from "@/components/elements/TextAreaInput.vue"
 import FormContainer from "@/components/forms/FormContainer.vue"
 import { useApi } from "@/stores/api"
-import { computed } from "@vue/reactivity"
 import { storeToRefs } from "pinia"
-import { onMounted, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 
 const apiStore = useApi()
@@ -35,26 +34,25 @@ async function onSubmit(token: string) {
 
 <template>
 	<FormContainer :disabled="disabled" :on-submit="onSubmit">
-		<template #title>Report an issue with a place</template>
+		<template #title>{{ $t("Report_an_issue_with_a_place") }}</template>
 		<template #form>
-			<Select label="Select issue" :options="categoriesIssue" v-model:selected-single="selectedIssue" :multiple="false"
-				placeholder="Select issue" replace-placeholder />
+			<Select :label="$t('Select_issue')" :options="categoriesIssue.map(({ id, label }) => ({ id, label: $t(label) }))"
+				v-model:selected-single="selectedIssue" :multiple="false" :placeholder="$t('Select_issue')"
+				replace-placeholder />
 
-			<TextAreaInput placeholder="Write your problem here" class="mt-6" label="Describe the issue"
+			<TextAreaInput :placeholder="$t('Write_your_problem_here')" class="mt-6" :label="$t('Describe_the_issue')"
 				v-model="issueDescription" />
 		</template>
-		<template #button-label>Report Place</template>
+		<template #button-label>{{ $t('Report_Establishment') }}</template>
 
 		<!-- Success -->
-		<template #success-title>Thank you for reporting this issue</template>
-		<template #success-description>This may take a few days to process. Keep an eye out for changes to the location in
-			the
-			Crypto map.</template>
-		<template #success-button-label>Back to Crypto map</template>
+		<template #success-title>{{ $t('Thank_you_for_reporting_this_issue') }}</template>
+		<template #success-description>{{ $t('This_may_take_a_few_days_to_process') }}</template>
+		<template #success-button-label>{{ $t('Back_to_the_Map') }}</template>
 
 		<!-- Error -->
-		<template #error-title>Something went wrong.</template>
-		<template #error-description>There has been a problem on our side.</template>
-		<template #error-button-label>Try again</template>
+		<template #error-title>{{ $t('Something_went_wrong') }}</template>
+		<template #error-description>{{ $t('There_has_been_a_problem_on_our_side') }}</template>
+		<template #error-button-label>{{ $t('Try_again') }}</template>
 	</FormContainer>
 </template>

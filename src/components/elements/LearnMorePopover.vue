@@ -22,14 +22,15 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 				</svg>
 				<div
 					class="overflow-hidden shadow ring-1 ring-black px-4 py-3 ring-opacity-5 bg-gradient-space rounded-sm space-y-2">
-					<h3 class="text-white font-bold text-lg">Crypto Map</h3>
+					<h3 class="text-white font-bold text-lg">
+						{{ $t('Crypto_Map') }}
+					</h3>
 					<p class="text-white/60 text-sm">
-						This app is brought to you by Nimiq, only places that are verified by Google are
-						accepted for this map.
+						{{ $t('This_app_is_brought_to_you_by_Nimiq') }}
 					</p>
 					<a class="text-sky font-bold text-sm group flex items-center gap-x-1.5 w-max" href="https://nimiq.com"
 						target="_blank">
-						Go to Nimiq
+						{{ $t('Go_to_Nimiq') }}
 						<ArrowLinkIcon class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300" />
 					</a>
 					<img class="mt-4 ml-auto opacity-40" alt="Nimiq logo" src="@/assets/nimiq-horizontal-logo.svg" />

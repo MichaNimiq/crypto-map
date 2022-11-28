@@ -1,8 +1,9 @@
-import { breakpointsTailwind, useBreakpoints as _useBreakpoints } from '@vueuse/core'
+import { useBreakpoints as _useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
+import { screens } from "tailwindcss-nimiq-theme"
 
 export function useBreakpoints() {
-  const useBreakpoints = _useBreakpoints(breakpointsTailwind)
+  const useBreakpoints = _useBreakpoints(screens)
   const smallScreen = useBreakpoints.smaller('sm')
   const largeScreen = useBreakpoints.greater('lg')
   const xlScreen = useBreakpoints.greater('xl')

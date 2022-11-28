@@ -27,17 +27,17 @@ async function onSubmit(token: string) {
 
 <template>
 	<FormContainer :disabled="disabled" :on-submit="onSubmit">
-		<template #title>Add a place to the Crypto Map</template>
-		<template #description>You can add any place that has a Google Business Profile.</template>
+		<template #title>{{ $t('Add_a_place_to_the_Crypto_Map') }}</template>
+		<template #description>{{ $t('You_can_add_any_place_that_has_a_Google_Business_Profile') }}</template>
 		<template #link>
-			<a href="https://www.google.com/business/" target="_blank"> Create Google Business profile </a>
+			<a href="https://www.google.com/business/" target="_blank">{{ $t('Create_Google_Business_profile') }}</a>
 		</template>
 		<template #form>
-			<SearchBox label="Find place" combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset"
+			<SearchBox :label="$t('Find_place')" combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset"
 				bg-combobox="space" input-id="search-input" :types="['establishment']" @selected="selectedPlace = $event" />
 
-			<Select class="mt-6" label="Select cryptocurrency" input-id="cryptocurrency-input" :options="currenciesOptions"
-				v-model="selectedCurrencies" placeholder="Select cryptocurrency">
+			<Select class="mt-6" :label="$t('Select_Cryptocurrency')" input-id="cryptocurrency-input"
+				:options="currenciesOptions" v-model="selectedCurrencies" :placeholder="$t('Select_Cryptocurrency')">
 				<template #option="{ id, label }">
 					<CryptoIcon class="w-6 h-6" :crypto="id as string" />
 					<span>
@@ -45,22 +45,20 @@ async function onSubmit(token: string) {
 						{{ label }}
 					</span>
 				</template>
-				<template #after-options> More cryptocurrencies supported in the future </template>
+				<template #after-options> {{ $t('More_cryptocurrencies_supported_in_the_future') }} </template>
 				<template #selected-option="{ label }">{{ label }} </template>
 			</Select>
 		</template>
-		<template #button-label>Submit Place</template>
+		<template #button-label>{{ $t('Submit_Establishment') }}</template>
 
 		<!-- Success -->
-		<template #success-title>Thank you for submitting a new place to the Crypto Map!</template>
-		<template #success-description>This may take a few days to process. Keep an eye out for the new location in the
-			Crypto
-			map.</template>
-		<template #success-button-label>Back to Crypto map</template>
+		<template #success-title>{{ $t('Thank_you_for_submitting_a_new_place_to_the_Crypto_Map') }}</template>
+		<template #success-description>{{ $t('This_may_take_a_few_days_to_process') }}</template>
+		<template #success-button-label>{{ $t('Back_to_the_Map') }}</template>
 
 		<!-- Error -->
-		<template #error-title>Something went wrong.</template>
-		<template #error-description>There has been a problem on our side.</template>
-		<template #error-button-label>Try again</template>
+		<template #error-title>{{ $t('Something_went_wrong') }}</template>
+		<template #error-description>{{ $t('There_has_been_a_problem_on_our_side') }}</template>
+		<template #error-button-label>{{ $t('Try_again') }}</template>
 	</FormContainer>
 </template>

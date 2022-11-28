@@ -48,7 +48,7 @@ onMounted(async () => {
 })
 
 // We have to wait until GoogleMap component is mounted in order to compute
-// the bounding box of the map if user is accessing the map from a establishment
+// the bounding box of the map if user is accessing the map from an establishment
 function onIdle() {
 	const { place_id: placeId } = route.params
 	const placeIdOk = placeId && typeof placeId === "string"
@@ -78,7 +78,7 @@ const render = (cluster: any) => {
 		:center="center" :zoom="zoom" disable-default-ui :clickable-icons="false" :styles="googleMapStyles"
 		@dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
-			<CustomMarker ref="markers$" v-for="[_, establishment] in establishmentsInView" :key="establishment.id"
+			<CustomMarker ref="markers$" v-for="[, establishment] in establishmentsInView" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
 				<RouterLink :to="`/establishment/${establishment.id}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer rounded-full">

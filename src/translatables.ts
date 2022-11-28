@@ -15,8 +15,8 @@ const messages = {
       "select-establishment-button": "Establishment wählen",
       "pickup-stores": "Pickups",
       "add-establishment-button": "Ort übermitteln",
-      "find-place": "Place finden",
-      "submit-place": "Place absenden",
+      "find-place": "Establishment finden",
+      "submit-place": "Establishment absenden",
       "cancel": "Abbrechen",
       "select-issue": "Problem wählen",
       "describe-issue": "Beschreibe das Problem",
@@ -38,7 +38,7 @@ const messages = {
         urlText: "Erstelle ein Google-Business-Profil"
       },
       reportIssue: {
-        title: "Ein Problem mit einem Place melden",
+        title: "Ein Problem mit einem Establishment melden",
       },
     },
     // TODO: not finalised list, yet
@@ -74,7 +74,7 @@ const messages = {
   en: {
     placeholders: {
       "search-places": "Search crypto map...",
-      "find-anywhere": "Anywhere / Place",
+      "find-anywhere": "Anywhere / Establishment",
       "describe-issue": "Write your problem here ..",
     },
     labels: {
@@ -136,10 +136,10 @@ const messages = {
       "type-car_dealer": "Dealer",
       "type-lodging": "Hotel & Unterkunft",
       issue: {
-        'gone': "Place closed / does not exist",
+        'gone': "Establishment closed / does not exist",
         'missing-currency': "Currency missing",
         'missing-not-accepted': "Currency not accepted",
-        'not-crypto': "Place doesn't accept crypto",
+        'not-crypto': "Establishment doesn't accept crypto",
         'other': "Other",
       }
     }
