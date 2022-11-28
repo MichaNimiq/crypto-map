@@ -52,7 +52,7 @@ async function onSubmit(token: string) {
 		<template #button-label>{{ $t('Submit_Establishment') }}</template>
 
 		<!-- Success -->
-		<template #success-title>{{ $t('Thank_you_for_submitting_a_new_place_to_the_Crypto_Map') }}</template>
+		<template #success-title>{{ $t('Thank_you_for_submitting_a_new_establishment_to_the_Crypto_Map') }}</template>
 		<template #success-description>{{ $t('This_may_take_a_few_days_to_process') }}</template>
 		<template #success-button-label>{{ $t('Back_to_the_Map') }}</template>
 

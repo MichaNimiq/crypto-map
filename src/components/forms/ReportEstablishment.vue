@@ -34,7 +34,7 @@ async function onSubmit(token: string) {
 
 <template>
 	<FormContainer :disabled="disabled" :on-submit="onSubmit">
-		<template #title>{{ $t("Report_an_issue_with_a_place") }}</template>
+		<template #title>{{ $t("Report_an_issue_with_an_establishment") }}</template>
 		<template #form>
 			<Select :label="$t('Select_issue')" :options="categoriesIssue.map(({ id, label }) => ({ id, label: $t(label) }))"
 				v-model:selected-single="selectedIssue" :multiple="false" :placeholder="$t('Select_issue')"
