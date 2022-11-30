@@ -29,3 +29,4 @@ icons_optimized
 *.njsproj
 *.sln
 *.sw?
+.yarn
