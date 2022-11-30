@@ -1,15 +1,14 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*"],
   "compilerOptions": {
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["grecaptcha"],
   },
-  "baseUrl": "types",
-  "typeRoots": ["types", "google.maps"],
   "references": [
     {
       "path": "./tsconfig.config.json"
