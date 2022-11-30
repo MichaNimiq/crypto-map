@@ -274,6 +274,31 @@ export const useApi = defineStore("api", () => {
     })
   })
 
+  const suggestionsApi = ref<{ label: string, onclick: () => void }[]>([])
+  async function autocompleteApi(query: string) {
+    const res = await establishmentsApi.autocomplete({ query })
+    const establishments = res.establishments.map((e) => ({
+      label: e.name,
+      onclick: () => {
+        router.push(`/establishment/${e.id}`)
+      }
+    }))
+    const currencies = res.currencies.map((c) => ({
+      label: c.name,
+      onclick: () => {
+        selectedCurrencies.value = [c.symbol]
+      }
+    }))
+    const categories = res.categories.map((c) => ({
+      label: c.label,
+      onclick: () => {
+        selectedCategories.value = [c.label]
+      }
+    }))
+
+    suggestionsApi.value = [...establishments, ...currencies, ...categories]
+  }
+
   return {
     search,
     establishments,
@@ -291,6 +316,9 @@ export const useApi = defineStore("api", () => {
 
     // For the select component
     currenciesOptions,
-    categoriesOptions // FIXME This one should be removed
+    categoriesOptions, // FIXME This one should be removed
+
+    autocompleteApi,
+    suggestionsApi
   }
 })

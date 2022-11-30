@@ -1,5 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AutocompleteApi';
+export * from './AutocompleteApiCategoriesInner';
+export * from './AutocompleteApiCurrenciesInner';
+export * from './AutocompleteApiEstablishmentsInner';
 export * from './CategoriesIssueInner';
 export * from './CategoryInner';
 export * from './CryptoCurrency';
