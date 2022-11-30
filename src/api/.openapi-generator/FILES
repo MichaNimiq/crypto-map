@@ -1,6 +1,10 @@
 apis/EstablishmentsApi.ts
 apis/index.ts
 index.ts
+models/AutocompleteApi.ts
+models/AutocompleteApiCategoriesInner.ts
+models/AutocompleteApiCurrenciesInner.ts
+models/AutocompleteApiEstablishmentsInner.ts
 models/CategoriesIssueInner.ts
 models/CategoryInner.ts
 models/CryptoCurrency.ts
