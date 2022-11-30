@@ -56,7 +56,7 @@
 						</span>
 					</div>
 
-					<ComboboxOption v-else v-for="(suggestion, i) in	suggestions" as="template" :key="i" :value="suggestion"
+					<ComboboxOption v-else v-for="(suggestion, i) in suggestions" as="template" :key="i" :value="suggestion"
 						v-slot="{ selected, active }">
 						<li class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer" :class="{
 							'hover:bg-space/[0.06]': bgCombobox === 'white',
@@ -69,7 +69,7 @@
 							<span class="block truncate" :class="{
 								'text-space': bgCombobox === 'white',
 								'text-white': bgCombobox === 'space',
-							}" v-html="suggestion.description ? makeBold(suggestion.description, suggestion.matched_substrings) : suggestion.label">
+							}" v-html="'description' in suggestion ? makeBold(suggestion.description, suggestion.matched_substrings) : suggestion.label">
 							</span>
 							<span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3" :class="{
 								'text-white':
@@ -103,7 +103,6 @@ import {
 import { storeToRefs } from "pinia"
 import { computed, ref, useSlots, watch } from "vue"
 
-// eslint-disable-next-line no-undef
 type Option = google.maps.places.AutocompletePrediction
 
 const props = defineProps({
