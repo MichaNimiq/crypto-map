@@ -1,6 +1,6 @@
 // TODO Redo this interfaces
 
-/* 
+/*
   General
 */
 export interface HTMLElement {
@@ -10,7 +10,7 @@ export interface HTMLElement {
   webkitRequestFullScreen?: () => Promise<void>;
 }
 
-/* 
+/*
   Maps related
 */
 export interface bounds {
@@ -36,7 +36,7 @@ export interface boundingBox {
   neLat: number | null;
 }
 
-/* 
+/*
   merchant-map-client
 */
 export interface pickupData {
@@ -101,7 +101,7 @@ export interface geoInfrmation {
   price_level: number; // 2
   rating: number; // 4.6
   reference: string; // "ChIJzbnO-Zjyc0cRB6fNXpoJH58"
-  reviews: {}[]; // todo, not sure how this looks as no entry currently has reviews
+  reviews: Record<string, unknown>[]; // todo, not sure how this looks as no entry currently has reviews
   types: string[]; // "restaurant", "food", "point_of_interest"
   url: string; // "https://maps.google.com/?cid=11465893734928721671"
   user_ratings_total: number; // 186
@@ -110,7 +110,7 @@ export interface geoInfrmation {
   website: string; // URL
 }
 
-/* 
+/*
   made a seperate interface to declare it properly
   on the ListItem component
 */
@@ -158,7 +158,7 @@ export interface merchant_map_result {
   total: number;
 }
 
-/* 
+/*
   Content Elements
 */
 export interface selectEntry {
@@ -166,7 +166,7 @@ export interface selectEntry {
   name: string;
 }
 
-/* 
+/*
   Filter
 */
 export interface searchFilter {

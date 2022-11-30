@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-    CategoriesIssueInner,
-    CategoryInner,
-    CryptoEstablishment,
-    CryptoEstablishmentBaseInner,
-    CurrencyInner,
-    EstablishmentCandidateBody,
-    EstablishmentCandidateResponse,
-    EstablishmentIssueBody,
-    EstablishmentIssueResponse,
+  CategoriesIssueInner,
+  CategoryInner,
+  CryptoEstablishment,
+  CryptoEstablishmentBaseInner,
+  CurrencyInner,
+  EstablishmentCandidateBody,
+  EstablishmentCandidateResponse,
+  EstablishmentIssueBody,
+  EstablishmentIssueResponse,
 } from '../models';
 import {
     CategoriesIssueInnerFromJSON,
@@ -126,7 +126,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      */
     async getEstablishmentByIdRaw(requestParameters: GetEstablishmentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CryptoEstablishment>> {
         if (requestParameters.establishmentId === null || requestParameters.establishmentId === undefined) {
-            throw new runtime.RequiredError('establishmentId', 'Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
+            throw new runtime.RequiredError('establishmentId','Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
         }
 
         const queryParameters: any = {};

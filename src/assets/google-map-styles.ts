@@ -12,4 +12,4 @@ export default [
   { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
   { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] },
   { featureType: "water", elementType: "labels", stylers: [{ visibility: "off" }] },
-] as any
+] as google.maps.MapTypeStyle[];

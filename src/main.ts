@@ -1,5 +1,5 @@
 import { createPinia } from "pinia";
-import { createApp, ref, markRaw } from "vue";
+import { createApp, markRaw } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./App.vue";
 import "./index.css";

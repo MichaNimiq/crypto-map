@@ -9,7 +9,7 @@ import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api
 import { RouterLink } from "vue-router"
 import { computed, onMounted, ref } from "vue"
 
-const card$ = ref<BaseEstablishment | Establishment>()
+const card$ = ref<(BaseEstablishment | Establishment) & { $el: HTMLElement } | null>(null)
 
 const props = defineProps<{
 	establishment: Establishment | BaseEstablishment
@@ -19,7 +19,7 @@ const hasAllInfo = computed(() => props.establishment.hasAllInfo)
 
 const { getEstablishmentById, setEstablishment } = useApi()
 
-// make an observer 
+// make an observer
 const observer = new IntersectionObserver((entries) => {
 	entries.forEach(async (entry) => {
 		if (entry.isIntersecting && !hasAllInfo.value) {
@@ -31,9 +31,7 @@ const observer = new IntersectionObserver((entries) => {
 
 onMounted(() => {
 	if (!card$.value) return
-	// @ts-ignore
-	const el = card$.value.$el as Element
-	observer.observe(el)
+	observer.observe(card$.value.$el)
 })
 
 </script>

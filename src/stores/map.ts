@@ -26,8 +26,7 @@ export const useMap = defineStore("map", () => {
   const zoom = ref(7);
   const center = ref<Point>({ lat: 50.5, lng: 10.5 });
 
-  // @ts-ignore
-  const map = computed(() => map$.value!.map as google.maps.Map);
+  const map = computed(() => map$.value ? map$.value.map as google.maps.Map : null);
 
   async function setCenter(establishment?: Point) {
     center.value = establishment ? { ...establishment } : { ...(await useGeoIp().locate()) }
@@ -40,10 +39,13 @@ export const useMap = defineStore("map", () => {
   async function setBoundingBox(newBoundingBox: BoundingBox) {
     boundingBox.value = newBoundingBox;
 
-    // @ts-ignore
-    center.value = map.value.getCenter().toJSON();
-    // @ts-ignore
-    zoom.value = map.value.getZoom();
+    if (!map.value) return
+
+    const mapCenter = map.value.getCenter()
+    const mapZoom = map.value.getZoom()
+
+    if (mapCenter) center.value = mapCenter.toJSON()
+    if (mapZoom) zoom.value = mapZoom
   }
 
   const setBoundingBoxDebouncer = useDebounceFn(setBoundingBox, 100)
@@ -52,10 +54,14 @@ export const useMap = defineStore("map", () => {
   const router = useRouter()
 
   function computeBoundingBox() {
+    if (!map.value) return
+
     const bounds = map.value.getBounds()
     if (!bounds) return
+
     const { lat: neLat, lng: neLng } = bounds.getNorthEast()
     const { lat: swLat, lng: swLng } = bounds.getSouthWest()
+
     setBoundingBoxDebouncer({ southWest: { lat: swLat(), lng: swLng() }, northEast: { lat: neLat(), lng: neLng() } })
     router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
   }
@@ -70,6 +76,8 @@ export const useMap = defineStore("map", () => {
   }
 
   function fitBounds(bounds: google.maps.LatLngBounds) {
+    if (!map.value) return;
+
     map.value.fitBounds(bounds)
     center.value = map.value.getCenter()?.toJSON() || center.value
     zoom.value = map.value.getZoom() || zoom.value
