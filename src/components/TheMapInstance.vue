@@ -4,7 +4,7 @@ import CategoryIcon from "@/components/elements/CategoryIcon.vue"
 import { useApi } from "@/stores/api"
 import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
-import { SuperClusterAlgorithm } from "@googlemaps/markerclusterer"
+import { Cluster, SuperClusterAlgorithm } from "@googlemaps/markerclusterer"
 import { storeToRefs } from "pinia"
 import { onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
@@ -60,7 +60,7 @@ function onIdle() {
 }
 
 const superClusterAlgorithm = new SuperClusterAlgorithm({ radius: 160, maxZoom: 16 }) as unknown as undefined // To avoid lint error
-const render = (cluster: any) => {
+const render = (cluster: Cluster) => {
 	return new google.maps.Marker({
 		position: cluster.position,
 		label: {

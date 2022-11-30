@@ -25,7 +25,7 @@ export const router = createRouter({
       meta: { transition: 'slide-left' },
     },
     {
-      path: "/@:lat(-\?\\d\+\.\?\\d\+\?),:lng(-\?\\d\+\.\?\\d\+\?),:zoom(\\d\+)z",
+      path: "/@:lat(-?\\d+.?\\d+?),:lng(-?\\d+.?\\d+?),:zoom(\\d+)z",
       component: MapLayout,
       name: 'coords'
     },

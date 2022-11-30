@@ -1,5 +1,5 @@
 /* eslint-env node */
-const { theme } = require('tailwindcss-nimiq-theme')
+const tailwindTheme = require('tailwindcss-nimiq-theme').theme
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     "./src/**/*.{vue,ts}",
   ],
   theme: {
-    ...theme,
+    ...tailwindTheme,
     extend: {
       spacing: {
         2.5: "10px",

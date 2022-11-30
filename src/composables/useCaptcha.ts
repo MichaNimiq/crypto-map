@@ -3,10 +3,8 @@ const recapthaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 export function useCaptcha() {
   let loaded = false;
 
-  async function getToken() {
-    // @ts-ignore
-    const token = await grecaptcha.execute(recapthaKey, { action: "submit" })
-    return token
+  async function getToken(): Promise<string> {
+    return await grecaptcha.execute(recapthaKey, { action: "submit" });
   }
 
   const loadRecaptcha = () => {
@@ -19,7 +17,7 @@ export function useCaptcha() {
     script.async = true;
 
     document.body.append(script);
-    script.onload = () => { loaded = true }
+    script.onload = () => loaded = true
   }
 
   const removeRecaptcha = () => {
@@ -33,7 +31,6 @@ export function useCaptcha() {
       recaptchaElems[0].remove();
     }
   }
-
 
   return {
     getToken,
