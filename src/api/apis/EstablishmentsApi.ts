@@ -15,17 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-    CategoriesIssueInner,
-    CategoryInner,
-    CryptoEstablishment,
-    CryptoEstablishmentBaseInner,
-    CurrencyInner,
-    EstablishmentCandidateBody,
-    EstablishmentCandidateResponse,
-    EstablishmentIssueBody,
-    EstablishmentIssueResponse,
+  AutocompleteApi,
+  CategoriesIssueInner,
+  CategoryInner,
+  CryptoEstablishment,
+  CryptoEstablishmentBaseInner,
+  CurrencyInner,
+  EstablishmentCandidateBody,
+  EstablishmentCandidateResponse,
+  EstablishmentIssueBody,
+  EstablishmentIssueResponse,
 } from '../models';
 import {
+    AutocompleteApiFromJSON,
+    AutocompleteApiToJSON,
     CategoriesIssueInnerFromJSON,
     CategoriesIssueInnerToJSON,
     CategoryInnerFromJSON,
@@ -45,6 +48,10 @@ import {
     EstablishmentIssueResponseFromJSON,
     EstablishmentIssueResponseToJSON,
 } from '../models';
+
+export interface AutocompleteRequest {
+    query: string;
+}
 
 export interface GetEstablishmentByIdRequest {
     establishmentId: string;
@@ -68,6 +75,40 @@ export interface SearchEstablishmentsRequest {
  * 
  */
 export class EstablishmentsApi extends runtime.BaseAPI {
+
+    /**
+     * Autocompletes for establishments, categories and currencies
+     */
+    async autocompleteRaw(requestParameters: AutocompleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutocompleteApi>> {
+        if (requestParameters.query === null || requestParameters.query === undefined) {
+            throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling autocomplete.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.query !== undefined) {
+            queryParameters['query'] = requestParameters.query;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/search`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AutocompleteApiFromJSON(jsonValue));
+    }
+
+    /**
+     * Autocompletes for establishments, categories and currencies
+     */
+    async autocomplete(requestParameters: AutocompleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AutocompleteApi> {
+        const response = await this.autocompleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Nimiq Categories
@@ -126,7 +167,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      */
     async getEstablishmentByIdRaw(requestParameters: GetEstablishmentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CryptoEstablishment>> {
         if (requestParameters.establishmentId === null || requestParameters.establishmentId === undefined) {
-            throw new runtime.RequiredError('establishmentId', 'Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
+            throw new runtime.RequiredError('establishmentId','Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
         }
 
         const queryParameters: any = {};
@@ -178,7 +219,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new candidate for an establishment
+     * Create a new candidate for a establishment
      */
     async postCandidateRaw(requestParameters: PostCandidateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentCandidateResponse>> {
         const queryParameters: any = {};
@@ -199,7 +240,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new candidate for an establishment
+     * Create a new candidate for a establishment
      */
     async postCandidate(requestParameters: PostCandidateRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EstablishmentCandidateResponse> {
         const response = await this.postCandidateRaw(requestParameters, initOverrides);
@@ -207,7 +248,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new issue for an establishment
+     * Create a new issue for a establishment
      */
     async postEstablishmentIssueRaw(requestParameters: PostEstablishmentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentIssueResponse>> {
         const queryParameters: any = {};
@@ -228,7 +269,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new issue for an establishment
+     * Create a new issue for a establishment
      */
     async postEstablishmentIssue(requestParameters: PostEstablishmentIssueRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EstablishmentIssueResponse> {
         const response = await this.postEstablishmentIssueRaw(requestParameters, initOverrides);
