@@ -79,7 +79,7 @@ const render = (cluster: Cluster) => {
 <template>
 	<GoogleMap v-if="center.lat !== 0 && center.lng !== 0" ref="map$" :api-key="googleMapsKey" class="w-full h-full"
 		:center="center" :zoom="zoom" disable-default-ui :clickable-icons="false" :styles="googleMapStyles"
-		@dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle="onIdle">
+		@dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle.once="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
 			<CustomMarker ref="markers$" v-for="[, establishment] in establishmentsInView" :key="establishment.id"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
