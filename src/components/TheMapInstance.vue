@@ -62,7 +62,7 @@ function onIdle() {
 	}
 }
 
-const superClusterAlgorithm = new SuperClusterAlgorithm({ radius: 160, maxZoom: 16 }) as unknown as undefined // To avoid lint error
+const superClusterAlgorithm = new SuperClusterAlgorithm({ radius: 160, maxZoom: 18 }) as unknown as undefined // To avoid lint error
 const render = (cluster: Cluster) => {
 	return new google.maps.Marker({
 		position: cluster.position,
