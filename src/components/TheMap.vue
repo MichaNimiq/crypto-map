@@ -9,8 +9,8 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 <template>
 	<main class="h-full" ref="mapWrapper">
 		<TheMapInstance>
-			<template #button-calculate-position="{ navigateToUserEstablishment }">
-				<Button @click="navigateToUserEstablishment" style="width: 34px; height: 34px" bgColor="white" size="sm"
+			<template #button-calculate-position="{ navigateToUserLocation }">
+				<Button @click="navigateToUserLocation" style="width: 34px; height: 34px" bgColor="white" size="sm"
 					draggable="false" aria-label="Show your establishment" title="Show your establishment">
 					<template #icon>
 						<EstablishmentIcon />

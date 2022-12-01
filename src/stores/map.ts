@@ -66,7 +66,7 @@ export const useMap = defineStore("map", () => {
     router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
   }
 
-  function navigateToUserEstablishment() {
+  function navigateToUserLocation() {
     if (!navigator.geolocation) return
 
     navigator.geolocation.getCurrentPosition(({ coords }) => {
@@ -99,6 +99,6 @@ export const useMap = defineStore("map", () => {
     setBoundingBox,
     computeBoundingBox,
     fitBounds,
-    navigateToUserEstablishment
+    navigateToUserLocation
   }
 });
