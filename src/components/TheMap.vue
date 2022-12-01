@@ -19,8 +19,8 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 			</template>
 
 			<template #button-zoom-in="{ zoomIn }">
-				<Button @click="zoomIn" style="width: 34px; height: 34px" class="rounded-b-0" bgColor="white" size="sm"
-					draggable="false" aria-label="Zoom in" title="Zoom in">
+				<Button @click="zoomIn" style="width: 34px; height: 34px" class="rounded-b-0 p-[5px] pb-1" bgColor="white"
+					size="sm" draggable="false" aria-label="Zoom in" title="Zoom in">
 					<template #icon>
 						<PlusIcon />
 					</template>
@@ -28,8 +28,8 @@ import TheMapInstance from "@/components/TheMapInstance.vue"
 			</template>
 
 			<template #button-zoom-out="{ zoomOut }">
-				<Button @click="zoomOut" style="width: 34px; height: 34px" class="rounded-t-0" bgColor="white" size="sm"
-					draggable="false" aria-label="Zoom out" title="Zoom out">
+				<Button @click="zoomOut" style="width: 34px; height: 34px" class="rounded-t-0 p-[5px] pt-1" bgColor="white"
+					size="sm" draggable="false" aria-label="Zoom out" title="Zoom out">
 					<template #icon>
 						<MinusIcon />
 					</template>
