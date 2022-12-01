@@ -20,7 +20,7 @@ const { selectedEstablishmentId } = storeToRefs(appStore)
 
 const mapStore = useMap()
 const {
-	navigateToUserEstablishment,
+	navigateToUserLocation,
 	increaseZoom,
 	decreaseZoom,
 	setCenter,
@@ -44,7 +44,7 @@ onMounted(async () => {
 		setCenter({ lat: Number(lat), lng: Number(lng) })
 		setZoom(Number(zoomLevel))
 	} else {
-		navigateToUserEstablishment()
+		navigateToUserLocation()
 	}
 })
 
@@ -107,7 +107,7 @@ const render = (cluster: Cluster) => {
 	</GoogleMap>
 
 	<div class="absolute top-5 right-5 md:top-6 md:right-6 flex flex-col gap-y-4 children:shadow">
-		<slot name="button-calculate-position" :navigateToUserEstablishment="navigateToUserEstablishment" />
+		<slot name="button-calculate-position" :navigateToUserLocation="navigateToUserLocation" />
 
 		<div class="flex flex-col bg-white rounded-full">
 			<slot name="button-zoom-in" :zoomIn="increaseZoom" />
