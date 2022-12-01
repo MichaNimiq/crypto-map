@@ -1,5 +1,3 @@
-/* tslint:disable */
-/* eslint-disable */
 /**
  * Crypto Map API documentation
  * The Establishments map API is serves a list of establishments that accept crypto as a payment method.
@@ -28,25 +26,25 @@ import type {
 } from '../models';
 import {
     AutocompleteApiFromJSON,
-    AutocompleteApiToJSON,
+    // AutocompleteApiToJSON,
     CategoriesIssueInnerFromJSON,
-    CategoriesIssueInnerToJSON,
+    // CategoriesIssueInnerToJSON,
     CategoryInnerFromJSON,
-    CategoryInnerToJSON,
+    // CategoryInnerToJSON,
     CryptoEstablishmentFromJSON,
-    CryptoEstablishmentToJSON,
+    // CryptoEstablishmentToJSON,
     CryptoEstablishmentBaseInnerFromJSON,
-    CryptoEstablishmentBaseInnerToJSON,
+    // CryptoEstablishmentBaseInnerToJSON,
     CurrencyInnerFromJSON,
-    CurrencyInnerToJSON,
-    EstablishmentCandidateBodyFromJSON,
+    // CurrencyInnerToJSON,
+    // EstablishmentCandidateBodyFromJSON,
     EstablishmentCandidateBodyToJSON,
     EstablishmentCandidateResponseFromJSON,
-    EstablishmentCandidateResponseToJSON,
-    EstablishmentIssueBodyFromJSON,
+    // EstablishmentCandidateResponseToJSON,
+    // EstablishmentIssueBodyFromJSON,
     EstablishmentIssueBodyToJSON,
     EstablishmentIssueResponseFromJSON,
-    EstablishmentIssueResponseToJSON,
+    // EstablishmentIssueResponseToJSON,
 } from '../models';
 
 export interface AutocompleteRequest {
@@ -84,7 +82,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling autocomplete.');
         }
 
-        const queryParameters: any = {};
+        const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.query !== undefined) {
             queryParameters['query'] = requestParameters.query;
@@ -114,8 +112,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * Nimiq Categories
      */
     async getCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CategoryInner>>> {
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -140,8 +137,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * CryptoCurrencies
      */
     async getCurrenciesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CurrencyInner>>> {
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -170,8 +166,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('establishmentId','Required parameter requestParameters.establishmentId was null or undefined when calling getEstablishmentById.');
         }
 
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -196,8 +191,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * Get issue categories with its label
      */
     async getIssueCategoriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CategoriesIssueInner>>> {
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -222,8 +216,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * Create a new candidate for a establishment
      */
     async postCandidateRaw(requestParameters: PostCandidateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentCandidateResponse>> {
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -251,8 +244,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * Create a new issue for a establishment
      */
     async postEstablishmentIssueRaw(requestParameters: PostEstablishmentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EstablishmentIssueResponse>> {
-        const queryParameters: any = {};
-
+        const queryParameters: runtime.HTTPQuery = {};
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -280,7 +272,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
      * Search for establishments
      */
     async searchEstablishmentsRaw(requestParameters: SearchEstablishmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CryptoEstablishmentBaseInner>>> {
-        const queryParameters: any = {};
+        const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.filterCurrency) {
             queryParameters['filter[currency]'] = requestParameters.filterCurrency;
