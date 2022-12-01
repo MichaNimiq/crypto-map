@@ -1,6 +1,7 @@
 import { defineStore, storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useApi } from "./api";
 import { useMap } from "./map";
 
 export enum AutocompleteStatus {
@@ -70,6 +71,20 @@ export const useApp = defineStore("app", () => {
     computeBoundingBox()
   }
 
+  const { setCenter, setZoom } = useMap();
+
+  async function goToEstablishment(establishmentId: number) {
+    const establishment = await useApi().getEstablishmentById(Number(establishmentId)).catch(/** Handle error(?) */)
+    if (!establishment) return false
+
+    setCenter(establishment.geoLocation)
+    setZoom(19)
+    selectedEstablishmentId.value = Number(establishmentId)
+    showList()
+    computeBoundingBox({ updateRoute: false })
+    return true
+  }
+
   return {
     listIsShown,
     toggleList,
@@ -81,5 +96,7 @@ export const useApp = defineStore("app", () => {
     autocomplete,
     autocompleteStatus,
     goToPlaceId,
+
+    goToEstablishment,
   }
 });

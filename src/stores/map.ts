@@ -1,9 +1,10 @@
 import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
+import { useApp } from "./app";
 
 export interface Point {
   lat: number;
@@ -15,6 +16,20 @@ export interface BoundingBox {
   northEast: Point;
 }
 
+function parseParams({ lat, lng, zoom: zoomLevel, id: establishmentId }: Record<string, string | string[]>) {
+  const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
+  const lngOk = lng && typeof lng === "string" && !isNaN(Number(lng))
+  const zoomOk = zoomLevel && typeof zoomLevel === "string" && !isNaN(Number(zoomLevel))
+  const establishmentIdOk = establishmentId && typeof establishmentId === "string" && !isNaN(Number(establishmentId))
+
+  return {
+    lat: latOk ? Number(lat) : undefined,
+    lng: lngOk ? Number(lng) : undefined,
+    zoomLevel: zoomOk ? Number(zoomLevel) : undefined,
+    establishmentId: establishmentIdOk ? Number(establishmentId) : undefined,
+  }
+}
+
 export const useMap = defineStore("map", () => {
   const map$ = ref<typeof GoogleMap>();
   const mapReady = computed(() => !!map$.value);
@@ -24,12 +39,12 @@ export const useMap = defineStore("map", () => {
     northEast: { lat: 0, lng: 0 },
   });
   const zoom = ref(7);
-  const center = ref<Point>({ lat: 50.5, lng: 10.5 });
+  const center = ref<Point>();
 
   const map = computed(() => map$.value ? map$.value.map as google.maps.Map : null);
 
-  async function setCenter(establishment?: Point) {
-    center.value = establishment ? { ...establishment } : { ...(await useGeoIp().locate()) }
+  async function setCenter(geoLocation: Point) {
+    center.value = { ...geoLocation }
   }
 
   function setZoom(newZoom: number) { zoom.value = newZoom }
@@ -53,7 +68,7 @@ export const useMap = defineStore("map", () => {
   const route = useRoute()
   const router = useRouter()
 
-  function computeBoundingBox() {
+  function computeBoundingBox({ updateRoute } = { updateRoute: true }) {
     if (!map.value) return
 
     const bounds = map.value.getBounds()
@@ -63,7 +78,10 @@ export const useMap = defineStore("map", () => {
     const { lat: swLat, lng: swLng } = bounds.getSouthWest()
 
     setBoundingBoxDebouncer({ southWest: { lat: swLat(), lng: swLng() }, northEast: { lat: neLat(), lng: neLng() } })
-    router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
+
+    if (updateRoute) {
+      router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
+    }
   }
 
   function navigateToUserLocation() {
@@ -82,6 +100,25 @@ export const useMap = defineStore("map", () => {
     center.value = map.value.getCenter()?.toJSON() || center.value
     zoom.value = map.value.getZoom() || zoom.value
   }
+
+  onMounted(async () => {
+    const { lat, lng, zoomLevel, establishmentId } = parseParams(route.params)
+
+    if (lat && lng && zoomLevel) {
+      setCenter({ lat: Number(lat), lng: Number(lng) })
+      setZoom(Number(zoomLevel))
+      return
+    } else if (establishmentId) {
+      const mapMoved = await useApp().goToEstablishment(establishmentId)
+      if (mapMoved) {
+        return
+      }
+    }
+
+    // Fallback to user location
+    useGeoIp().locate()
+    navigateToUserLocation()
+  })
 
   return {
     map$,

@@ -48,8 +48,38 @@ export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" |
 }
 
 export const useApi = defineStore("api", () => {
-  // Data from API
+  /* 
+  * Establishments holds the list of establishments
+  * To save memory, we use a Map to store the establishments and at the beginning is an empty Map
+  * Once the user starts to navigate the map (moving and dragin the map), we start to fetch the establishments
+  * but only "basic" info we need to display in the map: name, category(for the icon), id(for the URL if user clicks) and geoLocation(for the marker)
+  * Lets recreate the process:
+  * 1, User opens the map. The establishments is empty like { }
+  * 2. Once map is loaded, we fetch the establishments in the current viewport (given the bounding box).
+  * 3. We store the establishments in the map, but only the basic info. In this case, we store 2 establishments like this:
+  *      Map<id, { name, category, id, geoLocation }> => 
+  *         {
+  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
+  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
+  *         }
+  * 4. User moves the map. We fetch the establishments in the new viewport (given the bounding box). A new establishments is fetched.
+  *         {
+  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
+  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
+  *           "55555": { name: "Coffee tico", category: 'rest', id: 55555, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
+  *         }
+  * 5. User opens the list of establishments. And in the viewport in the list only 2 items fits the list, so we need to fetch the rest of info
+  *    given the id. Once the info is loaded, we update the establishments map with the new info.
+  *         {
+  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
+  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: true, gmapsUrl, photoUrl, currencies, rating...} },
+  *           "55555": { name: "Coffee tico", category: 'rest', id: 55555, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: true, gmapsUrl, photoUrl, currencies, rating... } },
+  *         }
+  * 6. Once the info is loaded, we no longer will fetch the info for the establishment, because we already have it.
+  */
   const establishments = ref(new Map<number, BaseEstablishment | Establishment>([]))
+
+  // Items that are loaded only once at the beginning
   const categoriesIssue = ref<CategoriesIssue[]>([])
   const categories = ref<Category[]>([])
   const currencies = ref<Currency[]>([])
@@ -163,9 +193,14 @@ export const useApi = defineStore("api", () => {
       .forEach((establishment) => establishments.value.set(establishment.id, establishment))
   }
 
-  async function getEstablishmentById(establishmentIdNumber: number) {
-    const establishmentId = String(establishmentIdNumber)
-    const rawEstablishment = await establishmentsApi.getEstablishmentById({ establishmentId }).catch((e) => e)
+  async function getEstablishmentById(establishmentId: number) {
+    const rawEstablishment = await establishmentsApi.getEstablishmentById({ establishmentId: String(establishmentId) }).catch((e) => e)
+    const establishment = parseEstablishment(rawEstablishment) || undefined
+    console.log(`🔍 Got establishment with id ${establishmentId} from API: `, establishment)
+
+    establishment.hasAllInfo = true
+    establishments.value.set(establishmentId, establishment)
+
     return parseEstablishment(rawEstablishment) || undefined
   }
 
