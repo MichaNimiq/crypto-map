@@ -43,7 +43,6 @@ router.afterEach((to, from) => {
   const formViews = ['add_establishment', 'report_establishment'];
   if (to.name && typeof to.name === 'string' && mapViews.includes(to.name) &&
     from.name && typeof from.name === 'string' && formViews.includes(from.name)) {
-    console.log('map slideing rig');
     to.meta.transition = 'slide-right';
   }
 })
