@@ -9,7 +9,7 @@ import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue"
 import { storeToRefs } from "pinia"
-import { computed, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 
 const isOpen = ref(false)
 
@@ -19,15 +19,39 @@ const apiStore = useApi()
 const { currenciesOptions, categoriesOptions, selectedCategories, selectedCurrencies } =
 	storeToRefs(apiStore)
 
+const unappliedSelectedCategories = ref<string[]>([])
+const unappliedSelectedCurrencies = ref<string[]>([])
+
+onMounted(() => {
+	unappliedSelectedCategories.value = selectedCategories.value
+	unappliedSelectedCurrencies.value = selectedCurrencies.value || []
+})
+
 const nFilters = computed(() => {
 	return selectedCategories.value.length + selectedCurrencies.value.length
 })
 
-function closeModal() {
+function clearFilters() {
+	unappliedSelectedCategories.value = []
+	unappliedSelectedCurrencies.value = []
+	selectedCategories.value = []
+	selectedCurrencies.value = []
+}
+
+function closeModal({ shouldClearFilters }: { shouldClearFilters: boolean }) {
+	if (shouldClearFilters) {
+		clearFilters()
+	}
 	isOpen.value = false
 }
 function openModal() {
 	isOpen.value = true
+}
+
+function applyFilters() {
+	selectedCategories.value = [...unappliedSelectedCategories.value]
+	selectedCurrencies.value = [...unappliedSelectedCurrencies.value]
+	closeModal({ shouldClearFilters: false })
 }
 </script>
 
@@ -40,7 +64,7 @@ function openModal() {
 		<template #badge v-if="nFilters > 0"> {{ nFilters }} </template>
 	</Button>
 	<TransitionRoot appear :show="isOpen" as="template">
-		<Dialog as="div" @close="closeModal" class="relative z-20">
+		<Dialog as="div" @close="closeModal({ shouldClearFilters: false })" class="relative z-20">
 			<TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
 				leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
 				<div class="fixed inset-0 bg-space/60" />
@@ -52,17 +76,19 @@ function openModal() {
 						enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
 						leave-to="opacity-0 scale-95">
 						<DialogPanel
-							class="relative w-full md:max-w-lg transform rounded-t-8 md:rounded-lg bg-white py-8 px-10 text-left align-middle shadow-lg transition-all">
-							<CrossIcon @click="closeModal" class="absolute top-6.5 right-6.5 text-space/40 w-4 h-6 cursor-pointer" />
+							class="relative w-full md:max-w-lg transform rounded-t-8 md:rounded-lg bg-white py-8 text-left align-middle shadow-lg transition-all">
+							<CrossIcon @click="closeModal({ shouldClearFilters: false })"
+								class="absolute top-4 right-4 bg-space/20 hover:bg-space/30 focus-visible:bg-space/30 transition-colors text-white/80 w-6 h-6 rounded-full cursor-pointer" />
 
-							<DialogTitle as="h2" class="text-2xl font-bold text-space text-center">
+							<DialogTitle as="h2" class="text-2xl font-bold text-space text-center px-6 md:px-10">
 								{{ $t('Filters') }}
 							</DialogTitle>
 							<hr class="w-full bg-space/10 h-px my-8" />
 
-							<Select placeholder="Select cryptocurrencies" :options="currenciesOptions" v-model="selectedCurrencies">
+							<Select placeholder="Select cryptocurrencies" :options="currenciesOptions"
+								v-model="unappliedSelectedCurrencies" class="px-6 md:px-10">
 								<template #label>
-									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
+									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-6 md:mb-8">
 										{{ $t('Cryptocurrencies') }}
 									</h3>
 								</template>
@@ -75,11 +101,10 @@ function openModal() {
 								<template #after-options> More cryptocurrencies supported in the future </template>
 								<template #selected-option="{ label }"> {{ label }} </template>
 							</Select>
-							<hr class="w-full bg-space/10 h-px my-8" />
 							<Select :options="categoriesOptions.map(({ id, label }) => ({ id, label: $t(label) }))"
-								v-model="selectedCategories" placeholder="Select category">
+								v-model="unappliedSelectedCategories" placeholder="Select category" class="mt-9 px-6 md:px-10">
 								<template #label>
-									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-8">
+									<h3 class="uppercase text-sm text-space/40 tracking-wider font-semibold mb-6 md:mb-8">
 										{{ $t('Categories') }}
 									</h3>
 								</template>
@@ -91,6 +116,15 @@ function openModal() {
 									{{ $t(label) }}
 								</template>
 							</Select>
+							<hr class="w-full bg-space/10 h-px my-8" />
+							<div class="px-6 md:px-10 flex justify-between">
+								<Button bg-color="grey" @click="closeModal({ shouldClearFilters: true })">
+									<template #text> {{ $t('Clear') }} </template>
+								</Button>
+								<Button bg-color="sky" @click="applyFilters" gradient>
+									<template #text> {{ $t('Apply_filters') }} </template>
+								</Button>
+							</div>
 						</DialogPanel>
 					</TransitionChild>
 				</div>
