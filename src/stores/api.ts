@@ -48,7 +48,7 @@ export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" |
 }
 
 export const useApi = defineStore("api", () => {
-  /* 
+  /**
   * Establishments holds the list of establishments
   * To save memory, we use a Map to store the establishments and at the beginning is an empty Map
   * Once the user starts to navigate the map (moving and dragin the map), we start to fetch the establishments
@@ -110,8 +110,8 @@ export const useApi = defineStore("api", () => {
       const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
 
       // Check if the establishment should be hidden by the filters
-      const filteredByCurrencies = filterByCategories(establishment, selectedCurrencies.value)
-      const filteredByCategories = filterByCurrencies(establishment, selectedCategories.value)
+      const filteredByCurrencies = filterByCategories(establishment)
+      const filteredByCategories = filterByCurrencies(establishment)
 
       if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
         establishmentsInView.set(id, establishment)
@@ -120,14 +120,14 @@ export const useApi = defineStore("api", () => {
     return establishmentsInView
   })
 
-  function filterByCurrencies(establishment: BaseEstablishment | Establishment, selectedCurrencies: string[]) {
-    if (selectedCurrencies.length === 0) return true
-    return establishment.currencies.some(c => selectedCurrencies.includes(c.symbol))
+  function filterByCurrencies(establishment: BaseEstablishment | Establishment) {
+    if (selectedCurrencies.value.length === 0) return true
+    return establishment.currencies.some(c => selectedCurrencies.value.includes(c.symbol))
   }
 
-  function filterByCategories(establishment: BaseEstablishment | Establishment, selectedCategories: string[]) {
-    if (selectedCategories.length === 0) return true
-    return selectedCategories.includes(establishment.category)
+  function filterByCategories(establishment: BaseEstablishment | Establishment) {
+    if (selectedCategories.value.length === 0) return true
+    return selectedCategories.value.includes(establishment.category)
   }
 
   // Converts crypto location model from the API to the model used in the app
