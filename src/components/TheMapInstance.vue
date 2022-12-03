@@ -14,7 +14,7 @@ const apiStore = useApi()
 const { establishmentsInView } = storeToRefs(apiStore)
 
 const appStore = useApp()
-const { selectedEstablishmentId } = storeToRefs(appStore)
+const { selectedEstablishmentUuid } = storeToRefs(appStore)
 
 const mapStore = useMap()
 const {
@@ -54,21 +54,21 @@ const render = (cluster: Cluster) => {
 		class="w-full h-full" :center="center" :zoom="zoom" disable-default-ui :clickable-icons="false"
 		:styles="googleMapStyles" @dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle.once="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
-			<CustomMarker ref="markers$" v-for="[, establishment] in establishmentsInView" :key="establishment.id"
+			<CustomMarker ref="markers$" v-for="[, establishment] in establishmentsInView" :key="establishment.uuid"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
-				<RouterLink :to="`/establishment/${establishment.id}`" @click="appStore.showList"
+				<RouterLink :to="`/establishment/${establishment.uuid}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer rounded-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="10" viewBox="0 0 28 10" :class="{
-						'text-space': establishment.id !== selectedEstablishmentId,
-						'text-ocean': establishment.id === selectedEstablishmentId,
+						'text-space': establishment.uuid !== selectedEstablishmentUuid,
+						'text-ocean': establishment.uuid === selectedEstablishmentUuid,
 					}">
 						<path fill="currentColor"
 							d="M12.63 1.83 8.27 8.25A4 4 0 0 1 4.97 10h17.8a4 4 0 0 1-3.3-1.75L15.1 1.83a1.5 1.5 0 0 0-2.48 0z" />
 					</svg>
 
 					<div class="rounded-full flex gap-x-3 items-center pl-1 pr-4 py-[5px]" :class="{
-						'bg-gradient-space': establishment.id !== selectedEstablishmentId,
-						'bg-ocean': establishment.id === selectedEstablishmentId,
+						'bg-gradient-space': establishment.uuid !== selectedEstablishmentUuid,
+						'bg-ocean': establishment.uuid === selectedEstablishmentUuid,
 					}">
 						<CategoryIcon class="h-8 w-8 p-0.5 bg-white rounded-full grid place-items-center"
 							:category="establishment.category" />

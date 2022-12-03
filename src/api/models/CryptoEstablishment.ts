@@ -28,28 +28,16 @@ import {
 export interface CryptoEstablishment {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CryptoEstablishment
      */
-    id: number;
+    uuid: string;
     /**
      * 
      * @type {string}
      * @memberof CryptoEstablishment
      */
     gmaps_place_id: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoEstablishment
-     */
-    created_at: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CryptoEstablishment
-     */
-    updated_at: string;
     /**
      * 
      * @type {string}
@@ -94,12 +82,6 @@ export interface CryptoEstablishment {
     rating: number;
     /**
      * 
-     * @type {boolean}
-     * @memberof CryptoEstablishment
-     */
-    enabled?: boolean;
-    /**
-     * 
      * @type {CryptoEstablishmentBaseInnerGeoLocation}
      * @memberof CryptoEstablishment
      */
@@ -117,10 +99,8 @@ export interface CryptoEstablishment {
  */
 export function instanceOfCryptoEstablishment(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "gmaps_place_id" in value;
-    isInstance = isInstance && "created_at" in value;
-    isInstance = isInstance && "updated_at" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "category" in value;
     isInstance = isInstance && "gmaps_type" in value;
@@ -143,10 +123,8 @@ export function CryptoEstablishmentFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'id': json['id'],
+        'uuid': json['uuid'],
         'gmaps_place_id': json['gmaps_place_id'],
-        'created_at': json['created_at'],
-        'updated_at': json['updated_at'],
         'name': json['name'],
         'category': json['category'],
         'gmaps_type': json['gmaps_type'],
@@ -154,7 +132,6 @@ export function CryptoEstablishmentFromJSONTyped(json: any, ignoreDiscriminator:
         'photo_reference': !exists(json, 'photo_reference') ? undefined : json['photo_reference'],
         'address': json['address'],
         'rating': json['rating'],
-        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'geo_location': CryptoEstablishmentBaseInnerGeoLocationFromJSON(json['geo_location']),
         'currencies': json['currencies'],
     };
@@ -169,10 +146,8 @@ export function CryptoEstablishmentToJSON(value?: CryptoEstablishment | null): a
     }
     return {
         
-        'id': value.id,
+        'uuid': value.uuid,
         'gmaps_place_id': value.gmaps_place_id,
-        'created_at': value.created_at,
-        'updated_at': value.updated_at,
         'name': value.name,
         'category': value.category,
         'gmaps_type': value.gmaps_type,
@@ -180,7 +155,6 @@ export function CryptoEstablishmentToJSON(value?: CryptoEstablishment | null): a
         'photo_reference': value.photo_reference,
         'address': value.address,
         'rating': value.rating,
-        'enabled': value.enabled,
         'geo_location': CryptoEstablishmentBaseInnerGeoLocationToJSON(value.geo_location),
         'currencies': value.currencies,
     };

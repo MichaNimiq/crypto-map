@@ -33,7 +33,7 @@
   "Find_place": "Geschäft finden",
   "Select_Cryptocurrency": "Kryptowährung auswählen",
   "Send": "Senden",
-  "crypto_location_gone": "Geschäft existiert nicht mehr",
+  "establishment_gone": "Geschäft existiert nicht mehr",
   "missing_currency": "Währung fehlt",
   "missing_not_accepted": "Nicht akzeptierte Währung",
   "no_crypto": "Keine Kryptowährung akzeptiert",

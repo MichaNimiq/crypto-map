@@ -33,7 +33,7 @@
   "Find_place": "Buscar lugar",
   "Select_Cryptocurrency": "Seleccionar criptomoneda",
   "Send": "Enviar",
-  "crypto_location_gone": "Establecimiento ya no existe",
+  "establishment_gone": "Establecimiento ya no existe",
   "missing_currency": "Falta criptomoneda",
   "missing_not_accepted": "Criptomoneda no aceptada",
   "no_crypto": "No acepta criptomonedas",

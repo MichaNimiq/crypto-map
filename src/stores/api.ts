@@ -24,7 +24,7 @@ interface CategoriesIssue {
   label: string;
 }
 
-export type BaseEstablishment = Pick<CryptoEstablishmentApi, "id" | "name" | "category"> & {
+export type BaseEstablishment = Pick<CryptoEstablishmentApi, "uuid" | "name" | "category"> & {
   geoLocation: CryptoEstablishmentApi["geo_location"];
   hasAllInfo: false;
   gmapsUrl: undefined;
@@ -36,7 +36,7 @@ export type BaseEstablishment = Pick<CryptoEstablishmentApi, "id" | "name" | "ca
   address: undefined;
 }
 
-export type Establishment = Pick<BaseEstablishment, "id" | "name" | "category" | "geoLocation" | "currencies"> & {
+export type Establishment = Pick<BaseEstablishment, "uuid" | "name" | "category" | "geoLocation" | "currencies"> & {
   hasAllInfo: true;
   gmapsUrl: CryptoEstablishmentApi["gmaps_url"];
   gmapsPlaceId: CryptoEstablishmentApi["gmaps_place_id"];
@@ -57,7 +57,7 @@ export const useApi = defineStore("api", () => {
   * 1, User opens the map. The establishments is empty like { }
   * 2. Once map is loaded, we fetch the establishments in the current viewport (given the bounding box).
   * 3. We store the establishments in the map, but only the basic info. In this case, we store 2 establishments like this:
-  *      Map<id, { name, category, id, geoLocation }> => 
+  *      Map<uuid, { name, category, id, geoLocation }> => 
   *         {
   *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
   *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
@@ -76,8 +76,11 @@ export const useApi = defineStore("api", () => {
   *           "55555": { name: "Coffee tico", category: 'rest', id: 55555, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: true, gmapsUrl, photoUrl, currencies, rating... } },
   *         }
   * 6. Once the info is loaded, we no longer will fetch the info for the establishment, because we already have it.
+  * 
+  * Then we computed the establishments that are currently in the viewport (given the bounding box) and we display them 
+  * in the map.
   */
-  const establishments = ref(new Map<number, BaseEstablishment | Establishment>([]))
+  const establishments = ref(new Map<string, BaseEstablishment | Establishment>([]))
 
   // Items that are loaded only once at the beginning
   const categoriesIssue = ref<CategoriesIssue[]>([])
@@ -103,8 +106,8 @@ export const useApi = defineStore("api", () => {
 
   const establishmentsInView = computed(() => {
     const { northEast, southWest } = boundingBox.value
-    const establishmentsInView = new Map<number, BaseEstablishment | Establishment>([])
-    for (const [id, establishment] of establishments.value) {
+    const establishmentsInView = new Map<string, BaseEstablishment | Establishment>([])
+    for (const [uuid, establishment] of establishments.value) {
       // Check if the establishment is in the bounding box
       const { lat, lng } = establishment.geoLocation
       const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
@@ -114,7 +117,7 @@ export const useApi = defineStore("api", () => {
       const filteredByCategories = filterByCurrencies(establishment)
 
       if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
-        establishmentsInView.set(id, establishment)
+        establishmentsInView.set(uuid, establishment)
       }
     }
     return establishmentsInView
@@ -131,10 +134,10 @@ export const useApi = defineStore("api", () => {
   }
 
   // Converts crypto location model from the API to the model used in the app
-  function parseBaseEstablishment({ id, name, category, geo_location: geoLocation, currencies: establishmentCurrencySymbols }: CryptoEstablishmentBaseApi): BaseEstablishment {
+  function parseBaseEstablishment({ uuid, name, category, geo_location: geoLocation, currencies: establishmentCurrencySymbols }: CryptoEstablishmentBaseApi): BaseEstablishment {
     const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
     const parsedEstablishment: BaseEstablishment = {
-      id, name, category, geoLocation, hasAllInfo: false,
+      uuid, name, category, geoLocation, hasAllInfo: false,
       address: undefined, gmapsPlaceId: undefined, gmapsType: undefined, gmapsUrl: undefined, photoUrl: undefined, rating: undefined,
       currencies: establishmentCurrencies,
     }
@@ -142,7 +145,7 @@ export const useApi = defineStore("api", () => {
   }
 
   function parseEstablishment({
-    id, address, category, currencies: establishmentCurrencySymbols, gmaps_place_id, gmaps_type, gmaps_url, geo_location, name, photo_reference, rating
+    uuid, address, category, currencies: establishmentCurrencySymbols, gmaps_place_id, gmaps_type, gmaps_url, geo_location, name, photo_reference, rating
   }: CryptoEstablishmentApi): Establishment {
     const photoUrl = photo_reference
       ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photo_reference}&key=${googleMapsKey}`
@@ -158,7 +161,7 @@ export const useApi = defineStore("api", () => {
       gmapsType: capitalize(gmaps_type.replace(/_/g, ' ')),
       gmapsUrl: gmaps_url,
       geoLocation: geo_location,
-      id: id,
+      uuid,
       name: name,
       photoUrl,
       rating: rating,
@@ -189,28 +192,28 @@ export const useApi = defineStore("api", () => {
     response
       .map(parseBaseEstablishment)
       .sort((a, b) => b.geoLocation.lat - a.geoLocation.lat)
-      .filter((e) => !establishments.value.has(e.id)) // ignore already loaded establishments
-      .forEach((establishment) => establishments.value.set(establishment.id, establishment))
+      .filter((e) => !establishments.value.has(e.uuid)) // ignore already loaded establishments
+      .forEach((establishment) => establishments.value.set(establishment.uuid, establishment))
   }
 
-  async function getEstablishmentById(establishmentId: number) {
-    const rawEstablishment = await establishmentsApi.getEstablishmentById({ establishmentId: String(establishmentId) }).catch((e) => e)
+  async function getEstablishmentByUuid(uuid: string) {
+    const rawEstablishment = await establishmentsApi.getEstablishmentByUuid({ uuid }).catch((e) => e)
     const establishment = parseEstablishment(rawEstablishment) || undefined
-    console.log(`🔍 Got establishment with id ${establishmentId} from API: `, establishment)
+    console.log(`🔍 Got establishment with uuid ${uuid} from API: `, establishment)
 
     establishment.hasAllInfo = true
-    establishments.value.set(establishmentId, establishment)
+    establishments.value.set(uuid, establishment)
 
     return parseEstablishment(rawEstablishment) || undefined
   }
 
   function setEstablishment(establishment: Establishment) {
     // check that the establishment is not already in the map
-    if (establishments.value.get(establishment.id)?.hasAllInfo) {
+    if (establishments.value.get(establishment.uuid)?.hasAllInfo) {
       return
     }
 
-    establishments.value.set(establishment.id, establishment)
+    establishments.value.set(establishment.uuid, establishment)
   }
 
   const capitalize = (s: string) => s.replace(/(?:^|\s)\S/g, (a) => a.toUpperCase())
@@ -344,7 +347,7 @@ export const useApi = defineStore("api", () => {
     fetchIssueCategories,
     selectedCurrencies,
     selectedCategories,
-    getEstablishmentById,
+    getEstablishmentByUuid,
     setEstablishment,
     reportEstablishment,
     addCandidate,

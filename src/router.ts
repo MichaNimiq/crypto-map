@@ -14,12 +14,12 @@ export const router = createRouter({
       meta: { transition: 'slide-left' },
     },
     {
-      path: "/establishment/:id",
+      path: "/establishment/:uuid",
       name: "establishment_detail",
       component: MapLayout,
     },
     {
-      path: "/establishment/:id/report",
+      path: "/establishment/:uuid/report",
       name: "report_establishment",
       component: () => import("@/components/forms/ReportEstablishment.vue"),
       meta: { transition: 'slide-left' },

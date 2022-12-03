@@ -9,7 +9,6 @@ export function useCaptcha() {
 
   const loadRecaptcha = () => {
     if (loaded) return
-    console.log("Loading recaptcha")
     const script = document.createElement("script");
 
     script.src = `https://www.google.com/recaptcha/api.js?render=${recapthaKey}`;

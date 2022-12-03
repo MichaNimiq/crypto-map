@@ -22,11 +22,11 @@ onMounted(async () => {
 })
 
 async function onSubmit(token: string) {
-	if (!selectedIssue.value?.id || !route.params.id) return
+	if (!selectedIssue.value?.id || !route.params.uuid) return
 	return await apiStore.reportEstablishment({
 		token,
 		issue_category_id: selectedIssue.value.id as number,
-		establishment_id: Number(route.params.id),
+		establishment_uuid: route.params.uuid as string,
 		description: issueDescription.value,
 	})
 }
