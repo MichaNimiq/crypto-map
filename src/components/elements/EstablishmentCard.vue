@@ -17,13 +17,13 @@ const props = defineProps<{
 
 const hasAllInfo = computed(() => props.establishment.hasAllInfo)
 
-const { getEstablishmentById, setEstablishment } = useApi()
+const { getEstablishmentByUuid, setEstablishment } = useApi()
 
 // make an observer
 const observer = new IntersectionObserver((entries) => {
 	entries.forEach(async (entry) => {
 		if (entry.isIntersecting && !hasAllInfo.value) {
-			const establishment = await getEstablishmentById(props.establishment.id)
+			const establishment = await getEstablishmentByUuid(props.establishment.uuid)
 			setEstablishment(establishment)
 		}
 	})
@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
 	<template v-if="hasAllInfo">
-		<RouterLink :to="`/establishment/${establishment.id}`" class="children:px-6" ref="card$">
+		<RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
 
 			<img :src="establishment.photoUrl" :alt="`Image of ${establishment.name}`"
 				class="h-36 object-cover w-full !px-1.5 rounded-sm" loading="lazy" />
@@ -72,14 +72,14 @@ onMounted(() => {
 				<GoogleIcon class="text-white mx-auto" />
 			</a>
 
-			<RouterLink :to="`/establishment/${establishment.id}/report`"
+			<RouterLink :to="`/establishment/${establishment.uuid}/report`"
 				class="z-1 bg-cherry hover:bg-cherry/80 focus-visible:bg-cherry/80 transition-colors shadow rounded-full text-center w-[35px] py-[7.5px] h-max">
 				<FlagIcon class="text-white mx-auto" />
 			</RouterLink>
 		</div>
 	</template>
 	<template v-else>
-		<RouterLink :to="`/establishment/${establishment.id}`" class="children:px-6" ref="card$">
+		<RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
 			<div class="h-36 w-[calc(100%-12px)] rounded-sm bg-space/[0.06] animate-pulse !mx-1.5" />
 
 			<h2 class="mt-5 text-space text-lg font-bold flex-1">{{ establishment.name }}</h2>

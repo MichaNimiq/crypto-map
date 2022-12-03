@@ -16,17 +16,17 @@ export interface BoundingBox {
   northEast: Point;
 }
 
-function parseParams({ lat, lng, zoom: zoomLevel, id: establishmentId }: Record<string, string | string[]>) {
+function parseParams({ lat, lng, zoom: zoomLevel, uuid }: Record<string, string | string[]>) {
   const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
   const lngOk = lng && typeof lng === "string" && !isNaN(Number(lng))
   const zoomOk = zoomLevel && typeof zoomLevel === "string" && !isNaN(Number(zoomLevel))
-  const establishmentIdOk = establishmentId && typeof establishmentId === "string" && !isNaN(Number(establishmentId))
+  const uuidOk = uuid && typeof uuid === "string" && uuid.length > 0
 
   return {
     lat: latOk ? Number(lat) : undefined,
     lng: lngOk ? Number(lng) : undefined,
     zoomLevel: zoomOk ? Number(zoomLevel) : undefined,
-    establishmentId: establishmentIdOk ? Number(establishmentId) : undefined,
+    uuid: uuidOk ? uuid : undefined
   }
 }
 
@@ -102,14 +102,14 @@ export const useMap = defineStore("map", () => {
   }
 
   onMounted(async () => {
-    const { lat, lng, zoomLevel, establishmentId } = parseParams(route.params)
+    const { lat, lng, zoomLevel, uuid } = parseParams(route.params)
 
     if (lat && lng && zoomLevel) {
       setCenter({ lat: Number(lat), lng: Number(lng) })
       setZoom(Number(zoomLevel))
       return
-    } else if (establishmentId) {
-      const mapMoved = await useApp().goToEstablishment(establishmentId)
+    } else if (uuid) {
+      const mapMoved = await useApp().goToEstablishment(uuid)
       if (mapMoved) {
         return
       }

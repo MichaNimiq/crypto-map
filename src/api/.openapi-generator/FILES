@@ -7,15 +7,12 @@ models/AutocompleteApiCurrenciesInner.ts
 models/AutocompleteApiEstablishmentsInner.ts
 models/CategoriesIssueInner.ts
 models/CategoryInner.ts
-models/CryptoCurrency.ts
 models/CryptoEstablishment.ts
 models/CryptoEstablishmentBaseInner.ts
 models/CryptoEstablishmentBaseInnerGeoLocation.ts
-models/CurrenciesInner.ts
 models/CurrencyInner.ts
 models/EstablishmentCandidateBody.ts
 models/EstablishmentCandidateResponse.ts
-models/EstablishmentIssue.ts
 models/EstablishmentIssueBody.ts
 models/EstablishmentIssueResponse.ts
 models/index.ts

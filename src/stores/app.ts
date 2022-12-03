@@ -17,12 +17,12 @@ export const useApp = defineStore("app", () => {
   const showList = () => listIsShown.value = true;
   const hideList = () => listIsShown.value = false;
 
-  const selectedEstablishmentId = ref<number>();
+  const selectedEstablishmentUuid = ref<string>();
 
   const route = useRoute();
   watch(route, () => {
     if (route.name === "establishment_detail") {
-      selectedEstablishmentId.value = Number(route.params.id);
+      selectedEstablishmentUuid.value = route.params.uuid as string;
     }
   });
 
@@ -73,13 +73,13 @@ export const useApp = defineStore("app", () => {
 
   const { setCenter, setZoom } = useMap();
 
-  async function goToEstablishment(establishmentId: number) {
-    const establishment = await useApi().getEstablishmentById(Number(establishmentId)).catch(/** Handle error(?) */)
+  async function goToEstablishment(uuid: string) {
+    const establishment = await useApi().getEstablishmentByUuid(uuid).catch(/** Handle error(?) */)
     if (!establishment) return false
 
     setCenter(establishment.geoLocation)
     setZoom(19)
-    selectedEstablishmentId.value = Number(establishmentId)
+    selectedEstablishmentUuid.value = uuid
     showList()
     computeBoundingBox({ updateRoute: false })
     return true
@@ -90,7 +90,7 @@ export const useApp = defineStore("app", () => {
     toggleList,
     showList,
     hideList,
-    selectedEstablishmentId: selectedEstablishmentId,
+    selectedEstablishmentUuid: selectedEstablishmentUuid,
 
     suggestions,
     autocomplete,

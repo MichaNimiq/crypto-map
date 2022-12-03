@@ -28,10 +28,10 @@ import {
 export interface CryptoEstablishmentBaseInner {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CryptoEstablishmentBaseInner
      */
-    id: number;
+    uuid: string;
     /**
      * 
      * @type {string}
@@ -63,7 +63,7 @@ export interface CryptoEstablishmentBaseInner {
  */
 export function instanceOfCryptoEstablishmentBaseInner(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "category" in value;
     isInstance = isInstance && "currencies" in value;
@@ -82,7 +82,7 @@ export function CryptoEstablishmentBaseInnerFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'id': json['id'],
+        'uuid': json['uuid'],
         'name': json['name'],
         'category': json['category'],
         'currencies': json['currencies'],
@@ -99,7 +99,7 @@ export function CryptoEstablishmentBaseInnerToJSON(value?: CryptoEstablishmentBa
     }
     return {
         
-        'id': value.id,
+        'uuid': value.uuid,
         'name': value.name,
         'category': value.category,
         'currencies': value.currencies,

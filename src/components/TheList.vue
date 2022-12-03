@@ -15,14 +15,14 @@ const { smallScreen, xlScreen } = useBreakpoints()
 const scroller$ = ref<HTMLDivElement>()
 
 const appStore = useApp()
-const { listIsShown, selectedEstablishmentId } = storeToRefs(appStore)
+const { listIsShown, selectedEstablishmentUuid } = storeToRefs(appStore)
 
 const apiStore = useApi()
 const { establishmentsInView } = storeToRefs(apiStore)
 
 const listIsEmpty = computed(() => establishmentsInView.value.size === 0)
 
-watch(selectedEstablishmentId, (id) => {
+watch(selectedEstablishmentUuid, (id) => {
 	if (!id || !scroller$.value) return
 	const item = scroller$.value.querySelector(`[data-establishment-id="${id}"]`)
 	const index = item ? Array.from(scroller$.value.children).indexOf(item) : 0
@@ -48,10 +48,10 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		<ul ref="scroller$"
 			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16 "
 			v-if="!listIsEmpty">
-			<li v-for="[, establishment] in establishmentsInView" :key="establishment.id"
+			<li v-for="[, establishment] in establishmentsInView" :key="establishment.uuid"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"
-				:class="{ 'ring ring-ocean': establishment.id === selectedEstablishmentId }"
-				:data-establishment-id="establishment.id">
+				:class="{ 'ring ring-ocean': establishment.uuid === selectedEstablishmentUuid }"
+				:data-establishment-id="establishment.uuid">
 				<EstablishmentCard :establishment="establishment" />
 			</li>
 		</ul>

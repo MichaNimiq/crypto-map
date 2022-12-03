@@ -11,6 +11,67 @@ tags:
   - name: establishments
     description: Establishments Controller
 paths:
+  /api/search:
+    get:
+      tags:
+        - establishments
+      summary: Autocompletes for establishments, categories and currencies
+      operationId: autocomplete
+      parameters:
+        - name: "query"
+          in: "query"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: AutocompleteApi
+                type: object
+                required:
+                  - establishments
+                  - categories
+                  - currencies
+                properties:
+                  establishments:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - name
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - label
+                      properties:
+                        id:
+                          type: integer
+                        label:
+                          type: string
+                  currencies:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - symbol
+                        - name
+                      properties:
+                        symbol:
+                          type: string
+                        name:
+                          type: string
   /api/establishments/search:
     get:
       tags:
@@ -49,14 +110,14 @@ paths:
                   description: This is the basic information of an establishment that we show only in the map. If more information is required, you can use the /api/establishments/{establishmentId} endpoint.
                   additionalProperties: false
                   required:
-                    - id
+                    - uuid
                     - name
                     - geo_location
                     - category
                     - currencies
                   properties:
-                    id:
-                      type: number
+                    uuid:
+                      type: string
                     name:
                       type: string
                     category:
@@ -76,15 +137,15 @@ paths:
                           type: number
                         lng:
                           type: number
-  /api/establishments/{establishmentId}:
+  /api/establishments/{uuid}:
     get:
       tags:
         - establishments
-      summary: Get establishment by id
-      operationId: getEstablishmentById
+      summary: Get establishment by uuid
+      operationId: getEstablishmentByUuid
       parameters:
         - in: path
-          name: establishmentId
+          name: uuid
           schema:
             type: string
           required: true
@@ -95,7 +156,57 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CryptoEstablishment"
+                type: object
+                title: CryptoEstablishment
+                additionalProperties: false
+                required:
+                  - uuid
+                  - gmaps_place_id
+                  - name
+                  - category
+                  - gmaps_type
+                  - gmaps_url
+                  - address
+                  - rating
+                  - geo_location
+                  - currencies
+                properties:
+                  uuid:
+                    type: string
+                    format: uuid
+                  gmaps_place_id:
+                    type: string
+                  name:
+                    type: string
+                  category:
+                    type: string
+                  gmaps_type:
+                    type: string
+                  gmaps_url:
+                    type: string
+                    format: url
+                  photo_reference:
+                    type: string
+                  address:
+                    type: string
+                  rating:
+                    type: number
+                  geo_location:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - lat
+                      - lng
+                    properties:
+                      lat:
+                        type: number
+                      lng:
+                        type: number
+                  currencies:
+                    type: array
+                    items:
+                      type: string
+                      description: Symbol of the crypto
         "201":
           description: Create
         "404":
@@ -118,8 +229,8 @@ paths:
                 items:
                   type: object
                   required:
-                    - "id"
-                    - "label"
+                    - id
+                    - label
                   properties:
                     label:
                       type: string
@@ -190,7 +301,7 @@ paths:
     post:
       tags:
         - establishments
-      summary: Create a new issue for an establishment
+      summary: Create a new issue for a establishment
       operationId: postEstablishmentIssue
       requestBody:
         content:
@@ -199,15 +310,16 @@ paths:
               title: EstablishmentIssueBody
               type: object
               required:
-                - "establishment_id"
+                - "establishment_uuid"
                 - "issue_category_id"
                 - "description"
                 - "token"
               properties:
                 issue_category_id:
                   type: number
-                establishment_id:
-                  type: number
+                establishment_uuid:
+                  type: string
+                  format: uuid
                 token:
                   type: string
                 description:
@@ -231,7 +343,7 @@ paths:
     post:
       tags:
         - establishments
-      summary: Create a new candidate for an establishment
+      summary: Create a new candidate for a establishment
       operationId: postCandidate
       requestBody:
         content:
@@ -270,107 +382,3 @@ paths:
                     type: string
         "400":
           description: Bad Request
-components:
-  schemas:
-    CryptoEstablishment:
-      type: object
-      title: CryptoEstablishment
-      additionalProperties: false
-      required:
-        - id
-        - gmaps_place_id
-        - created_at
-        - updated_at
-        - name
-        - category
-        - gmaps_type
-        - gmaps_url
-        - address
-        - rating
-        - geo_location
-        - currencies
-      properties:
-        id:
-          type: integer
-          format: int32
-        gmaps_place_id:
-          type: string
-        created_at:
-          type: string
-        updated_at:
-          type: string
-        name:
-          type: string
-        category:
-          type: string
-        gmaps_type:
-          type: string
-        gmaps_url:
-          type: string
-        photo_reference:
-          type: string
-        address:
-          type: string
-        rating:
-          type: number
-        # FIXME: `enabled` flag should not be in the response as it is useless
-        enabled:
-          type: boolean
-        geo_location:
-          type: object
-          additionalProperties: false
-          required:
-            - lat
-            - lng
-          properties:
-            lat:
-              type: number
-            lng:
-              type: number
-        currencies:
-          type: array
-          items:
-            type: string
-            description: Symbol of the crypto
-    CryptoCurrency:
-      type: object
-      properties:
-        BTC:
-          type: string
-        DASH:
-          type: string
-        LTC:
-          type: string
-        ETH:
-          type: string
-        XRP:
-          type: string
-        XLM:
-          type: string
-        NIM:
-          type: string
-    Currencies:
-      title: Currency
-      description: All supported currencies
-      type: array
-      items:
-        type: object
-        required:
-          - "symbol"
-          - "name"
-        properties:
-          name:
-            type: string
-          symbol:
-            type: string
-    EstablishmentIssue:
-      title: EstablishmentIssue
-      type: object
-      required:
-        - "id"
-        - "label"
-      properties:
-        label:
-          type: string
-        id:
-          type: number
