@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import FormContainer from "@/components/forms/FormContainer.vue"
+import { useAutocomplete } from "@/composables/useAutocomplete"
 import { useApi } from "@/stores/api"
 import { storeToRefs } from "pinia"
 import { computed, ref } from "vue"
@@ -9,6 +10,8 @@ import Select from "../elements/Select.vue"
 
 const apiStore = useApi()
 const { currenciesOptions } = storeToRefs(apiStore)
+
+const { autocomplete, suggestions, status } = useAutocomplete({ types: ['establishment'], sources: ['google'] })
 
 const selectedCurrencies = ref<string[]>([])
 const selectedPlace = ref<google.maps.places.AutocompletePrediction>()
@@ -33,8 +36,9 @@ async function onSubmit(token: string) {
 			<a href="https://www.google.com/business/" target="_blank">{{ $t('Create_Google_Business_profile') }}</a>
 		</template>
 		<template #form>
-			<SearchBox :label="$t('Find_place')" combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset"
-				bg-combobox="space" input-id="search-input" :types="['establishment']" @selected="selectedPlace = $event" />
+			<SearchBox :autocomplete="autocomplete" :status="status" :suggestions="suggestions" :label="$t('Find_place')"
+				combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset" bg-combobox="space" input-id="search-input"
+				@selected="selectedPlace = $event" />
 
 			<Select class="mt-6" :label="$t('Select_Cryptocurrency')" input-id="cryptocurrency-input"
 				:options="currenciesOptions" v-model="selectedCurrencies" :placeholder="$t('Select_Cryptocurrency')">

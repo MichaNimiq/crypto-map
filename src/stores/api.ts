@@ -47,6 +47,8 @@ export type Establishment = Pick<BaseEstablishment, "uuid" | "name" | "category"
   address: CryptoEstablishmentApi["address"];
 }
 
+export type AppSuggestion = { label: string, onclick: () => void }
+
 export const useApi = defineStore("api", () => {
   /**
   * Establishments holds the list of establishments
@@ -312,8 +314,8 @@ export const useApi = defineStore("api", () => {
     })
   })
 
-  const suggestionsApi = ref<{ label: string, onclick: () => void }[]>([])
-  async function autocompleteApi(query: string) {
+  const suggestions = ref<AppSuggestion[]>([])
+  async function autocomplete(query: string) {
     const res = await establishmentsApi.autocomplete({ query })
     const establishments = res.establishments.map((e) => ({
       label: e.name,
@@ -334,7 +336,7 @@ export const useApi = defineStore("api", () => {
       }
     }))
 
-    suggestionsApi.value = [...establishments, ...currencies, ...categories]
+    suggestions.value = [...establishments, ...currencies, ...categories]
   }
 
   return {
@@ -356,7 +358,7 @@ export const useApi = defineStore("api", () => {
     currenciesOptions,
     categoriesOptions, // FIXME This one should be removed
 
-    autocompleteApi,
-    suggestionsApi
+    autocomplete,
+    suggestions
   }
 })
