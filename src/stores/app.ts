@@ -28,7 +28,6 @@ export const useApp = defineStore("app", () => {
 
   const sessionToken = ref<google.maps.places.AutocompleteSessionToken>();
   const autocompleteService = ref<google.maps.places.AutocompleteService>();
-  const autocompleteStatus = ref<AutocompleteStatus>();
 
   const suggestions = ref<google.maps.places.AutocompletePrediction[]>([])
 
@@ -40,9 +39,7 @@ export const useApp = defineStore("app", () => {
     if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
     if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
 
-    autocompleteStatus.value = AutocompleteStatus.LOADING
     if (!input || !autocompleteService.value) {
-      autocompleteStatus.value = AutocompleteStatus.NO_RESULTS
       return suggestions.value = []
     }
     autocompleteService.value.getPlacePredictions({
@@ -53,12 +50,10 @@ export const useApp = defineStore("app", () => {
       types
     }, (predictions, status) => {
       if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        autocompleteStatus.value = AutocompleteStatus.ERROR
         return
       }
 
       suggestions.value = predictions || []
-      autocompleteStatus.value = suggestions.value.length > 0 ? AutocompleteStatus.WITH_RESULTS : AutocompleteStatus.NO_RESULTS
     })
   }
 
@@ -94,7 +89,6 @@ export const useApp = defineStore("app", () => {
 
     suggestions,
     autocomplete,
-    autocompleteStatus,
     goToPlaceId,
 
     goToEstablishment,

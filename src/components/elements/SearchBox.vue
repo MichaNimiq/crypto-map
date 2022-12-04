@@ -69,7 +69,7 @@
 							<span class="block truncate" :class="{
 								'text-space': bgCombobox === 'white',
 								'text-white': bgCombobox === 'space',
-							}" v-html="'description' in suggestion ? makeBold(suggestion.description, suggestion.matched_substrings) : suggestion.label">
+							}" v-html="suggestion.source === 'google' ? makeBold(suggestion.v.description, suggestion.v.matched_substrings) : suggestion.v.label">
 							</span>
 							<span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3" :class="{
 								'text-white':
@@ -89,8 +89,7 @@
 <script setup lang="ts">
 import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
-import { AutocompleteStatus, useApp } from "@/stores/app"
-import { useApi } from "@/stores/api"
+import { AutocompleteStatus, type Suggestion } from "@/composables/useAutocomplete"
 import {
 	Combobox,
 	ComboboxButton,
@@ -100,7 +99,6 @@ import {
 	ComboboxOptions,
 	TransitionRoot
 } from "@headlessui/vue"
-import { storeToRefs } from "pinia"
 import { computed, ref, useSlots, watch } from "vue"
 
 type Option = google.maps.places.AutocompletePrediction
@@ -130,6 +128,18 @@ const props = defineProps({
 		type: Array as () => string[],
 		default: undefined,
 	},
+	autocomplete: {
+		type: Function,
+		required: true,
+	},
+	suggestions: {
+		type: Array as () => Suggestion[],
+		required: true,
+	},
+	status: {
+		type: String as () => AutocompleteStatus,
+		required: true,
+	},
 })
 
 const emit = defineEmits({
@@ -141,35 +151,13 @@ const userCanCleanInput = computed(() => query.value !== "" && query.value !== u
 const selected = ref<Option>()
 const query = ref<string>()
 
-const appStore = useApp()
-const { autocomplete } = appStore;
-const { suggestions: suggestionsGoogle, autocompleteStatus: status } = storeToRefs(appStore)
-
-const apiStore = useApi()
-const { autocompleteApi } = apiStore;
-const { suggestionsApi } = storeToRefs(apiStore);
-
-
 watch(
 	() => query.value,
 	() => {
 		if (query.value === "undefined")
 			query.value = undefined
 		if (!query.value) return
-
-		autocompleteApi(query.value)
-		autocomplete(query.value, props.types)
-	}
-)
-
-const suggestions = ref<(Option | { label: string, onclick: () => void })[]>([])
-
-watch(
-	() => [suggestionsGoogle.value, suggestionsApi.value],
-	() => {
-		if (suggestionsGoogle.value && suggestionsApi.value) {
-			suggestions.value = [...suggestionsApi.value, ...suggestionsGoogle.value]
-		}
+		props.autocomplete(query.value)
 	}
 )
 
