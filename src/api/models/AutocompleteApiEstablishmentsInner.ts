@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface AutocompleteApiEstablishmentsInner {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof AutocompleteApiEstablishmentsInner
      */
-    id: number;
+    uuid: string;
     /**
      * 
      * @type {string}
@@ -38,7 +38,7 @@ export interface AutocompleteApiEstablishmentsInner {
  */
 export function instanceOfAutocompleteApiEstablishmentsInner(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "name" in value;
 
     return isInstance;
@@ -54,7 +54,7 @@ export function AutocompleteApiEstablishmentsInnerFromJSONTyped(json: any, ignor
     }
     return {
         
-        'id': json['id'],
+        'uuid': json['uuid'],
         'name': json['name'],
     };
 }
@@ -68,7 +68,7 @@ export function AutocompleteApiEstablishmentsInnerToJSON(value?: AutocompleteApi
     }
     return {
         
-        'id': value.id,
+        'uuid': value.uuid,
         'name': value.name,
     };
 }

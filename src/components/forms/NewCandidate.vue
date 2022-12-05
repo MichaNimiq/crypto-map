@@ -2,7 +2,7 @@
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import FormContainer from "@/components/forms/FormContainer.vue"
 import { useAutocomplete } from "@/composables/useAutocomplete"
-import { useApi } from "@/stores/api"
+import { useApi, type Suggestion } from "@/stores/api"
 import { storeToRefs } from "pinia"
 import { computed, ref } from "vue"
 import SearchBox from "../elements/SearchBox.vue"
@@ -11,10 +11,10 @@ import Select from "../elements/Select.vue"
 const apiStore = useApi()
 const { currenciesOptions } = storeToRefs(apiStore)
 
-const { autocomplete, suggestions, status } = useAutocomplete({ types: ['establishment'], sources: ['google'] })
+const { autocomplete, suggestions, status } = useAutocomplete({ types: ['establishment'], sources: ['googleEstablishment'] })
 
 const selectedCurrencies = ref<string[]>([])
-const selectedPlace = ref<google.maps.places.AutocompletePrediction>()
+const selectedPlace = ref<Suggestion>()
 
 const disabled = computed(() => selectedCurrencies.value.length === 0 || !selectedPlace.value)
 
@@ -22,8 +22,8 @@ async function onSubmit(token: string) {
 	return await apiStore.addCandidate({
 		token,
 		currencies: selectedCurrencies.value,
-		gmaps_place_id: selectedPlace.value?.place_id || "",
-		name: selectedPlace.value?.description || "",
+		gmaps_place_id: selectedPlace.value?.id as string || "",
+		name: selectedPlace.value?.label || "",
 	})
 }
 </script>
@@ -38,7 +38,7 @@ async function onSubmit(token: string) {
 		<template #form>
 			<SearchBox :autocomplete="autocomplete" :status="status" :suggestions="suggestions" :label="$t('Find_place')"
 				combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset" bg-combobox="space" input-id="search-input"
-				@selected="selectedPlace = $event" />
+				@selected="(selectedPlace = $event)" />
 
 			<Select class="mt-6" :label="$t('Select_Cryptocurrency')" input-id="cryptocurrency-input"
 				:options="currenciesOptions" v-model="selectedCurrencies" :placeholder="$t('Select_Cryptocurrency')">

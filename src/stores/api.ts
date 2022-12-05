@@ -1,4 +1,5 @@
 import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type CryptoEstablishmentBaseInner as CryptoEstablishmentBaseApi, type CurrencyInner as Currency, type PostCandidateRequest as CandidateRequest, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type SearchEstablishmentsRequest } from "@/api";
+import { SuggestionType, type Suggestion } from "@/composables/useAutocomplete";
 import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -46,8 +47,6 @@ export type Establishment = Pick<BaseEstablishment, "uuid" | "name" | "category"
   rating: CryptoEstablishmentApi["rating"];
   address: CryptoEstablishmentApi["address"];
 }
-
-export type AppSuggestion = { label: string, onclick: () => void }
 
 export const useApi = defineStore("api", () => {
   /**
@@ -314,26 +313,26 @@ export const useApi = defineStore("api", () => {
     })
   })
 
-  const suggestions = ref<AppSuggestion[]>([])
+  const suggestions = ref<Suggestion[]>([])
   async function autocomplete(query: string) {
     const res = await establishmentsApi.autocomplete({ query })
-    const establishments = res.establishments.map((e) => ({
+    const establishments: Suggestion[] = res.establishments.map((e) => ({
       label: e.name,
-      onclick: () => {
-        router.push(`/establishment/${e.id}`)
-      }
+      id: e.uuid,
+      matchedSubstrings: [],
+      type: SuggestionType.API_ESTABLISHMENT
     }))
-    const currencies = res.currencies.map((c) => ({
+    const currencies: Suggestion[] = res.currencies.map((c) => ({
       label: c.name,
-      onclick: () => {
-        selectedCurrencies.value = [c.symbol]
-      }
+      id: c.symbol,
+      matchedSubstrings: [],
+      type: SuggestionType.CURRENCY
     }))
-    const categories = res.categories.map((c) => ({
+    const categories: Suggestion[] = res.categories.map((c) => ({
       label: c.label,
-      onclick: () => {
-        selectedCategories.value = [c.label]
-      }
+      id: c.label,
+      matchedSubstrings: [],
+      type: SuggestionType.CATEGORY
     }))
 
     suggestions.value = [...establishments, ...currencies, ...categories]

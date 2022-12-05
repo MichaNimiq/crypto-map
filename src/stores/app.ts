@@ -1,4 +1,4 @@
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useApi } from "./api";
@@ -26,45 +26,8 @@ export const useApp = defineStore("app", () => {
     }
   });
 
-  const sessionToken = ref<google.maps.places.AutocompleteSessionToken>();
-  const autocompleteService = ref<google.maps.places.AutocompleteService>();
-
-  const suggestions = ref<google.maps.places.AutocompletePrediction[]>([])
-
   const mapStore = useMap();
-  const { fitBounds, computeBoundingBox } = mapStore;
-  const { map, mapReady } = storeToRefs(mapStore);
-
-  async function autocomplete(input: string, types?: string[]) {
-    if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
-    if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
-
-    if (!input || !autocompleteService.value) {
-      return suggestions.value = []
-    }
-    autocompleteService.value.getPlacePredictions({
-      input,
-      sessionToken: sessionToken.value,
-      location: mapReady.value && map.value ? map.value.getCenter() : undefined,
-      bounds: mapReady.value && map.value ? map.value.getBounds() : undefined,
-      types
-    }, (predictions, status) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        return
-      }
-
-      suggestions.value = predictions || []
-    })
-  }
-
-  async function goToPlaceId(placeId?: string) {
-    const geocoder = new google.maps.Geocoder();
-    if (!placeId) return
-    const res = await geocoder.geocode({ placeId })
-    if (res.results.length === 0) return
-    fitBounds(res.results[0].geometry.viewport)
-    computeBoundingBox()
-  }
+  const { computeBoundingBox } = mapStore;
 
   const { setCenter, setZoom } = useMap();
 
@@ -86,10 +49,6 @@ export const useApp = defineStore("app", () => {
     showList,
     hideList,
     selectedEstablishmentUuid: selectedEstablishmentUuid,
-
-    suggestions,
-    autocomplete,
-    goToPlaceId,
 
     goToEstablishment,
   }
