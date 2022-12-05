@@ -107,8 +107,8 @@ export const useApi = defineStore("api", () => {
 
   const establishmentsInView = computed(() => {
     const { northEast, southWest } = boundingBox.value
-    const establishmentsInView = new Map<string, BaseEstablishment | Establishment>([])
-    for (const [uuid, establishment] of establishments.value) {
+    const establishmentsInView: (Establishment | BaseEstablishment)[] = []
+    for (const [, establishment] of establishments.value) {
       // Check if the establishment is in the bounding box
       const { lat, lng } = establishment.geoLocation
       const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
@@ -118,7 +118,7 @@ export const useApi = defineStore("api", () => {
       const filteredByCategories = filterByCurrencies(establishment)
 
       if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
-        establishmentsInView.set(uuid, establishment)
+        establishmentsInView.push(establishment)
       }
     }
     return establishmentsInView
