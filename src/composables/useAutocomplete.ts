@@ -1,7 +1,27 @@
-import { useApp } from "@/stores/app";
-import { useApi, type AppSuggestion } from "@/stores/api";
+import { useGoogle } from "@/stores/google";
+import { useApi } from "@/stores/api";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
+
+export enum SuggestionType {
+  API_ESTABLISHMENT = "apiEstablishment",
+  GOOGLE_ESTABLISHMENT = "googleEstablishment",
+  CURRENCY = "currency",
+  CATEGORY = "category",
+}
+
+export type Suggestion = {
+  label: string,
+  matchedSubstrings: google.maps.places.AutocompletePrediction["matched_substrings"]
+  type: SuggestionType,
+
+  // values for id
+  // apiEstablishment -> Establishment UUID
+  // googleEstablishment -> google place id
+  // currency -> currency symbol
+  // category -> category label
+  id: string,
+}
 
 export enum AutocompleteStatus {
   LOADING = "loading",
@@ -10,33 +30,27 @@ export enum AutocompleteStatus {
   ERROR = "error",
 }
 
-export type Suggestion =
-  | { v: google.maps.places.AutocompletePrediction, source: 'google' }
-  | { v: AppSuggestion, source: 'api' }
-
 type UseAutocompleteOptions = {
-  types: string[],
-  sources: ('google' | 'api')[]
-
-}
-const defaultOptions: UseAutocompleteOptions = {
-  types: [],
-  sources: ['google', 'api']
+  googleTypes: string[], // See https://developers.google.com/maps/documentation/javascript/places-autocomplete#place_types. e.g. geocode, address, region, establishment, etc.
+  types?: SuggestionType[]
 }
 
-export function useAutocomplete({ types, sources }: UseAutocompleteOptions = defaultOptions) {
+
+export function useAutocomplete({ googleTypes, types }: UseAutocompleteOptions) {
+  if (!types || types.length === 0) types = [SuggestionType.API_ESTABLISHMENT, SuggestionType.GOOGLE_ESTABLISHMENT, SuggestionType.CURRENCY, SuggestionType.CATEGORY];
+
   const status = ref<AutocompleteStatus>(AutocompleteStatus.NO_RESULTS);
   const suggestions = ref<Suggestion[]>([]);
 
-  const appStore = useApp()
-  const { autocomplete: autocompleteGoogle } = appStore;
-  const { suggestions: suggestionsGoogle } = storeToRefs(appStore)
+  const googleStore = useGoogle()
+  const { autocomplete: autocompleteGoogle } = googleStore;
+  const { suggestions: suggestionsGoogle } = storeToRefs(googleStore)
 
   const apiStore = useApi()
   const { autocomplete: autocompleteApi } = apiStore;
   const { suggestions: suggestionsApi } = storeToRefs(apiStore);
 
-  async function fetchAutocompleteApi(query: string): Promise<Suggestion[]> {
+  async function fetchAutocompleteApi(query: string) {
     await autocompleteApi(query).catch(() => {
       status.value = AutocompleteStatus.ERROR;
     })
@@ -44,35 +58,35 @@ export function useAutocomplete({ types, sources }: UseAutocompleteOptions = def
     if (suggestionsApi.value.length) {
       status.value = AutocompleteStatus.WITH_RESULTS;
     }
-
-    return suggestionsApi.value.map(v => ({ v, source: 'api' }))
   }
 
-  async function fetchAutocompleteGoogle(query: string): Promise<Suggestion[]> {
-    await autocompleteGoogle(query, types).catch(() => {
+  async function fetchAutocompleteGoogle(query: string) {
+    await autocompleteGoogle(query, googleTypes).catch(() => {
       status.value = AutocompleteStatus.ERROR;
     })
 
     if (suggestionsGoogle.value.length) {
       status.value = AutocompleteStatus.WITH_RESULTS;
     }
-
-    return suggestionsGoogle.value.map(s => ({ v: s, source: 'google' }))
   }
 
   async function autocomplete(query: string) {
     status.value = AutocompleteStatus.LOADING;
 
-    if (sources.includes('api') && sources.includes('google')) {
-      suggestions.value = [...await Promise.all([
-        fetchAutocompleteApi(query),
-        fetchAutocompleteGoogle(query)
-      ])].reduce((acc, val) => acc.concat(val), [])
-    } else if (sources.includes('api')) {
-      // rewrite suggestions
-      suggestions.value = await fetchAutocompleteApi(query)
-    } else if (sources.includes('google')) {
-      suggestions.value = await fetchAutocompleteGoogle(query)
+    // There is no such filter in the API, so we need to fetch all the suggestions
+    const hasApiSuggestions = types?.includes(SuggestionType.API_ESTABLISHMENT) || types?.includes(SuggestionType.CATEGORY) || types?.includes(SuggestionType.CURRENCY);
+    const hasGoogleSuggestions = types?.includes(SuggestionType.GOOGLE_ESTABLISHMENT);
+
+    if (hasApiSuggestions && hasGoogleSuggestions) {
+      await Promise.all([fetchAutocompleteApi(query), fetchAutocompleteGoogle(query)])
+      suggestions.value = [...suggestionsApi.value, ...suggestionsGoogle.value]
+    } else if (hasApiSuggestions) {
+      await fetchAutocompleteApi(query)
+      suggestions.value = suggestionsApi.value
+    } else if (hasGoogleSuggestions) {
+      await fetchAutocompleteGoogle(query)
+      console.log('google', suggestionsGoogle.value)
+      suggestions.value = suggestionsGoogle.value
     }
 
     if (suggestions.value.length === 0) {

@@ -18,8 +18,7 @@
 						'text-ocean': open,
 						'text-sm py-[5px]': size === 'sm',
 						'text-base py-2': size === 'md',
-					}" autocomplete="off" :placeholder="$t('Search_Crypto_Map')"
-					:displayValue="(region) => (region as google.maps.places.AutocompletePrediction)?.description"
+					}" autocomplete="off" :placeholder="$t('Search_Crypto_Map')" :displayValue="(v) => (v as Suggestion)?.label"
 					@change="query = $event.target.value" />
 
 				<div class="absolute inset-y-0 right-0 flex items-center pr-4">
@@ -56,8 +55,8 @@
 						</span>
 					</div>
 
-					<ComboboxOption v-else v-for="(suggestion, i) in suggestions" as="template" :key="i" :value="suggestion"
-						v-slot="{ selected, active }">
+					<ComboboxOption v-else v-for="suggestion in suggestions" as="template" :key="suggestion.id"
+						:value="suggestion" v-slot="{ selected, active }">
 						<li class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer" :class="{
 							'hover:bg-space/[0.06]': bgCombobox === 'white',
 							'hover:bg-space/60': bgCombobox === 'space',
@@ -69,7 +68,7 @@
 							<span class="block truncate" :class="{
 								'text-space': bgCombobox === 'white',
 								'text-white': bgCombobox === 'space',
-							}" v-html="suggestion.source === 'google' ? makeBold(suggestion.v.description, suggestion.v.matched_substrings) : suggestion.v.label">
+							}" v-html="makeBold(suggestion.label, suggestion.matchedSubstrings)">
 							</span>
 							<span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3" :class="{
 								'text-white':
@@ -89,7 +88,8 @@
 <script setup lang="ts">
 import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
-import { AutocompleteStatus, type Suggestion } from "@/composables/useAutocomplete"
+import { AutocompleteStatus } from "@/composables/useAutocomplete"
+import type { Suggestion } from "@/stores/api"
 import {
 	Combobox,
 	ComboboxButton,
@@ -100,8 +100,6 @@ import {
 	TransitionRoot
 } from "@headlessui/vue"
 import { computed, ref, useSlots, watch } from "vue"
-
-type Option = google.maps.places.AutocompletePrediction
 
 const props = defineProps({
 	roundedFull: {
@@ -124,10 +122,6 @@ const props = defineProps({
 		type: String,
 		default: "",
 	},
-	types: {
-		type: Array as () => string[],
-		default: undefined,
-	},
 	autocomplete: {
 		type: Function,
 		required: true,
@@ -143,12 +137,12 @@ const props = defineProps({
 })
 
 const emit = defineEmits({
-	selected: (value?: Option) => value,
+	selected: (value?: Suggestion) => value,
 })
 
 const userCanCleanInput = computed(() => query.value !== "" && query.value !== undefined)
 
-const selected = ref<Option>()
+const selected = ref<Suggestion>()
 const query = ref<string>()
 
 watch(
@@ -167,7 +161,7 @@ function hasSlot(slotName: "label") {
 	return slots[slotName] !== undefined
 }
 
-function makeBold(str: string, matches: Option["matched_substrings"]) {
+function makeBold(str: string, matches: Suggestion["matchedSubstrings"]) {
 	matches.forEach((match) => {
 		const bolded = str.slice(match.offset, match.offset + match.length)
 		str = str.replace(bolded, `<b>${bolded}</b>`)
