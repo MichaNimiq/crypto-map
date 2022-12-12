@@ -6,7 +6,6 @@ import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
 import { Cluster, SuperClusterAlgorithm } from "@googlemaps/markerclusterer"
 import { storeToRefs } from "pinia"
-import { ref } from "vue"
 import { CustomMarker, GoogleMap, MarkerCluster } from "vue3-google-map"
 
 
@@ -26,8 +25,6 @@ const {
 const { center, zoom, map$ } = storeToRefs(mapStore)
 
 const googleMapsKey = import.meta.env.VITE_GOOGLE_MAP_KEY
-
-const markers$ = ref<typeof CustomMarker[]>([])
 
 // We have to wait until GoogleMap component is mounted in order to compute
 // the bounding box of the map if user is accessing the map from an establishment
@@ -52,9 +49,10 @@ const render = (cluster: Cluster) => {
 <template>
 	<GoogleMap v-if="center && center.lat !== 0 && center.lng !== 0" ref="map$" :api-key="googleMapsKey"
 		class="w-full h-full" :center="center" :zoom="zoom" disable-default-ui :clickable-icons="false"
-		:styles="googleMapStyles" @dragend="computeBoundingBox" @zoom_changed="computeBoundingBox" @idle.once="onIdle">
+		gesture-handling="greedy" :keyboard-shortcuts="false" :styles="googleMapStyles" @bounds_changed="computeBoundingBox"
+		@idle.once="onIdle">
 		<MarkerCluster :options="{ algorithm: superClusterAlgorithm, renderer: { render } }">
-			<CustomMarker ref="markers$" v-for="establishment in establishmentsInView" :key="establishment.uuid"
+			<CustomMarker v-for="establishment in establishmentsInView" :key="establishment.uuid"
 				:options="{ position: establishment.geoLocation, anchorPoint: 'TOP_CENTER' }">
 				<RouterLink :to="`/establishment/${establishment.uuid}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer rounded-full">
