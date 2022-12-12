@@ -16,6 +16,8 @@ export interface BoundingBox {
   northEast: Point;
 }
 
+export const SANTA_TERESA_COORDS: Point = { lat: 9.6375821, lng: -85.1691914 }
+
 function parseParams({ lat, lng, zoom: zoomLevel, uuid }: Record<string, string | string[]>) {
   const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
   const lngOk = lng && typeof lng === "string" && !isNaN(Number(lng))
@@ -115,9 +117,13 @@ export const useMap = defineStore("map", () => {
       }
     }
 
-    // Fallback to user location
-    useGeoIp().locate()
-    navigateToUserLocation()
+    // Fallback to user location or Santa Teresa
+    const geoLocation = await useGeoIp().locate().catch(() => {
+      return SANTA_TERESA_COORDS
+    })
+
+    setCenter(geoLocation)
+    setZoom(13)
   })
 
   return {
