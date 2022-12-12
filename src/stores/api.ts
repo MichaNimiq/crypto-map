@@ -43,7 +43,7 @@ export type Establishment = Pick<BaseEstablishment, "uuid" | "name" | "category"
   gmapsPlaceId: CryptoEstablishmentApi["gmaps_place_id"];
   geoLocation: CryptoEstablishmentApi["geo_location"];
   gmapsType: CryptoEstablishmentApi["gmaps_type"];
-  photoUrl: string;
+  photoUrl?: string;
   rating: CryptoEstablishmentApi["rating"];
   address: CryptoEstablishmentApi["address"];
 }
@@ -150,7 +150,7 @@ export const useApi = defineStore("api", () => {
   }: CryptoEstablishmentApi): Establishment {
     const photoUrl = photo_reference
       ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photo_reference}&key=${googleMapsKey}`
-      : "https://via.placeholder.com/540x540?text=No+photo+available" // TODO use a better placeholder
+      : undefined
     const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
 
     const parsedEstablishment: Establishment = {

@@ -3,6 +3,7 @@ import FlagIcon from "@/components/icons/icon-flag.vue"
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import GoogleIcon from "@/components/icons/icon-google-g.vue"
 import StarIcon from "@/components/icons/icon-star.vue"
+import EstablishmentPlaceholder from "@/components/illustrations/establishment-placeholder.vue"
 
 
 import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
@@ -40,8 +41,13 @@ onMounted(() => {
 	<template v-if="hasAllInfo">
 		<RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
 
-			<img :src="establishment.photoUrl" :alt="`Image of ${establishment.name}`"
+			<img v-if="establishment.photoUrl" :src="establishment.photoUrl" :alt="`Image of ${establishment.name}`"
 				class="h-36 object-cover w-full !px-1.5 rounded-sm" loading="lazy" />
+
+			<div v-else class="w-full h-36 flex flex-col bg-space/[0.06] items-center justify-center text-space gap-4">
+				<EstablishmentPlaceholder class="h-12 w-12" />
+				<h4 class="font-bold text-lg">{{ $t("No_photo_available") }}</h4>
+			</div>
 
 			<h2 class="mt-5 text-space text-lg font-bold flex-1">{{ establishment.name }}</h2>
 
