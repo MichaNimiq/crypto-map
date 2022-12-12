@@ -85,7 +85,6 @@ export function useAutocomplete({ googleTypes, types }: UseAutocompleteOptions) 
       suggestions.value = suggestionsApi.value
     } else if (hasGoogleSuggestions) {
       await fetchAutocompleteGoogle(query)
-      console.log('google', suggestionsGoogle.value)
       suggestions.value = suggestionsGoogle.value
     }
 

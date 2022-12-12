@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
 import FormContainer from "@/components/forms/FormContainer.vue"
-import { useAutocomplete } from "@/composables/useAutocomplete"
-import { useApi, type Suggestion } from "@/stores/api"
+import { useAutocomplete, SuggestionType, type Suggestion } from "@/composables/useAutocomplete"
+import { useApi } from "@/stores/api"
 import { storeToRefs } from "pinia"
 import { computed, ref } from "vue"
 import SearchBox from "../elements/SearchBox.vue"
@@ -11,7 +11,7 @@ import Select from "../elements/Select.vue"
 const apiStore = useApi()
 const { currenciesOptions } = storeToRefs(apiStore)
 
-const { autocomplete, suggestions, status } = useAutocomplete({ types: ['establishment'], sources: ['googleEstablishment'] })
+const { autocomplete, suggestions, status } = useAutocomplete({ googleTypes: ["establishment"], types: [SuggestionType.GOOGLE_ESTABLISHMENT] })
 
 const selectedCurrencies = ref<string[]>([])
 const selectedPlace = ref<Suggestion>()
