@@ -58,10 +58,10 @@
 					<ComboboxOption v-else v-for="suggestion in suggestions" as="template" :key="suggestion.id"
 						:value="suggestion" v-slot="{ selected, active }">
 						<li class="relative select-none py-1.5 flex items-center transition-colors cursor-pointer" :class="{
-							'hover:bg-space/[0.06]': bgCombobox === 'white',
-							'hover:bg-space/60': bgCombobox === 'space',
+							'hover:bg-space/[0.06] focus:bg-space/[0.06]': bgCombobox === 'white',
+							'hover:bg-white/10 focus:bg-white/10': bgCombobox === 'space',
 							'bg-space/[0.06]': bgCombobox === 'white' && active,
-							'bg-space/60': bgCombobox === 'space' && active,
+							'bg-white/10': bgCombobox === 'space' && active,
 							'px-6 gap-x-6': size === 'sm',
 							'px-3 gap-x-2': size === 'md',
 						}">
