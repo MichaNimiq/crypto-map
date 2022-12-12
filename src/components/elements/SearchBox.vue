@@ -88,8 +88,7 @@
 <script setup lang="ts">
 import CrossIcon from "@/components/icons/icon-cross.vue"
 import SearchIcon from "@/components/icons/icon-search.vue"
-import { AutocompleteStatus } from "@/composables/useAutocomplete"
-import type { Suggestion } from "@/stores/api"
+import { AutocompleteStatus, type Suggestion } from "@/composables/useAutocomplete";
 import {
 	Combobox,
 	ComboboxButton,

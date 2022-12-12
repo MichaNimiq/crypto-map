@@ -1,6 +1,6 @@
+import { SuggestionType, type Suggestion } from "@/composables/useAutocomplete";
 import { defineStore, storeToRefs } from "pinia";
 import { ref } from "vue";
-import type { Suggestion } from "./api";
 import { useMap } from "./map";
 
 export enum AutocompleteStatus {
@@ -40,11 +40,8 @@ export const useGoogle = defineStore("google", () => {
       suggestions.value = predictions.map(p => ({
         id: p.place_id,
         label: p.description,
-        source: 'googleEstablishment',
+        type: SuggestionType.GOOGLE_ESTABLISHMENT,
         matchedSubstrings: p.matched_substrings,
-        onclick: () => {
-          goToPlaceId(p.place_id)
-        }
       }))
     })
   }

@@ -41,11 +41,11 @@ paths:
                     items:
                       type: object
                       required:
-                        - id
+                        - uuid
                         - name
                       properties:
-                        id:
-                          type: integer
+                        uuid:
+                          type: string
                         name:
                           type: string
                   categories:
@@ -380,5 +380,7 @@ paths:
                 properties:
                   message:
                     type: string
+        "309":
+          description: Place already exists
         "400":
           description: Bad Request
