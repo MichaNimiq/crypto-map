@@ -16,7 +16,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue"
 			enter-to-class="translate-y-0 opacity-100" leave-active-class="transition duration-150 ease-in"
 			leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-1 opacity-0">
 			<PopoverPanel class="absolute -left-1.5 z-10 mt-1 w-screen sm:px-0 max-w-xs">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 10" class="text-space ml-3 h-8 w-full">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 10" class="text-space relative left-[29px] h-3 w-full">
 					<path fill="currentColor"
 						d="M12.63 1.83 8.27 8.25A4 4 0 0 1 4.97 10h17.8a4 4 0 0 1-3.3-1.75L15.1 1.83a1.5 1.5 0 0 0-2.48 0z" />
 				</svg>
