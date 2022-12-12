@@ -1,4 +1,4 @@
-import type { Point } from "../stores/map";
+import { SANTA_TERESA_COORDS, type Point } from "../stores/map";
 
 export type GeoIpResponse = {
     location?: {
@@ -9,10 +9,6 @@ export type GeoIpResponse = {
     city?: string,
     city_names?: { [language: string]: string }, // eslint-disable-line camelcase
 }
-
-// Center of Europe by default
-const DEFAULT_LOCATION = { lat: 50.8503, lng: 12.8510535 }
-
 
 const CACHE_MAX_SIZE = 1000;
 const cacheStore = new Map<string, Point>();
@@ -41,11 +37,12 @@ async function locate(host = ''): Promise<Point> {
     const response = await fetch(url)
     const json: GeoIpResponse = await response.json()
 
-    if (!json || !json.location || !json.location.latitude || !json.location.longitude) return DEFAULT_LOCATION
+    if (!json || !json.location || !json.location.latitude || !json.location.longitude) return SANTA_TERESA_COORDS
     const location = {
-        lat: parseFloat(json.location.latitude) || DEFAULT_LOCATION.lat,
-        lng: parseFloat(json.location.longitude) || DEFAULT_LOCATION.lat
+        lat: parseFloat(json.location.latitude) || SANTA_TERESA_COORDS.lat,
+        lng: parseFloat(json.location.longitude) || SANTA_TERESA_COORDS.lat
     }
+    console.log(`Located ${host} at ${location.lat}, ${location.lng}`);
     cache(host, location);
     return location;
 }
