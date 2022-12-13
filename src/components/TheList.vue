@@ -43,10 +43,10 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 overflow-auto scroll-space max-xl:bg-white max-xl:shadow max-xl:w-screen"
 		:class="{
 			'xl:-translate-x-96 max-xl:top-full': !listIsShown,
-			'h-main': !listIsEmpty,
+			'h-full': !listIsEmpty,
 		}">
 		<ul ref="scroller$"
-			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16 "
+			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16"
 			v-if="!listIsEmpty">
 			<li v-for="establishment in establishmentsInView" :key="establishment.uuid"
 				class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"
