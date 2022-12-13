@@ -7,7 +7,6 @@ import { messages } from "./locales";
 import "/node_modules/focus-visible/dist/focus-visible.min.js";
 import { Loader } from "@googlemaps/js-api-loader";
 
-import '@/assets/scss/main.scss';
 import { router } from "./router";
 
 const languageUser = navigator.language;
