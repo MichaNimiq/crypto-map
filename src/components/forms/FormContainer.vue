@@ -68,8 +68,8 @@ const hasSlot = (name: string) => {
 			</template>
 		</Button>
 	</header>
-	<template
-		class="flex flex-col h-full justify-center md:text-center w-[clamp(284px,768px,calc(100vw-3rem))] mx-auto min-h-[calc(100vh-80px)]">
+	<div
+		class="flex flex-col h-full justify-center md:text-center w-[clamp(284px,768px,calc(100vw-3rem))] mx-auto min-h-[calc(100vh-80px)] py-24">
 		<transition mode="out-in" enter-active-class="transition duration-500 lg:duration-100 ease-out" :enter-from-class="`opacity-0 ${state === FormState.Initial ? '-translate-x-12' : 'translate-x-12'
 		}`" enter-to-class="translate-x-0 opacity-100" leave-active-class="transition duration-300 ease-in"
 			leave-from-class="translate-x-0 opacity-100" :leave-to-class="`opacity-0 ${state === FormState.Initial ? 'translate-x-12' : '-translate-x-12'
@@ -129,5 +129,5 @@ const hasSlot = (name: string) => {
 				</Button>
 			</main>
 		</transition>
-	</template>
+	</div>
 </template>
