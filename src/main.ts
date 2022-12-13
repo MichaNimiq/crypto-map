@@ -1,3 +1,5 @@
+import "@fontsource/mulish/variable.css";
+import { Loader } from "@googlemaps/js-api-loader";
 import { createPinia } from "pinia";
 import { createApp, markRaw } from "vue";
 import { createI18n } from "vue-i18n";
@@ -5,7 +7,6 @@ import App from "./App.vue";
 import "./index.css";
 import { messages } from "./locales";
 import "/node_modules/focus-visible/dist/focus-visible.min.js";
-import { Loader } from "@googlemaps/js-api-loader";
 
 import { router } from "./router";
 
