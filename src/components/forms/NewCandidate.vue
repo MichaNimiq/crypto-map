@@ -11,7 +11,7 @@ import Select from "../elements/Select.vue"
 const apiStore = useApi()
 const { currenciesOptions } = storeToRefs(apiStore)
 
-const { autocomplete, suggestions, status } = useAutocomplete({ googleTypes: ["establishment"], types: [SuggestionType.GOOGLE_ESTABLISHMENT] })
+const { autocomplete, suggestions, status } = useAutocomplete({ searchFor: [SuggestionType.GOOGLE_ESTABLISHMENT] })
 
 const selectedCurrencies = ref<string[]>([])
 const selectedPlace = ref<Suggestion>()

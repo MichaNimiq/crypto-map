@@ -20,13 +20,18 @@ export const useGoogle = defineStore("google", () => {
   const { fitBounds, computeBoundingBox } = mapStore;
   const { map, mapReady } = storeToRefs(mapStore);
 
-  async function autocomplete(input: string, types?: string[]) {
+  async function autocomplete(input: string, results: SuggestionType[]) {
     if (!sessionToken.value) sessionToken.value = new google.maps.places.AutocompleteSessionToken()
     if (!autocompleteService.value) autocompleteService.value = new google.maps.places.AutocompleteService()
 
     if (!input || !autocompleteService.value) {
       return suggestions.value = []
     }
+
+    const types = []
+    if (results?.includes(SuggestionType.GOOGLE_ESTABLISHMENT)) types.push("establishment")
+    if (results?.includes(SuggestionType.GOOGLE_REGIONS)) types.push("(regions)")
+
     await autocompleteService.value.getPlacePredictions({
       input,
       sessionToken: sessionToken.value,

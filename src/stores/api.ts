@@ -320,19 +320,23 @@ export const useApi = defineStore("api", () => {
       label: e.name,
       id: e.uuid,
       matchedSubstrings: [],
-      type: SuggestionType.API_ESTABLISHMENT
+      type: SuggestionType.API,
+      apiSuggestion: 'establishment'
     }))
     const currencies: Suggestion[] = res.currencies.map((c) => ({
       label: c.name,
       id: c.symbol,
       matchedSubstrings: [],
-      type: SuggestionType.CURRENCY
+      type: SuggestionType.API,
+      apiSuggestion: 'currency'
     }))
     const categories: Suggestion[] = res.categories.map((c) => ({
       label: c.label,
       id: c.label,
       matchedSubstrings: [],
-      type: SuggestionType.CATEGORY
+      type: SuggestionType.API,
+      apiSuggestion: 'category'
+
     }))
 
     suggestions.value = [...establishments, ...currencies, ...categories]
