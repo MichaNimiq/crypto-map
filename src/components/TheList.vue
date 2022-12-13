@@ -69,9 +69,9 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 				<Button bgColor="white" class="max-xl:fixed bottom-0 mb-5 max-xl:left-5 shadow z-1" size="md"
 					@click="appStore.toggleList()">
 					<template #icon>
-						<component :is="listIsShown ? ChevronLeftIcon : ListIcon" class="text-space w-4.5" :class="{
-							'h-4.5': listIsShown,
-							'h-4': !listIsShown,
+						<component :is="listIsShown ? ChevronLeftIcon : ListIcon" class="text-space h-4" :class="{
+							'w-4.5': listIsShown,
+							'w-4': !listIsShown,
 						}" />
 					</template>
 
