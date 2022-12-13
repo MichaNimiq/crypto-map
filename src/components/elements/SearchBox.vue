@@ -8,12 +8,13 @@
 		</ComboboxLabel>
 		<div class="relative z-20" :class="{ 'mt-1': hasLabel }">
 			<div class="relative w-full cursor-default overflow-hidden text-left ring-[1.5px]" :class="{
-				'ring-space/[0.15]': !open,
+				'ring-space/[0.15] focus-within:ring-sky/30': !open,
 				'ring-ocean/30': open,
 				'rounded-full': roundedFull,
 				'rounded-sm': !roundedFull,
 			}">
-				<ComboboxInput class="w-full border-none placeholder:text-space/60 focus:ring-0 outline-none pr-[3.25rem] pl-4"
+				<ComboboxInput
+					class="w-full border-none placeholder:text-space/60 focus-within:placeholder:text-sky/60 focus:ring-0 outline-none pr-[3.25rem] pl-4"
 					:class="{
 						'text-space': !open,
 						'text-ocean': open,
