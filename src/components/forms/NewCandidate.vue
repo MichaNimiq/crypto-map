@@ -38,7 +38,7 @@ async function onSubmit(token: string) {
 		<template #form>
 			<SearchBox :autocomplete="autocomplete" :status="status" :suggestions="suggestions" :label="$t('Find_place')"
 				combobox-options-classes="w-[calc(100%+4px)] -left-0.5 top-unset" bg-combobox="space" input-id="search-input"
-				@selected="(selectedPlace = $event)" />
+				@selected="(selectedPlace = $event)" :allow-clean="false" />
 
 			<Select class="mt-6" :label="$t('Select_Cryptocurrency')" input-id="cryptocurrency-input"
 				:options="currenciesOptions" v-model="selectedCurrencies" :placeholder="$t('Select_Cryptocurrency')">

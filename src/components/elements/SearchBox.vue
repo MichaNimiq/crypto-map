@@ -1,5 +1,6 @@
 <template>
-	<Combobox v-model="selected" v-slot="{ open }" as="div" nullable @update:model-value="emit('selected', selected)">
+	<Combobox v-model="selected" v-slot="{ open }" as="div" nullable @update:model-value="emit('selected', selected)"
+		by="id">
 		<ComboboxLabel v-if="hasLabel" class="text-space/40 capitalize">
 			<slot name="label">
 				{{ label }}
@@ -133,13 +134,17 @@ const props = defineProps({
 		type: String as () => AutocompleteStatus,
 		required: true,
 	},
+	allowClean: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits({
 	selected: (value?: Suggestion) => value,
 })
 
-const userCanCleanInput = computed(() => query.value !== "" && query.value !== undefined)
+const userCanCleanInput = computed(() => props.allowClean && query.value !== "" && query.value !== undefined)
 
 const selected = ref<Suggestion>()
 const query = ref<string>()
