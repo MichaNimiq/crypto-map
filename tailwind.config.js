@@ -14,14 +14,7 @@ module.exports = {
       spacing: {
         2.5: "10px",
         4.5: "18px",
-        6.5: "26px",
-        'main': 'calc(100vh - 80px)',
-      },
-      maxHeight: {
-        'main': 'calc(100vh - 80px)',
-      },
-      minHeight: {
-        'main': 'calc(100vh - 80px)',
+        6.5: "26px"
       },
       overflow: {
         'initial': 'initial'
