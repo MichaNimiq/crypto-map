@@ -10,7 +10,7 @@
 import { RouterView } from "vue-router"
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .slide-left-leave-active,
 .slide-left-enter-active {
 	@apply transition-transform;
