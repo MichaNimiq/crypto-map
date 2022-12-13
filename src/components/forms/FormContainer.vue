@@ -69,13 +69,13 @@ const hasSlot = (name: string) => {
 		</Button>
 	</header>
 	<div
-		class="flex flex-col h-full justify-center md:text-center w-[clamp(284px,768px,calc(100vw-3rem))] mx-auto min-h-[calc(100vh-80px)] py-24">
+		class="flex flex-col h-full justify-center md:text-center w-[clamp(284px,768px,calc(100vw-3rem))] mx-auto min-h-[calc(100vh-80px)] max-md:justify-start py-8 md:py-24">
 		<transition mode="out-in" enter-active-class="transition duration-500 lg:duration-100 ease-out" :enter-from-class="`opacity-0 ${state === FormState.Initial ? '-translate-x-12' : 'translate-x-12'
 		}`" enter-to-class="translate-x-0 opacity-100" leave-active-class="transition duration-300 ease-in"
 			leave-from-class="translate-x-0 opacity-100" :leave-to-class="`opacity-0 ${state === FormState.Initial ? 'translate-x-12' : '-translate-x-12'
 			}`">
 			<main v-if="[FormState.Initial, FormState.Loading].includes(state)">
-				<h1 class="font-bold text-4xl lg:text-5xl text-space" v-if="hasSlot('title')">
+				<h1 class="font-bold text-4xl lg:text-5xl text-space leading-[1.2]" v-if="hasSlot('title')">
 					<slot name="title" />
 				</h1>
 				<p class="text-space/60 font-semibold mt-6 lg:mt-8" v-if="hasSlot('description')">
@@ -101,7 +101,7 @@ const hasSlot = (name: string) => {
 			</main>
 
 			<main v-else-if="state === FormState.Success">
-				<h1 class="font-bold text-4xl lg:text-5xl text-space" v-if="hasSlot('success-title')">
+				<h1 class="font-bold text-4xl lg:text-5xl text-space leading-[1.2]" v-if="hasSlot('success-title')">
 					<slot name="success-title" />
 				</h1>
 				<p class="text-space/60 font-semibold mt-6 lg:mt-8" v-if="hasSlot('success-description')">
@@ -115,7 +115,7 @@ const hasSlot = (name: string) => {
 			</main>
 
 			<main v-else-if="state === FormState.Error">
-				<h1 class="font-bold text-4xl lg:text-5xl text-space" v-if="hasSlot('error-title')">
+				<h1 class="font-bold text-4xl lg:text-5xl text-space leading-[1.2]" v-if="hasSlot('error-title')">
 					<slot name="error-title" />
 				</h1>
 				<p class="text-space/60 font-semibold mt-6 lg:mt-8" v-if="hasSlot('error-description')">
