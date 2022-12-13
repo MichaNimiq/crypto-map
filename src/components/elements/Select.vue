@@ -8,8 +8,9 @@
 			</ListboxLabel>
 			<div class="relative" :class="{ 'mt-1': hasLabel }">
 				<ListboxButton
-					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-sm bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none">
-					<span class="block truncate" :class="{ 'text-space': usePlaceholder, 'text-space/60': !usePlaceholder, }">
+					class="relative w-full ring-[1.5px] ring-space/[0.15] cursor-pointer rounded-sm bg-white py-2 pl-4 pr-[3.25rem] text-left outline-none focus-visible:ring-sky/30 focus-visible:text-sky/60"
+					:class="{ 'text-space': usePlaceholder, 'text-space/60': !usePlaceholder, }">
+					<span class="block truncate">
 						{{
 								usePlaceholder
 									? geOptionById(selected as unknown as string | number)?.label
