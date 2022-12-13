@@ -11,6 +11,7 @@
     "api:generate": "yarn openapi-generator-cli generate -g typescript-fetch -i openapi.yaml -o ./src --additional-properties=typescriptThreePlus=true,legacyDiscriminatorBehavior=false,modelPropertyNaming='original',enumPropertyNaming='original' -o ./src/api/ && yarn build"
   },
   "dependencies": {
+    "@fontsource/mulish": "^4.5.7",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@googlemaps/markerclusterer": "^2.0.14",
     "@headlessui/vue": "^1.7.2",

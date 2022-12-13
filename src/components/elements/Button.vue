@@ -26,7 +26,7 @@
 		}">
 			<slot name="icon" />
 		</span>
-		<span v-if="hasSlot('text')" class="font-extrabold text-center whitespace-nowrap" :class="{
+		<span v-if="hasSlot('text')" class="font-bold text-center whitespace-nowrap" :class="{
 			'text-white [button:disabled>&]:!text-white/40': ['space', 'sky', 'ocean'].includes(
 				props.bgColor
 			),
