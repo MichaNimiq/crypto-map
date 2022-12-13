@@ -16,22 +16,24 @@ const { selectedCategories, selectedCurrencies } = storeToRefs(apiStore)
 
 const appStore = useApp()
 
-const { autocomplete, suggestions, status } = useAutocomplete({ googleTypes: ['regions'] })
+const { autocomplete, suggestions, status } = useAutocomplete({ searchFor: [SuggestionType.GOOGLE_REGIONS, SuggestionType.API] })
 
 function onSelect(suggestion?: Suggestion) {
 	if (!suggestion) return
 
-	switch (suggestion.type) {
-		case SuggestionType.GOOGLE_ESTABLISHMENT:
-			googleStore.goToPlaceId(suggestion.id)
-			break
-		case SuggestionType.CATEGORY:
+	if (suggestion.type) {
+		googleStore.goToPlaceId(suggestion.id)
+		return
+	}
+
+	switch (suggestion.apiSuggestion) {
+		case 'category':
 			selectedCategories.value = [suggestion.id]
 			break
-		case SuggestionType.CURRENCY:
+		case 'currency':
 			selectedCurrencies.value = [suggestion.id]
 			break
-		case SuggestionType.API_ESTABLISHMENT:
+		case 'establishment':
 			appStore.goToEstablishment(suggestion.id)
 			break
 	}
