@@ -19,7 +19,7 @@ import type {
   CategoriesIssueInner,
   CategoryInner,
   CryptoEstablishment,
-  CryptoEstablishmentBaseInner,
+  CryptoEstablishmentBase,
   CurrencyInner,
   EstablishmentCandidateBody,
   EstablishmentCandidateResponse,
@@ -35,8 +35,8 @@ import {
     CategoryInnerToJSON,
     CryptoEstablishmentFromJSON,
     CryptoEstablishmentToJSON,
-    CryptoEstablishmentBaseInnerFromJSON,
-    CryptoEstablishmentBaseInnerToJSON,
+    CryptoEstablishmentBaseFromJSON,
+    CryptoEstablishmentBaseToJSON,
     CurrencyInnerFromJSON,
     CurrencyInnerToJSON,
     EstablishmentCandidateBodyFromJSON,
@@ -279,7 +279,7 @@ export class EstablishmentsApi extends runtime.BaseAPI {
     /**
      * Search for establishments
      */
-    async searchEstablishmentsRaw(requestParameters: SearchEstablishmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CryptoEstablishmentBaseInner>>> {
+    async searchEstablishmentsRaw(requestParameters: SearchEstablishmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: CryptoEstablishmentBase; }>> {
         const queryParameters: any = {};
 
         if (requestParameters.filterCurrency) {
@@ -303,13 +303,13 @@ export class EstablishmentsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CryptoEstablishmentBaseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, CryptoEstablishmentBaseFromJSON));
     }
 
     /**
      * Search for establishments
      */
-    async searchEstablishments(requestParameters: SearchEstablishmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CryptoEstablishmentBaseInner>> {
+    async searchEstablishments(requestParameters: SearchEstablishmentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: CryptoEstablishmentBase; }> {
         const response = await this.searchEstablishmentsRaw(requestParameters, initOverrides);
         return await response.value();
     }

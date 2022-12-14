@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { CryptoEstablishmentBaseInnerGeoLocation } from './CryptoEstablishmentBaseInnerGeoLocation';
+import type { CryptoEstablishmentBaseGeoLocation } from './CryptoEstablishmentBaseGeoLocation';
 import {
-    CryptoEstablishmentBaseInnerGeoLocationFromJSON,
-    CryptoEstablishmentBaseInnerGeoLocationFromJSONTyped,
-    CryptoEstablishmentBaseInnerGeoLocationToJSON,
-} from './CryptoEstablishmentBaseInnerGeoLocation';
+    CryptoEstablishmentBaseGeoLocationFromJSON,
+    CryptoEstablishmentBaseGeoLocationFromJSONTyped,
+    CryptoEstablishmentBaseGeoLocationToJSON,
+} from './CryptoEstablishmentBaseGeoLocation';
 
 /**
  * 
@@ -82,10 +82,10 @@ export interface CryptoEstablishment {
     rating: number;
     /**
      * 
-     * @type {CryptoEstablishmentBaseInnerGeoLocation}
+     * @type {CryptoEstablishmentBaseGeoLocation}
      * @memberof CryptoEstablishment
      */
-    geo_location: CryptoEstablishmentBaseInnerGeoLocation;
+    geo_location: CryptoEstablishmentBaseGeoLocation;
     /**
      * 
      * @type {Array<string>}
@@ -132,7 +132,7 @@ export function CryptoEstablishmentFromJSONTyped(json: any, ignoreDiscriminator:
         'photo_reference': !exists(json, 'photo_reference') ? undefined : json['photo_reference'],
         'address': json['address'],
         'rating': json['rating'],
-        'geo_location': CryptoEstablishmentBaseInnerGeoLocationFromJSON(json['geo_location']),
+        'geo_location': CryptoEstablishmentBaseGeoLocationFromJSON(json['geo_location']),
         'currencies': json['currencies'],
     };
 }
@@ -155,7 +155,7 @@ export function CryptoEstablishmentToJSON(value?: CryptoEstablishment | null): a
         'photo_reference': value.photo_reference,
         'address': value.address,
         'rating': value.rating,
-        'geo_location': CryptoEstablishmentBaseInnerGeoLocationToJSON(value.geo_location),
+        'geo_location': CryptoEstablishmentBaseGeoLocationToJSON(value.geo_location),
         'currencies': value.currencies,
     };
 }
