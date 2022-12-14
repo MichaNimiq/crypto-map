@@ -1,4 +1,4 @@
-import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type CryptoEstablishmentBaseInner as CryptoEstablishmentBaseApi, type CurrencyInner as Currency, type PostCandidateRequest as CandidateRequest, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type SearchEstablishmentsRequest } from "@/api";
+import { Configuration, EstablishmentsApi, type CryptoEstablishment as CryptoEstablishmentApi, type /** CryptoEstablishmentBaseInner */CryptoEstablishmentBase as CryptoEstablishmentBaseApi, type CurrencyInner as Currency, type PostCandidateRequest as CandidateRequest, type PostEstablishmentIssueRequest as EstablishmentIssueRequest, type SearchEstablishmentsRequest } from "@/api";
 import { SuggestionType, type Suggestion } from "@/composables/useAutocomplete";
 import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch } from "vue";
@@ -182,7 +182,11 @@ export const useApi = defineStore("api", () => {
 
     console.log('🔍 Searching in the API: ', body)
 
-    const response: CryptoEstablishmentBaseApi[] = await establishmentsApi.searchEstablishments(body).catch((e) => e)
+    // const response: CryptoEstablishmentBaseApi[] = await establishmentsApi.searchEstablishments(body).catch((e) => e)
+    const unformatedResponse: { [key: string]: CryptoEstablishmentBaseApi }[] = await establishmentsApi.searchEstablishments(body).catch((e) => e)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore The API is returning an object with the index as key, but it should return an array
+    const response = Object.values(unformatedResponse) as CryptoEstablishmentBaseApi[]
 
     if (response instanceof Error) {
       console.error(response);

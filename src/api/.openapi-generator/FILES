@@ -8,8 +8,8 @@ models/AutocompleteApiEstablishmentsInner.ts
 models/CategoriesIssueInner.ts
 models/CategoryInner.ts
 models/CryptoEstablishment.ts
-models/CryptoEstablishmentBaseInner.ts
-models/CryptoEstablishmentBaseInnerGeoLocation.ts
+models/CryptoEstablishmentBase.ts
+models/CryptoEstablishmentBaseGeoLocation.ts
 models/CurrencyInner.ts
 models/EstablishmentCandidateBody.ts
 models/EstablishmentCandidateResponse.ts

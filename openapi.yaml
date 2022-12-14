@@ -104,10 +104,44 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 title: CryptoEstablishmentBase
-                items:
-                  description: This is the basic information of an establishment that we show only in the map. If more information is required, you can use the /api/establishments/{establishmentId} endpoint.
+                # items:
+                #   description: This is the basic information of an establishment that we show only in the map. If more information is required, you can use the /api/establishments/{establishmentId} endpoint.
+                #   additionalProperties: false
+                #   required:
+                #     - uuid
+                #     - name
+                #     - geo_location
+                #     - category
+                #     - currencies
+                #   properties:
+                #     uuid:
+                #       type: string
+                #     name:
+                #       type: string
+                #     category:
+                #       type: string
+                #     currencies:
+                #       type: array
+                #       items:
+                #         type: string
+                #     geo_location:
+                #       type: object
+                #       additionalProperties: false
+                #       required:
+                #         - lat
+                #         - lng
+                #       properties:
+                #         lat:
+                #           type: number
+                #         lng:
+                #           type: number
+
+                # Work around for the return object not being an array of objects
+                # { "0": { name, uuid, geo_location, category, currencies }, "1": { name, uuid, geo_location, category, currencies } }...
+                additionalProperties:
+                  type: object
                   additionalProperties: false
                   required:
                     - uuid
