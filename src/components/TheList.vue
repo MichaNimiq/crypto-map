@@ -2,7 +2,7 @@
 import Button from "@/components/elements/Button.vue"
 import EstablishmentCard from "@/components/elements/EstablishmentCard.vue"
 import ChevronLeftIcon from "@/components/icons/icon-arrow-small-left.vue"
-import CactusIcon from "@/components/icons/icon-cactus.vue"
+import NoEstablishments from "@/components/illustrations/no-establishments.vue"
 import ListIcon from "@/components/icons/icon-list.vue"
 import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi } from "@/stores/api"
@@ -59,7 +59,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 
 		<div v-else
 			class="grid place-content-center p-6 w-screen xl:w-96 bg-white items-center gap-6 max-xl:py-20 xl:shadow xl:h-main">
-			<CactusIcon class="text-space w-20 justify-self-center" />
+			<NoEstablishments class="text-space w-20 justify-self-center" />
 			<p class="text-space text-center text-base xl:text-xl">{{ $t('Oops_no_businesses_around_here') }}</p>
 		</div>
 
