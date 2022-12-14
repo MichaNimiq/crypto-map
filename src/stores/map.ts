@@ -5,6 +5,7 @@ import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApp } from "./app";
+import type { IpLocation } from "@/composables/useGeoIp";
 
 export interface Point {
   lat: number;
@@ -17,6 +18,7 @@ export interface BoundingBox {
 }
 
 export const SANTA_TERESA_COORDS: Point = { lat: 9.6375821, lng: -85.1691914 }
+export const DEFAULT_ZOOM = 7
 
 function parseParams({ lat, lng, zoom: zoomLevel, uuid }: Record<string, string | string[]>) {
   const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
@@ -119,10 +121,10 @@ export const useMap = defineStore("map", () => {
 
     // Fallback to user location or Santa Teresa
     const geoLocation = await useGeoIp().locate().catch(() => {
-      return SANTA_TERESA_COORDS
+      return { location: SANTA_TERESA_COORDS, zoom: DEFAULT_ZOOM } as IpLocation
     })
 
-    setCenter(geoLocation)
+    setCenter(geoLocation.location)
     setZoom(13)
   })
 
