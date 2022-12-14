@@ -155,16 +155,16 @@ export const useApi = defineStore("api", () => {
 
     const parsedEstablishment: Establishment = {
       hasAllInfo: true,
-      address: address,
-      category: category,
+      address: address.trim(),
+      category: category.trim(),
       currencies: establishmentCurrencies,
-      gmapsPlaceId: gmaps_place_id,
+      gmapsPlaceId: gmaps_place_id.trim(),
       gmapsType: capitalize(gmaps_type.replace(/_/g, ' ')),
-      gmapsUrl: gmaps_url,
+      gmapsUrl: gmaps_url.trim(),
       geoLocation: geo_location,
-      uuid,
-      name: name,
-      photoUrl,
+      uuid: uuid.trim(),
+      name: name.trim(),
+      photoUrl: photoUrl?.trim(),
       rating: rating,
     }
     return parsedEstablishment
