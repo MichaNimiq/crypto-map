@@ -3,6 +3,7 @@ import { SuggestionType, type Suggestion } from "@/composables/useAutocomplete";
 import { defineStore, storeToRefs } from "pinia";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useEstablishments } from "./establishments";
 import { useMap } from "./map";
 
 const basePath: string = import.meta.env.VITE_URL_API_URL
@@ -49,39 +50,8 @@ export type Establishment = Pick<BaseEstablishment, "uuid" | "name" | "category"
 }
 
 export const useApi = defineStore("api", () => {
-  /**
-  * Establishments holds the list of establishments
-  * To save memory, we use a Map to store the establishments and at the beginning is an empty Map
-  * Once the user starts to navigate the map (moving and dragin the map), we start to fetch the establishments
-  * but only "basic" info we need to display in the map: name, category(for the icon), id(for the URL if user clicks) and geoLocation(for the marker)
-  * Lets recreate the process:
-  * 1, User opens the map. The establishments is empty like { }
-  * 2. Once map is loaded, we fetch the establishments in the current viewport (given the bounding box).
-  * 3. We store the establishments in the map, but only the basic info. In this case, we store 2 establishments like this:
-  *      Map<uuid, { name, category, id, geoLocation }> => 
-  *         {
-  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
-  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
-  *         }
-  * 4. User moves the map. We fetch the establishments in the new viewport (given the bounding box). A new establishments is fetched.
-  *         {
-  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
-  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
-  *           "55555": { name: "Coffee tico", category: 'rest', id: 55555, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: false } },
-  *         }
-  * 5. User opens the list of establishments. And in the viewport in the list only 2 items fits the list, so we need to fetch the rest of info
-  *    given the id. Once the info is loaded, we update the establishments map with the new info.
-  *         {
-  *           "12345": { name: "Max's shoes", category: 'shop', id: 12345, geoLocation: { lat: 10, lng: 20 }, hasAllInfo: false } },
-  *           "98765": { name: "Market shop", category: 'shop', id: 98765, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: true, gmapsUrl, photoUrl, currencies, rating...} },
-  *           "55555": { name: "Coffee tico", category: 'rest', id: 55555, geoLocation: { lat: 30, lng: 15 }, hasAllInfo: true, gmapsUrl, photoUrl, currencies, rating... } },
-  *         }
-  * 6. Once the info is loaded, we no longer will fetch the info for the establishment, because we already have it.
-  * 
-  * Then we computed the establishments that are currently in the viewport (given the bounding box) and we display them 
-  * in the map.
-  */
-  const establishments = ref(new Map<string, BaseEstablishment | Establishment>([]))
+
+  const { establishments } = storeToRefs(useEstablishments())
 
   // Items that are loaded only once at the beginning
   const categoriesIssue = ref<CategoriesIssue[]>([])
@@ -103,36 +73,7 @@ export const useApi = defineStore("api", () => {
   }
 
   const mapStore = useMap()
-  const { boundingBox } = storeToRefs(mapStore)
-
-  const establishmentsInView = computed(() => {
-    const { northEast, southWest } = boundingBox.value
-    const establishmentsInView: (Establishment | BaseEstablishment)[] = []
-    for (const [, establishment] of establishments.value) {
-      // Check if the establishment is in the bounding box
-      const { lat, lng } = establishment.geoLocation
-      const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
-
-      // Check if the establishment should be hidden by the filters
-      const filteredByCurrencies = filterByCategories(establishment)
-      const filteredByCategories = filterByCurrencies(establishment)
-
-      if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
-        establishmentsInView.push(establishment)
-      }
-    }
-    return establishmentsInView
-  })
-
-  function filterByCurrencies(establishment: BaseEstablishment | Establishment) {
-    if (selectedCurrencies.value.length === 0) return true
-    return establishment.currencies.some(c => selectedCurrencies.value.includes(c.symbol))
-  }
-
-  function filterByCategories(establishment: BaseEstablishment | Establishment) {
-    if (selectedCategories.value.length === 0) return true
-    return selectedCategories.value.includes(establishment.category)
-  }
+  const { boundingBox, surroundingBoundingBox } = storeToRefs(mapStore)
 
   // Converts crypto location model from the API to the model used in the app
   function parseBaseEstablishment({ uuid, name, category, geo_location: geoLocation, currencies: establishmentCurrencySymbols }: CryptoEstablishmentBaseApi): BaseEstablishment {
@@ -171,7 +112,7 @@ export const useApi = defineStore("api", () => {
   }
 
   async function search() {
-    const { northEast, southWest } = boundingBox.value
+    const { northEast, southWest } = surroundingBoundingBox.value
     const boundingBoxStr = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`
 
     const body: SearchEstablishmentsRequest = {
@@ -348,8 +289,6 @@ export const useApi = defineStore("api", () => {
 
   return {
     search,
-    establishments,
-    establishmentsInView,
     categories,
     currencies,
     categoriesIssue,

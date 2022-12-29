@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import googleMapStyles from "@/assets/google-map-styles"
 import CategoryIcon from "@/components/elements/CategoryIcon.vue"
-import { useApi } from "@/stores/api"
+import { useEstablishments } from "@/stores/establishments"
 import { useApp } from "@/stores/app"
 import { useMap } from "@/stores/map"
 import { Cluster, SuperClusterAlgorithm } from "@googlemaps/markerclusterer"
@@ -9,8 +9,8 @@ import { storeToRefs } from "pinia"
 import { CustomMarker, GoogleMap, MarkerCluster } from "vue3-google-map"
 
 
-const apiStore = useApi()
-const { establishmentsInView } = storeToRefs(apiStore)
+const establishmentsStore = useEstablishments()
+const { establishmentsInView } = storeToRefs(establishmentsStore)
 
 const appStore = useApp()
 const { selectedEstablishmentUuid } = storeToRefs(appStore)
@@ -57,17 +57,17 @@ const render = (cluster: Cluster) => {
 				<RouterLink :to="`/establishment/${establishment.uuid}`" @click="appStore.showList"
 					class="flex flex-col items-center shadow cursor-pointer rounded-full">
 					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="10" viewBox="0 0 28 10" :class="{
-						'text-space': establishment.uuid !== selectedEstablishmentUuid,
-						'text-ocean': establishment.uuid === selectedEstablishmentUuid,
-					}">
+	'text-space': establishment.uuid !== selectedEstablishmentUuid,
+	'text-ocean': establishment.uuid === selectedEstablishmentUuid,
+}">
 						<path fill="currentColor"
 							d="M12.63 1.83 8.27 8.25A4 4 0 0 1 4.97 10h17.8a4 4 0 0 1-3.3-1.75L15.1 1.83a1.5 1.5 0 0 0-2.48 0z" />
 					</svg>
 
 					<div class="rounded-full flex gap-x-3 items-center pl-1 pr-4 py-[5px]" :class="{
-						'bg-gradient-space': establishment.uuid !== selectedEstablishmentUuid,
-						'bg-ocean': establishment.uuid === selectedEstablishmentUuid,
-					}">
+	'bg-gradient-space': establishment.uuid !== selectedEstablishmentUuid,
+	'bg-ocean': establishment.uuid === selectedEstablishmentUuid,
+}">
 						<CategoryIcon class="h-8 w-8 p-0.5 bg-white rounded-full grid place-items-center"
 							:category="establishment.category" />
 						<div style="font-size: 1.125rem" class="text-white">{{ establishment.name }}</div>

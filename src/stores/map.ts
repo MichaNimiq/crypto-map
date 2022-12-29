@@ -42,6 +42,22 @@ export const useMap = defineStore("map", () => {
     southWest: { lat: 0, lng: 0 },
     northEast: { lat: 0, lng: 0 },
   });
+  const N = 2;
+  const surroundingBoundingBox = computed(() => {
+    const { northEast, southWest } = boundingBox.value
+    const newBoundingBox = {
+      northEast: {
+        lat: northEast.lat + (northEast.lat - southWest.lat) * N,
+        lng: northEast.lng + (northEast.lng - southWest.lng) * N,
+      },
+      southWest: {
+        lat: southWest.lat - (northEast.lat - southWest.lat) * N,
+        lng: southWest.lng - (northEast.lng - southWest.lng) * N,
+      }
+    }
+    return newBoundingBox
+  })
+
   const zoom = ref(7);
   const center = ref<Point>();
 
@@ -131,6 +147,7 @@ export const useMap = defineStore("map", () => {
   return {
     map$,
     boundingBox,
+    surroundingBoundingBox,
     zoom,
     center,
 
