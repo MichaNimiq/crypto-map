@@ -6,6 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApp } from "./app";
 import type { IpLocation } from "@/composables/useGeoIp";
+import { useEstablishments } from "./establishments";
 
 export interface Point {
   lat: number;
@@ -98,6 +99,8 @@ export const useMap = defineStore("map", () => {
     const { lat: swLat, lng: swLng } = bounds.getSouthWest()
 
     setBoundingBoxDebouncer({ southWest: { lat: swLat(), lng: swLng() }, northEast: { lat: neLat(), lng: neLng() } })
+
+    useEstablishments().hideNearby()
 
     if (updateRoute) {
       router.push({ name: "coords", params: { ...center.value, zoom: zoom.value }, query: { ...route.query } })
