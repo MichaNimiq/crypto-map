@@ -201,16 +201,22 @@ export const useApi = defineStore("api", () => {
       return;
     }
 
-    const priorityOrder = ['NIM', 'BTC']
+    const showFirst = ['NIM', 'BTC']
+    const showLast = ['bluecode', 'atm']
 
     currencies.value = res.sort((a, b) => {
-      const aIndex = priorityOrder.indexOf(a.symbol)
-      const bIndex = priorityOrder.indexOf(b.symbol)
+      const aIndex = showFirst.indexOf(a.symbol)
+      const bIndex = showFirst.indexOf(b.symbol)
+      const aLastIndex = showLast.indexOf(a.symbol)
+      const bLastIndex = showLast.indexOf(b.symbol)
 
-      if (aIndex === -1 && bIndex === -1) return 0
-      if (aIndex === -1) return 1
-      if (bIndex === -1) return -1
-      return aIndex - bIndex
+      if (aIndex > -1 && bIndex > -1) return aIndex - bIndex
+      if (aIndex > -1) return -1
+      if (bIndex > -1) return 1
+      if (aLastIndex > -1 && bLastIndex > -1) return aLastIndex - bLastIndex
+      if (aLastIndex > -1) return 1
+      if (bLastIndex > -1) return -1
+      return 0
     })
   }
 

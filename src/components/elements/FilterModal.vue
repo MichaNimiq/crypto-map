@@ -53,6 +53,10 @@ function applyFilters() {
 	selectedCurrencies.value = [...unappliedSelectedCurrencies.value]
 	closeModal({ shouldClearFilters: false })
 }
+
+function specialCurrency(id: string | number) {
+	return ["BLUECODE", "ATM"].includes(id as string)
+}
 </script>
 
 <template>
@@ -94,8 +98,9 @@ function applyFilters() {
 								</template>
 								<template #option="{ id, label }">
 									<div class="flex items-center gap-x-2">
-										<CryptoIcon class="w-6 h-6" :crypto="id as string" />
-										<span><b>{{ id }}</b>, {{ $t(label) }}</span>
+										<CryptoIcon class="w-6 h-6" :crypto="id as string" border />
+										<span v-if="specialCurrency(id)"><b>{{ id }}</b>, {{ $t(label) }}</span>
+										<span v-else>{{ $t(label) }}</span>
 									</div>
 								</template>
 								<template #after-options> More cryptocurrencies supported in the future </template>

@@ -6,11 +6,17 @@ import LtcIcon from "@/components/icons/cryptos/icon-ltc.vue"
 import XlmIcon from "@/components/icons/cryptos/icon-xlm.vue"
 import DashIcon from "@/components/icons/cryptos/icon-dash.vue"
 import XrpIcon from "@/components/icons/cryptos/icon-xrp.vue"
+import BluecodeIcon from "@/components/icons/cryptos/icon-bluecode.vue"
+import AtmIcon from "@/components/icons/cryptos/icon-atm.vue"
 
 const props = defineProps({
 	crypto: {
 		type: String,
 		required: true,
+	},
+	border: {
+		type: Boolean,
+		default: false,
 	},
 })
 const crypto = props.crypto.toLocaleLowerCase() 
@@ -24,4 +30,7 @@ const crypto = props.crypto.toLocaleLowerCase()
 	<XrpIcon v-else-if="crypto === 'xrp'" class="bg-white border rounded-full border-[#3B4B68]/10" />
 	<DashIcon v-else-if="crypto === 'dash'" />
 	<XlmIcon v-else-if="crypto === 'xlm'" class="bg-white border rounded-full border-[#3B4B68]/10" />
+	<BluecodeIcon v-else-if="crypto === 'bluecode'"
+		:class="{ 'bg-white border rounded-full border-[#3B4B68]/10 p-0.5': border }" />
+	<AtmIcon v-else-if="crypto === 'atm'" :class="{ 'bg-white border rounded-full border-[#3B4B68]/10 p-0.5': border }" />
 </template>
