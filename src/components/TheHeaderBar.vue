@@ -21,21 +21,21 @@ const { autocomplete, suggestions, status } = useAutocomplete({ searchFor: [Sugg
 function onSelect(suggestion?: Suggestion) {
 	if (!suggestion) return
 
-	if (suggestion.type) {
+	if (suggestion.type === SuggestionType.GOOGLE_REGIONS) {
 		googleStore.goToPlaceId(suggestion.id)
 		return
-	}
-
-	switch (suggestion.apiSuggestion) {
-		case 'category':
-			selectedCategories.value = [suggestion.id]
-			break
-		case 'currency':
-			selectedCurrencies.value = [suggestion.id]
-			break
-		case 'establishment':
-			appStore.goToEstablishment(suggestion.id)
-			break
+	} else if (suggestion.type === SuggestionType.API) {
+		switch (suggestion.apiSuggestion) {
+			case 'category':
+				selectedCategories.value = [suggestion.id]
+				break
+			case 'currency':
+				selectedCurrencies.value = [suggestion.id]
+				break
+			case 'establishment':
+				appStore.goToEstablishment(suggestion.id)
+				break
+		}
 	}
 }
 </script>
