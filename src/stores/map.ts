@@ -1,11 +1,11 @@
+import type { IpLocation } from "@/composables/useGeoIp";
 import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { GoogleMap } from "vue3-google-map/*";
 import { useApp } from "./app";
-import type { IpLocation } from "@/composables/useGeoIp";
 import { useEstablishments } from "./establishments";
 
 export interface Point {
@@ -39,30 +39,32 @@ export const useMap = defineStore("map", () => {
   const map$ = ref<typeof GoogleMap>();
   const mapReady = computed(() => !!map$.value);
 
-  const boundingBox = ref<BoundingBox>({
-    southWest: { lat: 0, lng: 0 },
-    northEast: { lat: 0, lng: 0 },
-  });
-  const N = 2;
-  const surroundingBoundingBox = computed(() => {
-    const { northEast, southWest } = boundingBox.value
-    const newBoundingBox = {
-      northEast: {
-        lat: northEast.lat + (northEast.lat - southWest.lat) * N,
-        lng: northEast.lng + (northEast.lng - southWest.lng) * N,
-      },
-      southWest: {
-        lat: southWest.lat - (northEast.lat - southWest.lat) * N,
-        lng: southWest.lng - (northEast.lng - southWest.lng) * N,
-      }
-    }
-    return newBoundingBox
-  })
-
   const zoom = ref(7);
   const center = ref<Point>();
 
   const map = computed(() => map$.value ? map$.value.map as google.maps.Map : null);
+
+  const boundingBox = ref<BoundingBox>({
+    southWest: { lat: 0, lng: 0 },
+    northEast: { lat: 0, lng: 0 },
+  });
+  // See more info in establishments store
+  // the more zoom in, the bigger the radius we want to search, but not so much
+  const scaleFactor = computed(() => zoom.value / 2);
+  const surroundingBoundingBox = computed(() => {
+    const { northEast, southWest } = boundingBox.value
+    const newBoundingBox = {
+      northEast: {
+        lat: northEast.lat + (northEast.lat - southWest.lat) * scaleFactor.value,
+        lng: northEast.lng + (northEast.lng - southWest.lng) * scaleFactor.value,
+      },
+      southWest: {
+        lat: southWest.lat - (northEast.lat - southWest.lat) * scaleFactor.value,
+        lng: southWest.lng - (northEast.lng - southWest.lng) * scaleFactor.value,
+      }
+    }
+    return newBoundingBox
+  })
 
   async function setCenter(geoLocation: Point) {
     center.value = { ...geoLocation }
@@ -88,6 +90,8 @@ export const useMap = defineStore("map", () => {
 
   const route = useRoute()
   const router = useRouter()
+
+  watch(route, async () => useApp().goToEstablishment(route.params.uuid as string))
 
   function computeBoundingBox({ updateRoute } = { updateRoute: true }) {
     if (!map.value) return
