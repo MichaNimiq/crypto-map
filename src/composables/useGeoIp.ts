@@ -1,4 +1,4 @@
-import { DEFAULT_ZOOM, SANTA_TERESA_COORDS, type Point } from "../stores/map";
+import { COSTA_RICA_VIEW, type Point } from "../stores/map";
 
 export type GeoIpResponse = {
     location?: {
@@ -44,7 +44,7 @@ async function locate(host = ''): Promise<IpLocation> {
     const json: GeoIpResponse = await response.json()
 
     if (!json || !json.location || !json.location.latitude || !json.location.longitude)
-        return { location: SANTA_TERESA_COORDS, zoom: DEFAULT_ZOOM }
+        return COSTA_RICA_VIEW;
 
     // estimate appropiate zoom level based on accuracy radius
     // with accuracy radius of 5, a good zoom level is 13
