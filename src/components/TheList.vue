@@ -47,7 +47,7 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 	'lg:h-[calc(100vh-80px)]': listIsEmpty,
 }">
 		<div v-if="!listIsEmpty"
-			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16">
+			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-auto scroll-space z-2 relative max-xl:pb-16">
 			<ul ref="scroller$">
 				<li v-for="establishment in establishmentsInView" :key="establishment.uuid"
 					class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheLearnMorePopover from "@/components/elements/TheLearnMorePopover.vue"
+import Popover from "@/components/elements/Popover.vue"
 import SearchBox from "@/components/elements/SearchBox.vue"
 import FilterModal from "@/components/elements/FilterModal.vue"
 import { useGoogle } from "@/stores/google"
@@ -42,7 +42,23 @@ function onSelect(suggestion?: Suggestion) {
 
 <template>
 	<header class="w-full py-6 pr-6 pl-4 shadow-header flex items-center gap-x-2 z-10">
-		<TheLearnMorePopover />
+		<Popover cta-href="https://nimiq.com">
+			<template #trigger>
+				<img src="@/assets/logo.svg" alt="Crypto Map logo" class="w-6">
+			</template>
+			<template #title>
+				{{ $t('Crypto_Map') }}
+			</template>
+			<template #description>
+				{{ $t('This_app_is_brought_to_you_by_Nimiq') }}
+			</template>
+			<template #cta>
+				{{ $t('Go_to_Nimiq') }}
+			</template>
+			<template #bottom>
+				<img class="mt-4 ml-auto opacity-40" alt="Nimiq logo" src="@/assets/nimiq-horizontal-logo.svg" />
+			</template>
+		</Popover>
 		<SearchBox :autocomplete="autocomplete" :suggestions="suggestions" :status="status" class="flex-1" rounded-full
 			combobox-options-classes="w-[calc(100vw)] mt-12 left-[-51px] max-h-[220px] rounded-t-0" size="sm"
 			@selected="onSelect" />

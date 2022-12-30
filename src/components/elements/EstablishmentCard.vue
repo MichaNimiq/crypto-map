@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import FlagIcon from "@/components/icons/icon-flag.vue"
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
+import Popover from "@/components/elements/Popover.vue"
+import FlagIcon from "@/components/icons/icon-flag.vue"
 import ShareIcon from "@/components/icons/icon-share.vue"
 import StarIcon from "@/components/icons/icon-star.vue"
 import EstablishmentPlaceholder from "@/components/illustrations/establishment-placeholder.vue"
 
 
-import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
-import { RouterLink } from "vue-router"
-import { computed, onMounted, ref } from "vue"
 import type { CurrencyInner } from "@/api"
+import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
+import { computed, onMounted, ref } from "vue"
+import { RouterLink } from "vue-router"
 
 const card$ = ref<(BaseEstablishment | Establishment) & { $el: HTMLElement } | null>(null)
 
@@ -90,12 +91,29 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 
 				<div class="w-px h-6 bg-space/20 mx-3" v-if="showBluecode || showAtm"></div>
 
-				<li v-if="showBluecode" class="w-[14px] h-[22px]">
-					<CryptoIcon crypto="bluecode" />
+				<li v-if="showBluecode">
+					<Popover cta-href="https://www.youtube.com/watch?v=gjL2WhLVsxw">
+						<template #trigger>
+							<CryptoIcon crypto="bluecode" class="w-[14px] h-[22px]" />
+						</template>
+						<template #description>
+							This place uses Bluecode for Nimiq app.
+						</template>
+						<template #cta>
+							Learn more
+						</template>
+					</Popover>
 				</li>
 
-				<li v-if="showAtm" class="w-6 h-5">
-					<CryptoIcon crypto="atm" />
+				<li v-if="showAtm">
+					<Popover>
+						<template #trigger>
+							<CryptoIcon class="w-6 h-5" crypto="atm" />
+						</template>
+						<template #description>
+							You can get cash using your crypto.
+						</template>
+					</Popover>
 				</li>
 			</ul>
 		</RouterLink>
