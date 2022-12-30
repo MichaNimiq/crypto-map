@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FlagIcon from "@/components/icons/icon-flag.vue"
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
-import GoogleIcon from "@/components/icons/icon-google-g.vue"
+import ShareIcon from "@/components/icons/icon-share.vue"
 import StarIcon from "@/components/icons/icon-star.vue"
 import EstablishmentPlaceholder from "@/components/illustrations/establishment-placeholder.vue"
 
@@ -47,6 +47,13 @@ function specialCurrency(id: string | number) {
 	return ["bluecode", "atm"].includes(id as string)
 }
 
+function shareEstablishment(establishment: BaseEstablishment | Establishment) {
+	navigator.share({
+		title: `${establishment.name} | Crypto Map by Nimiq`,
+		text: `Check out ${establishment.name} on Crypto Map by Nimiq!`,
+		url: `${window.location.origin}/establishment/${establishment.uuid}`
+	})
+}
 </script>
 
 <template>
@@ -97,18 +104,23 @@ function specialCurrency(id: string | number) {
 
 		<div class="px-6 flex gap-x-2 mt-4 flex-1 items-end">
 			<a :href="establishment.gmapsUrl" target="_blank"
-				class="z-1 flex-1 bg-ocean hover:bg-ocean/80 focus-visible:bg-ocean/80 transition-colors shadow rounded-full py-[7.5px] h-max">
-				<GoogleIcon class="text-white mx-auto" />
+				class="z-1 flex-1 bg-ocean hover:bg-ocean/90 focus-visible:bg-ocean/90 transition-colors shadow rounded-full py-[5px] h-max text-white font-bold text-center">
+				Google Maps
 			</a>
 
 			<RouterLink :to="`/establishment/${establishment.uuid}/report`"
 				class="z-1 bg-cherry hover:bg-cherry/80 focus-visible:bg-cherry/80 transition-colors shadow rounded-full text-center w-[35px] py-[7.5px] h-max">
 				<FlagIcon class="text-white mx-auto" />
 			</RouterLink>
+
+			<button @click="shareEstablishment(establishment)"
+				class="z-1 bg-space/[0.07] hover:bg-space/10 focus-visible:bg-space/10 transition-colors rounded-full text-center w-[35px] py-[7.5px] h-max">
+				<ShareIcon class="text-space mx-auto" />
+			</button>
 		</div>
 	</template>
 	<template v-else>
-		<RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
+		<RouterLink :to="`/ establishment / ${establishment.uuid}`" class="children:px-6" ref="card$">
 			<div class="h-36 w-[calc(100%-12px)] rounded-sm bg-space/[0.06] animate-pulse !mx-1.5" />
 
 			<h2 class="mt-5 text-space text-lg font-bold flex-1">{{ establishment.name }}</h2>
