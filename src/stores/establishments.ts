@@ -109,7 +109,7 @@ export const useEstablishments = defineStore("establishments", () => {
   // │                       └───────────────────────┘                        │
   // │                                                                        │
   // │                                                                        │
-  // │                      nearEstablishmentsNotInView                       │─────► surroundingBoundingBox is N times bigger than boundingBox
+  // │                      nearEstablishmentsNotInView                       │─────► surroundingBoundingBox is `scaleFactor` times bigger than boundingBox (see mapStore)
   // │                                                                        │
   // └─────────────────────────────────────────────────-──────────────────────┘
 
