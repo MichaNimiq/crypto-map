@@ -9,6 +9,7 @@ import EstablishmentPlaceholder from "@/components/illustrations/establishment-p
 import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
 import { RouterLink } from "vue-router"
 import { computed, onMounted, ref } from "vue"
+import type { CurrencyInner } from "@/api"
 
 const card$ = ref<(BaseEstablishment | Establishment) & { $el: HTMLElement } | null>(null)
 
@@ -34,6 +35,17 @@ onMounted(() => {
 	if (!card$.value) return
 	observer.observe(card$.value.$el)
 })
+
+const showBluecode = computed(() => props.establishment.currencies.map(c => c.symbol).includes('bluecode'))
+const showAtm = computed(() => props.establishment.currencies.map(c => c.symbol).includes('atm'))
+
+function leaveOutSpecialCurrency(currencies: CurrencyInner[]) {
+	return currencies.filter((c) => !specialCurrency(c.symbol))
+}
+
+function specialCurrency(id: string | number) {
+	return ["bluecode", "atm"].includes(id as string)
+}
 
 </script>
 
@@ -64,8 +76,19 @@ onMounted(() => {
 			</p>
 
 			<ul class="flex gap-x-1 mt-4 pb-6">
-				<li v-for="({ symbol }) in establishment.currencies" :key="symbol" class="w-6 h-6 rounded-full">
+				<li v-for="({ symbol }) in leaveOutSpecialCurrency(establishment.currencies)" :key="symbol"
+					class="w-6 h-6 rounded-full">
 					<CryptoIcon :crypto="symbol.toLowerCase()" />
+				</li>
+
+				<div class="w-px h-6 bg-space/20 mx-3" v-if="showBluecode || showAtm"></div>
+
+				<li v-if="showBluecode" class="w-[14px] h-[22px]">
+					<CryptoIcon crypto="bluecode" />
+				</li>
+
+				<li v-if="showAtm" class="w-6 h-5">
+					<CryptoIcon crypto="atm" />
 				</li>
 			</ul>
 		</RouterLink>
