@@ -18,8 +18,8 @@ export interface BoundingBox {
   northEast: Point;
 }
 
-export const SANTA_TERESA_COORDS: Point = { lat: 9.6375821, lng: -85.1691914 }
-export const DEFAULT_ZOOM = 7
+export const SANTA_TERESA_VIEW: IpLocation = { location: { lat: 9.6375821, lng: -85.1691914 }, zoom: 13 }
+export const COSTA_RICA_VIEW: IpLocation = { location: { lat: 9.832213439337215, lng: -84.19869984449741 }, zoom: 9 }
 
 function parseParams({ lat, lng, zoom: zoomLevel, uuid }: Record<string, string | string[]>) {
   const latOk = lat && typeof lat === "string" && !isNaN(Number(lat))
@@ -143,12 +143,13 @@ export const useMap = defineStore("map", () => {
     }
 
     // Fallback to user location or Santa Teresa
-    const geoLocation = await useGeoIp().locate().catch(() => {
-      return { location: SANTA_TERESA_COORDS, zoom: DEFAULT_ZOOM } as IpLocation
-    })
+    // const geoLocation = await useGeoIp().locate().catch(() => {
+    //   return SANTA_TERESA_VIEW
+    // })
 
-    setCenter(geoLocation.location)
-    setZoom(13)
+    // Fallback to Costa Rica for now
+    setCenter(COSTA_RICA_VIEW.location)
+    setZoom(COSTA_RICA_VIEW.zoom)
   })
 
   return {
