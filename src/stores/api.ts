@@ -92,7 +92,7 @@ export const useApi = defineStore("api", () => {
     const photoUrl = photo_reference
       ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=540&photo_reference=${photo_reference}&key=${googleMapsKey}`
       : undefined
-    const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
+    const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols?.includes(c.symbol))
 
     const parsedEstablishment: Establishment = {
       hasAllInfo: true,
@@ -143,6 +143,7 @@ export const useApi = defineStore("api", () => {
   }
 
   async function getEstablishmentByUuid(uuid: string) {
+    if (!uuid) return
     const rawEstablishment = await establishmentsApi.getEstablishmentByUuid({ uuid }).catch((e) => e)
     const establishment = parseEstablishment(rawEstablishment) || undefined
     console.log(`🔍 Got establishment with uuid ${uuid} from API: `, establishment)

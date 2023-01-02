@@ -3,12 +3,16 @@ import Select, { type SelectOption } from "@/components/elements/Select.vue"
 import TextAreaInput from "@/components/elements/TextAreaInput.vue"
 import FormContainer from "@/components/forms/FormContainer.vue"
 import { useApi, type Establishment } from "@/stores/api"
+import { useEstablishments } from "@/stores/establishments"
 import { storeToRefs } from "pinia"
 import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 
 const apiStore = useApi()
-const { categoriesIssue, establishments } = storeToRefs(apiStore)
+const { categoriesIssue } = storeToRefs(apiStore)
+
+const establishmentsStore = useEstablishments()
+const { establishments } = storeToRefs(establishmentsStore)
 
 const selectedIssue = ref<SelectOption>()
 const issueDescription = ref<string>("")

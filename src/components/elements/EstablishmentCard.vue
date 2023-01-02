@@ -27,6 +27,7 @@ const observer = new IntersectionObserver((entries) => {
 	entries.forEach(async (entry) => {
 		if (entry.isIntersecting && !hasAllInfo.value) {
 			const establishment = await getEstablishmentByUuid(props.establishment.uuid)
+			if (!establishment) return
 			setEstablishment(establishment)
 		}
 	})
