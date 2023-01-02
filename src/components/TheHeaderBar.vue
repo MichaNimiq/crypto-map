@@ -42,7 +42,7 @@ function onSelect(suggestion?: Suggestion) {
 
 <template>
 	<header class="w-full py-6 pr-6 pl-4 shadow-header flex items-center gap-x-2 z-10">
-		<Popover cta-href="https://nimiq.com">
+		<Popover cta-href="https://nimiq.com" :custom-top="true">
 			<template #trigger>
 				<img src="@/assets/logo.svg" alt="Crypto Map logo" class="w-6">
 			</template>

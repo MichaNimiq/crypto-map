@@ -40,15 +40,15 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 
 <template>
 	<div
-		class="xl:flex xl:gap-x-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 overflow-auto scroll-space max-xl:bg-white max-xl:shadow max-xl:w-screen"
+		class="xl:flex xl:gap-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 max-xl:bg-white max-xl:shadow max-xl:w-screen"
 		:class="{
 	'xl:-translate-x-96 max-xl:top-full': !listIsShown,
 	'h-full lg:h-[calc(100vh-80px)]': !listIsEmpty,
 	'lg:h-[calc(100vh-80px)]': listIsEmpty,
 }">
-		<div v-if="!listIsEmpty"
-			class="xl:w-96 p-6 columns-2xs gap-x-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-auto scroll-space z-2 relative max-xl:pb-16">
-			<ul ref="scroller$">
+		<div v-if="!listIsEmpty" id="list"
+			class="xl:w-96 p-6 columns-2xs gap-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16">
+			<ul ref="scroller$" class="space-y-6">
 				<li v-for="establishment in establishmentsInView" :key="establishment.uuid"
 					class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"
 					:class="{ 'ring ring-ocean': establishment.uuid === selectedEstablishmentUuid }"

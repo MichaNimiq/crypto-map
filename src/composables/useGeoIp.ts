@@ -53,8 +53,8 @@ async function locate(host = ''): Promise<IpLocation> {
 
     const ipLocation: IpLocation = {
         location: {
-            lat: parseFloat(json.location.latitude) || SANTA_TERESA_COORDS.lat,
-            lng: parseFloat(json.location.longitude) || SANTA_TERESA_COORDS.lat
+            lat: parseFloat(json.location.latitude) || COSTA_RICA_VIEW.location.lat,
+            lng: parseFloat(json.location.longitude) || COSTA_RICA_VIEW.location.lng,
         },
         zoom
     }
