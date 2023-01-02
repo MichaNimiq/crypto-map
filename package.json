@@ -15,6 +15,7 @@
     "@googlemaps/js-api-loader": "^1.14.3",
     "@googlemaps/markerclusterer": "^2.0.14",
     "@headlessui/vue": "^1.7.2",
+    "@nimiq/vue3-components": "github:nimiq/vue3-components#build/full",
     "pinia": "^2.0.16",
     "vue": "^3.2.37",
     "vue-i18n": "9",

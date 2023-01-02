@@ -55,7 +55,7 @@ function applyFilters() {
 }
 
 function specialCurrency(id: string | number) {
-	return ["BLUECODE", "ATM"].includes(id as string)
+	return ["bluecode", "atm"].includes(id as string)
 }
 </script>
 
@@ -99,8 +99,14 @@ function specialCurrency(id: string | number) {
 								<template #option="{ id, label }">
 									<div class="flex items-center gap-x-2">
 										<CryptoIcon class="w-6 h-6" :crypto="id as string" border />
-										<span v-if="specialCurrency(id)"><b>{{ id }}</b>, {{ $t(label) }}</span>
-										<span v-else>{{ $t(label) }}</span>
+										<span v-if="!specialCurrency(id)"><b>{{ id }}</b>, {{ $t(label) }}</span>
+										<template v-else>
+											<span>{{ $t(label) }}</span>
+											<span v-if="id === 'bluecode'"
+												class="uppercase opacity-60 text-[10px] font-bold border-fog rounded-full tracking-wider pt-1 pl-1">
+												{{ $t('Coming_soon') }}
+											</span>
+										</template>
 									</div>
 								</template>
 								<template #after-options> More cryptocurrencies supported in the future </template>

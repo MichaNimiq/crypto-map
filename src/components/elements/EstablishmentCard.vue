@@ -32,7 +32,9 @@ const observer = new IntersectionObserver((entries) => {
 	})
 })
 
+const container = ref<HTMLElement>();
 onMounted(() => {
+	container.value = document.querySelector('#list') as HTMLElement
 	if (!card$.value) return
 	observer.observe(card$.value.$el)
 })
@@ -55,6 +57,7 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 		url: `${window.location.origin}/establishment/${establishment.uuid}`
 	})
 }
+
 </script>
 
 <template>
@@ -92,12 +95,15 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 				<div class="w-px h-6 bg-space/20 mx-3" v-if="showBluecode || showAtm"></div>
 
 				<li v-if="showBluecode">
-					<Popover cta-href="https://www.youtube.com/watch?v=gjL2WhLVsxw">
+					<Popover cta-href="https://bluecode.com/de-de/" :container="container">
 						<template #trigger>
 							<CryptoIcon crypto="bluecode" class="w-[14px] h-[22px]" />
 						</template>
+						<template #title>
+							Nimiq for Bluecode
+						</template>
 						<template #description>
-							This place uses Bluecode for Nimiq app.
+							A mobile app (coming soon) you can use NIM for payments wherever Bluecode is accepted.
 						</template>
 						<template #cta>
 							Learn more
@@ -106,12 +112,16 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 				</li>
 
 				<li v-if="showAtm">
-					<Popover>
+					<Popover :container="container">
 						<template #trigger>
 							<CryptoIcon class="w-6 h-5" crypto="atm" />
 						</template>
+						<template #title>
+							Crypto ATM
+						</template>
 						<template #description>
-							You can get cash using your crypto.
+							A machine that allows customers to buy or sell popular cryptocurrencies using traditional
+							fiat currencies like the Euro or US Dollar.
 						</template>
 					</Popover>
 				</li>
