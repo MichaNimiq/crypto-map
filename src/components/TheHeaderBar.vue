@@ -21,7 +21,7 @@ const { autocomplete, suggestions, status } = useAutocomplete({ searchFor: [Sugg
 function onSelect(suggestion?: Suggestion) {
 	if (!suggestion) return
 
-	if (suggestion.type === SuggestionType.GOOGLE_REGIONS) {
+	if (suggestion.type === SuggestionType.GOOGLE_REGIONS || suggestion.type === SuggestionType.GOOGLE_ESTABLISHMENT) {
 		googleStore.goToPlaceId(suggestion.id)
 		return
 	} else if (suggestion.type === SuggestionType.API) {

@@ -1,5 +1,4 @@
 import type { IpLocation } from "@/composables/useGeoIp";
-import { useGeoIp } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, onMounted, ref, watch } from "vue";
@@ -91,7 +90,7 @@ export const useMap = defineStore("map", () => {
   const route = useRoute()
   const router = useRouter()
 
-  watch(route, async () => useApp().goToEstablishment(route.params.uuid as string))
+  watch(route, async () => route.params.uuid && useApp().goToEstablishment(route.params.uuid as string))
 
   function computeBoundingBox({ updateRoute } = { updateRoute: true }) {
     if (!map.value) return
