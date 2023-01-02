@@ -50,6 +50,10 @@ function specialCurrency(id: string | number) {
 	return ["bluecode", "atm"].includes(id as string)
 }
 
+const canShare = computed(() => {
+	return "share" in navigator
+})
+
 function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 	navigator.share({
 		title: `${establishment.name} | Crypto Map by Nimiq`,
@@ -141,7 +145,7 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 				<FlagIcon class="text-white mx-auto" />
 			</RouterLink>
 
-			<button @click="shareEstablishment(establishment)"
+			<button v-if="canShare" @click="shareEstablishment(establishment)"
 				class="z-1 bg-space/[0.07] hover:bg-space/10 focus-visible:bg-space/10 transition-colors rounded-full text-center w-[35px] py-[7.5px] h-max">
 				<ShareIcon class="text-space mx-auto" />
 			</button>
