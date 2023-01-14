@@ -34,7 +34,7 @@
 			</div>
 			<TransitionRoot leave="transition ease-in duration-100" leave-from="opacity-100" leave-to="opacity-0">
 				<ComboboxOptions
-					class="absolute w-full scroll-space overflow-auto rounded-sm text-base focus:outline-none shadow-lg top-0.5"
+					class="z-40 absolute w-full scroll-space overflow-auto rounded-sm text-base focus:outline-none shadow-lg top-0.5"
 					:class="[
 	comboboxOptionsClasses,
 	{
