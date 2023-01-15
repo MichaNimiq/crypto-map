@@ -91,7 +91,9 @@ export const useEstablishments = defineStore("establishments", () => {
     () => Array.from(establishments.value.values()).filter(e => includeEstablishment(e, boundingBox.value)))
   // this will be used to show items in the list that are not in the viewport, but user requested to see
   const nearEstablishmentsNotInView = computed(
-    () => Array.from(establishments.value.values()).filter(e => includeEstablishment(e, surroundingBoundingBox.value)))
+    () => Array.from(establishments.value.values())
+      .filter(e => !establishmentsInView.value.some(eInView => eInView.uuid === e.uuid))
+      .filter(e => includeEstablishment(e, surroundingBoundingBox.value)))
 
   const shouldShowNearby = ref(false)
 
