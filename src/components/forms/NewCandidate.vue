@@ -43,7 +43,7 @@ async function onSubmit(token: string) {
 			<Select class="mt-6" :label="$t('Select_Cryptocurrency')" input-id="cryptocurrency-input"
 				:options="currenciesOptions" v-model="selectedCurrencies" :placeholder="$t('Select_Cryptocurrency')">
 				<template #option="{ id, label }">
-					<CryptoIcon class="w-6 h-6" :crypto="id" />
+					<CryptoIcon class="w-6 h-6" :crypto="(id as string)" />
 					<span>
 						<span class="font-bold">{{ (id as string).toUpperCase() }}</span>
 						{{ label }}
