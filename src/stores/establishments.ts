@@ -2,7 +2,7 @@ import type { CryptoEstablishment as CryptoEstablishmentApi, CurrencyInner as Cu
 import { defineStore, storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 import { useApi } from "./api";
-import { useMap } from "./map";
+import { useMap, type BoundingBox } from "./map";
 
 
 export type BaseEstablishment = Pick<CryptoEstablishmentApi, "uuid" | "name" | "category"> & {
@@ -64,75 +64,34 @@ export const useEstablishments = defineStore("establishments", () => {
   const establishments = ref(new Map<string, BaseEstablishment | Establishment>([]))
 
   const apiStore = useApi()
-  const { selectedCurrencies, selectedCategories } = storeToRefs(apiStore)
 
   const mapStore = useMap()
   const { boundingBox, surroundingBoundingBox } = storeToRefs(mapStore)
 
-
-  function filterByCurrencies(establishment: BaseEstablishment | Establishment) {
-    if (!selectedCurrencies || selectedCurrencies.value.length === 0) return true
-    return establishment.currencies.some(c => selectedCurrencies.value.includes(c.symbol))
+  function includeEstablishment(establishment: BaseEstablishment | Establishment, { northEast, southWest }: BoundingBox) {
+    const { lat, lng } = establishment.geoLocation
+    const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
+    const ignoreCurrencies = apiStore.selectedCurrencies.length === 0
+    const ignoreCategores = apiStore.selectedCategories.length === 0
+    const filteredByCurrencies = ignoreCurrencies || establishment.currencies.some(c => apiStore.selectedCurrencies.includes(c.symbol))
+    const filteredByCategories = ignoreCategores || apiStore.selectedCategories.includes(establishment.category)
+    return insideBoundingBox && filteredByCurrencies && filteredByCategories
   }
 
-  function filterByCategories(establishment: BaseEstablishment | Establishment) {
-    if (!selectedCategories || selectedCategories.value.length === 0) return true
-    return selectedCategories?.value.includes(establishment.category)
-  }
-
-  const establishmentsInView = computed(() => {
-    const { northEast, southWest } = boundingBox.value
-    const establishmentsInView: (Establishment | BaseEstablishment)[] = []
-    for (const [, establishment] of establishments.value) {
-      // Check if the establishment is in the bounding box
-      const { lat, lng } = establishment.geoLocation
-      const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
-
-      // Check if the establishment should be hidden by the filters
-      const filteredByCurrencies = filterByCategories(establishment)
-      const filteredByCategories = filterByCurrencies(establishment)
-
-      if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
-        establishmentsInView.push(establishment)
-      }
-    }
-    return establishmentsInView
-  })
-
-  // ┌────────────────────────────────────────────────────────────────────────┐
-  // │                                                                        │
-  // │                                                                        │
-  // │                       ┌───────────────────────┐                        │
-  // │                       │                       │◄───────────────────────┼────── bounding box / user screen
-  // │                       │  establishmentInView  │                        │
-  // │                       │                       ├────────────────────────┼─────► same distance as viewport width
-  // │                       └───────────────────────┘                        │
-  // │                                                                        │
-  // │                                                                        │
-  // │                      nearEstablishmentsNotInView                       │─────► surroundingBoundingBox is `scaleFactor` times bigger than boundingBox (see mapStore)
-  // │                                                                        │
-  // └─────────────────────────────────────────────────-──────────────────────┘
-
+  // ┌───────────────────────────────┐
+  // │                               │
+  // │   ┌───────────────────────┐   │
+  // │   │                       │◄──┼────── bounding box / user screen
+  // │   │  establishmentInView  │   │
+  // │   │                       ├───┼─────► same distance as viewport width
+  // │   └───────────────────────┘   │
+  // │  nearEstablishmentsNotInView  │─────► surroundingBoundingBox is `scaleFactor` times bigger than boundingBox
+  // └─────────────────────────────-─┘
+  const establishmentsInView = computed(
+    () => Array.from(establishments.value.values()).filter(e => includeEstablishment(e, boundingBox.value)))
   // this will be used to show items in the list that are not in the viewport, but user requested to see
-  const nearEstablishmentsNotInView = computed(() => {
-    const nearEstablishmentsNotInView: (Establishment | BaseEstablishment)[] = []
-    const { northEast, southWest } = surroundingBoundingBox.value
-    for (const [, establishment] of establishments.value) {
-      if (establishmentsInView.value.includes(establishment)) continue
-
-      const { lat, lng } = establishment.geoLocation
-      const insideBoundingBox = lat <= northEast.lat && lat >= southWest.lat && lng <= northEast.lng && lng >= southWest.lng
-
-      // Check if the establishment should be hidden by the filters
-      const filteredByCurrencies = filterByCategories(establishment)
-      const filteredByCategories = filterByCurrencies(establishment)
-
-      if (insideBoundingBox && filteredByCurrencies && filteredByCategories) {
-        nearEstablishmentsNotInView.push(establishment)
-      }
-    }
-    return nearEstablishmentsNotInView
-  })
+  const nearEstablishmentsNotInView = computed(
+    () => Array.from(establishments.value.values()).filter(e => includeEstablishment(e, surroundingBoundingBox.value)))
 
   const shouldShowNearby = ref(false)
 
