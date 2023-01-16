@@ -17,6 +17,12 @@ export const useApp = defineStore("app", () => {
   const showList = () => listIsShown.value = true;
   const hideList = () => listIsShown.value = false;
 
+  const getMapGestureBehaviour = (tentativeValue = 'greedy') => {
+    return tentativeValue === 'cooperative' ? 'cooperative' : 'greedy';
+
+  }
+  const mapGestureBehaviour = ref(getMapGestureBehaviour(useRoute().query.gestureBehaviour as string));
+
   const selectedEstablishmentUuid = ref<string>();
 
   const route = useRoute();
@@ -51,5 +57,6 @@ export const useApp = defineStore("app", () => {
     selectedEstablishmentUuid: selectedEstablishmentUuid,
 
     goToEstablishment,
+    mapGestureBehaviour,
   }
 });
