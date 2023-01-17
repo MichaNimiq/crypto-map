@@ -97,7 +97,8 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 					<CryptoIcon :crypto="symbol.toLowerCase()" />
 				</li>
 
-				<div class="w-px h-6 bg-space/20 mx-3" v-if="showBluecode || showAtm"></div>
+				<div class="w-px h-6 bg-space/20 mx-3" v-if="establishment.currencies.length > 0 && (showBluecode || showAtm)">
+				</div>
 
 				<li v-if="showBluecode">
 					<Popover cta-href="https://bluecode.com/de-de/" :container="container">
