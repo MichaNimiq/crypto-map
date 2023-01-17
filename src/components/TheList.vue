@@ -40,14 +40,14 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 
 <template>
 	<div
-		class="xl:flex xl:gap-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 max-xl:bg-white max-xl:shadow max-xl:w-screen"
+		class="xl:flex xl:gap-6 absolute max-xl:transition-all xl:transition-transform-width max-xl:bottom-0 max-xl:bg-white max-xl:shadow max-xl:w-screen max-xl:overflow-y-auto"
 		:class="{
-	'xl:-translate-x-96 max-xl:top-full': !listIsShown,
-	'h-full lg:h-[calc(100vh-80px)]': !listIsEmpty,
-	'lg:h-[calc(100vh-80px)]': listIsEmpty,
-}">
+			'xl:-translate-x-96 max-xl:top-full': !listIsShown,
+			'h-full lg:h-[calc(100vh-80px)]': !listIsEmpty,
+			'lg:h-[calc(100vh-80px)]': listIsEmpty,
+		}">
 		<div v-if="!listIsEmpty" id="list"
-			class="xl:flex xl:flex-col xl:w-96 p-6 columns-2xs gap-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow overflow-y-auto scroll-space z-2 relative max-xl:pb-16">
+			class="xl:flex xl:flex-col xl:w-96 p-6 columns-2xs gap-6 space-y-6 snap-y snap-mandatory scroll-py-6 bg-white xl:shadow xl:overflow-y-auto scroll-space z-2 relative max-xl:pb-16">
 			<ul ref="scroller$" class="space-y-6">
 				<li v-for="establishment in establishmentsInView" :key="establishment.uuid"
 					class="list-item-wrap xl:snap-start shadow-lg border pt-1.5 pb-6 rounded-lg flex flex-col break-inside-avoid-column transition-[box-shadow]"
@@ -95,13 +95,13 @@ function slideTo(index: number, behavior: "smooth" | "auto" = "smooth") {
 					@click="appStore.toggleList()">
 					<template #icon>
 						<component :is="listIsShown ? ChevronLeftIcon : ListIcon" class="text-space h-4" :class="{
-	'w-4.5': listIsShown,
-	'w-4': !listIsShown,
-}" />
+							'w-4.5': listIsShown,
+							'w-4': !listIsShown,
+						}" />
 					</template>
 
 					<template #text v-if="!smallScreen">
-						{{ listIsShown ? $t("Hide_list") : $t("Show_list") }}
+						{{ listIsShown? $t("Hide_list"): $t("Show_list") }}
 					</template>
 				</Button>
 			</div>
