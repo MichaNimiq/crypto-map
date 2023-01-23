@@ -33,7 +33,7 @@ function onSelect(suggestion?: Suggestion) {
 				selectedCurrencies.value = [suggestion.id]
 				break
 			case 'establishment':
-				appStore.goToEstablishment(suggestion.id)
+				appStore.goToEstablishment(suggestion.id, { behaviourList: 'show' })
 				break
 		}
 	}

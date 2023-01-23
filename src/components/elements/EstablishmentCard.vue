@@ -6,9 +6,10 @@ import ShareIcon from "@/components/icons/icon-share.vue"
 import StarIcon from "@/components/icons/icon-star.vue"
 import EstablishmentPlaceholder from "@/components/illustrations/establishment-placeholder.vue"
 
-
 import type { CurrencyInner } from "@/api"
+import { useBreakpoints } from "@/composables/useBreakpoints"
 import { useApi, type BaseEstablishment, type Establishment } from "@/stores/api"
+import { useApp } from "@/stores/app"
 import { computed, onMounted, ref } from "vue"
 import { RouterLink } from "vue-router"
 
@@ -63,11 +64,17 @@ function shareEstablishment(establishment: BaseEstablishment | Establishment) {
 	})
 }
 
+const { smaller } = useBreakpoints()
+function onClick() {
+	const isSmall = smaller('xl')
+	if (!isSmall.value) return
+	useApp().hideList()
+}
 </script>
 
 <template>
 	<template v-if="hasAllInfo">
-		<RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
+		<RouterLink :to="`/establishment/${establishment.uuid}`" @click="onClick" class="children:px-6" ref="card$">
 
 			<img v-if="establishment.photoUrl" :src="establishment.photoUrl" :alt="`Image of ${establishment.name}`"
 				class="h-36 object-cover w-full !px-1.5 rounded-sm" loading="lazy" />
