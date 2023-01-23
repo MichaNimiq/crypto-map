@@ -14,7 +14,7 @@ export enum AutocompleteStatus {
 export const useApp = defineStore("app", () => {
   const listIsShown = ref(false);
   const toggleList = () => listIsShown.value = !listIsShown.value;
-  const showList = () => listIsShown.value = true;
+  const showList = () => { console.trace(); listIsShown.value = true };
   const hideList = () => listIsShown.value = false;
 
   const getMapGestureBehaviour = (tentativeValue = 'greedy') => {
@@ -37,14 +37,15 @@ export const useApp = defineStore("app", () => {
 
   const { setCenter, setZoom } = useMap();
 
-  async function goToEstablishment(uuid: string) {
+  async function goToEstablishment(uuid: string, options?: { behaviourList?: 'show' | 'hide' }) {
     const establishment = await useApi().getEstablishmentByUuid(uuid).catch(/** Handle error(?) */)
     if (!establishment) return false
 
     setCenter(establishment.geoLocation)
     setZoom(19)
     selectedEstablishmentUuid.value = uuid
-    showList()
+    if (options?.behaviourList === 'show') showList()
+    if (options?.behaviourList === 'hide') hideList()
     computeBoundingBox({ updateRoute: false })
     return true
   }

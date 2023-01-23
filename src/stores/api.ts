@@ -77,7 +77,7 @@ export const useApi = defineStore("api", () => {
 
   // Converts crypto location model from the API to the model used in the app
   function parseBaseEstablishment({ uuid, name, category, geo_location: geoLocation, currencies: establishmentCurrencySymbols }: CryptoEstablishmentBaseApi): BaseEstablishment {
-    const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols.includes(c.symbol))
+    const establishmentCurrencies = currencies.value.filter(c => establishmentCurrencySymbols?.includes(c.symbol))
     const parsedEstablishment: BaseEstablishment = {
       uuid, name, category, geoLocation, hasAllInfo: false,
       address: undefined, gmapsPlaceId: undefined, gmapsType: undefined, gmapsUrl: undefined, photoUrl: undefined, rating: undefined,

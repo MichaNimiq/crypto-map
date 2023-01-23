@@ -2,11 +2,11 @@
 import Button from "@/components/elements/Button.vue"
 import EstablishmentCard from "@/components/elements/EstablishmentCard.vue"
 import ChevronLeftIcon from "@/components/icons/icon-arrow-small-left.vue"
-import NoEstablishments from "@/components/illustrations/no-establishments.vue"
 import ListIcon from "@/components/icons/icon-list.vue"
+import NoEstablishments from "@/components/illustrations/no-establishments.vue"
 import { useBreakpoints } from "@/composables/useBreakpoints"
-import { useEstablishments } from "@/stores/establishments"
 import { useApp } from "@/stores/app"
+import { useEstablishments } from "@/stores/establishments"
 import { storeToRefs } from "pinia"
 import { computed, ref, watch } from "vue"
 

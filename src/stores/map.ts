@@ -1,3 +1,4 @@
+import { useBreakpoints } from "@/composables/useBreakpoints";
 import type { IpLocation } from "@/composables/useGeoIp";
 import { useDebounceFn } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -89,8 +90,12 @@ export const useMap = defineStore("map", () => {
 
   const route = useRoute()
   const router = useRouter()
+  const { smaller } = useBreakpoints()
 
-  watch(route, async () => route.params.uuid && useApp().goToEstablishment(route.params.uuid as string))
+  watch(route, async function () {
+    if (!route.params.uuid) return
+    useApp().goToEstablishment(route.params.uuid as string, { behaviourList: smaller('xl').value ? 'hide' : 'show' })
+  })
 
   function computeBoundingBox({ updateRoute } = { updateRoute: true }) {
     if (!map.value) return
@@ -135,7 +140,7 @@ export const useMap = defineStore("map", () => {
       setZoom(Number(zoomLevel))
       return
     } else if (uuid) {
-      const mapMoved = await useApp().goToEstablishment(uuid)
+      const mapMoved = await useApp().goToEstablishment(uuid, { behaviourList: 'show' })
       if (mapMoved) {
         return
       }
