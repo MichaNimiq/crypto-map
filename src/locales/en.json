@@ -55,6 +55,8 @@
   "No_photo_available": "No photo available",
   "Show_more_establishments": "Show more establishments",
   "Coming_soon": "Coming soon",
-  "With_the_Nimiq_for_Bluecode": "With the ‘Nimiq for Bluecode’ mobile app (coming soon) you can use NIM for payments wherever Bluecode is accepted.",
-  "A_Crypto_ATM_is_a_machine_that_allows_customers": "A Crypto ATM is a machine that allows customers to buy or sell popular cryptocurrencies using traditional fiat currencies like the Euro or US Dollar."
+  "A_Crypto_ATM_is_a_machine_that_allows_customers": "A Crypto ATM is a machine that allows customers to buy or sell popular cryptocurrencies using traditional fiat currencies like the Euro or US Dollar.",
+  "Nimiq_for_Bluecode": "Nimiq for Bluecode",
+  "A_mobile_app_for_paying_with_NIM_at_Bluecode_acceptance_locations": "A mobile app for paying with NIM at Bluecode acceptance locations.",
+  "Learn_more": "Learn more"
 }

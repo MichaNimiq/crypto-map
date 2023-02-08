@@ -1,4 +1,4 @@
-<script setup lang="ts">
+f<script setup lang="ts">
 import Button from "@/components/elements/Button.vue"
 import CategoryIcon from "@/components/elements/CategoryIcon.vue"
 import CryptoIcon from "@/components/elements/CryptoIcon.vue"
