@@ -22,7 +22,7 @@ defineProps({
 })
 
 const slots = useSlots()
-const hasSlot = (name: "title" | "description" | "bottom" | "cta") => {
+const hasSlot = (name: string) => {
 	return !!slots[name]
 }
 </script>
@@ -41,6 +41,11 @@ const hasSlot = (name: "title" | "description" | "bottom" | "cta") => {
 					d="M12.63 1.83 8.27 8.25A4 4 0 0 1 4.97 10h17.8a4 4 0 0 1-3.3-1.75L15.1 1.83a1.5 1.5 0 0 0-2.48 0z" />
 			</svg>
 			<div class="shadow ring-1 ring-space/30 children:px-4 py-3 bg-gradient-space rounded-sm space-y-2">
+				<p
+					class="uppercase text-white opacity-70 text-[10px] font-bold border-fog rounded-full tracking-wider pt-1 pl-1">
+					<slot name="subline" v-if="hasSlot('subline')" />
+				</p>
+
 				<h3 class="text-white font-bold text-lg" v-if="hasSlot('title')">
 					<slot name="title" />
 				</h3>
@@ -51,7 +56,8 @@ const hasSlot = (name: "title" | "description" | "bottom" | "cta") => {
 				<a class="text-sky font-bold text-sm group flex items-center gap-x-1.5 w-max" v-if="hasSlot('cta') && ctaHref"
 					:href="ctaHref" target="_blank">
 					<slot name="cta" />
-					<ArrowLinkIcon class="w-2.5 h-2.5 group-hover:left-0.5 group-hover:-top-0.5 transition-all duration-300" />
+					<ArrowLinkIcon
+						class="w-2.5 h-2.5 relative group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
 				</a>
 				<slot name="bottom" v-if="hasSlot('bottom')" />
 			</div>

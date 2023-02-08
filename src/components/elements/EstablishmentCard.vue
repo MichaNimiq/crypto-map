@@ -127,12 +127,12 @@ function onClick() {
           <template #trigger>
             <CryptoIcon crypto="bluecode" class="w-[14px] h-[22px]" />
           </template>
-          <template #title> Nimiq for Bluecode </template>
-          <template #description>
-            A mobile app (coming soon) you can use NIM for payments wherever
-            Bluecode is accepted.
+          <template #subline> {{ $t('Coming_soon') }}</template>
+          <template #title> {{ $t('Nimiq_for_Bluecode') }} </template>
+          <template #description> {{ $t('A_mobile_app_for_paying_with_NIM_at_Bluecode_acceptance_locations') }}
           </template>
-          <template #cta> Learn more </template>
+          <template #cta> {{ $t('Learn more') }} </template>
+          ets
         </Popover>
       </li>
 
@@ -141,12 +141,8 @@ function onClick() {
           <template #trigger>
             <CryptoIcon class="w-6 h-5" crypto="atm" />
           </template>
-          <template #title> Crypto ATM </template>
-          <template #description>
-            A machine that allows customers to buy or sell popular
-            cryptocurrencies using traditional fiat currencies like the Euro
-            or US Dollar.
-          </template>
+          <template #title> {{ $t('Crypto_ATM') }}</template>
+          <template #description> {{ $t('A_Crypto_ATM_is_a_machine_that_allows_customers') }}</template>
         </Popover>
       </li>
     </ul>
