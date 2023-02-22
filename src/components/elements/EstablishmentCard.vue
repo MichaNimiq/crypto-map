@@ -118,9 +118,8 @@ function onClick() {
         <CryptoIcon :crypto="symbol.toLowerCase()" />
       </li>
 
-      <div class="w-px h-6 bg-space/20 mx-3" v-if="
-        establishment.currencies.length > 0 && (showBluecode || showAtm)
-      "></div>
+      <div v-if="establishment.currencies.filter(c => c.symbol !== 'atm').length > 0
+        && (showBluecode || showAtm)" class="w-px h-6 bg-space/20 mx-3" />
 
       <li v-if="showBluecode">
         <Popover cta-href="https://bluecode.com/de-de/" :container="container">
@@ -142,7 +141,7 @@ function onClick() {
             <CryptoIcon class="w-6 h-5" crypto="atm" />
           </template>
           <template #title> {{ $t('Crypto_ATM') }}</template>
-          <template #description> {{ $t('A_Crypto_ATM_is_a_machine_that_allows_customers') }}</template>
+          <template #description>{{ $t('A_Crypto_ATM_is_a_machine_that_allows_customers') }}</template>
         </Popover>
       </li>
     </ul>
@@ -201,7 +200,7 @@ function onClick() {
     </div>
   </template>
   <template v-else>
-    <RouterLink :to="`/ establishment / ${establishment.uuid}`" class="children:px-6" ref="card$">
+    <RouterLink :to="`/establishment/${establishment.uuid}`" class="children:px-6" ref="card$">
       <div class="
           h-36
           w-[calc(100%-12px)]
