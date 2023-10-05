@@ -1,5 +1,6 @@
 import type { LocationQuery, RouteParams } from 'vue-router'
-import type { MapPosition } from 'types'
+import type { Location, MapPosition } from 'types'
+import { useWindowSize } from '@vueuse/core'
 import { useMap } from '@/stores/map'
 
 /**
@@ -7,45 +8,72 @@ import { useMap } from '@/stores/map'
  *  1. If the user is at /lat,lng,zoom -> We load the user's location from the URL
  *  2. If the user is at / -> We load the user's location from the IP address using Nimiq Geolocation API
  *  3. Otherwise, we use FALLBACK_POSITION
+ *
+ * When UUID is in the URL, we will show the card for that location. We even edit the lat and lng in the URL to match the location's coordinates.
 */
 
 // Costa Rica
-export const FALLBACK_POSITION: MapPosition = { center: { lat: 9.6301892, lng: -84.2541844 }, zoom: 9 }
+const FALLBACK_POSITION: MapPosition = { center: { lat: 9.6301892, lng: -84.2541844 }, zoom: 9 }
 
-async function selectAndOpenCard(uuid: string) {
-  const location = await (await import('@/stores/locations')).useLocations().getLocationByUuid(uuid /* UUID already valid. See router.ts */)
-  if (location) {
-    // We set the locations in the store, and then we show the card
-    // https://github.com/nimiq/crypto-map/commit/45b8cdf2e7aabba6039d69043190b8357950736d#r126800610
-    (await import ('@/stores/markers')).useMarkers().singles = [location]
-    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-    await sleep(500) // We need to wait for the marker to be rendered in the right position to avoid CLS
-    ;(document.querySelector(`[data-trigger-uuid="${uuid}"]`) as HTMLElement)?.click()
-  }
-  else {
-    console.warn(`Location with uuid ${uuid} not found`)
-  }
-}
+const validFloat = (n?: string | string[]) => !!n && typeof n === 'string' && !Number.isNaN(Number(n))
 
-export async function useInitialMapPosition(p: RouteParams, query: LocationQuery) {
-  if (Object.keys(query).includes('uuid'))
-    selectAndOpenCard(query.uuid as string) // No need to await
-
-  const validFloat = (n?: string | string[]) => !!n && typeof n === 'string' && !Number.isNaN(Number(n))
-  if (validFloat(p.lat) && validFloat(p.lng) && validFloat(p.zoom)) {
-    useMap().setPosition({ center: { lat: Number(p.lat), lng: Number(p.lng) }, zoom: Number(p.zoom) })
-    return
-  }
-
+async function useDefaultMapPosition() {
   const { useGeoIp } = await import('@/composables/useGeoLocation')
   const { geolocateIp, ipPosition, ipPositionError } = useGeoIp()
   await geolocateIp()
 
   if (!ipPositionError.value && ipPosition.value) {
+    // eslint-disable-next-line no-console
+    console.log(`Using user's location: ${JSON.stringify(ipPosition.value)}`)
     useMap().setPosition(ipPosition.value)
+  }
+  else {
+    console.warn(`Error getting user's location: ${ipPositionError.value}. Using fallback position. ${JSON.stringify(FALLBACK_POSITION)}`)
+    useMap().setPosition(FALLBACK_POSITION)
+  }
+}
+
+function getPixelCoords(lat: number, lng: number, zoom: number) {
+  const scale = 2 ** zoom
+  const pixelX = (lng + 180) / 360 * 256 * scale
+  const rad = lat * (Math.PI / 180)
+  const sinLatitude = Math.sin(rad)
+  const pixelY = (0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI)) * 256 * scale
+  return { x: pixelX, y: pixelY }
+}
+
+function isPointInViewport({ center: { lat: mapLat, lng: mapLng }, zoom }: MapPosition, { lat, lng }: Location) {
+  const { height, width } = useWindowSize()
+  const centerCoords = getPixelCoords(mapLat, mapLng, zoom)
+  const pointCoords = getPixelCoords(lat, lng, zoom)
+
+  const halfV = width.value / 2
+  const halfH = height.value / 2
+
+  return pointCoords.x > (centerCoords.x - halfV)
+    && pointCoords.x < (centerCoords.x + halfV)
+    && pointCoords.y > (centerCoords.y - halfH)
+    && pointCoords.y < (centerCoords.y + halfH)
+}
+
+export async function useInitialMapPosition({ lat: latStr, lng: lngStr, zoom: zoomStr }: RouteParams, { uuid: locationUuid }: LocationQuery) {
+  // If the user is at /, then we load the locations using the default position
+  // If we have an uuid, we load the location using the uuid
+  if ((!validFloat(latStr) || !validFloat(lngStr) || !validFloat(zoomStr)) && !locationUuid) {
+    useDefaultMapPosition()
     return
   }
 
-  console.warn(`Error getting user's location: ${ipPositionError.value}. Using fallback position. ${JSON.stringify(FALLBACK_POSITION)}`)
-  useMap().setPosition(FALLBACK_POSITION)
+  let { lat, lng, zoom } = { lat: Number(latStr), lng: Number(lngStr), zoom: Number(zoomStr) }
+
+  if (locationUuid) {
+    const location = await (await import('@/stores/locations')).useLocations().getLocationByUuid(locationUuid as string /* UUID already valid. See router.ts */)
+    if (location && !isPointInViewport({ center: { lat, lng }, zoom }, location)) {
+      lat = location.lat
+      lng = location.lng
+      zoom = 16
+    }
+  }
+
+  useMap().setPosition({ center: { lat, lng }, zoom })
 }

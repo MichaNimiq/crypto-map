@@ -1,5 +1,5 @@
 // eslint-disable no-console
-import type { AnonDbFunction, AuthDbFunction, DatabaseAnonArgs, DatabaseAuthArgs } from '../types/database.ts'
+import type { AnonDbFunction, AuthDbFunction, DatabaseAnonArgs, DatabaseAnyUserArgs, DatabaseAuthArgs } from '../types/database.ts'
 import { AnonWriteDbFunction, AuthWriteDbFunction, DatabaseUser, authDbFunctions } from '../types/database.ts'
 
 const HEADERS: HeadersInit = {
@@ -10,13 +10,13 @@ const HEADERS: HeadersInit = {
 const writeOperations = [...Object.values(AnonWriteDbFunction), ...Object.values(AuthWriteDbFunction)]
 
 type Parameters = { query: URLSearchParams; body?: undefined } | { query?: undefined; body: object }
-export async function fetchDb<T, FnName extends AnonDbFunction | AuthDbFunction = any>(fnName: FnName, dbArgs: DatabaseAuthArgs | DatabaseAnonArgs, params?: Parameters): Promise<T | undefined> {
+export async function fetchDb<T, FnName extends AnonDbFunction | AuthDbFunction = any>(fnName: FnName, dbArgs: DatabaseAnyUserArgs | DatabaseAuthArgs | DatabaseAnonArgs, params?: Parameters): Promise<T | undefined> {
   const { apikey, url: baseUrl, user } = dbArgs
 
   if (Object.values(authDbFunctions).includes(fnName as AuthDbFunction) && user === DatabaseUser.Anonymous)
     throw new Error(`The function ${fnName} requires an authenticated user.`)
   if (user === DatabaseUser.Anonymous && !dbArgs.captchaToken)
-    throw new Error('Missing captcha token for anon user.')
+    throw new Error(`Missing captcha token for anon user for function ${fnName}. ${JSON.stringify(dbArgs)}`)
   else if (user === DatabaseUser.Authenticated && !dbArgs.authToken)
     throw new Error('Missing token for authenticated user. Make sure to call getAuth first to retrieve the token.')
 

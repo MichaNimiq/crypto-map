@@ -59,6 +59,7 @@ export enum Provider {
 export enum DatabaseUser {
   Authenticated = 'authenticated',
   Anonymous = 'anonymous',
+  Any = 'any',
 }
 
 export interface DatabaseArgs {
@@ -74,6 +75,10 @@ export interface DatabaseAuthArgs extends DatabaseArgs {
 export interface DatabaseAnonArgs extends DatabaseArgs {
   captchaToken: string
   user: DatabaseUser.Anonymous
+}
+
+export interface DatabaseAnyUserArgs extends DatabaseArgs {
+  user: DatabaseUser.Any
 }
 
 export interface DatabaseAuthenticateUserArgs extends DatabaseArgs {
@@ -119,6 +124,13 @@ export enum AuthReadDbFunction {
 export type AuthDbFunction = typeof AuthReadDbFunction | typeof AuthWriteDbFunction
 export const authDbFunctions: AuthDbFunction = Object.assign({}, AuthReadDbFunction, AuthWriteDbFunction)
 
+export enum AnyUserReadDbFunction {
+  GetTimestamps = 'get_timestamps',
+}
+
+export type AnyUserDbFunction = typeof AnyUserReadDbFunction
+export const anyUserDbFunctions: AnyUserDbFunction = Object.assign({}, AnyUserReadDbFunction)
+
 export interface Args {
   [AnonReadDbFunction.GetMarkers]: { zoom: number; boundingBox: BoundingBox }
   [AnonReadDbFunction.GetCryptocities]: { boundingBox: BoundingBox; excludedCities: Cryptocity[] }
@@ -129,6 +141,7 @@ export interface Args {
 export interface Returns {
   [AnonReadDbFunction.GetCryptocities]: CryptocityDatabase[]
   [AnonReadDbFunction.GetMarkers]: Markers
+  [AnyUserReadDbFunction.GetTimestamps]: { markers: string; locations: string; cryptocities: string }
   [AuthReadDbFunction.GetStats]: { cryptos: number; locations: number; providers: number; providers_count: Record<Provider, number>; crypto_sells_combinations: Record<string, number>; crypto_accepts_combinations: Record<string, number> }
   [AuthWriteDbFunction.UpsertLocationsWithGMaps]: { added: RawLocation[]; multiples: object[][]; errors: { input: Args[AuthWriteDbFunction.UpsertLocationsWithGMaps]; error: string; apiUrl: string }[] }
   [AnonWriteDbFunction.AuthAnonUser]: { uuid: string; max_age: number }
