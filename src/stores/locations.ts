@@ -4,11 +4,13 @@ import { getLocations as getDbLocations, getLocation } from 'database'
 import { defineStore } from 'pinia'
 import { addBBoxToArea, bBoxIsWithinArea, getItemsWithinBBox } from 'shared'
 import type { BoundingBox, Location } from 'types'
-import { computed, ref, shallowReactive, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useFilters } from './filters'
 import { useMap } from './map'
+import { useApp } from './app'
 import { getAnonDatabaseArgs, parseLocation } from '@/shared'
+import { useExpiringStorage } from '@/composables/useExpiringStorage'
 
 export const useLocations = defineStore('locations', () => {
   const { filterLocations } = useFilters()
@@ -16,18 +18,21 @@ export const useLocations = defineStore('locations', () => {
   // Reduce redundant database fetches by reusing fetched locations by tracking the areas explored by the user
   const visitedAreas = ref<Feature<MultiPolygon>>()
 
-  const locationsMap = shallowReactive(new Map<string, Location>())
-  const locations = computed(() => [...locationsMap.values()])
+  const { payload: locationsMap } = useExpiringStorage('locations', {
+    defaultValue: {} as Record<string, Location>,
+    expiresIn: 7 * 24 * 60 * 60 * 1000,
+    timestamp: useApp().timestamps?.locations,
+  })
+  const locations = computed(() => Object.values(locationsMap))
 
   function setLocations(locations: Location[]) {
-    locations.forEach(location => locationsMap.set(location.uuid, location))
+    locations.forEach(location => locationsMap.value[location.uuid] = location)
   }
 
   async function getLocations(boundingBox: BoundingBox): Promise<Location[]> {
     if (bBoxIsWithinArea(boundingBox, visitedAreas.value)) {
       // We already have scanned this area, no need to fetch from the database
-      const locations = [...locationsMap.values()]
-      const filteredLocations = filterLocations(locations) // Filter locations by categories and currencies
+      const filteredLocations = filterLocations(locations.value) // Filter locations by categories and currencies
       return getItemsWithinBBox(filteredLocations, boundingBox) // Filter locations by bounding box
     }
 
@@ -39,12 +44,12 @@ export const useLocations = defineStore('locations', () => {
   }
 
   async function getLocationByUuid(uuid: string) {
-    if (locationsMap.has(uuid))
-      return locationsMap.get(uuid)
+    if (uuid in locationsMap.value)
+      return locationsMap.value[uuid]
     const location = await getLocation(await getAnonDatabaseArgs(), uuid, parseLocation)
     if (!location)
       return
-    locationsMap.set(uuid, location)
+    locationsMap.value[uuid] = location
     return location
   }
 
