@@ -27,6 +27,12 @@ export const router = createRouter({
       name: 'coords',
     },
     {
+      // Old route for location. We redirect to the new route with UUIDs as query params.
+      path: '/establishment/:uuid',
+      component: MapView,
+      name: 'old_location_detail',
+    },
+    {
       path: '/',
       component: MapView,
       name: 'map',
@@ -47,6 +53,14 @@ router.beforeEach((to, from, next) => {
   const uuidQueryParam = to.query.uuid
   if (uuidQueryParam && typeof uuidQueryParam === 'string' && !uuidRegex.test(uuidQueryParam))
     next('/')
+  else
+    next(true)
+})
+
+// Redirect old location detail route to new route which uses UUIDs as query params
+router.beforeEach((to, from, next) => {
+  if (to.name === 'old_location_detail' && to.params.uuid)
+    next({ name: 'map', query: { uuid: to.params.uuid } })
   else
     next(true)
 })

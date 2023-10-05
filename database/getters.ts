@@ -1,6 +1,6 @@
 import type { FeatureCollection } from '@turf/helpers'
-import type { Args, BoundingBox, DatabaseAnonArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, Returns, Suggestion } from '../types/index.ts'
-import { AnonReadDbFunction, AuthReadDbFunction, Category, Cryptocity, Currency, Provider } from '../types/index.ts'
+import type { Args, BoundingBox, DatabaseAnonArgs, DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, Returns, Suggestion } from '../types/index.ts'
+import { AnonReadDbFunction, AnyUserReadDbFunction, AuthReadDbFunction, Category, Cryptocity, Currency, DatabaseUser, Provider } from '../types/index.ts'
 import { fetchDb } from './fetch.ts'
 import { authenticateUser } from './auth.ts'
 
@@ -78,4 +78,8 @@ export async function getCryptocities(dbArgs: DatabaseAuthArgs | DatabaseAnonArg
 
 export async function getStats(dbArgs: DatabaseAuthArgs | DatabaseAuthenticateUserArgs) {
   return await fetchDb<Returns[AuthReadDbFunction.GetStats]>(AuthReadDbFunction.GetStats, await authenticateUser(dbArgs))
+}
+
+export async function getTimestamps(dbArgs: DatabaseArgs) {
+  return await fetchDb<Returns[AnyUserReadDbFunction.GetTimestamps]>(AnyUserReadDbFunction.GetTimestamps, { ...dbArgs, user: DatabaseUser.Any })
 }

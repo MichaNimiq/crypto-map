@@ -3,7 +3,7 @@ import type { DatabaseAnonArgs, DatabaseArgs, Location } from 'types'
 import { DatabaseUser, LocationLink, Provider, Theme } from 'types'
 import { providersAssets } from './assets-dev/provider-assets'
 import { translateCategory } from './translations'
-import { useCaptcha } from '@/composables/useCaptcha'
+import { useApp } from './stores/app'
 
 const GOOGLE_MAPS_API = import.meta.env.VITE_GOOGLE_MAP_KEY
 
@@ -13,11 +13,8 @@ export const DATABASE_ARGS: DatabaseArgs = {
 }
 
 export async function getAnonDatabaseArgs(): Promise<DatabaseAnonArgs> {
-  return {
-    ...DATABASE_ARGS,
-    captchaToken: (await useCaptcha()).captchaToken.value,
-    user: DatabaseUser.Anonymous,
-  }
+  await useApp().init()
+  return { ...DATABASE_ARGS, captchaToken: useApp().captchaToken, user: DatabaseUser.Anonymous }
 }
 
 export function parseLocation(location: Location) {
