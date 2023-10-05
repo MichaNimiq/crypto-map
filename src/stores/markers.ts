@@ -8,6 +8,7 @@ import { useCryptocities } from './cryptocities'
 import { useFilters } from './filters'
 import { useLocations } from './locations'
 import { useMap } from './map'
+import { useApp } from './app'
 import { getAnonDatabaseArgs, parseLocation } from '@/shared'
 import { useExpiringStorage } from '@/composables/useExpiringStorage'
 
@@ -25,7 +26,11 @@ export const useMarkers = defineStore('markers', () => {
   - Before re-clustering, we check for existing data matching the current zoom, bounding box, and filters.
   - If a match is found, we reuse stored clusters; otherwise, new clusters are computed and stored.
   */
-  const { payload: memoized } = useExpiringStorage('memoized_markers', { defaultValue: [] as { key: LocationClusterParams; value: MemoizedMarkers }[], expiresIn: 7 * 24 * 60 * 60 * 1000 })
+  const { payload: memoized } = useExpiringStorage('memoized_markers', {
+    defaultValue: [] as { key: LocationClusterParams; value: MemoizedMarkers }[],
+    expiresIn: 7 * 24 * 60 * 60 * 1000,
+    timestamp: useApp().timestamps?.markers,
+  })
 
   /**
    * The clusters and singles are computed from the memoized clusters and singles. For each zoom level and each filter combination,
@@ -58,10 +63,13 @@ export const useMarkers = defineStore('markers', () => {
 
   const { init: initMaxZoom, payload: maxZoomFromServer } = useExpiringStorage('max_zoom_from_server', {
     expiresIn: 7 * 24 * 60 * 60 * 1000,
-    getAsyncValue: async () => getClusterMaxZoom(await getAnonDatabaseArgs()),
+    getAsyncValue: async () => {
+      return await getClusterMaxZoom(await getAnonDatabaseArgs())
+    },
+    timestamp: useApp().timestamps?.markers,
   })
 
-  async function shouldRunInClient({ zoom, categories, currencies }: LocationClusterParams): Promise<boolean> {
+  async function shouldRunInClient({ zoom }: LocationClusterParams): Promise<boolean> {
     // FIXME Not the best solution, but it works for now
     // We cannot compute all clusters combinations in the server, if user has selected currencies or categories
     // we need to compute the clusters in the client

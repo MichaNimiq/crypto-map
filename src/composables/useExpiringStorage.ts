@@ -5,6 +5,7 @@ import { computed, ref, watch } from 'vue'
 export interface ExpiringValue<T> {
   value: T
   expires: string
+  timestamp?: string
 }
 
 interface UseExpiringStorageBaseOptions<T> {
@@ -12,6 +13,12 @@ interface UseExpiringStorageBaseOptions<T> {
    * The amount of time in ms when the storage expires
    */
   expiresIn: number
+
+  /**
+   * Timestamp indicating when the storage was last updated.
+   * If provided and is newer than the storage's current timestamp, the storage will refresh.
+   */
+  timestamp?: string
 
   /**
    * If true, the storage will be updated when it expires
@@ -42,77 +49,79 @@ interface UseExpiringStorageAsyncOptions<T> extends UseExpiringStorageBaseOption
 }
 
 const storage = globalThis.localStorage
+const halfDay = 12 * 60 * 60 * 1000
 
 const hasExpired = (expiryDate: string) => new Date(expiryDate).getTime() <= Date.now()
 
-const halfDay = 12 * 60 * 60 * 1000
+function getStoredValue<T>(key: string, serializer: Serializer<ExpiringValue<T>>): ExpiringValue<T> | undefined {
+  const stored = storage.getItem(key)
+  return stored ? serializer.read(stored) as ExpiringValue<T> : undefined
+}
 
 /**
- * Returns a storage that expires after the given date
+ *  Determines if the storage should be updated based on its current value and timestamp.
  *
- * @param key the key to use
- * @param defaultValue the default value to use
- * @param getValue the function to get the value. It will run when the storage is empty and once the storage expires
- * @returns
+ * @param storedValue - The current value stored with its expiry and timestamp details.
+ * @param timestamp - An optional timestamp to compare with the stored value's timestamp.
+ * @returns True if storage is either not present, has expired, or if the provided timestamp is newer than the stored timestamp.
  */
+function shouldUpdateStorage(storedValue: ExpiringValue<any> | undefined, timestamp?: string): boolean {
+  if (!storedValue || hasExpired(storedValue.expires))
+    return true
+  if (timestamp && storedValue.timestamp && new Date(storedValue.timestamp).getTime() < new Date(timestamp).getTime())
+    return true
+  return false
+}
+
 export function useExpiringStorage<T>(_key: string, options: UseExpiringStorageSyncOptions<T> | UseExpiringStorageAsyncOptions<T>) {
   const key = `cryptomap__${_key}`
-  const { expiresIn, autoRefresh = true } = options
-  if (!(options as UseExpiringStorageSyncOptions<T>).defaultValue && !(options as UseExpiringStorageAsyncOptions<T>).getAsyncValue)
+  const { expiresIn, autoRefresh = true, timestamp: timestampOption } = options
+  const timestamp = timestampOption ? new Date(timestampOption).toISOString() : undefined
+
+  const isAsync = 'getAsyncValue' in options
+  const getValue = isAsync
+    ? (options as UseExpiringStorageAsyncOptions<T>).getAsyncValue!
+    : () => (options as UseExpiringStorageSyncOptions<T>).defaultValue as T
+
+  if (!getValue)
     throw new Error('Either getValue or getAsyncValue must be provided')
 
   const serializer: Serializer<ExpiringValue<T>> = {
-    read: str => JSON.parse(str),
-    write: obj => JSON.stringify(obj),
+    read: JSON.parse,
+    write: JSON.stringify,
   }
 
-  const isAsync = 'getAsyncValue' in options
-  const getValue = isAsync ? (options as UseExpiringStorageAsyncOptions<T>).getAsyncValue! : () => (options as UseExpiringStorageSyncOptions<T>).defaultValue as T
-  const storedValue = storage.getItem(key) ? serializer.read(storage.getItem(key)!) as ExpiringValue<T> : undefined
-  const alreadyExists = !!storedValue && !hasExpired(storedValue.expires)
+  const storedValue = getStoredValue(key, serializer)
+  const shouldUpdate = shouldUpdateStorage(storedValue, timestamp)
 
-  // eslint-disable-next-line no-console
-  console.log(`%cuseExpiringStorage ${key}: ${alreadyExists ? '♻️ Reusing value' : `🛎️ Needs to create a new one. ${'getAsyncValue' in options ? 'Use `await init()` before reading payload.' : ''}`}`, 'font-family:monospace; font-size: 11px')
-
-  let initialValue: T | undefined
-  if (alreadyExists)
-    initialValue = storedValue!.value
-  else if (!isAsync)
-    initialValue = getValue() as T
-
+  const initialValue = shouldUpdate && !isAsync ? getValue() : storedValue?.value
   const stored = ref(initialValue) as Ref<T>
 
-  watch(stored, () => {
-    if (!stored.value)
-      return
-    const expires = new Date(Date.now() + expiresIn).toISOString()
-    storage.setItem(key, serializer.write({ value: stored.value, expires }))
+  // Write the value to the storage
+  watch(stored, (newValue) => {
+    storage.setItem(key, serializer.write({ value: newValue, expires: new Date(Date.now() + expiresIn).toISOString(), timestamp }))
   }, { immediate: true, deep: true })
 
-  async function refreshData(expiresIn: number) {
-    if (autoRefresh && expiresIn < halfDay) { // Only refresh if flag is on and the expires in is less than 12 hours.
+  const refreshData = async (remainingTime: number) => {
+    if (autoRefresh && remainingTime < halfDay) {
       setTimeout(async () => {
-        // eslint-disable-next-line no-console
-        console.log(`LocalStorage ${key}: ♻️ Refreshing value. Expires in ${expiresIn}ms`)
         stored.value = await getValue()
         refreshData(expiresIn)
-      }, expiresIn)
+      }, remainingTime)
     }
   }
 
-  let initialized = false
-
-  /**
-   * If the value in the storage has expired or it does not exists, it will be updated with the new value
-   */
-  async function init() {
-    if (!alreadyExists && !initialized)
+  const init = async () => {
+    if (shouldUpdate)
       stored.value = await getValue()
-    initialized = true
   }
 
-  const remainingTime = (alreadyExists && !!storedValue.value && storedValue.expires) ? new Date(storedValue.expires).getTime() - Date.now() : expiresIn
+  const remainingTime = storedValue?.expires
+    ? new Date(storedValue.expires).getTime() - Date.now()
+    : expiresIn
+
   refreshData(remainingTime)
+
   return {
     payload: computed(() => stored.value),
     init,
