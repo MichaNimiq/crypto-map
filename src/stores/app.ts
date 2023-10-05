@@ -65,6 +65,8 @@ export const useApp = defineStore('app', () => {
     timestamps.value = newTimestamps.status === 'fulfilled' ? newTimestamps.value : undefined
   }
 
+  init()
+
   return {
     isListShown,
     shouldShowSearchBoxHint,
