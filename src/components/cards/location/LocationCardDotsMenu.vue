@@ -25,7 +25,7 @@ watch(keepOpen, x => isClickable.value = x)
 
 const { share, isSupported: shareIsSupported } = useShare()
 
-const url = () => `${window.location.origin}/${window.location.pathname}?uuid=${props.location.uuid}`
+const url = () => `${window.location.origin}${window.location.pathname}?uuid=${props.location.uuid}`
 
 async function handleShare() {
   keepOpen.value = true
