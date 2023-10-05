@@ -28,7 +28,7 @@ export const cryptocitiesUi: Record<Cryptocity, CryptocityUI> = {
       ]
     },
     url: 'https://kryptostadt.info/',
-    showCardAtZoom: 11,
+    showCardAtZoom: 12,
   },
 
   [Cryptocity.Ljubljana]: {
