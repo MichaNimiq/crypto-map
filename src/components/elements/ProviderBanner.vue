@@ -47,9 +47,8 @@ const isMobile = useBreakpoints(screens).smaller('md')
         <PopoverPortal>
           <PopoverContent
             as-child
-            class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space"
+            class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space [&[data-side=right]_[data-arrow]]:right-1.5  [&[data-side=left]_[data-arrow]]:left-1.5"
             :side-offset="4"
-            :align-offset="40"
             :collision-padding="8"
             :side="isMobile ? 'top' : 'right'"
           >
@@ -71,7 +70,7 @@ const isMobile = useBreakpoints(screens).smaller('md')
                 </template>
               </Button>
 
-              <PopoverArrow class=" fill-space" size="10" />
+              <PopoverArrow data-arrow class="fill-space desktop:relative" size="10" />
 
               <!-- TODO Once this is fixed https://github.com/radix-vue/radix-vue/issues/353 use custom arrow -->
               <!-- <PopoverArrow as-child>
