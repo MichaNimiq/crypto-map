@@ -21,7 +21,6 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
   [Provider.DefaultShop]: {
     bg: ['white', undefined],
     theme: Theme.Light,
-
   },
   [Provider.DefaultAtm]: {
     theme: Theme.Dark,
@@ -86,5 +85,9 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
       return i18n.t('Edenia enables users to easily purchase cryptocurrencies through a network of ATMs')
     },
     providerTooltipCta: 'https://edenia.com/',
+  },
+  [Provider.BitcoinJungle]: {
+    bg: ['white', undefined],
+    theme: Theme.Light,
   },
 }

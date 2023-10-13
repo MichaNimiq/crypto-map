@@ -120,4 +120,16 @@ export const locations: Record<Provider, Location> = {
     photo: 'https://images.unsplash.com/photo-1646491946169-76e0668b8b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80',
     ...getExtra(Provider.DefaultShop, [], LocationLink.Instagram),
   },
+  [Provider.BitcoinJungle]: {
+    uuid: 'DefaultShop',
+    name: 'Mercedes-Benz Arena',
+    address: 'Kreuzbergstrasse 28, 10247, Berlin',
+    accepts: [Currency.NIM, Currency.BTC, Currency.ETH],
+    gmaps_types: ['stadium'],
+    lat: 1,
+    lng: 1,
+    rating: 4,
+    photo: 'https://images.unsplash.com/photo-1646491946169-76e0668b8b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80',
+    ...getExtra(Provider.DefaultShop, [], LocationLink.Instagram),
+  },
 }

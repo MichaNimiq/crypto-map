@@ -54,6 +54,7 @@ export enum Provider {
   Bluecode = 'Bluecode',
   CryptopaymentLink = 'Cryptopayment Link',
   Edenia = 'Edenia',
+  BitcoinJungle = 'Bitcoing Jungle',
 }
 
 export enum DatabaseUser {
