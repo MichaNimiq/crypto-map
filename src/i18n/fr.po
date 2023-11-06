@@ -13,7 +13,7 @@ msgstr ""
 #: src/components/cards/cryptocity/BasicInfoCryptocity.vue:6
 #: src/components/cards/cryptocity/CryptocityCard.vue:10
 msgid "{count} locations"
-msgstr ""
+msgstr "{count} lieux"
 
 #: src/components/elements/DesktopList.vue:36
 msgid "+ {count} grouped"
@@ -45,15 +45,18 @@ msgstr "Retour à la carte"
 
 #: src/translations.ts:40
 msgid "Binance Pay"
-msgstr ""
+msgstr "Binance Pay"
 
 #: src/components/icons/cryptos/CryptoIcon.vue:44
 msgid ""
 "Binance Pay is a cryptocurrency payment service that empowers users to pay "
 "with crypto at shops and establishments supporting Binance Pay."
 msgstr ""
+"Binance Pay est un service de paiement en cryptomonnaie qui permet aux "
+"utilisateurs de payer avec des cryptomonnaies dans les magasins et les "
+"établissements qui acceptent Binance Pay."
 
-#: src/assets-dev/provider-assets.ts:62
+#: src/assets-dev/provider-assets.ts:61
 msgid ""
 "Bluecode is a payment method that allows secure transactions directly "
 "through the smartphone."
@@ -63,7 +66,7 @@ msgstr ""
 
 #: src/components/icons/cryptos/CryptoIcon.vue:47
 msgid "BTC +50"
-msgstr ""
+msgstr "BTC +50"
 
 #: src/components/cards/location/LocationCard.vue:48
 msgid "Buy"
@@ -100,7 +103,7 @@ msgstr "Effacer"
 #: src/components/atoms/Modal.vue:28
 #: src/components/cards/cryptocity/CryptocityCard.vue:11
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: src/translations.ts:8
 msgid "Computer & Electronics"
@@ -127,6 +130,8 @@ msgid ""
 "Criptociudad San José is part of the global Cryptocity Initiative led by "
 "Nimiq and its partners."
 msgstr ""
+"Criptociudad San José fait partie de l'initiative mondiale Cryptocity menée "
+"par Nimiq et ses partenaires."
 
 #: src/components/elements/CryptoMapModal.vue:16
 msgid "Crypto Map"
@@ -159,7 +164,7 @@ msgstr "Décrire ici"
 msgid "Describe the issue"
 msgstr "Décrivez le problème"
 
-#: src/assets-dev/provider-assets.ts:86
+#: src/assets-dev/provider-assets.ts:85
 msgid ""
 "Edenia enables users to easily purchase cryptocurrencies through a network "
 "of ATMs"
@@ -200,7 +205,7 @@ msgstr "Trouver un lieu"
 msgid "Food & Drinks"
 msgstr "Nourriture & boissons"
 
-#: src/assets-dev/provider-assets.ts:38
+#: src/assets-dev/provider-assets.ts:37
 msgid ""
 "GoCrypto is a global payment network that enables merchants to accept crypto"
 " payments."
@@ -210,7 +215,7 @@ msgstr ""
 
 #: src/components/icons/cryptos/CryptoIcon.vue:40
 msgid "GoCrypto supports Binance Pay"
-msgstr ""
+msgstr "GoCrypto supporte Binance Pay"
 
 #: src/translations.ts:11
 msgid "Health & Beauty"
@@ -226,15 +231,17 @@ msgstr "Hôtellerie & hébergement"
 
 #: src/components/elements/Controls.vue:8
 msgid "Information about this Cryptocity"
-msgstr ""
+msgstr "Informations concernant cette Cryptocity"
 
 #: src/assets-dev/cryptocities-assets.ts:25
 msgid ""
 "Kryptostadt Mannheim is part of the global Cryptocity Initiative led by "
 "Nimiq and its partners."
 msgstr ""
+"Kryptostadt Mannheim fait partie de l'initiative mondiale Cryptocity menée "
+"par Nimiq et ses partenaires."
 
-#: src/assets-dev/provider-assets.ts:50
+#: src/assets-dev/provider-assets.ts:49
 msgid ""
 "Kurant enables users to easily purchase cryptocurrencies through a network "
 "of ATMs."
@@ -242,7 +249,7 @@ msgstr ""
 "Kurant permet aux utilisateurs d'acheter facilement des crypto-monnaies par "
 "l'intermédiaire d'un réseau de distributeurs automatiques de billets."
 
-#: src/components/elements/ProviderBanner.vue:45
+#: src/components/elements/ProviderBanner.vue:44
 msgid "Learn more"
 msgstr "En savoir plus"
 
@@ -250,7 +257,7 @@ msgstr "En savoir plus"
 #: src/assets-dev/cryptocities-assets.ts:27
 #: src/assets-dev/cryptocities-assets.ts:40
 msgid "Learn more at"
-msgstr ""
+msgstr "Pour en savoir plus"
 
 #: src/translations.ts:13
 msgid "Leisure Activities"
@@ -301,21 +308,21 @@ msgstr ""
 "Illustration de {name}, un lieu où acheter avec de la crypto à{city}, "
 "{country}, {providedBy}"
 
-#: src/assets-dev/provider-assets.ts:35 src/assets-dev/provider-assets.ts:59
-#: src/assets-dev/provider-assets.ts:71
+#: src/assets-dev/provider-assets.ts:34 src/assets-dev/provider-assets.ts:58
+#: src/assets-dev/provider-assets.ts:70
 msgid "Powered by {provider}"
 msgstr "Propulsé par {provider}"
 
 #: src/components/elements/CryptoMapModal.vue:21
 #: src/components/elements/TheMapInstance.vue:10
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #: src/components/cards/location/LocationCard.vue:26
 msgid "Provided by {provider}"
 msgstr "Fourni par {provider}"
 
-#: src/assets-dev/provider-assets.ts:47 src/assets-dev/provider-assets.ts:83
+#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:82
 msgid "Register with {provider}"
 msgstr "S'inscrire sur {provider}"
 
@@ -415,7 +422,7 @@ msgstr "Soumettre un lieu"
 #: src/components/elements/CryptoMapModal.vue:22
 #: src/components/elements/TheMapInstance.vue:11
 msgid "Terms of Service"
-msgstr ""
+msgstr "Conditions d'utilisation"
 
 #: src/components/forms/ReportLocation.vue:47
 msgid "Thank you for reporting this issue"
@@ -430,6 +437,8 @@ msgid ""
 "Thanks to GoCrypto, Slovenia's capital, Ljubljana, has become a top "
 "destination for crypto enthusiasts."
 msgstr ""
+"Grâce à GoCrypto, Ljubljana, la capitale de la Slovénie, est devenue une "
+"destination de choix pour les amateurs de cryptomonnaies."
 
 #: src/components/forms/NewCandidate.vue:56
 #: src/components/forms/ReportLocation.vue:61
@@ -441,6 +450,8 @@ msgid ""
 "This app is brought to you by Nimiq. It is protected by reCAPTCHA and the "
 "Google {privacyPolicy} and {termsOfService} apply."
 msgstr ""
+"Cette application vous est proposée par Nimiq. Elle est protégé par "
+"reCAPTCHA et les {privacyPolicy} et {termsOfService} de Google"
 
 #: src/components/forms/NewCandidate.vue:45
 #: src/components/forms/ReportLocation.vue:50
@@ -456,6 +467,8 @@ msgid ""
 "This site is protected by reCAPTCHA and the Google {privacyPolicy} and "
 "{termsOfService} apply."
 msgstr ""
+"Ce site vous est proposé par Nimiq. Il est protégé par reCAPTCHA et "
+"les{privacyPolicy}et {termsOfService}de Google."
 
 #: src/components/forms/FormContainer.vue:83
 #: src/components/forms/NewCandidate.vue:59
@@ -477,8 +490,10 @@ msgid ""
 "We are strategically working with local businesses to stimulate the regional"
 " economy through the innovative use of cryptocurrency."
 msgstr ""
+"Nous travaillons stratégiquement avec des entreprises locales pour stimuler "
+"l'économie régionale grâce à l'utilisation innovante des cryptomonnaies."
 
-#: src/assets-dev/provider-assets.ts:74
+#: src/assets-dev/provider-assets.ts:73
 msgid ""
 "With CryptoPayment Link, you can quickly and easily receive cryptocurrency "
 "payments from your customers."
@@ -492,6 +507,9 @@ msgid ""
 "crypto-friendly city in Europe but also secures a prominent position in "
 "international rankings."
 msgstr ""
+"Avec plus de 600 points d'acceptation, Ljubljana est non seulement la ville "
+"la plus favorable aux cryptomonnaies en Europe, mais elle occupe également "
+"une place de choix dans les classements internationaux."
 
 #: src/components/forms/ReportLocation.vue:36
 msgid "Write your problem here"

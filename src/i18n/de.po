@@ -53,7 +53,7 @@ msgid ""
 "with crypto at shops and establishments supporting Binance Pay."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:62
+#: src/assets-dev/provider-assets.ts:61
 msgid ""
 "Bluecode is a payment method that allows secure transactions directly "
 "through the smartphone."
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Describe the issue"
 msgstr "Problembeschreibung"
 
-#: src/assets-dev/provider-assets.ts:86
+#: src/assets-dev/provider-assets.ts:85
 msgid ""
 "Edenia enables users to easily purchase cryptocurrencies through a network "
 "of ATMs"
@@ -196,7 +196,7 @@ msgstr "Geschäft finden"
 msgid "Food & Drinks"
 msgstr "Essen & Getränke"
 
-#: src/assets-dev/provider-assets.ts:38
+#: src/assets-dev/provider-assets.ts:37
 msgid ""
 "GoCrypto is a global payment network that enables merchants to accept crypto"
 " payments."
@@ -230,13 +230,13 @@ msgid ""
 "Nimiq and its partners."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:50
+#: src/assets-dev/provider-assets.ts:49
 msgid ""
 "Kurant enables users to easily purchase cryptocurrencies through a network "
 "of ATMs."
 msgstr ""
 
-#: src/components/elements/ProviderBanner.vue:45
+#: src/components/elements/ProviderBanner.vue:44
 msgid "Learn more"
 msgstr ""
 
@@ -293,8 +293,8 @@ msgid ""
 "{providedBy}"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:35 src/assets-dev/provider-assets.ts:59
-#: src/assets-dev/provider-assets.ts:71
+#: src/assets-dev/provider-assets.ts:34 src/assets-dev/provider-assets.ts:58
+#: src/assets-dev/provider-assets.ts:70
 msgid "Powered by {provider}"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr ""
 msgid "Provided by {provider}"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:47 src/assets-dev/provider-assets.ts:83
+#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:82
 msgid "Register with {provider}"
 msgstr ""
 
@@ -470,7 +470,7 @@ msgid ""
 " economy through the innovative use of cryptocurrency."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:74
+#: src/assets-dev/provider-assets.ts:73
 msgid ""
 "With CryptoPayment Link, you can quickly and easily receive cryptocurrency "
 "payments from your customers."

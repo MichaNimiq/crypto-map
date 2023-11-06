@@ -41,8 +41,8 @@ async function onSubmit() {
 
   state.value = FormState.Loading
   const captcha = await useCaptcha().getCaptchaToken()
-  const r = await props.onSubmit(captcha)
-  state.value = r?.ok ? FormState.Success : FormState.Error
+  const res = await props.onSubmit(captcha)
+  state.value = res?.ok ? FormState.Success : FormState.Error
 }
 
 const slots = useSlots()
