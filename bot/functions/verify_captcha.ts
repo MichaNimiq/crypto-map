@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   DefineFunction,
   Schema,
@@ -31,26 +32,23 @@ export const VerifyCaptcha = DefineFunction({
 export default SlackFunction(
   VerifyCaptcha,
   async ({ inputs, env }) => {
-    const googleCaptchaSecret = env.GOOGLE_CAPTCHA_KEY
+    console.log(`Verifying captcha with token: ${inputs.captcha} and secret: ${!!env.GOOGLE_CAPTCHA_KEY}`)
 
     try {
-      const url = 'https://www.google.com/recaptcha/api/siteverify'
-
-      const data = new URLSearchParams()
-      data.append('secret', googleCaptchaSecret)
-      data.append('response', inputs.captcha)
-
-      // We could use `remoteip` as well, it is optional. Should be user's IP, not server's!
+      const url = new URL('https://www.google.com/recaptcha/api/siteverify')
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data,
+        body: JSON.stringify({
+          secret: env.GOOGLE_CAPTCHA_KEY,
+          response: inputs.captcha,
+          // remoteip: 'CLIENT_IP_ADDRESS', // Optional parameter
+        }),
       })
 
       const result = await response.json()
+
+      console.log(`Captcha verification result: ${JSON.stringify(result)}`)
 
       if (!result.success) {
         return {
