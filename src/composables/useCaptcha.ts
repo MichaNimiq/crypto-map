@@ -1,20 +1,19 @@
 import { authenticateAnonUser } from 'database'
-import { createSharedComposable } from '@vueuse/core'
 import { useExpiringStorage } from '@/composables/useExpiringStorage'
 import { DATABASE_ARGS } from '@/shared'
 
 const CAPTCHA_TOKEN_VALIDITY = 10 * 60 * 1000 // 10 minutes for the captcha token
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 
-async function _useCaptcha() {
+export function useCaptcha() {
   async function getCaptchaToken() {
     while (!globalThis.grecaptcha)
       await new Promise(resolve => setTimeout(resolve, 100))
-    return await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'idle' })
+    const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'idle' })
+    return token
   }
 
   const { payload: captchaToken, init } = useExpiringStorage('captcha_token_uuid', { expiresIn: CAPTCHA_TOKEN_VALIDITY, getAsyncValue: async () => authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken()) })
-  await init()
 
   // const loadRecaptcha = () => {
   //   if (loaded)
@@ -42,7 +41,6 @@ async function _useCaptcha() {
   return {
     getCaptchaToken,
     captchaToken,
+    init,
   }
 }
-
-export const useCaptcha = createSharedComposable(_useCaptcha)

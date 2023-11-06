@@ -1,14 +1,11 @@
-import { authenticateAnonUser, getTimestamps } from 'database'
+import { getTimestamps } from 'database'
 import { defineStore, storeToRefs } from 'pinia'
 import type { AnyUserReadDbFunction, Returns } from 'types'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMarkers } from '@/stores/markers'
 import { DATABASE_ARGS } from '@/shared'
-import { useExpiringStorage } from '@/composables/useExpiringStorage'
-
-const CAPTCHA_TOKEN_VALIDITY = 10 * 60 * 1000 // 10 minutes for the captcha token
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+import { useCaptcha } from '@/composables/useCaptcha'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -47,17 +44,7 @@ export const useApp = defineStore('app', () => {
 
   const timestamps = ref<Returns[AnyUserReadDbFunction.GetTimestamps]>()
 
-  async function getCaptchaToken() {
-    while (!globalThis.grecaptcha)
-      await new Promise(resolve => setTimeout(resolve, 100))
-    return await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'idle' })
-  }
-
-  const { payload: captchaToken, init: initCaptcha } = useExpiringStorage<string>('captcha_token_uuid', {
-    expiresIn: CAPTCHA_TOKEN_VALIDITY,
-    getAsyncValue: async () => await authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken()),
-  })
-
+  const { init: initCaptcha, captchaToken } = useCaptcha()
   async function init() {
     if (captchaToken.value && timestamps.value)
       return
@@ -74,7 +61,7 @@ export const useApp = defineStore('app', () => {
     mapLoaded,
     showSplashScreen,
     timestamps,
-    captchaToken,
     init,
+    captchaToken,
   }
 })

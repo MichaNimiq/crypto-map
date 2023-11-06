@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import { computed, ref, useSlots } from 'vue'
 import Button from '@/components/atoms/Button.vue'
 import ArrowLeftIcon from '@/components/icons/icon-arrow-left.vue'
@@ -11,7 +12,7 @@ const props = defineProps({
     default: false,
   },
   onSubmit: {
-    type: Function,
+    type: Function as PropType<(token: string) => Promise<Response | undefined>>,
     required: true,
   },
   showForm: {
@@ -19,6 +20,8 @@ const props = defineProps({
     default: true,
   },
 })
+
+defineEmits(['submit'])
 
 enum FormState {
   Initial = 'initial',
@@ -37,16 +40,9 @@ async function onSubmit() {
     return
 
   state.value = FormState.Loading
-  const token = (await useCaptcha()).captchaToken.value
-  props
-    .onSubmit(token)
-    .then((r: Response) => {
-      if (r.ok)
-        state.value = FormState.Success
-      else
-        state.value = FormState.Error
-    })
-    .catch(() => (state.value = FormState.Error))
+  const captcha = await useCaptcha().getCaptchaToken()
+  const r = await props.onSubmit(captcha)
+  state.value = r?.ok ? FormState.Success : FormState.Error
 }
 
 const slots = useSlots()
