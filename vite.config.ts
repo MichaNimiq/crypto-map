@@ -17,7 +17,7 @@ export default defineConfig({
     pluginRewriteAll(), // Allow have dots in the path for the coords like /@1.23,14.567,12z
     poLoader(),
     poOptimizer(),
-    vue(),
+    vue({ script: { defineModel: true } }),
     checker({ vueTsc: true, typescript: true }),
   ],
   resolve: {
