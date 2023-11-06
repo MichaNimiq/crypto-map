@@ -27,7 +27,7 @@ async function onSubmit(captcha: string) {
     dev: import.meta.env.DEV,
   }
   const url = import.meta.env.VITE_SLACK_NEW_CANDIDATE_URL
-  return await fetch(url, {
+  return fetch(url, {
     body: JSON.stringify(body),
     method: 'POST',
   })

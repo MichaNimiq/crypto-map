@@ -39,7 +39,7 @@ async function onSubmit(captcha: string) {
     uuid: selectedUuid,
   }
   const url = import.meta.env.VITE_SLACK_REPORT_URL
-  return await fetch(url, {
+  return fetch(url, {
     body: JSON.stringify(body),
     method: 'POST',
   })
