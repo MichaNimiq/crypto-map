@@ -8,7 +8,7 @@ export interface ExpiringValue<T> {
   timestamp?: string
 }
 
-interface UseExpiringStorageBaseOptions<T> {
+interface UseExpiringStorageBaseOptions {
   /**
    * The amount of time in ms when the storage expires
    */
@@ -27,7 +27,7 @@ interface UseExpiringStorageBaseOptions<T> {
   autoRefresh?: boolean
 }
 
-interface UseExpiringStorageSyncOptions<T> extends UseExpiringStorageBaseOptions<T> {
+interface UseExpiringStorageSyncOptions<T> extends UseExpiringStorageBaseOptions {
   /**
    * If provided, it will be used to get the value when the storage is empty and once the storage expires
    * @default undefined
@@ -35,7 +35,7 @@ interface UseExpiringStorageSyncOptions<T> extends UseExpiringStorageBaseOptions
   defaultValue?: T
 }
 
-interface UseExpiringStorageAsyncOptions<T> extends UseExpiringStorageBaseOptions<T> {
+interface UseExpiringStorageAsyncOptions<T> extends UseExpiringStorageBaseOptions {
   /**
    * If provided, it will be used to get the value when the storage is empty and once the storage expires.
    * If you want to initialize the storage with a value, use init() as follows

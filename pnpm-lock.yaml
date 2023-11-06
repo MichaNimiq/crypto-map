@@ -11,9 +11,6 @@ dependencies:
   '@googlemaps/js-api-loader':
     specifier: ^1.16.2
     version: 1.16.2
-  '@googlemaps/markerclusterer':
-    specifier: ^2.4.0
-    version: 2.4.0
   '@headlessui/vue':
     specifier: ^1.7.16
     version: 1.7.16(vue@3.3.4)
@@ -63,8 +60,8 @@ dependencies:
     specifier: ^2.1.6
     version: 2.1.6(typescript@5.1.6)(vue@3.3.4)
   radix-vue:
-    specifier: ^0.4.1
-    version: 0.4.1(vue@3.3.4)
+    specifier: ^1.1.1
+    version: 1.1.1(vue@3.3.4)
   supercluster:
     specifier: ^8.0.1
     version: 8.0.1
@@ -81,8 +78,8 @@ dependencies:
     specifier: 2.0.0-beta.8
     version: 2.0.0-beta.8(vue@3.3.4)
   vue3-google-map:
-    specifier: ^0.17.1
-    version: 0.17.1(vue@3.3.4)
+    specifier: ^0.18.0
+    version: 0.18.0(vue@3.3.4)
 
 devDependencies:
   '@antfu/eslint-config':
@@ -410,27 +407,27 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@floating-ui/core@1.4.1:
-    resolution: {integrity: sha512-jk3WqquEJRlcyu7997NtR5PibI+y5bi+LS3hPmguVClypenMsCY3CBa3LAQnozRCtCrYWSEtAdiskpamuJRFOQ==}
+  /@floating-ui/core@1.5.0:
+    resolution: {integrity: sha512-kK1h4m36DQ0UHGj5Ah4db7R0rHemTqqO0QLvUqi1/mUUp3LuAWbWxdxSIf/XsnH9VS6rRVPLJCncjRzUvyCLXg==}
     dependencies:
-      '@floating-ui/utils': 0.1.1
+      '@floating-ui/utils': 0.1.6
     dev: false
 
-  /@floating-ui/dom@1.5.1:
-    resolution: {integrity: sha512-KwvVcPSXg6mQygvA1TjbN/gh///36kKtllIF8SUm0qpFj8+rvYrpvlYdL1JoA71SHpDqgSSdGOSoQ0Mp3uY5aw==}
+  /@floating-ui/dom@1.5.3:
+    resolution: {integrity: sha512-ClAbQnEqJAKCJOEbbLo5IUlZHkNszqhuxS4fHAVxRPXPya6Ysf2G8KypnYcOTpx6I8xcgF9bbHb6g/2KpbV8qA==}
     dependencies:
-      '@floating-ui/core': 1.4.1
-      '@floating-ui/utils': 0.1.1
+      '@floating-ui/core': 1.5.0
+      '@floating-ui/utils': 0.1.6
     dev: false
 
-  /@floating-ui/utils@0.1.1:
-    resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
+  /@floating-ui/utils@0.1.6:
+    resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
     dev: false
 
   /@floating-ui/vue@1.0.2(vue@3.3.4):
     resolution: {integrity: sha512-sImlAl9mAoCKZLNlwWz2P2ZMJIDlOEDXrRD6aD2sIHAka1LPC+nWtB+D3lPe7IE7FGWSbwBPTnlSdlABa3Fr0A==}
     dependencies:
-      '@floating-ui/dom': 1.5.1
+      '@floating-ui/dom': 1.5.3
       vue-demi: 0.14.6(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -4285,10 +4282,10 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /radix-vue@0.4.1(vue@3.3.4):
-    resolution: {integrity: sha512-uJLHSwCzvUzaXYdr3r5HkhQ7bATegpvo3pAscPM1TDVCuGrVtnD3/7DpLPvDRkrwibWcu855agoqHSPsukQL3g==}
+  /radix-vue@1.1.1(vue@3.3.4):
+    resolution: {integrity: sha512-tKXwEyxJdQRdCGVhe9rjPcbluDUhtzNJ4hKd66KwP+DAgcgbLELp2xyV/3mMl3htH3y5h7ndy9aEASy/thFs5g==}
     dependencies:
-      '@floating-ui/dom': 1.5.1
+      '@floating-ui/dom': 1.5.3
       '@floating-ui/vue': 1.0.2(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -5278,11 +5275,11 @@ packages:
       vue-resize: 2.0.0-alpha.1(vue@3.3.4)
     dev: false
 
-  /vue3-google-map@0.17.1(vue@3.3.4):
-    resolution: {integrity: sha512-1JB4ma10v4GvlnQ/RZczUn2HIc3Eh/K44OOcXKbgiQZQzlWcBLmXjA1fTRSdwlZ/qAmTopYNxdOQEBi/mFlRXg==}
+  /vue3-google-map@0.18.0(vue@3.3.4):
+    resolution: {integrity: sha512-dhDlXK5XxKxH3Mj6n6C7y99M5LRwPDHlgGWgfLkmzVMpwlxBhaSxDhSTaduAFUjeHVusEfYdPxJSSP7yPJr8sg==}
     engines: {node: '>=16.11.0'}
     peerDependencies:
-      vue: ^3.3.4
+      vue: ^3
     dependencies:
       '@googlemaps/js-api-loader': 1.16.2
       '@googlemaps/markerclusterer': 2.4.0
