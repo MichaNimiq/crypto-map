@@ -4,7 +4,7 @@ import { Cookie } from '@nimiq/utils'
 // import { setLanguage as setVueComponentsLanguage } from '@nimiq/vue3-components'
 
 const DEFAULT_LANGUAGE = 'en'
-export const SUPPORTED_LANGUAGES = ['de', 'en', 'es', 'fr', 'nl', 'tr', 'uk']
+export const SUPPORTED_LANGUAGES = ['de', 'en', 'es', 'pt', 'nl', 'tr', 'uk', 'fr']
 const loadedLanguages: string[] = []
 
 // Note: additional config is applied at compile time in vite.config.ts, see
