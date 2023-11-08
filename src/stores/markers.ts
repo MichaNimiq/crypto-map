@@ -21,11 +21,11 @@ export const useMarkers = defineStore('markers', () => {
   const { attachedCryptocities } = storeToRefs(useCryptocities())
 
   /*
-  With memoziation, we reduce redundant calculations/requests and optimizes user map interactions to optimize map performance:
-  - `memoizedCluster` stores clusters, bounding boxes, and filters by zoom level.
-  - Before re-clustering, we check for existing data matching the current zoom, bounding box, and filters.
-  - If a match is found, we reuse stored clusters; otherwise, new clusters are computed and stored.
-  */
+   * With memoization, we reduce redundant calculations/requests and optimizes user map interactions to optimize map performance:
+  -* `memoizedCluster` stores clusters, bounding boxes, and filters by zoom level.
+  -* Before re-clustering, we check for existing data matching the current zoom, bounding box, and filters.
+  -* If a match is found, we reuse stored clusters; otherwise, new clusters are computed and stored.
+   */
   const { payload: memoized } = useExpiringStorage('memoized_markers', {
     defaultValue: [] as { key: LocationClusterParams; value: MemoizedMarkers }[],
     expiresIn: 7 * 24 * 60 * 60 * 1000,
