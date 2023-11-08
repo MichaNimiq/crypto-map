@@ -23,7 +23,7 @@ export const useLocations = defineStore('locations', () => {
     expiresIn: 7 * 24 * 60 * 60 * 1000,
     timestamp: useApp().timestamps?.locations,
   })
-  const locations = computed(() => Object.values(locationsMap))
+  const locations = computed(() => Object.values(locationsMap.value))
 
   function setLocations(locations: Location[]) {
     locations.forEach(location => locationsMap.value[location.uuid] = location)
