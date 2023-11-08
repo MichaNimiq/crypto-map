@@ -14,7 +14,7 @@
     "story:build": "pnpm i18n:extract && histoire build",
     "story:preview": "pnpm i18n:extract && histoire preview",
     "i18n:extract": "node ./node_modules/webpack-i18n-tools/index.js ./src/i18n/en.po",
-    "i18n:pull": "tx pull -l de,es,fr,nl,tr,uk --force --minimum-perc 50",
+    "i18n:pull": "tx pull -l de,es,fr,nl,tr,pt,uk --force --minimum-perc 50",
     "i18n:push": "tx push --source",
     "i18n:sync": "pnpm i18n:extract && pnpm i18n:push; pnpm i18n:pull"
   },
