@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import {
   DefineFunction,
   Schema,
@@ -46,6 +48,7 @@ export const SendContext = DefineFunction({
 export default SlackFunction(
   SendContext,
   async ({ client, inputs, env }) => {
+    console.log(JSON.stringify(inputs))
     const dev = inputs.environment === 'Test'
     const location = inputs.location!
 
