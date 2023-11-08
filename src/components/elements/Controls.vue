@@ -13,6 +13,8 @@ import { useGeoIp } from '@/composables/useGeoLocation'
 import { useCryptocities } from '@/stores/cryptocities'
 import { useMap } from '@/stores/map'
 
+const isDev = import.meta.env.DEV
+
 const { cryptocitiesInView } = storeToRefs(useCryptocities())
 const { zoom } = storeToRefs(useMap())
 const cryptocityControl = computed(() => cryptocitiesInView.value.find(c => c.showCardAtZoom <= zoom.value))
@@ -46,10 +48,12 @@ async function setBrowserPosition() {
   isGeolocationLoading.value = false
   useMap().setPosition(browserPosition)
 }
+
+const clearLocalStorage = () => localStorage.clear()
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4">
+  <div class="flex flex-col items-end gap-y-4">
     <PopoverRoot
       v-if="cryptocityControl"
       :open="cryptocityCardOpen"
@@ -78,7 +82,7 @@ async function setBrowserPosition() {
       </template>
     </Button>
 
-    <div class="flex flex-col bg-white rounded-full shadow max-desktop:hidden border border-[#e9e9ed]">
+    <div class="flex flex-col bg-white rounded-full shadow max-desktop:hidden border border-[#e9e9ed] w-8">
       <Button bg-color="white" class="!w-8 !h-8 rounded-b-0" @click="useMap().increaseZoom">
         <template #icon>
           <PlusIcon class="w-5" />
@@ -91,6 +95,12 @@ async function setBrowserPosition() {
         <template #icon>
           <MinusIcon class="w-5" />
         </template>
+      </Button>
+    </div>
+
+    <div v-if="isDev" class="absolute bottom-0 flex position right-12">
+      <Button bg-color="white" color="blue" size="sm" text-color="ocean" @click="clearLocalStorage">
+        <template #label>Delete Storage</template>
       </Button>
     </div>
   </div>
