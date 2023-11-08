@@ -14,7 +14,7 @@ export const DATABASE_ARGS: DatabaseArgs = {
 
 export async function getAnonDatabaseArgs(): Promise<DatabaseAnonArgs> {
   await useApp().init()
-  return { ...DATABASE_ARGS, captchaToken: useApp().captchaToken, user: DatabaseUser.Anonymous }
+  return { ...DATABASE_ARGS, captchaToken: useApp().captchaTokenUuid, user: DatabaseUser.Anonymous }
 }
 
 export function parseLocation(location: Location) {

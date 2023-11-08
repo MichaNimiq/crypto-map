@@ -44,9 +44,9 @@ export const useApp = defineStore('app', () => {
 
   const timestamps = ref<Returns[AnyUserReadDbFunction.GetTimestamps]>()
 
-  const { init: initCaptcha, captchaToken } = useCaptcha()
+  const { init: initCaptcha, captchaTokenUuid } = useCaptcha()
   async function init() {
-    if (captchaToken.value && timestamps.value)
+    if (captchaTokenUuid.value && timestamps.value)
       return
     const [_, newTimestamps] = await Promise.allSettled([initCaptcha(), getTimestamps(DATABASE_ARGS)])
     timestamps.value = newTimestamps.status === 'fulfilled' ? newTimestamps.value : undefined
@@ -62,6 +62,6 @@ export const useApp = defineStore('app', () => {
     showSplashScreen,
     timestamps,
     init,
-    captchaToken,
+    captchaTokenUuid,
   }
 })

@@ -19,18 +19,14 @@ const disabled = computed(() => selectedCurrencies.value.length === 0 || !select
 async function onSubmit(captcha: string) {
   if (!selectedPlace.value)
     return
-  const body = {
+  const body = JSON.stringify({
     name: selectedPlace.value.label,
     gmapsPlaceId: selectedPlace.value.id,
     currencies: selectedCurrencies.value,
     captcha,
     dev: import.meta.env.DEV,
-  }
-  const url = import.meta.env.VITE_SLACK_NEW_CANDIDATE_URL
-  return fetch(url, {
-    body: JSON.stringify(body),
-    method: 'POST',
   })
+  return fetch(import.meta.env.VITE_SLACK_NEW_CANDIDATE_URL, { body, method: 'POST' })
 }
 </script>
 

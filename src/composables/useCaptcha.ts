@@ -13,7 +13,7 @@ export function useCaptcha() {
     return token
   }
 
-  const { payload: captchaToken, init } = useExpiringStorage('captcha_token_uuid', { expiresIn: CAPTCHA_TOKEN_VALIDITY, getAsyncValue: async () => authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken()) })
+  const { payload: captchaTokenUuid, init } = useExpiringStorage('captcha_token_uuid', { expiresIn: CAPTCHA_TOKEN_VALIDITY, getAsyncValue: async () => authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken()) })
 
   // const loadRecaptcha = () => {
   //   if (loaded)
@@ -40,7 +40,7 @@ export function useCaptcha() {
 
   return {
     getCaptchaToken,
-    captchaToken,
+    captchaTokenUuid,
     init,
   }
 }
