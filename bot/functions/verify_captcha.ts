@@ -32,19 +32,12 @@ export const VerifyCaptcha = DefineFunction({
 export default SlackFunction(
   VerifyCaptcha,
   async ({ inputs, env }) => {
-    console.log(`Verifying captcha with token: ${inputs.captcha} and secret: ${!!env.GOOGLE_CAPTCHA_KEY}`)
+    console.log(`Verifying captcha with token: ${inputs.captcha} and secret: ${env.GOOGLE_CAPTCHA_KEY}`)
 
     try {
       const url = new URL('https://www.google.com/recaptcha/api/siteverify')
 
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-          secret: env.GOOGLE_CAPTCHA_KEY,
-          response: inputs.captcha,
-          // remoteip: 'CLIENT_IP_ADDRESS', // Optional parameter
-        }),
-      })
+      const response = await fetch(`${url}?secret=${env.GOOGLE_CAPTCHA_KEY}&response=${inputs.captcha}`)
 
       const result = await response.json()
 

@@ -54,7 +54,7 @@ const messageStep = HandleCandidateWorkflow.addStep(
   HandleCandidateMessage,
   {
     name: HandleCandidateWorkflow.inputs.name,
-    environment: HandleCandidateWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleCandidateWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
     place_id: HandleCandidateWorkflow.inputs.gmapsPlaceId,
     accepts: HandleCandidateWorkflow.inputs.currencies,
   },
@@ -65,7 +65,7 @@ const locationToDbStep = HandleCandidateWorkflow.addStep(
   {
     place_id: HandleCandidateWorkflow.inputs.gmapsPlaceId,
     accepts: HandleCandidateWorkflow.inputs.currencies,
-    environment: HandleCandidateWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleCandidateWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
   },
 )
 
@@ -75,7 +75,7 @@ HandleCandidateWorkflow.addStep(
     location: locationToDbStep.outputs.location,
     message_ts: messageStep.outputs.message_ts,
     reviewer: messageStep.outputs.reviewer,
-    environment: HandleCandidateWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleCandidateWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
     type: 'candidate_added',
   },
 )
