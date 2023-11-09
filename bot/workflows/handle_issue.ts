@@ -51,7 +51,7 @@ const locationStep = HandleIssueWorkflow.addStep(
   GetLocation,
   {
     uuid: HandleIssueWorkflow.inputs.uuid,
-    environment: HandleIssueWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleIssueWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
   },
 )
 
@@ -59,7 +59,7 @@ const messageStep = HandleIssueWorkflow.addStep(
   HandleIssueMessage,
   {
     location: locationStep.outputs.location,
-    environment: HandleIssueWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleIssueWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
     reason: HandleIssueWorkflow.inputs.reason,
     reason_id: HandleIssueWorkflow.inputs.reason_id,
   },
@@ -69,7 +69,7 @@ HandleIssueWorkflow.addStep(
   DeleteLocation,
   {
     uuid: locationStep.outputs.location.uuid,
-    environment: HandleIssueWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleIssueWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
   },
 )
 
@@ -79,7 +79,7 @@ HandleIssueWorkflow.addStep(
     location: locationStep.outputs.location,
     message_ts: messageStep.outputs.message_ts,
     reviewer: messageStep.outputs.reviewer,
-    environment: HandleIssueWorkflow.inputs.dev ? 'Test' : 'Production',
+    environment: HandleIssueWorkflow.inputs.dev.toString() === 'true' ? 'Test' : 'Production',
     reason: HandleIssueWorkflow.inputs.reason,
     reason_id: HandleIssueWorkflow.inputs.reason_id,
     type: 'location_deleted_issue',
