@@ -31,18 +31,14 @@ onMounted(async () => {
 async function onSubmit(captcha: string) {
   if (!selectedIssue.value)
     return
-  const body = {
+  const body = JSON.stringify({
     captcha,
     dev: import.meta.env.DEV,
     reason: issueDescription.value,
     reason_id: selectedIssue.value,
     uuid: selectedUuid,
-  }
-  const url = import.meta.env.VITE_SLACK_REPORT_URL
-  return fetch(url, {
-    body: JSON.stringify(body),
-    method: 'POST',
   })
+  return fetch(import.meta.env.VITE_SLACK_REPORT_URL!, { body, method: 'POST' })
 }
 </script>
 
