@@ -7,13 +7,26 @@ const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 
 export function useCaptcha() {
   async function getCaptchaToken() {
-    while (!globalThis.grecaptcha)
+    while (!globalThis.grecaptcha || !globalThis.grecaptcha.execute)
       await new Promise(resolve => setTimeout(resolve, 100))
     const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'idle' })
     return token
   }
 
-  const { payload: captchaTokenUuid, init } = useExpiringStorage('captcha_token_uuid', { expiresIn: CAPTCHA_TOKEN_VALIDITY, getAsyncValue: async () => authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken()) })
+  async function getAsyncValue(): Promise<string> {
+    try {
+      return await authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken())
+    }
+    catch (error: any) {
+      if ('message' in error && error.message.includes('Invalid Captcha UUID')) {
+        globalThis.localStorage.removeItem('cryptomap__captcha_token_uuid')
+        return await getAsyncValue()
+      }
+      throw error
+    }
+  }
+
+  const { payload: captchaTokenUuid, init } = useExpiringStorage('captcha_token_uuid', { expiresIn: CAPTCHA_TOKEN_VALIDITY, getAsyncValue })
 
   // const loadRecaptcha = () => {
   //   if (loaded)

@@ -125,5 +125,6 @@ export function useExpiringStorage<T>(_key: string, options: UseExpiringStorageS
   return {
     payload: computed(() => stored.value),
     init,
+    clean: () => storage.removeItem(key),
   }
 }
