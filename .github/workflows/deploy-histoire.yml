@@ -32,6 +32,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Go to web directory
+        run: cd apps/web
+
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
