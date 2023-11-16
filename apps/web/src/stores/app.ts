@@ -47,10 +47,14 @@ export const useApp = defineStore('app', () => {
 
   const { init: initCaptcha, captchaTokenUuid } = useCaptcha()
   async function init() {
-    if (captchaTokenUuid.value && timestamps.value)
-      return
-    const [_, newTimestamps] = await Promise.allSettled([initCaptcha(), getTimestamps(DATABASE_ARGS)])
-    timestamps.value = newTimestamps.status === 'fulfilled' ? newTimestamps.value : undefined
+    const promises = []
+    if (!captchaTokenUuid.value)
+      promises.push(initCaptcha())
+
+    if (!timestamps.value)
+      promises.push(getTimestamps(DATABASE_ARGS).then(newTimestamps => timestamps.value = newTimestamps))
+
+    await Promise.all(promises)
   }
 
   init()
