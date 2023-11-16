@@ -18,7 +18,7 @@ export const useApp = defineStore('app', () => {
 
   const { loaded: markersLoaded } = storeToRefs(useMarkers())
 
-  const until = Date.now() + 300 // Show the splash screen at least for 200ms
+  const until = Date.now() + 300 // Show the splash screen at least for 300ms
   const showSplashScreen = ref(true)
   watch([mapLoaded, markersLoaded], () => {
     if (mapLoaded.value && markersLoaded.value) {
@@ -42,6 +42,7 @@ export const useApp = defineStore('app', () => {
     document.documentElement.style.setProperty('--search-box-hint', '0')
   }
 
+  // The timestamps are used to invalidate the local storage values
   const timestamps = ref<Returns[AnyUserReadDbFunction.GetTimestamps]>()
 
   const { init: initCaptcha, captchaTokenUuid } = useCaptcha()

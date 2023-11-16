@@ -10,6 +10,14 @@ export function useCaptcha() {
     while (!globalThis.grecaptcha || !globalThis.grecaptcha.execute)
       await new Promise(resolve => setTimeout(resolve, 100))
     const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'idle' })
+
+    // eslint-disable-next-line no-console
+    console.group('🤖 Got captcha token')
+    // eslint-disable-next-line no-console
+    console.log(token.slice(0, 7), '...', token.slice(-7))
+    // eslint-disable-next-line no-console
+    console.groupEnd()
+
     return token
   }
 
