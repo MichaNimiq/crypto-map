@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: src/components/cards/cryptocity/BasicInfoCryptocity.vue:6
-#: src/components/cards/cryptocity/CryptocityCard.vue:10
+#: src/components/cards/cryptocity/BasicInfoCryptocity.vue:8
+#: src/components/cards/cryptocity/CryptocityCard.vue:12
 msgid "{count} locations"
 msgstr ""
 
@@ -15,11 +15,11 @@ msgstr ""
 msgid "Add a location to the Crypto Map"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:30
+#: src/components/elements/CryptoMapModal.vue:34
 msgid "Add Crypto location"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:70
+#: src/components/elements/FilterModal.vue:72
 msgid "Apply filters"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgstr ""
 msgid "Cash"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:48
+#: src/components/elements/FilterModal.vue:50
 msgid "Categories"
 msgstr ""
 
@@ -79,12 +79,12 @@ msgstr ""
 msgid "Check out {locationName} on Nimiq's Crypto Map"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:65
+#: src/components/elements/FilterModal.vue:67
 msgid "Clear"
 msgstr ""
 
 #: src/components/atoms/Modal.vue:28
-#: src/components/cards/cryptocity/CryptocityCard.vue:11
+#: src/components/cards/cryptocity/CryptocityCard.vue:13
 msgid "Close"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Crypto Map logo"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:26
+#: src/components/elements/FilterModal.vue:28
 msgid "Cryptocurrencies"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Explore the Crypto Map"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:16
+#: src/components/elements/FilterModal.vue:17
 #: src/components/elements/FilterModal.vue:9
 msgid "Filters"
 msgstr ""
@@ -239,7 +239,7 @@ msgstr ""
 msgid "Miscellaneous"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:36
+#: src/components/elements/FilterModal.vue:38
 #: src/components/forms/NewCandidate.vue:29
 msgid "More cryptocurrencies supported in the future"
 msgstr ""
@@ -253,7 +253,7 @@ msgid "Nothing found."
 msgstr ""
 
 #: src/components/elements/DesktopList.vue:47
-#: src/components/MobileView.vue:25
+#: src/components/MobileView.vue:28
 msgid "Oops, no businesses around here"
 msgstr ""
 
@@ -271,8 +271,8 @@ msgstr ""
 msgid "Powered by {provider}"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:21
-#: src/components/elements/TheMapInstance.vue:10
+#: src/components/elements/CryptoMapModal.vue:22
+#: src/components/elements/TheMapInstance.vue:11
 msgid "Privacy Policy"
 msgstr ""
 
@@ -314,11 +314,11 @@ msgstr ""
 msgid "Select an option"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:44
+#: src/components/elements/FilterModal.vue:46
 msgid "Select category"
 msgstr ""
 
-#: src/components/elements/FilterModal.vue:21
+#: src/components/elements/FilterModal.vue:23
 #: src/components/forms/NewCandidate.vue:22
 msgid "Select Cryptocurrency"
 msgstr ""
@@ -349,7 +349,7 @@ msgid "Shop"
 msgstr ""
 
 #: src/components/elements/DesktopList.story.vue:20
-#: src/components/MobileView.vue:21
+#: src/components/MobileView.vue:22
 msgid "Show list"
 msgstr ""
 
@@ -357,8 +357,8 @@ msgstr ""
 msgid "Show more Locations"
 msgstr ""
 
-#: src/components/elements/Controls.vue:22
-#: src/components/elements/Controls.vue:23
+#: src/components/elements/Controls.vue:24
+#: src/components/elements/Controls.vue:25
 msgid "Show your location"
 msgstr ""
 
@@ -379,8 +379,8 @@ msgstr ""
 msgid "Submit Location"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:22
-#: src/components/elements/TheMapInstance.vue:11
+#: src/components/elements/CryptoMapModal.vue:25
+#: src/components/elements/TheMapInstance.vue:14
 msgid "Terms of Service"
 msgstr ""
 
