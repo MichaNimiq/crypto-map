@@ -66,7 +66,7 @@ function getStoredValue<T>(key: string, serializer: Serializer<ExpiringValue<T>>
  * @returns True if storage is either not present, has expired, or if the provided timestamp is newer than the stored timestamp.
  */
 function shouldUpdateStorage(storedValue: ExpiringValue<any> | undefined, timestamp?: string): boolean {
-  if (!storedValue || hasExpired(storedValue.expires))
+  if (!storedValue || hasExpired(storedValue.expires) || !storedValue.value)
     return true
   if (timestamp && storedValue.timestamp && new Date(storedValue.timestamp).getTime() < new Date(timestamp).getTime())
     return true
