@@ -1,4 +1,5 @@
 import { authenticateAnonUser } from 'database'
+import { useDebounceFn } from '@vueuse/core'
 import { useExpiringStorage } from '@/composables/useExpiringStorage'
 import { DATABASE_ARGS } from '@/shared'
 
@@ -21,9 +22,11 @@ export function useCaptcha() {
     return token
   }
 
+  const getCaptchaTokenDebouncer = useDebounceFn(getCaptchaToken, 1000)
+
   async function getAsyncValue(): Promise<string> {
     try {
-      return await authenticateAnonUser(DATABASE_ARGS, await getCaptchaToken())
+      return await authenticateAnonUser(DATABASE_ARGS, await getCaptchaTokenDebouncer())
     }
     catch (error: any) {
       if ('message' in error && error.message.includes('Invalid Captcha UUID')) {
@@ -60,7 +63,7 @@ export function useCaptcha() {
   // }
 
   return {
-    getCaptchaToken,
+    getCaptchaToken: getCaptchaTokenDebouncer,
     captchaTokenUuid,
     init,
   }

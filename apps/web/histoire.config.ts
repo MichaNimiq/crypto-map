@@ -1,4 +1,4 @@
-import process from 'process'
+import process from 'node:process'
 import { defineConfig } from 'histoire'
 import { HstVue } from '@histoire/plugin-vue'
 

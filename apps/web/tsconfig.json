@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "types": [
       "vite/client",
-      "grecaptcha"
+      "grecaptcha",
+      "node"
     ],
     "allowJs": true,
     "strict": true,
