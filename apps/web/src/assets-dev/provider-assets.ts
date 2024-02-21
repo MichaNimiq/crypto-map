@@ -26,6 +26,18 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
     theme: Theme.Dark,
     bg: ['radial-gradient(100% 100% at 100% 100%, #4D4C96 0%, #5F4B8B 100%)', 'radial-gradient(100% 100% at 100% 100%, hsl(241, 33%, 41%) 0%, hsl(259, 30%, 39%) 100%)'],
   },
+  [Provider.NimiqPay]: {
+    bg: ['#E9B213', undefined],
+    theme: Theme.Light,
+    get providerLabel() {
+      const i18n = i18nKeyPassThrough
+      return i18n.t('Pay with {provider}')
+    },
+    get providerTooltip() {
+      return i18n.t('Self-custodial & instant payments with NIM and BTC Lightning. Featuring learn-to-earn and loyalty rewards.')
+    },
+    providerTooltipCta: 'https://nimiq.com/nimiq-pay',
+  },
   [Provider.GoCrypto]: {
     theme: Theme.Light,
     bg: ['#F0BF4C', undefined],
