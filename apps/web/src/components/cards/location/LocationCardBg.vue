@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { Location } from 'types'
+import { type Location, Provider } from 'types'
 import ProviderLogo from '@/components/icons/providers/ProviderLogo.vue'
 
 defineProps({
@@ -27,6 +27,9 @@ defineProps({
       >
         <div
           class="absolute p-1.5 rounded-full w-9 h-9 right-4 bottom-4 place-content-center bg-white"
+          :class="{
+            '!bg-[#b7ff00]': location.provider === Provider.NAKA,
+          }"
         >
           <ProviderLogo :provider="location.provider" class="w-6 h-6" />
         </div>

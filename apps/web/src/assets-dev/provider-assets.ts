@@ -38,6 +38,18 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
     },
     providerTooltipCta: 'https://gocrypto.com',
   },
+  [Provider.NAKA]: {
+    theme: Theme.Dark,
+    bg: ['#293FFF', undefined],
+    get providerLabel() {
+      const i18n = i18nKeyPassThrough
+      return i18n.t('Powered by {provider}')
+    },
+    get providerTooltip() {
+      return i18n.t('NAKA is a global payment network that enables merchants to accept crypto payments.')
+    },
+    providerTooltipCta: 'https://naka.com',
+  },
   [Provider.Kurant]: {
     theme: Theme.Dark,
     bg: ['#A92E19', 'hsl(9, 74%, 35%)'],

@@ -35,10 +35,10 @@ export enum Category {
 export enum Currency {
   NIM = 'NIM',
   BTC = 'BTC',
+  LBTC = 'LBTC', // Lightning BTC
   USDC_on_POLYGON = 'USDC_on_POLYGON',
   ETH = 'ETH',
   LTC = 'LTC',
-  LBTC = 'LBTC',
   XLM = 'XLM',
   XRP = 'XRP',
   DASH = 'DASH',
@@ -49,7 +49,9 @@ export enum Currency {
 export enum Provider {
   DefaultShop = 'DefaultShop',
   DefaultAtm = 'DefaultAtm',
+  /** @deprecated */
   GoCrypto = 'GoCrypto',
+  NAKA = 'NAKA',
   Kurant = 'Kurant',
   Bluecode = 'Bluecode',
   CryptopaymentLink = 'Cryptopayment Link',
