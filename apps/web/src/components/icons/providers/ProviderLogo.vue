@@ -5,6 +5,7 @@ import CryptopaymentLinkIcon from './cryptopayment-link.vue'
 import DefaultAtmIcon from './default-atm.vue'
 import EdeniaIcon from './edenia.vue'
 import GoCryptoIcon from './gocrypto.vue'
+import NakaIcon from './naka.vue'
 import KurantIcon from './kurant.vue'
 
 defineProps({
@@ -21,5 +22,6 @@ defineProps({
   <DefaultAtmIcon v-else-if="provider === Provider.DefaultAtm" />
   <EdeniaIcon v-else-if="provider === Provider.Edenia" />
   <GoCryptoIcon v-else-if="provider === Provider.GoCrypto" />
+  <NakaIcon v-else-if="provider === Provider.NAKA" />
   <KurantIcon v-else-if="provider === Provider.Kurant" />
 </template>
