@@ -43,7 +43,7 @@ msgstr ""
 msgid "Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and establishments supporting Binance Pay."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:73
+#: src/assets-dev/provider-assets.ts:85
 msgid "Bluecode is a payment method that allows secure transactions directly through the smartphone."
 msgstr ""
 
@@ -143,7 +143,7 @@ msgstr ""
 msgid "Describe the issue"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:97
+#: src/assets-dev/provider-assets.ts:109
 msgid "Edenia enables users to easily purchase cryptocurrencies through a network of ATMs"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Food & Drinks"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:37
+#: src/assets-dev/provider-assets.ts:49
 msgid "GoCrypto is a global payment network that enables merchants to accept crypto payments."
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Kryptostadt Mannheim is part of the global Cryptocity Initiative led by Nimiq and its partners."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:61
+#: src/assets-dev/provider-assets.ts:73
 msgid "Kurant enables users to easily purchase cryptocurrencies through a network of ATMs."
 msgstr ""
 
@@ -265,14 +265,18 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
+#: src/assets-dev/provider-assets.ts:34
+msgid "Pay with {provider}"
+msgstr ""
+
 #: src/components/cards/location/LocationCard.vue:21
 msgid "Picture of {name}, a place to buy with crypto in {city}, {country}. {providedBy}"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:34
 #: src/assets-dev/provider-assets.ts:46
-#: src/assets-dev/provider-assets.ts:70
+#: src/assets-dev/provider-assets.ts:58
 #: src/assets-dev/provider-assets.ts:82
+#: src/assets-dev/provider-assets.ts:94
 msgid "Powered by {provider}"
 msgstr ""
 
@@ -285,8 +289,8 @@ msgstr ""
 msgid "Provided by {provider}"
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:58
-#: src/assets-dev/provider-assets.ts:94
+#: src/assets-dev/provider-assets.ts:106
+#: src/assets-dev/provider-assets.ts:70
 msgid "Register with {provider}"
 msgstr ""
 
@@ -331,6 +335,10 @@ msgstr ""
 #: src/components/forms/ReportLocation.vue:24
 #: src/components/forms/ReportLocation.vue:25
 msgid "Select issue"
+msgstr ""
+
+#: src/assets-dev/provider-assets.ts:37
+msgid "Self-custodial & instant payments with NIM and BTC Lightning. Featuring learn-to-earn and loyalty rewards."
 msgstr ""
 
 #: src/components/cards/location/LocationCard.vue:52
@@ -438,7 +446,7 @@ msgstr ""
 msgid "We are strategically working with local businesses to stimulate the regional economy through the innovative use of cryptocurrency."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:85
+#: src/assets-dev/provider-assets.ts:97
 msgid "With CryptoPayment Link, you can quickly and easily receive cryptocurrency payments from your customers."
 msgstr ""
 

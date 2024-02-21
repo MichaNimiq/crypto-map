@@ -57,6 +57,7 @@ export enum Provider {
   CryptopaymentLink = 'Cryptopayment Link',
   Edenia = 'Edenia',
   BitcoinJungle = 'Bitcoing Jungle',
+  NimiqPay = 'Nimiq Pay',
 }
 
 export enum DatabaseUser {

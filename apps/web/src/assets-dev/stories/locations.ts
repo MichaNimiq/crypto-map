@@ -37,6 +37,18 @@ export function getExtra(provider: Provider, sells: Currency[] = [], linkTo: Loc
 }
 
 export const locations: Record<Provider, Location> = {
+  [Provider.NimiqPay]: {
+    uuid: 'NimiqPayApp',
+    name: 'Mercedes-Benz Arena',
+    address: 'Kreuzbergstrasse 28, 10247, Berlin',
+    accepts: [Currency.NIM, Currency.LBTC],
+    gmaps_types: ['stadium'],
+    lat: 1,
+    lng: 1,
+    rating: 4,
+    photo: 'https://images.unsplash.com/photo-1646491946169-76e0668b8b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80',
+    ...getExtra(Provider.NimiqPay),
+  },
   [Provider.GoCrypto]: {
     uuid: 'GoCrypto',
     name: 'Mercedes-Benz Arena',
@@ -133,15 +145,15 @@ export const locations: Record<Provider, Location> = {
     ...getExtra(Provider.DefaultShop, [], LocationLink.Instagram),
   },
   [Provider.BitcoinJungle]: {
-    uuid: 'DefaultShop',
+    uuid: 'BitcoinJungle',
     name: 'Mercedes-Benz Arena',
     address: 'Kreuzbergstrasse 28, 10247, Berlin',
-    accepts: [Currency.NIM, Currency.BTC, Currency.ETH],
+    accepts: [Currency.BTC],
     gmaps_types: ['stadium'],
     lat: 1,
     lng: 1,
     rating: 4,
     photo: 'https://images.unsplash.com/photo-1646491946169-76e0668b8b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80',
-    ...getExtra(Provider.DefaultShop, [], LocationLink.Instagram),
+    ...getExtra(Provider.BitcoinJungle),
   },
 }

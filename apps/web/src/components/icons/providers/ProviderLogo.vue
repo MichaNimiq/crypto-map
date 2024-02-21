@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Provider } from 'types'
+import NimiqPayIcon from './nimiq-pay.vue'
 import BluecodeIcon from './bluecode.vue'
 import CryptopaymentLinkIcon from './cryptopayment-link.vue'
 import DefaultAtmIcon from './default-atm.vue'
@@ -17,7 +18,8 @@ defineProps({
 </script>
 
 <template>
-  <BluecodeIcon v-if="provider === Provider.Bluecode" />
+  <NimiqPayIcon v-if="provider === Provider.NimiqPay" />
+  <BluecodeIcon v-else-if="provider === Provider.Bluecode" />
   <CryptopaymentLinkIcon v-else-if="provider === Provider.CryptopaymentLink" />
   <DefaultAtmIcon v-else-if="provider === Provider.DefaultAtm" />
   <EdeniaIcon v-else-if="provider === Provider.Edenia" />

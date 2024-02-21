@@ -28,6 +28,7 @@ defineProps({
         <div
           class="absolute p-1.5 rounded-full w-9 h-9 right-4 bottom-4 place-content-center bg-white"
           :class="{
+            '!bg-[#1F2348]': location.provider === Provider.NimiqPay,
             '!bg-[#b7ff00]': location.provider === Provider.NAKA,
           }"
         >
