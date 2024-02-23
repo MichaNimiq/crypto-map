@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
+import { Popover } from 'radix-vue/namespaced'
 import { useRoute } from 'vue-router'
 import Button from '@/components/atoms/Button.vue'
 import CryptocityCard from '@/components/cards/cryptocity/CryptocityCard.vue'
@@ -54,31 +54,25 @@ const clearLocalStorage = () => localStorage.clear()
 
 <template>
   <div class="flex flex-col items-end gap-y-4">
-    <PopoverRoot
-      v-if="cryptocityControl"
-      :open="cryptocityCardOpen"
-      @update:open="$router.push({ query: { ...$route.query, cryptocity: $event ? cryptocityControl.name : undefined } })"
-    >
-      <PopoverTrigger class="border border-[#e9e9ed] animate-scale !w-8 !h-8 shadow bg-white rounded-full p-1.5" data-cryptocity-card-trigger :aria-label="$t('Information about this Cryptocity')">
+    <Popover.Root v-if="cryptocityControl" :open="cryptocityCardOpen"
+      @update:open="$router.push({ query: { ...$route.query, cryptocity: $event ? cryptocityControl.name : undefined } })">
+      <Popover.Trigger class="border border-[#e9e9ed] animate-scale !w-8 !h-8 shadow bg-white rounded-full p-1.5"
+        data-cryptocity-card-trigger :aria-label="$t('Information about this Cryptocity')">
         <CryptocityIcon />
-      </PopoverTrigger>
-      <PopoverPortal>
-        <PopoverContent
-          align="end" side="bottom" :side-offset="-32" class="max-desktop:-mb-[72px] max-desktop:w-screen will-change-[transform,opacity] animate-slideUpAndFade"
-          @close-auto-focus.prevent @interact-outside.prevent @open-auto-focus.prevent
-        >
-          <CryptocityCard :cryptocity="cryptocityControl" @close="$router.push({ query: { ...$route.query, cryptocity: undefined } })" />
-        </PopoverContent>
-      </PopoverPortal>
-    </PopoverRoot>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content align="end" side="bottom" :side-offset="-32"
+          class="max-desktop:-mb-[72px] max-desktop:w-screen will-change-[transform,opacity] animate-slideUpAndFade"
+          @close-auto-focus.prevent @interact-outside.prevent @open-auto-focus.prevent>
+          <CryptocityCard :cryptocity="cryptocityControl"
+            @close="$router.push({ query: { ...$route.query, cryptocity: undefined } })" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
 
-    <Button
-      v-if="browserPositionIsSupported"
-      class="!w-8 !h-8 shadow border border-[#e9e9ed]"
+    <Button v-if="browserPositionIsSupported" class="!w-8 !h-8 shadow border border-[#e9e9ed]"
       :disabled="geolocatingUserBrowser" bg-color="white" :aria-label="$t('Show your location')"
-      :title="$t('Show your location')"
-      @click="setBrowserPosition"
-    >
+      :title="$t('Show your location')" @click="setBrowserPosition">
       <template #icon>
         <GeolocationIcon class="w-5" />
       </template>

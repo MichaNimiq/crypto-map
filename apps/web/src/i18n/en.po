@@ -3,7 +3,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
 #: src/components/cards/cryptocity/BasicInfoCryptocity.vue:8
-#: src/components/cards/cryptocity/CryptocityCard.vue:12
+#: src/components/cards/cryptocity/CryptocityCard.vue:10
 msgid "{count} locations"
 msgstr ""
 
@@ -15,7 +15,7 @@ msgstr ""
 msgid "Add a location to the Crypto Map"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:34
+#: src/components/elements/CryptoMapModal.vue:39
 msgid "Add Crypto location"
 msgstr ""
 
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Apply filters"
 msgstr ""
 
-#: src/components/cards/location/BasicInfoLocation.vue:18
+#: src/components/cards/location/BasicInfoLocation.vue:13
 #: src/components/markers/SingleMarkers.vue:7
 msgid "ATM"
 msgstr ""
@@ -39,15 +39,17 @@ msgstr ""
 msgid "Binance Pay"
 msgstr ""
 
-#: src/components/icons/cryptos/CryptoIcon.vue:44
-msgid "Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and establishments supporting Binance Pay."
+#: src/components/icons/cryptos/CryptoIcon.vue:40
+msgid ""
+"Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and\n"
+"            establishments supporting Binance Pay."
 msgstr ""
 
 #: src/assets-dev/provider-assets.ts:85
 msgid "Bluecode is a payment method that allows secure transactions directly through the smartphone."
 msgstr ""
 
-#: src/components/icons/cryptos/CryptoIcon.vue:47
+#: src/components/icons/cryptos/CryptoIcon.vue:45
 msgid "BTC +50"
 msgstr ""
 
@@ -55,11 +57,11 @@ msgstr ""
 msgid "Buy"
 msgstr ""
 
-#: src/components/cards/location/BasicInfoLocation.vue:35
+#: src/components/cards/location/BasicInfoLocation.vue:32
 msgid "Buy & sell crypto"
 msgstr ""
 
-#: src/components/cards/location/BasicInfoLocation.vue:38
+#: src/components/cards/location/BasicInfoLocation.vue:35
 msgid "Buy crypto only"
 msgstr ""
 
@@ -83,8 +85,8 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: src/components/atoms/Modal.vue:28
-#: src/components/cards/cryptocity/CryptocityCard.vue:13
+#: src/components/atoms/Modal.vue:31
+#: src/components/cards/cryptocity/CryptocityCard.vue:14
 msgid "Close"
 msgstr ""
 
@@ -92,11 +94,11 @@ msgstr ""
 msgid "Computer & Electronics"
 msgstr ""
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:32
+#: src/components/cards/location/LocationCardDotsMenu.vue:24
 msgid "Copied"
 msgstr ""
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:32
+#: src/components/cards/location/LocationCardDotsMenu.vue:24
 msgid "Copy URL"
 msgstr ""
 
@@ -147,7 +149,7 @@ msgstr ""
 msgid "Edenia enables users to easily purchase cryptocurrencies through a network of ATMs"
 msgstr ""
 
-#: src/components/elements/InteractionBar.vue:14
+#: src/components/elements/InteractionBar.vue:12
 msgid "Enter country, city or zip code to discover locations that accept Bitcoin, Nimiq and other crypto-currencies."
 msgstr ""
 
@@ -180,7 +182,7 @@ msgstr ""
 msgid "GoCrypto is a global payment network that enables merchants to accept crypto payments."
 msgstr ""
 
-#: src/components/icons/cryptos/CryptoIcon.vue:40
+#: src/components/icons/cryptos/CryptoIcon.vue:35
 msgid "GoCrypto supports Binance Pay"
 msgstr ""
 
@@ -196,7 +198,7 @@ msgstr ""
 msgid "Hotel & Lodging"
 msgstr ""
 
-#: src/components/elements/Controls.vue:8
+#: src/components/elements/Controls.vue:6
 msgid "Information about this Cryptocity"
 msgstr ""
 
@@ -208,7 +210,7 @@ msgstr ""
 msgid "Kurant enables users to easily purchase cryptocurrencies through a network of ATMs."
 msgstr ""
 
-#: src/components/elements/ProviderBanner.vue:44
+#: src/components/elements/ProviderBanner.vue:39
 msgid "Learn more"
 msgstr ""
 
@@ -280,7 +282,7 @@ msgstr ""
 msgid "Powered by {provider}"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:22
+#: src/components/elements/CryptoMapModal.vue:24
 #: src/components/elements/TheMapInstance.vue:11
 msgid "Privacy Policy"
 msgstr ""
@@ -294,7 +296,7 @@ msgstr ""
 msgid "Register with {provider}"
 msgstr ""
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:41
+#: src/components/cards/location/LocationCardDotsMenu.vue:30
 msgid "Report"
 msgstr ""
 
@@ -310,7 +312,7 @@ msgstr ""
 msgid "Restaurant & Bar"
 msgstr ""
 
-#: src/components/elements/InteractionBar.vue:7
+#: src/components/elements/InteractionBar.vue:6
 msgid "Search Map"
 msgstr ""
 
@@ -345,7 +347,7 @@ msgstr ""
 msgid "Sell"
 msgstr ""
 
-#: src/components/cards/location/BasicInfoLocation.vue:37
+#: src/components/cards/location/BasicInfoLocation.vue:34
 msgid "Sell crypto only"
 msgstr ""
 
@@ -353,7 +355,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:27
+#: src/components/cards/location/LocationCardDotsMenu.vue:19
 msgid "Share"
 msgstr ""
 
@@ -370,8 +372,8 @@ msgstr ""
 msgid "Show more Locations"
 msgstr ""
 
-#: src/components/elements/Controls.vue:24
-#: src/components/elements/Controls.vue:25
+#: src/components/elements/Controls.vue:20
+#: src/components/elements/Controls.vue:21
 msgid "Show your location"
 msgstr ""
 
@@ -392,7 +394,7 @@ msgstr ""
 msgid "Submit Location"
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:25
+#: src/components/elements/CryptoMapModal.vue:29
 #: src/components/elements/TheMapInstance.vue:14
 msgid "Terms of Service"
 msgstr ""
@@ -414,7 +416,7 @@ msgstr ""
 msgid "There has been a problem on our side."
 msgstr ""
 
-#: src/components/elements/CryptoMapModal.vue:20
+#: src/components/elements/CryptoMapModal.vue:21
 msgid "This app is brought to you by Nimiq. It is protected by reCAPTCHA and the Google {privacyPolicy} and {termsOfService} apply."
 msgstr ""
 
