@@ -1,4 +1,4 @@
-import type { Feature, MultiPolygon } from '@turf/helpers'
+import type { Feature, MultiPolygon } from 'geojson'
 import { useRouteQuery } from '@vueuse/router'
 import { getLocations as getDbLocations, getLocation } from 'database'
 import { defineStore } from 'pinia'

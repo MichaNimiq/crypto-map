@@ -2,7 +2,6 @@ import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import pluginRewriteAll from 'vite-plugin-rewrite-all'
 import { checker } from 'vite-plugin-checker'
 
 // @ts-expect-error webpack-i18n-tools does currently not expose types
@@ -14,7 +13,6 @@ import poOptimizer from 'webpack-i18n-tools/optimizer/rollup'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    pluginRewriteAll(), // Allow have dots in the path for the coords like /@1.23,14.567,12z
     poLoader(),
     poOptimizer(),
     vue({ script: { defineModel: true } }),

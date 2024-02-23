@@ -1,4 +1,4 @@
-import type { FeatureCollection, MultiPolygon } from '@turf/helpers'
+import type { FeatureCollection, MultiPolygon } from 'geojson'
 
 export enum Cryptocity {
   SanJose = 'San_Jose',
@@ -23,4 +23,4 @@ export interface CryptocityUI {
   showCardAtZoom: number // The zoom level at which the card is not shown in the cluster but on the controls
 }
 
-export interface CryptocityData extends CryptocityDatabase, CryptocityUI {}
+export interface CryptocityData extends CryptocityDatabase, CryptocityUI { }

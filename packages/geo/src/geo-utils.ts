@@ -1,17 +1,12 @@
-import bboxPolygon from '@turf/bbox-polygon'
-import type { Feature, MultiPolygon } from '@turf/helpers'
-import { featureCollection, multiPolygon, point } from '@turf/helpers'
-import pointsWithinPolygon from '@turf/points-within-polygon'
-import union from '@turf/union'
-import intersect from '@turf/intersect'
-import booleanWithin from '@turf/boolean-within'
+import { intersect, booleanWithin, union, pointsWithinPolygon, bboxPolygon, featureCollection, multiPolygon, point } from '@turf/turf'
+import type { Feature, MultiPolygon, Point as GeoJSONPoint } from 'geojson'
 import type { BoundingBox, Point } from 'types'
 
 /**
  * Returns a GeoJSON Point from a location. You can pass an object like a Location which will be stored as a property of the point
  * so you can retrieve it later
  */
-export const toPoint = <T extends Point>(data: T) => point([data.lng, data.lat], data)
+export const toPoint = <T extends Point>(data: T) => point([data.lng, data.lat], data) as Feature<GeoJSONPoint, T>
 
 /**
  * Converts a bounding box to a GeoJSON Polygon
@@ -39,7 +34,7 @@ function toPolygon(bbox: BoundingBox) {
 /**
  * Converts a bounding box to a GeoJSON MultiPolygon
  */
-export const toMultiPolygon = (bbox: BoundingBox) => multiPolygon(toPolygon(bbox).map((p => p.geometry.coordinates)))
+export const toMultiPolygon = (bbox: BoundingBox) => multiPolygon(toPolygon(bbox).map((p => p.geometry.coordinates))) as Feature<MultiPolygon>
 
 /**
  * Checks if a bounding box is within a multipolygon.
@@ -54,7 +49,7 @@ export function bBoxIsWithinArea(bbox: BoundingBox, area?: Feature) {
  * Adds a polygon (from a bounding box) to a multipolygon
  */
 export function addBBoxToArea(bbox: BoundingBox, area?: Feature<MultiPolygon>) {
-  return !area ? toMultiPolygon(bbox) : union(area, toMultiPolygon(bbox)) as Feature<MultiPolygon> || area
+  return !area ? toMultiPolygon(bbox) : union(featureCollection([area, toMultiPolygon(bbox)])) as Feature<MultiPolygon> || area
 }
 
 /**
@@ -79,7 +74,7 @@ export function getItemsWithinBBox<T extends Point>(items: T[], bbox: BoundingBo
  */
 export function bBoxesIntersect(bbox1: BoundingBox, bbox2: BoundingBox) {
   const [polygon1, polygon2] = [bbox1, bbox2].map(toPolygon)
-  return polygon1.some(p1 => polygon2.some(p2 => intersect(p1, p2)))
+  return polygon1?.some(p1 => polygon2?.some(p2 => intersect(featureCollection([p1, p2])))) || false
 }
 
 export function euclideanDistance({ lat: y1, lng: x1 }: Point, { lat: y2, lng: x2 }: Point) {

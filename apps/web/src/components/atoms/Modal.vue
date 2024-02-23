@@ -14,7 +14,7 @@ import CrossIcon from '@/components/icons/icon-cross.vue'
 
 defineEmits({ open: Function, close: Function })
 
-const open = defineModel<boolean>({ local: true, default: false })
+const open = defineModel<boolean>()
 
 function hasSlot(slot: 'pre-title' | 'title' | 'description' | 'content') {
   return !!useSlots()[slot]

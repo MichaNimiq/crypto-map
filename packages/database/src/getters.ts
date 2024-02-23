@@ -1,4 +1,4 @@
-import type { FeatureCollection } from '@turf/helpers'
+import type { FeatureCollection } from 'geojson'
 import type { Args, BoundingBox, DatabaseAnonArgs, DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, Returns, Suggestion } from 'types'
 import { AnonReadDbFunction, AnyUserReadDbFunction, AuthReadDbFunction, Category, Cryptocity, Currency, DatabaseUser, Provider } from 'types'
 import { fetchDb } from './fetch.js'
