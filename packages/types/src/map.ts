@@ -1,4 +1,4 @@
-import type { Feature, MultiPolygon } from '@turf/helpers'
+import type { Feature, MultiPolygon } from 'geojson'
 import type { Location } from './location.js'
 import type { Cryptocity } from './cryptocity.js'
 

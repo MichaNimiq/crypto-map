@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { createReusableTemplate, useBreakpoints } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import { PopoverAnchor, PopoverArrow, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
 import { screens } from 'tailwindcss-nimiq-theme'
 import type { Location } from 'types'
 import type { PropType } from 'vue'
@@ -11,13 +10,10 @@ import { useMap } from '@/stores/map'
 import { useLocations } from '@/stores/locations'
 import { useApp } from '@/stores/app'
 import LocationCard from '@/components/cards/location/LocationCard.vue'
+import { Popover } from 'radix-vue/namespaced'
 
-// TODO Import this from radix-vue. We need to import it lazily so we don't load it in the mobile version
-// const PopoverArrow = defineAsyncComponent(() => import('radix-vue'))
-// const PopoverContent = defineAsyncComponent(() => import('radix-vue'))
-// const PopoverPortal = defineAsyncComponent(() => import('radix-vue'))
-// const PopoverRoot = defineAsyncComponent(() => import('radix-vue'))
-// const PopoverTrigger = defineAsyncComponent(() => import('radix-vue'))
+// TODO Async components loading does not work
+// const { PopoverArrow, PopoverAnchor, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } = defineAsyncComponent(() => import('radix-vue'))
 
 defineProps({
   singles: {
@@ -83,56 +79,46 @@ function handlePopoverOpen(isOpen: boolean, location: Location) {
 <template>
   <DefineTemplate v-slot="{ location: { category, name, isAtm, bg, uuid } }">
     <div class="flex items-center gap-x-2 max-w-[176px] group/marker">
-      <div
-        v-if="isAtm" class="grid w-8 h-8 text-white rounded-full shadow ring-white/40 ring-2 place-content-center bg-[--bg-1] hocus:bg-[--bg-2] transition-colors max-desktop:clickable"
-        :style="{ '--bg-1': bg[0], '--bg-2': bg[1] }"
-      >
+      <div v-if="isAtm"
+        class="grid w-8 h-8 text-white rounded-full shadow ring-white/40 ring-2 place-content-center bg-[--bg-1] hocus:bg-[--bg-2] transition-colors max-desktop:clickable"
+        :style="{ '--bg-1': bg[0], '--bg-2': bg[1] }">
         {{ $t('ATM') }}
       </div>
-      <div
-        v-else-if="showCategoryIcon"
-        class="grid w-8 h-8 text-white transition-colors rounded-full shadow ring-white/40 ring-2 place-content-center max-desktop:clickable" :class="uuid === selectedUuid ? 'bg-sky' : 'bg-space group-hover/marker:bg-[#494d6c] group-focus/marker:bg-[#494d6c]'"
-      >
+      <div v-else-if="showCategoryIcon"
+        class="grid w-8 h-8 text-white transition-colors rounded-full shadow ring-white/40 ring-2 place-content-center max-desktop:clickable"
+        :class="uuid === selectedUuid ? 'bg-sky' : 'bg-space group-hover/marker:bg-[#494d6c] group-focus/marker:bg-[#494d6c]'">
         <CategoryIcon :category="category" class="w-7" />
       </div>
-      <div
-        v-else class="grid w-3 h-3 text-sm font-bold text-white transition-colors rounded-full shadow ring-white/40 ring-2 place-content-center clickable"
-        :class="uuid === selectedUuid ? 'bg-sky' : 'bg-space group-hover/marker:bg-[#494d6c] group-focus/marker:bg-[#494d6c]'"
-      />
+      <div v-else
+        class="grid w-3 h-3 text-sm font-bold text-white transition-colors rounded-full shadow ring-white/40 ring-2 place-content-center clickable"
+        :class="uuid === selectedUuid ? 'bg-sky' : 'bg-space group-hover/marker:bg-[#494d6c] group-focus/marker:bg-[#494d6c]'" />
       <!-- <PopoverAnchor class="mx-1" /> -->
-      <span
-        v-if="!isAtm && showSingleName"
+      <span v-if="!isAtm && showSingleName"
         class="flex-1 text-base font-semibold leading-none text-left transition-[color,-webkit-text-stroke] select-none [-webkit-text-stroke:_3px_white] relative before:content-[attr(data-outline)] before:absolute before:[-webkit-text-stroke:0] max-desktop:clickable"
         :class="[uuid === selectedUuid ? 'text-sky' : 'text-space group-hover/marker:text-space/80 group-focus/marker:bg-[#35395A]', { invisible: !isMobile && uuid === selectedUuid }]"
-        :data-outline="name"
-      >
+        :data-outline="name">
         {{ name }}
       </span>
     </div>
   </DefineTemplate>
 
-  <CustomMarker
-    v-for="location in singles" :key="location.uuid"
+  <CustomMarker v-for="location in singles" :key="location.uuid"
     :options="{ position: { lng: location.lng, lat: location.lat }, anchorPoint: showSingleName ? 'LEFT_CENTER' : 'CENTER' }"
-    data-custom-marker
-  >
+    data-custom-marker>
     <ReuseTemplate v-if="isMobile" :location="location" @click="selectedUuid = location.uuid" />
 
-    <PopoverRoot
-      v-else
-      @update:open="isOpen => handlePopoverOpen(isOpen, location)"
-    >
-      <PopoverAnchor
-        class="absolute h-full pointer-events-none -left-1"
-        :class="location.isAtm || showCategoryIcon ? 'w-10' : 'w-5'"
-      />
-      <PopoverTrigger :aria-label="$t('See location details')" class="cursor-pointer" :data-trigger-uuid="location.uuid">
+    <Popover.Root v-else @update:open="(isOpen: boolean) => handlePopoverOpen(isOpen, location)">
+      <Popover.Anchor class="absolute h-full pointer-events-none -left-1"
+        :class="location.isAtm || showCategoryIcon ? 'w-10' : 'w-5'" />
+      <Popover.Trigger :aria-label="$t('See location details')" class="cursor-pointer" :data-trigger-uuid="location.uuid">
         <ReuseTemplate :location="location" class="transition-shadow rounded-sm" />
-      </PopoverTrigger>
-      <PopoverPortal :key="popoverKey">
-        <PopoverContent side="right" :side-offset="5" class="rounded-lg shadow" :collision-padding="8" sticky="always" @open-auto-focus.prevent>
+      </Popover.Trigger>
+      <Popover.Portal :key="popoverKey">
+        <Popover.Content side="right" :side-offset="5" class="rounded-lg shadow" :collision-padding="8" sticky="always"
+          @open-auto-focus.prevent>
           <LocationCard :location="location" :progress="1" :class="location.photo ? 'max-w-xs' : 'max-w-sm'" />
-          <PopoverArrow class="w-4 h-2" :style="`fill: ${location.isAtm ? extractColorFromBg(location.bg[0]) : 'white'}`" />
+          <Popover.Arrow class="w-4 h-2"
+            :style="`fill: ${location.isAtm ? extractColorFromBg(location.bg[0]) : 'white'}`" />
 
           <!-- TODO Once this is fixed https://github.com/radix-vue/radix-vue/issues/353 use custom arrow -->
           <!-- <PopoverArrow as-child>
@@ -146,16 +132,17 @@ function handlePopoverOpen(isOpen: boolean, location: Location) {
               />
             </svg>
           </PopoverArrow> -->
-        </PopoverContent>
-      </PopoverPortal>
-    </PopoverRoot>
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   </CustomMarker>
 
   <template v-if="zoom > 15">
     <CustomMarker
-      v-for="({ position, e }) in [{ position: { lat: 10.455694, lng: -84.676981 }, e: '🦥' }, { position: { lat: 19.260062, lng: 98.904358 }, e: '🐘' }, { position: { lng: -73.528486, lat: 45.503334 }, e: '🦫' }]" :key="e" :options="{ position, anchorPoint: 'CENTER' }"
-    >
-      <div class="grid w-12 h-12 p-2 text-4xl bg-white rounded-full shadow aspect-square place-content-center" title="1 out of 3">
+      v-for="({ position, e }) in [{ position: { lat: 10.455694, lng: -84.676981 }, e: '🦥' }, { position: { lat: 19.260062, lng: 98.904358 }, e: '🐘' }, { position: { lng: -73.528486, lat: 45.503334 }, e: '🦫' }]"
+      :key="e" :options="{ position, anchorPoint: 'CENTER' }">
+      <div class="grid w-12 h-12 p-2 text-4xl bg-white rounded-full shadow aspect-square place-content-center"
+        title="1 out of 3">
         {{ e }}
       </div>
     </CustomMarker>

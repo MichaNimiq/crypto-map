@@ -1,6 +1,6 @@
 import { defineStore, storeToRefs } from 'pinia'
-import type { Feature, MultiPolygon } from '@turf/helpers'
-import { multiPolygon } from '@turf/helpers'
+import type { Feature, MultiPolygon } from 'geojson'
+import { multiPolygon } from '@turf/turf'
 import { computed, ref } from 'vue'
 import type { BoundingBox, Cryptocity, CryptocityData, CryptocityDatabase } from 'types'
 import { addBBoxToArea, bBoxIsWithinArea, getItemsWithinBBox } from 'geo'

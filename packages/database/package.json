@@ -8,7 +8,8 @@
     "lint:fix": "eslint --fix . -c ../../eslint.config.js"
   },
   "devDependencies": {
-    "@turf/helpers": "^6.5.0",
+    "@turf/helpers": "^7.0.0-alpha.113",
+    "@types/geojson": "^7946.0.14",
     "types": "workspace:*",
     "typescript": "^5.2.2"
   }

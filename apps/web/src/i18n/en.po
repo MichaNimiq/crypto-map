@@ -24,7 +24,7 @@ msgid "Apply filters"
 msgstr ""
 
 #: src/components/cards/location/BasicInfoLocation.vue:18
-#: src/components/markers/SingleMarkers.vue:8
+#: src/components/markers/SingleMarkers.vue:7
 msgid "ATM"
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Search Map"
 msgstr ""
 
-#: src/components/markers/SingleMarkers.vue:47
+#: src/components/markers/SingleMarkers.vue:35
 msgid "See location details"
 msgstr ""
 
