@@ -52,6 +52,11 @@ const isMobile = useBreakpoints(screens).smaller('md')
                 <h4 class="font-semibold truncate [text-wrap:balance]">
                   {{ location.provider }}
                 </h4>
+                <div
+                  class="ml-auto uppercase text-xs text-white/60 tracking-wider bg-white/[0.08] shadow-sm shadow-white/[0.2] font-semibold px-2 py-0.5 ring-1 ring-white/20 rounded-full"
+                  v-if="location.providerTooltipLabel">
+                  {{ location.providerTooltipLabel }}
+                </div>
               </header>
 
               <p class="mt-2 text-sm text-white/60 text-pretty">
