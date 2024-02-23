@@ -37,6 +37,7 @@ export interface Location extends RawLocation {
   providerLabel?: string
   providerTooltip?: string
   providerTooltipCta?: string
+  providerTooltipLabel?: string
 
   // Quick getters
   isAtm: boolean

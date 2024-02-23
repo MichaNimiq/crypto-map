@@ -17,7 +17,7 @@ const i18nKeyPassThrough = {
 // for providerLabel is happening in i18n-t in ProviderBanner, and providerTooltip is defined as a getter to not be
 // constant but re-computed on language changes. providerLabel can include a {provider} placeholder which gets handled
 // in i18n-t in ProviderBanner.
-export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | 'providerLabel' | 'providerTooltip' | 'providerTooltipCta'>> = {
+export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | 'providerLabel' | 'providerTooltip' | 'providerTooltipCta' | 'providerTooltipLabel'>> = {
   [Provider.DefaultShop]: {
     bg: ['white', undefined],
     theme: Theme.Light,
@@ -83,6 +83,9 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
     },
     get providerTooltip() {
       return i18n.t('Bluecode is a payment method that allows secure transactions directly through the smartphone.')
+    },
+    get providerTooltipLabel() {
+      return i18n.t('Coming soon')
     },
     providerTooltipCta: 'https://bluecode.com',
   },
