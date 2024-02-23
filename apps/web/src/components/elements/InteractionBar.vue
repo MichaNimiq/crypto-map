@@ -34,7 +34,7 @@ async function onSelect(suggestion?: Suggestion) {
         while (!singles.value.some(s => s.uuid === suggestion.id))
           await sleep(100) // Try to wait for the item to be added
         await nextTick() // Wait for the marker to be rendered
-        ;(document.querySelector(`[data-trigger-uuid="${suggestion.id}"]`) as HTMLElement)?.click()
+          ; (document.querySelector(`[data-trigger-uuid="${suggestion.id}"]`) as HTMLElement)?.click()
       }
 
       break
@@ -50,16 +50,15 @@ const showHint = computed(() => shouldShowSearchBoxHint.value && useBreakpoints(
 <template>
   <header class="relative z-10 flex items-center w-full p-10 py-6 pl-4 pr-6 desktop:p-4 gap-x-2 desktop:gap-x-4">
     <img src="@/assets/logo.svg" :alt="$t('Crypto Map logo')" class="h-[22px]">
-    <SearchBox
-      :autocomplete="querySearch" :suggestions="suggestions" :status="status" class="flex-1 w-full " rounded-full
-      combobox-options-classes="rounded-t-0 rounded-b-2xl desktop:w-[320px] desktop:top-[88px] desktop:left-6 max-desktop:w-full max-desktop:!top-[78px]" size="sm"
-      :placeholder="$t('Search Map')" @selected="onSelect" @open="$emit('open', $event)"
-    />
+    <SearchBox :autocomplete="querySearch" :suggestions="suggestions" :status="status" class="flex-1 w-full " rounded-full
+      combobox-options-classes="rounded-t-0 rounded-b-2xl desktop:w-[320px] desktop:top-[88px] desktop:left-6 max-desktop:w-full max-desktop:!top-[78px]"
+      size="sm" :placeholder="$t('Search Map')" @selected="onSelect" @open="$emit('open', $event)" />
     <CryptoMapModal />
   </header>
 
   <!-- We need to hardcode the height, otherwise the desktop list will break -->
-  <p v-if="showHint" class="p-5 text-xs border-t text-space/60 border-space/10 [text-wrap:pretty]" style="height: 88px">
-    {{ $t('Enter country, city or zip code to discover locations that accept Bitcoin, Nimiq and other crypto-currencies.') }}
+  <p v-if="showHint" class="p-5 text-xs border-t text-space/60 border-space/10 text-pretty" style="height: 88px">
+    {{ $t('Enter country, city or zip code to discover locations that accept Bitcoin, Nimiq and other crypto-currencies.')
+    }}
   </p>
 </template>

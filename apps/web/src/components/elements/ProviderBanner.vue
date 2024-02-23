@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import { PopoverArrow, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
+import { Popover } from 'radix-vue/namespaced'
 import { useBreakpoints } from '@vueuse/core'
 import { screens } from 'tailwindcss-nimiq-theme'
 import type { Location } from 'types'
@@ -28,30 +28,24 @@ const isMobile = useBreakpoints(screens).smaller('md')
     <CardBg v-if="!location.isAtm && location.providerLabel" :location="location" />
 
     <div v-if="location.providerLabel" class="z-20 flex items-center pt-1.5 pl-6 pr-[72px] text-xs gap-x-1.5">
-      <i18n-t
-        :keypath="location.providerLabel" tag="p" :class="{
-          'text-white/60 [&>b]:text-white': location.isDark,
-          'text-space/60 [&>b]:text-space': location.isLight,
-        }"
-      >
+      <i18n-t :keypath="location.providerLabel" tag="p" :class="{
+        'text-white/60 [&>b]:text-white': location.isDark,
+        'text-space/60 [&>b]:text-space': location.isLight,
+      }">
         <!-- The name in the label can optionally be written bold by including a {provider} placeholder -->
         <template #provider>
           <b>{{ location.provider }}</b>
         </template>
       </i18n-t>
 
-      <PopoverRoot :delay-duration="300">
-        <PopoverTrigger>
+      <Popover.Root :delay-duration="300">
+        <Popover.Trigger>
           <InfoIcon class="w-4" :class="{ 'text-white/50': location.isDark, 'text-space/50': location.isLight }" />
-        </PopoverTrigger>
-        <PopoverPortal>
-          <PopoverContent
-            as-child
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content as-child
             class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space [&[data-side=right]_[data-arrow]]:right-1.5  [&[data-side=left]_[data-arrow]]:left-1.5"
-            :side-offset="4"
-            :collision-padding="8"
-            :side="isMobile ? 'top' : 'right'"
-          >
+            :side-offset="4" :collision-padding="8" :side="isMobile ? 'top' : 'right'">
             <div>
               <header class="flex items-center justify-start gap-x-2">
                 <ProviderCircleLogo :provider="location.provider" />
@@ -60,17 +54,18 @@ const isMobile = useBreakpoints(screens).smaller('md')
                 </h4>
               </header>
 
-              <p class="mt-2 text-sm text-white/60 [text-wrap:pretty]">
+              <p class="mt-2 text-sm text-white/60 text-pretty">
                 {{ location.providerTooltip }}
               </p>
 
-              <Button v-if="location.providerTooltipCta" :href="location.providerTooltipCta" bg-color="transparent" text-color="white" class="!px-0 opacity-60">
+              <Button v-if="location.providerTooltipCta" :href="location.providerTooltipCta" bg-color="transparent"
+                text-color="white" class="!px-0 opacity-60">
                 <template #label>
                   {{ $t('Learn more') }}
                 </template>
               </Button>
 
-              <PopoverArrow data-arrow class="fill-space desktop:relative" size="10" />
+              <Popover.Arrow data-arrow class="fill-space desktop:relative" size="10" />
 
               <!-- TODO Once this is fixed https://github.com/radix-vue/radix-vue/issues/353 use custom arrow -->
               <!-- <PopoverArrow as-child>
@@ -82,9 +77,9 @@ const isMobile = useBreakpoints(screens).smaller('md')
                   </svg>
                 </PopoverArrow> -->
             </div>
-          </PopoverContent>
-        </PopoverPortal>
-      </PopoverRoot>
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     </div>
   </footer>
 </template>

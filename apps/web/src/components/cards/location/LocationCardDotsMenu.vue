@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useShare } from '@vueuse/core'
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'radix-vue'
+import { DropdownMenu } from 'radix-vue/namespaced'
 import type { PropType } from 'vue'
 import { ref, watch } from 'vue'
 import { CheckmarkSmallIcon, CopyIcon } from '@nimiq/vue3-components'
@@ -58,29 +58,21 @@ function handleOpen(open: boolean) {
 </script>
 
 <template>
-  <DropdownMenuRoot :open="keepOpen" @update:open="handleOpen">
-    <DropdownMenuTrigger v-bind="$attrs">
-      <IconThreeDots
-        class="w-5 h-5 transition-colors"
-        :class="{
-          'text-space/30 hover:text-space/50': !location.isAtm || location.isLight,
-          'text-white/60 hover:text-white/80': location.isAtm && location.isDark,
-        }"
-      />
-    </DropdownMenuTrigger>
+  <DropdownMenu.Root :open="keepOpen" @update:open="handleOpen">
+    <DropdownMenu.Trigger v-bind="$attrs">
+      <IconThreeDots class="w-5 h-5 transition-colors" :class="{
+        'text-space/30 hover:text-space/50': !location.isAtm || location.isLight,
+        'text-white/60 hover:text-white/80': location.isAtm && location.isDark,
+      }" />
+    </DropdownMenu.Trigger>
 
-    <DropdownMenuPortal>
-      <DropdownMenuContent
+    <DropdownMenu.Portal>
+      <DropdownMenu.Content
         class="outline-none bg-gradient-space rounded-sm p-1 will-change-[colors] shadow absolute -top-6 -right-2 min-w-max animate-slideLeftAndFade"
-        :class="{ 'pointer-events-none': !isClickable }"
-        :side-offset="0"
-        @interact-outside="isClickable = false"
-      >
-        <DropdownMenuItem
+        :class="{ 'pointer-events-none': !isClickable }" :side-offset="0" @interact-outside="isClickable = false">
+        <DropdownMenu.Item
           class="flex px-4 py-2 text-white transition-colors outline-none cursor-pointer select-none hover:text-white/80"
-          :class="{ 'pointer-events-none': !isClickable }"
-          @click="handleShare"
-        >
+          :class="{ 'pointer-events-none': !isClickable }" @click="handleShare">
           <template v-if="shareIsSupported">
             <IconShare class="w-4 h-4 mr-3" />
             <span class="text-base font-semibold leading-4">{{ $t('Share') }}</span>
@@ -90,16 +82,13 @@ function handleOpen(open: boolean) {
             <CheckmarkSmallIcon v-else class="w-4 h-4 mr-3" />
             <span class="text-base font-semibold leading-4">{{ isUrlCopied ? $t('Copied') : $t('Copy URL') }}</span>
           </template>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          as="a"
-          :href="`/location/report?uuid=${location.uuid}`"
-          class="flex px-4 py-2 transition-colors outline-none cursor-pointer select-none text-salmon hover:text-salmon/80"
-        >
+        </DropdownMenu.Item>
+        <DropdownMenu.Item as="a" :href="`/location/report?uuid=${location.uuid}`"
+          class="flex px-4 py-2 transition-colors outline-none cursor-pointer select-none text-salmon hover:text-salmon/80">
           <IconFlag class="w-4 h-4 mr-3" />
           <span class="text-base font-semibold leading-4">{{ $t('Report') }}</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenuPortal>
-  </DropdownMenuRoot>
+        </DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Portal>
+  </DropdownMenu.Root>
 </template>

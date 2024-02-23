@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import { Currency } from 'types'
 import { useBreakpoints } from '@vueuse/core'
 import { screens } from 'tailwindcss-nimiq-theme'
-import { PopoverArrow, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'radix-vue'
+import { Popover } from 'radix-vue/namespaced'
 import BtcIcon from '@/components/icons/cryptos/icon-btc.vue'
 import DashIcon from '@/components/icons/cryptos/icon-dash.vue'
 import EthIcon from '@/components/icons/cryptos/icon-eth.vue'
@@ -38,17 +38,14 @@ const isMobile = useBreakpoints(screens).smaller('md')
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center h-full aspect-square" :class="{
-      'rounded-full': 'mono',
-      'w-8': size === 'lg',
-      'w-[22px]': size === 'sm',
-      'w-6': size === 'md',
-      'bg-white/[0.15]': bg === 'white/15',
-      'bg-white': bg === 'white' && needBg,
-    }"
-    :title="crypto !== Currency.BINANCE_PAY ? crypto : undefined"
-  >
+  <div class="flex items-center justify-center h-full aspect-square" :class="{
+    'rounded-full': 'mono',
+    'w-8': size === 'lg',
+    'w-[22px]': size === 'sm',
+    'w-6': size === 'md',
+    'bg-white/[0.15]': bg === 'white/15',
+    'bg-white': bg === 'white' && needBg,
+  }" :title="crypto !== Currency.BINANCE_PAY ? crypto : undefined">
     <NimIcon v-if="crypto === Currency.NIM" :class="css" />
     <BtcIcon v-else-if="crypto === Currency.BTC" :class="css" />
     <LtcIcon v-else-if="crypto === Currency.LTC" :class="css" />
@@ -62,25 +59,26 @@ const isMobile = useBreakpoints(screens).smaller('md')
       <BtcIcon :class="css" />
       <LBtcIcon class="absolute w-4 -right-1 -bottom-1" />
     </div>
-    <PopoverRoot v-else-if="crypto === Currency.BINANCE_PAY">
-      <PopoverTrigger>
+    <Popover.Root v-else-if="crypto === Currency.BINANCE_PAY">
+      <Popover.Trigger>
         <div class="relative">
           <BtcIcon :class="css" class="w-6" />
-          <InfoIcon class="absolute -right-px -bottom-px w-3 [&>[data-info-bg]]:fill-white [&>[data-info-circle]]:text-[#c7c8d1] [&>[data-info-i]]:text-[#8f91a3]" />
+          <InfoIcon
+            class="absolute -right-px -bottom-px w-3 [&>[data-info-bg]]:fill-white [&>[data-info-circle]]:text-[#c7c8d1] [&>[data-info-i]]:text-[#8f91a3]" />
         </div>
-      </PopoverTrigger>
-      <PopoverPortal>
-        <PopoverContent
-          class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space"
-          :side="isMobile ? 'top' : 'right'"
-          :collision-padding="8" :side-offset="6"
-        >
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space"
+          :side="isMobile ? 'top' : 'right'" :collision-padding="8" :side-offset="6">
           <h4 class="font-semibold truncate">
             {{ $t('GoCrypto supports Binance Pay') }}
           </h4>
 
-          <p class="mt-2 text-sm text-white/60 [text-wrap:pretty]">
-            {{ $t('Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and establishments supporting Binance Pay.') }}
+          <p class="mt-2 text-sm text-white/60 text-pretty">
+            {{
+              $t(`Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and
+            establishments supporting Binance Pay.`)
+            }}
           </p>
 
           <div class="flex items-end justify-end gap-x-1.5" :title="$t('BTC +50')">
@@ -88,9 +86,9 @@ const isMobile = useBreakpoints(screens).smaller('md')
             <span class="text-sm font-bold text-white/50">50+</span>
           </div>
 
-          <PopoverArrow class="fill-space" size="8" />
-        </PopoverContent>
-      </PopoverPortal>
-    </PopoverRoot>
+          <Popover.Arrow class="fill-space" size="8" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   </div>
 </template>
