@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="Option extends string|object">
+<script setup lang="ts" generic="Option extends string | object">
 import {
   Listbox,
   ListboxButton,

@@ -9,7 +9,7 @@ const HEADERS: HeadersInit = {
 
 const writeOperations = [...Object.values(AnonWriteDbFunction), ...Object.values(AuthWriteDbFunction)]
 
-type Parameters = { query: URLSearchParams; body?: undefined } | { query?: undefined; body: object }
+type Parameters = { query: URLSearchParams, body?: undefined } | { query?: undefined, body: object }
 export async function fetchDb<T, FnName extends AnonDbFunction | AuthDbFunction = any>(fnName: FnName, dbArgs: DatabaseAnyUserArgs | DatabaseAuthArgs | DatabaseAnonArgs, params?: Parameters): Promise<T | undefined> {
   const { apikey, url: baseUrl, user } = dbArgs
 
