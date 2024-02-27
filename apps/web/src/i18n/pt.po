@@ -10,8 +10,8 @@ msgstr ""
 "Language: pt\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
-#: src/components/cards/cryptocity/BasicInfoCryptocity.vue:6
-#: src/components/cards/cryptocity/CryptocityCard.vue:10
+#: src/components/cards/cryptocity/BasicInfoCryptocity.vue:8
+#: src/components/cards/cryptocity/CryptocityCard.vue:12
 msgid "{count} locations"
 msgstr "{count} localizações"
 
@@ -23,16 +23,16 @@ msgstr "+ {count}agrupado"
 msgid "Add a location to the Crypto Map"
 msgstr "Adicionar uma localização ao Mapa Cripto"
 
-#: src/components/elements/CryptoMapModal.vue:30
+#: src/components/elements/CryptoMapModal.vue:41
 msgid "Add Crypto location"
 msgstr "Adicionar localização Cripto"
 
-#: src/components/elements/FilterModal.vue:70
+#: src/components/elements/FilterModal.vue:72
 msgid "Apply filters"
 msgstr "Aplicar filtros"
 
-#: src/components/cards/location/BasicInfoLocation.vue:18
-#: src/components/markers/SingleMarkers.vue:8
+#: src/components/cards/location/BasicInfoLocation.vue:17
+#: src/components/markers/SingleMarkers.vue:9
 msgid "ATM"
 msgstr "Multibanco"
 
@@ -47,16 +47,13 @@ msgstr "Voltar ao Mapa"
 msgid "Binance Pay"
 msgstr "Binance Pay"
 
-#: src/components/icons/cryptos/CryptoIcon.vue:44
+#: src/components/icons/cryptos/CryptoIcon.vue:45
 msgid ""
-"Binance Pay is a cryptocurrency payment service that empowers users to pay "
-"with crypto at shops and establishments supporting Binance Pay."
+"Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and\n"
+"            establishments supporting Binance Pay."
 msgstr ""
-"Binance Pay é uma serviço de pagamento de criptomoeda que permite aos "
-"usuários que paguem com cripto em lojas e estabelicimentos que suportem "
-"Binance Pay."
 
-#: src/assets-dev/provider-assets.ts:61
+#: src/assets-dev/provider-assets.ts:85
 msgid ""
 "Bluecode is a payment method that allows secure transactions directly "
 "through the smartphone."
@@ -64,7 +61,7 @@ msgstr ""
 "O Bluecode é um método de pagamento que permite transações seguras através "
 "do smartphone."
 
-#: src/components/icons/cryptos/CryptoIcon.vue:47
+#: src/components/icons/cryptos/CryptoIcon.vue:50
 msgid "BTC +50"
 msgstr "BTC +50"
 
@@ -72,11 +69,11 @@ msgstr "BTC +50"
 msgid "Buy"
 msgstr "Comprar"
 
-#: src/components/cards/location/BasicInfoLocation.vue:35
+#: src/components/cards/location/BasicInfoLocation.vue:41
 msgid "Buy & sell crypto"
 msgstr "Comprar & vender cripto"
 
-#: src/components/cards/location/BasicInfoLocation.vue:38
+#: src/components/cards/location/BasicInfoLocation.vue:44
 msgid "Buy crypto only"
 msgstr "Comprar apenas cripto"
 
@@ -88,38 +85,34 @@ msgstr "Carros & Bicicletas"
 msgid "Cash"
 msgstr "Dinheiro"
 
-#: src/components/elements/FilterModal.vue:48
+#: src/components/elements/FilterModal.vue:50
 msgid "Categories"
 msgstr "Categorias"
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:35
+#: src/components/cards/location/LocationCardDotsMenu.vue:22
 msgid "Check out {locationName} on Nimiq's Crypto Map"
 msgstr "Ver {locationName}no Mapa Cripto da Nimiq"
 
-#: src/components/elements/FilterModal.vue:65
+#: src/components/elements/FilterModal.vue:67
 msgid "Clear"
 msgstr "Limpar"
 
-#: src/components/atoms/Modal.vue:28
-#: src/components/cards/cryptocity/CryptocityCard.vue:11
+#: src/components/atoms/Modal.vue:35
+#: src/components/cards/cryptocity/CryptocityCard.vue:17
 msgid "Close"
 msgstr "Fechar"
+
+#: src/assets-dev/provider-assets.ts:88
+msgid "Coming soon"
+msgstr ""
 
 #: src/translations.ts:8
 msgid "Computer & Electronics"
 msgstr "Computador & Eletrónicos"
 
-#: src/components/cards/location/LocationCardDotsMenu.vue:32
-msgid "Copied"
-msgstr "Copiado"
-
-#: src/components/cards/location/LocationCardDotsMenu.vue:32
+#: src/components/cards/location/LocationCardDotsMenu.vue:34
 msgid "Copy URL"
 msgstr "Copiar URL"
-
-#: src/components/cards/location/LocationCardDotsMenu.vue:44
-msgid "Could not copy URL to clipboard."
-msgstr "Não foi possível copiar o URL para a área de transferência."
 
 #: src/components/forms/NewCandidate.vue:10
 msgid "Create Google Business profile"
@@ -143,7 +136,7 @@ msgstr "Mapa Cripto"
 msgid "Crypto Map logo"
 msgstr "Logo Mapa Cripto"
 
-#: src/components/elements/FilterModal.vue:26
+#: src/components/elements/FilterModal.vue:28
 msgid "Cryptocurrencies"
 msgstr "Criptomoedas"
 
@@ -164,7 +157,7 @@ msgstr "Descreve aqui"
 msgid "Describe the issue"
 msgstr "Descreve o problema"
 
-#: src/assets-dev/provider-assets.ts:85
+#: src/assets-dev/provider-assets.ts:112
 msgid ""
 "Edenia enables users to easily purchase cryptocurrencies through a network "
 "of ATMs"
@@ -192,7 +185,7 @@ msgstr "Erro ao carregar os resultados."
 msgid "Explore the Crypto Map"
 msgstr "Explora o Mapa Cripto"
 
-#: src/components/elements/FilterModal.vue:16
+#: src/components/elements/FilterModal.vue:17
 #: src/components/elements/FilterModal.vue:9
 msgid "Filters"
 msgstr "Filtros"
@@ -205,7 +198,7 @@ msgstr "Encontrar localização"
 msgid "Food & Drinks"
 msgstr "Comida & Bebidas"
 
-#: src/assets-dev/provider-assets.ts:37
+#: src/assets-dev/provider-assets.ts:49
 msgid ""
 "GoCrypto is a global payment network that enables merchants to accept crypto"
 " payments."
@@ -229,7 +222,7 @@ msgstr "Esconder lista"
 msgid "Hotel & Lodging"
 msgstr "Hotel & Alojamento"
 
-#: src/components/elements/Controls.vue:8
+#: src/components/elements/Controls.vue:9
 msgid "Information about this Cryptocity"
 msgstr "Informação sobre esta Criptocidade"
 
@@ -239,7 +232,7 @@ msgid ""
 "Nimiq and its partners."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:49
+#: src/assets-dev/provider-assets.ts:73
 msgid ""
 "Kurant enables users to easily purchase cryptocurrencies through a network "
 "of ATMs."
@@ -247,7 +240,7 @@ msgstr ""
 "A Kurant permite usuários a comprar criptomoedas facilmente através de uma "
 "rede de multibancos."
 
-#: src/components/elements/ProviderBanner.vue:44
+#: src/components/elements/ProviderBanner.vue:51
 msgid "Learn more"
 msgstr "Aprender mais"
 
@@ -277,10 +270,16 @@ msgstr "Localização perdida"
 msgid "Miscellaneous"
 msgstr "Diversos"
 
-#: src/components/elements/FilterModal.vue:36
+#: src/components/elements/FilterModal.vue:38
 #: src/components/forms/NewCandidate.vue:29
 msgid "More cryptocurrencies supported in the future"
 msgstr "Mais criptomoedas suportadas no futuro"
+
+#: src/assets-dev/provider-assets.ts:61
+msgid ""
+"NAKA is a global payment network that enables merchants to accept crypto "
+"payments."
+msgstr ""
 
 #: src/translations.ts:29
 msgid "No crypto"
@@ -290,13 +289,17 @@ msgstr "Sem cripto"
 msgid "Nothing found."
 msgstr "Nada encontrado."
 
-#: src/components/elements/DesktopList.vue:47 src/components/MobileView.vue:25
+#: src/components/elements/DesktopList.vue:47 src/components/MobileView.vue:28
 msgid "Oops, no businesses around here"
 msgstr "Ups, não há negócios por aqui"
 
 #: src/translations.ts:32
 msgid "Other"
 msgstr "Outro"
+
+#: src/assets-dev/provider-assets.ts:34
+msgid "Pay with {provider}"
+msgstr ""
 
 #: src/components/cards/location/LocationCard.vue:21
 msgid ""
@@ -306,13 +309,13 @@ msgstr ""
 "Imagem de {name}, um lugar para comprar cripto em {city}, {country}. "
 "{providedBy}"
 
-#: src/assets-dev/provider-assets.ts:34 src/assets-dev/provider-assets.ts:58
-#: src/assets-dev/provider-assets.ts:70
+#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:58
+#: src/assets-dev/provider-assets.ts:82 src/assets-dev/provider-assets.ts:97
 msgid "Powered by {provider}"
 msgstr "Distribuído por {provider}"
 
-#: src/components/elements/CryptoMapModal.vue:21
-#: src/components/elements/TheMapInstance.vue:10
+#: src/components/elements/CryptoMapModal.vue:26
+#: src/components/elements/TheMapInstance.vue:11
 msgid "Privacy Policy"
 msgstr "Política de privacidade"
 
@@ -320,7 +323,7 @@ msgstr "Política de privacidade"
 msgid "Provided by {provider}"
 msgstr "Fornecido por {provider}"
 
-#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:82
+#: src/assets-dev/provider-assets.ts:109 src/assets-dev/provider-assets.ts:70
 msgid "Register with {provider}"
 msgstr "Registar com {provider}"
 
@@ -352,11 +355,11 @@ msgstr "Ver detalhes de localização"
 msgid "Select an option"
 msgstr "Selecionar uma opção"
 
-#: src/components/elements/FilterModal.vue:44
+#: src/components/elements/FilterModal.vue:46
 msgid "Select category"
 msgstr "Selecionar categoria"
 
-#: src/components/elements/FilterModal.vue:21
+#: src/components/elements/FilterModal.vue:23
 #: src/components/forms/NewCandidate.vue:22
 msgid "Select Cryptocurrency"
 msgstr "Selecionar Criptomoeda"
@@ -366,11 +369,17 @@ msgstr "Selecionar Criptomoeda"
 msgid "Select issue"
 msgstr "Selecionar problema"
 
+#: src/assets-dev/provider-assets.ts:37
+msgid ""
+"Self-custodial & instant payments with NIM and BTC Lightning. Featuring "
+"learn-to-earn and loyalty rewards."
+msgstr ""
+
 #: src/components/cards/location/LocationCard.vue:52
 msgid "Sell"
 msgstr "Vender"
 
-#: src/components/cards/location/BasicInfoLocation.vue:37
+#: src/components/cards/location/BasicInfoLocation.vue:43
 msgid "Sell crypto only"
 msgstr "Vender apenas cripto"
 
@@ -387,7 +396,7 @@ msgid "Shop"
 msgstr "Loja"
 
 #: src/components/elements/DesktopList.story.vue:20
-#: src/components/MobileView.vue:21
+#: src/components/MobileView.vue:22
 msgid "Show list"
 msgstr "Mostrar lista"
 
@@ -395,8 +404,8 @@ msgstr "Mostrar lista"
 msgid "Show more Locations"
 msgstr "Mostrar mais Localizações"
 
-#: src/components/elements/Controls.vue:22
-#: src/components/elements/Controls.vue:23
+#: src/components/elements/Controls.vue:29
+#: src/components/elements/Controls.vue:30
 msgid "Show your location"
 msgstr "Mostrar a tua localização"
 
@@ -417,8 +426,8 @@ msgstr "Começa a escrever..."
 msgid "Submit Location"
 msgstr "Submeter Localização"
 
-#: src/components/elements/CryptoMapModal.vue:22
-#: src/components/elements/TheMapInstance.vue:11
+#: src/components/elements/CryptoMapModal.vue:31
+#: src/components/elements/TheMapInstance.vue:14
 msgid "Terms of Service"
 msgstr "Termos de serviço"
 
@@ -443,7 +452,7 @@ msgstr ""
 msgid "There has been a problem on our side."
 msgstr "Houve um problema do nosso lado."
 
-#: src/components/elements/CryptoMapModal.vue:20
+#: src/components/elements/CryptoMapModal.vue:22
 msgid ""
 "This app is brought to you by Nimiq. It is protected by reCAPTCHA and the "
 "Google {privacyPolicy} and {termsOfService} apply."
@@ -491,7 +500,7 @@ msgstr ""
 "Estamos a trabalhar estategicamente com negócios locais para estimular a "
 "economia regional através do uso inovador de criptomoedas."
 
-#: src/assets-dev/provider-assets.ts:73
+#: src/assets-dev/provider-assets.ts:100
 msgid ""
 "With CryptoPayment Link, you can quickly and easily receive cryptocurrency "
 "payments from your customers."
