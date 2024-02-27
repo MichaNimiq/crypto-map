@@ -13,7 +13,7 @@ import { useExpiringStorage } from '@/composables/useExpiringStorage'
 import { getAnonDatabaseArgs } from '@/shared'
 import { cryptocitiesUi } from '@/assets-dev/cryptocities-assets'
 
-type StoredCryptocities = ExpiringValue<{ area: Feature<MultiPolygon>; data: Partial<Record<Cryptocity, CryptocityData>> }>
+type StoredCryptocities = ExpiringValue<{ area: Feature<MultiPolygon>, data: Partial<Record<Cryptocity, CryptocityData>> }>
 
 // Initial value of the cryptocities data structure
 const defaultValue: StoredCryptocities['value'] = { area: multiPolygon([]), data: {} }

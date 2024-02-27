@@ -38,14 +38,16 @@ const isMobile = useBreakpoints(screens).smaller('md')
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-full aspect-square" :class="{
-    'rounded-full': 'mono',
-    'w-8': size === 'lg',
-    'w-[22px]': size === 'sm',
-    'w-6': size === 'md',
-    'bg-white/[0.15]': bg === 'white/15',
-    'bg-white': bg === 'white' && needBg,
-  }" :title="crypto !== Currency.BINANCE_PAY ? crypto : undefined">
+  <div
+    class="flex items-center justify-center h-full aspect-square" :class="{
+      'rounded-full': 'mono',
+      'w-8': size === 'lg',
+      'w-[22px]': size === 'sm',
+      'w-6': size === 'md',
+      'bg-white/[0.15]': bg === 'white/15',
+      'bg-white': bg === 'white' && needBg,
+    }" :title="crypto !== Currency.BINANCE_PAY ? crypto : undefined"
+  >
     <NimIcon v-if="crypto === Currency.NIM" :class="css" />
     <BtcIcon v-else-if="crypto === Currency.BTC" :class="css" />
     <LtcIcon v-else-if="crypto === Currency.LTC" :class="css" />
@@ -64,12 +66,15 @@ const isMobile = useBreakpoints(screens).smaller('md')
         <div class="relative">
           <BtcIcon :class="css" class="w-6" />
           <InfoIcon
-            class="absolute -right-px -bottom-px w-3 [&>[data-info-bg]]:fill-white [&>[data-info-circle]]:text-[#c7c8d1] [&>[data-info-i]]:text-[#8f91a3]" />
+            class="absolute -right-px -bottom-px w-3 [&>[data-info-bg]]:fill-white [&>[data-info-circle]]:text-[#c7c8d1] [&>[data-info-i]]:text-[#8f91a3]"
+          />
         </div>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space"
-          :side="isMobile ? 'top' : 'right'" :collision-padding="8" :side-offset="6">
+        <Popover.Content
+          class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space"
+          :side="isMobile ? 'top' : 'right'" :collision-padding="8" :side-offset="6"
+        >
           <h4 class="font-semibold truncate">
             {{ $t('GoCrypto supports Binance Pay') }}
           </h4>

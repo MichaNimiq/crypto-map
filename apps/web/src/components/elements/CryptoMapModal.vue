@@ -31,8 +31,10 @@ function _onLanguagesChange(language: string) {
     </template>
 
     <template #description>
-      <i18n-t class="text-pretty" tag="p"
-        keypath="This app is brought to you by Nimiq. It is protected by reCAPTCHA and the Google {privacyPolicy} and {termsOfService} apply.">
+      <i18n-t
+        class="text-pretty" tag="p"
+        keypath="This app is brought to you by Nimiq. It is protected by reCAPTCHA and the Google {privacyPolicy} and {termsOfService} apply."
+      >
         <template #privacyPolicy>
           <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="underline">
             {{ $t('Privacy Policy') }}

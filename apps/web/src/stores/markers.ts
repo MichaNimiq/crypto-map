@@ -26,7 +26,7 @@ export const useMarkers = defineStore('markers', () => {
   -* If a match is found, we reuse stored clusters; otherwise, new clusters are computed and stored.
    */
   const { payload: memoized } = useExpiringStorage('memoized_markers', {
-    defaultValue: [] as { key: LocationClusterParams; value: MemoizedMarkers }[],
+    defaultValue: [] as { key: LocationClusterParams, value: MemoizedMarkers }[],
     expiresIn: 7 * 24 * 60 * 60 * 1000,
     timestamp: useApp().timestamps?.markers,
   })

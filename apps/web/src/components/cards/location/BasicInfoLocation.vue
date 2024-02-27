@@ -18,23 +18,32 @@ defineProps({
 </script>
 
 <template>
-  <div class="grid grid-rows-[repeat(3,auto)] gap-x-1.5 group/card" :class="{
-    'text-white': location.isAtm && location.isDark,
-    'text-space': !location.isAtm || location.isLight,
-    'grid-cols-[auto_1fr]': location.photo,
-    'grid-cols-[auto_1fr_auto]': !location.photo,
-  }">
-    <h3 class="text-base font-bold leading-[1.3] col-span-2 pb-1 text-balance" :class="{
-      'mr-4': location.photo,
-      'mr-2': !location.photo,
-    }">
+  <div
+    class="grid grid-rows-[repeat(3,auto)] gap-x-1.5 group/card" :class="{
+      'text-white': location.isAtm && location.isDark,
+      'text-space': !location.isAtm || location.isLight,
+      'grid-cols-[auto_1fr]': location.photo,
+      'grid-cols-[auto_1fr_auto]': !location.photo,
+    }"
+  >
+    <h3
+      class="text-base font-bold leading-[1.3] col-span-2 pb-1 text-balance" :class="{
+        'mr-4': location.photo,
+        'mr-2': !location.photo,
+      }"
+    >
       <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
       <template v-if="location.isAtm">{{ $t('ATM') }} (</template>{{ location.name }}<template
-        v-if="location.isAtm">)</template>
+        v-if="location.isAtm"
+      >
+        )
+      </template>
     </h3>
 
-    <LocationSocialButton v-if="!location.photo && location.url && progress > 0.5" :location="location"
-      class="self-start mr-5 -mt-2 -mb-2" />
+    <LocationSocialButton
+      v-if="!location.photo && location.url && progress > 0.5" :location="location"
+      class="self-start mr-5 -mt-2 -mb-2"
+    />
 
     <template v-if="!location.isAtm">
       <span class="row-start-2 text-xs font-semibold first-letter:capitalize text-space/60 whitespace-nowrap">
@@ -53,12 +62,14 @@ defineProps({
       <template v-else-if="location.accepts.length > 0">{{ $t('Sell crypto only') }}</template>
       <template v-else-if="location.sells.length > 0">{{ $t('Buy crypto only') }}</template>
     </span>
-    <p class="text-xs leading-[1.5] grid-cols-1 row-start-3 text-pretty" :class="{
-      'text-white/70': location.isAtm && location.isDark,
-      'text-space/60': !location.isAtm || location.isLight,
-      'col-span-2': location.photo,
-      'col-span-3': !location.photo,
-    }">
+    <p
+      class="text-xs leading-[1.5] grid-cols-1 row-start-3 text-pretty" :class="{
+        'text-white/70': location.isAtm && location.isDark,
+        'text-space/60': !location.isAtm || location.isLight,
+        'col-span-2': location.photo,
+        'col-span-3': !location.photo,
+      }"
+    >
       {{ location.address }}
     </p>
   </div>

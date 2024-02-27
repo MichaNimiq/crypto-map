@@ -28,10 +28,12 @@ const isMobile = useBreakpoints(screens).smaller('md')
     <CardBg v-if="!location.isAtm && location.providerLabel" :location="location" />
 
     <div v-if="location.providerLabel" class="z-20 flex items-center pt-1.5 pl-6 pr-[72px] text-xs gap-x-1.5">
-      <i18n-t :keypath="location.providerLabel" tag="p" :class="{
-        'text-white/60 [&>b]:text-white': location.isDark,
-        'text-space/60 [&>b]:text-space': location.isLight,
-      }">
+      <i18n-t
+        :keypath="location.providerLabel" tag="p" :class="{
+          'text-white/60 [&>b]:text-white': location.isDark,
+          'text-space/60 [&>b]:text-space': location.isLight,
+        }"
+      >
         <!-- The name in the label can optionally be written bold by including a {provider} placeholder -->
         <template #provider>
           <b>{{ location.provider }}</b>
@@ -43,9 +45,11 @@ const isMobile = useBreakpoints(screens).smaller('md')
           <InfoIcon class="w-4" :class="{ 'text-white/50': location.isDark, 'text-space/50': location.isLight }" />
         </Popover.Trigger>
         <Popover.Portal>
-          <Popover.Content as-child
+          <Popover.Content
+            as-child
             class="max-w-xs p-4 space-y-2 text-white rounded-sm shadow z-100 bg-gradient-space [&[data-side=right]_[data-arrow]]:right-1.5  [&[data-side=left]_[data-arrow]]:left-1.5"
-            :side-offset="4" :collision-padding="8" :side="isMobile ? 'top' : 'right'">
+            :side-offset="4" :collision-padding="8" :side="isMobile ? 'top' : 'right'"
+          >
             <div>
               <header class="flex items-center justify-start gap-x-2">
                 <ProviderCircleLogo :provider="location.provider" />
@@ -53,8 +57,9 @@ const isMobile = useBreakpoints(screens).smaller('md')
                   {{ location.provider }}
                 </h4>
                 <div
+                  v-if="location.providerTooltipLabel"
                   class="ml-auto uppercase text-xs text-white/60 tracking-wider bg-white/[0.08] shadow-sm shadow-white/[0.2] font-semibold px-2 py-0.5 ring-1 ring-white/20 rounded-full"
-                  v-if="location.providerTooltipLabel">
+                >
                   {{ location.providerTooltipLabel }}
                 </div>
               </header>
@@ -63,8 +68,10 @@ const isMobile = useBreakpoints(screens).smaller('md')
                 {{ location.providerTooltip }}
               </p>
 
-              <Button v-if="location.providerTooltipCta" :href="location.providerTooltipCta" bg-color="transparent"
-                text-color="white" class="!px-0 opacity-60">
+              <Button
+                v-if="location.providerTooltipCta" :href="location.providerTooltipCta" bg-color="transparent"
+                text-color="white" class="!px-0 opacity-60"
+              >
                 <template #label>
                   {{ $t('Learn more') }}
                 </template>
