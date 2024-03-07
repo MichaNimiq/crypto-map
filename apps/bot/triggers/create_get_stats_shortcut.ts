@@ -3,7 +3,7 @@ import {
   TriggerContextData,
   TriggerTypes,
 } from 'https://deno.land/x/deno_slack_api@2.1.1/mod.ts'
-import GetStatsInfoWorkflow from '../workflows/get_stats_info.js'
+import GetStatsInfoWorkflow from '../workflows/get_stats_info.ts'
 
 const createDeleteLocationShortcut: Trigger<typeof GetStatsInfoWorkflow.definition> = {
   type: TriggerTypes.Shortcut,

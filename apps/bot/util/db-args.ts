@@ -1,6 +1,6 @@
 import type { Env } from 'https://deno.land/x/deno_slack_sdk@2.2.0/types.ts'
-import { authenticateUser } from '../../../database/auth.js'
-import type { DatabaseAuthArgs, DatabaseAuthenticateUserArgs } from '../../types/database.ts'
+import { authenticateUser } from '../../../packages/database/src/auth.ts'
+import type { DatabaseAuthArgs, DatabaseAuthenticateUserArgs } from '../../../packages/types/src/database.ts'
 
 export async function getDbAuthUserArgs(envs: Env, dev: boolean): Promise<DatabaseAuthArgs> {
   if (!envs.DB_URL || !envs.DB_AUTH_KEY || !envs.DB_AUTH_EMAIL || !envs.DB_AUTH_PASS)

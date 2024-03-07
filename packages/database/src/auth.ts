@@ -1,5 +1,5 @@
-import type { DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs } from 'types'
-import { AnonWriteDbFunction, DatabaseUser } from 'types'
+import type { DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs } from '../../types/src/index.ts'
+import { AnonWriteDbFunction, DatabaseUser } from '../../types/src/index.ts'
 
 export async function authenticateUser(dbArgs: DatabaseAuthenticateUserArgs | DatabaseAuthArgs): Promise<DatabaseAuthArgs> {
   if ('user' in dbArgs && dbArgs.user === DatabaseUser.Authenticated)

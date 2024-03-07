@@ -1,6 +1,6 @@
 // eslint-disable no-console
-import type { AnonDbFunction, AuthDbFunction, DatabaseAnonArgs, DatabaseAnyUserArgs, DatabaseAuthArgs } from 'types'
-import { AnonWriteDbFunction, AuthWriteDbFunction, DatabaseUser, authDbFunctions } from 'types'
+import type { AnonDbFunction, AuthDbFunction, DatabaseAnonArgs, DatabaseAnyUserArgs, DatabaseAuthArgs } from '../../types/src/index.ts'
+import { AnonWriteDbFunction, AuthWriteDbFunction, DatabaseUser, authDbFunctions } from '../../types/src/index.ts'
 
 const HEADERS: HeadersInit = {
   'Content-Type': 'application/json',

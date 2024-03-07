@@ -5,11 +5,11 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { addLocationWithPlaceId } from '../../../database/functions.js'
-import { getDbAuthUserArgs } from '../util/db-args.js'
-import { LocationType } from '../../types/location.ts'
-import type { Currency } from '../../types/database.ts'
-import { Provider } from '../../types/database.ts'
+import { addLocationWithPlaceId } from '../../../packages/database/src/index.ts'
+import { getDbAuthUserArgs } from '../util/db-args.ts'
+import { LocationType } from '../../../packages/types/src/index.ts'
+import type { Currency } from '../../../packages/types/src/database.ts'
+import { Provider } from '../../../packages/types/src/database.ts'
 
 export const CreateLocationWithPlaceId = DefineFunction({
   callback_id: 'create_location_with_place_id',

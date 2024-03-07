@@ -3,7 +3,7 @@ import {
   TriggerContextData,
   TriggerTypes,
 } from 'https://deno.land/x/deno_slack_api@2.1.1/mod.ts'
-import ShowHelpWorkflow from '../workflows/show_help.js'
+import ShowHelpWorkflow from '../workflows/show_help.ts'
 
 const createShowHelpShortcut: Trigger<
   typeof ShowHelpWorkflow.definition

@@ -1,4 +1,4 @@
-import type { RawLocation } from '../../types/location.ts'
+import type { RawLocation } from '../../../packages/types/src/index.ts'
 
 type NewCandidate =
   & {
@@ -96,19 +96,16 @@ export function getMessageString(input: Input) {
     pre = ':new: Candidate submitted.'
   }
   else if (input.type === 'new_issue') {
-    pre = `:scream: Issue submitted. ${
-      getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
-    }.`
+    pre = `:scream: Issue submitted. ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      }.`
   }
   else if (input.type === 'ignore_issue') {
-    pre = `:unamused: Issue ignored by <@${input.reviewer}>. ${
-      getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
-    }.`
+    pre = `:unamused: Issue ignored by <@${input.reviewer}>. ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      }.`
   }
   else if (input.type === 'approve_issue') {
     pre
-      = `:unamused: Deleting Location from the database :thinking_face:... Triggered by <@${input.reviewer}>. ${
-        getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      = `:unamused: Deleting Location from the database :thinking_face:... Triggered by <@${input.reviewer}>. ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
       }.`
   }
   else if (input.type === 'location_deleted_issue') {
@@ -123,23 +120,20 @@ export function getMessageString(input: Input) {
     pre = `:x: Candidate rejected by <@${input.reviewer}>.`
   }
   else if (input.type === 'candidate_added') {
-    pre = `:new: Added candidate. ${
-      getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
-    }. Approved by <@${input.reviewer}>.`
+    pre = `:new: Added candidate. ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      }. Approved by <@${input.reviewer}>.`
   }
   else if (input.type === 'location_added') {
-    pre = `:new: Added new Location. ${
-      getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
-    }. Added by <@${input.reviewer}>.`
+    pre = `:new: Added new Location. ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      }. Added by <@${input.reviewer}>.`
   }
   else if (input.type === 'location_deleted') {
     pre
       = `:put_litter_in_its_place: Deleted Location from the :cryptomap: Crypto Map. Triggered by <@${input.reviewer}>.`
   }
   else if (input.type === 'location_info') {
-    pre = `:mag: ${
-      getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
-    }.`
+    pre = `:mag: ${getCryptoMapLink(input.name, input.crypto_map_domain, input.uuid)
+      }.`
   }
 
   const buy = cryptosToEmoji(input.accepts)
@@ -149,9 +143,8 @@ export function getMessageString(input: Input) {
 
   const url = input.gmaps || input.instagram || input.facebook
   if (url) {
-    const socialMedia = `:selfie: \`${
-      input.gmaps ? 'Google Maps' : input.instagram ? 'Instagram' : 'Facebook'
-    }\``
+    const socialMedia = `:selfie: \`${input.gmaps ? 'Google Maps' : input.instagram ? 'Instagram' : 'Facebook'
+      }\``
     const socialMediaLink = input.gmaps
       ? `:gmaps: <${url}|Google Maps>`
       : input.instagram
@@ -181,9 +174,8 @@ export function getMessageString(input: Input) {
     const address
       = `:round_pushpin: ${input.address} (\`${input.lat}, ${input.lng}\`)`
     const rating = `:star: ${input.rating?.toFixed(2)}`
-    const category = `:diamond_shape_with_a_dot_inside: ${input.category} (${
-      input.gmaps_types.join(', ')
-    })`
+    const category = `:diamond_shape_with_a_dot_inside: ${input.category} (${input.gmaps_types.join(', ')
+      })`
     const provider = input.provider
       ? `:factory: Provider: ${input.provider}\t\t`
       : ''

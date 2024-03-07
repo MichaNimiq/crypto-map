@@ -5,8 +5,8 @@ import { flushMarkersTable, insertMarkers } from '../../../../database/functions
 import { getCryptocities, getLocations } from '../../../../database/getters.js'
 import { algorithm, computeMarkers } from '../../../../shared/compute-markers.js'
 import { euclideanDistance } from '../../../../shared/geo-utils.js'
-import type { Args, AuthWriteDbFunction, InsertMarkersSingleCryptocity } from '../../../types/database.ts'
-import type { BoundingBox } from '../../../types/index.ts'
+import type { Args, AuthWriteDbFunction, InsertMarkersSingleCryptocity } from '../../../../packages/types/src/database.ts'
+import type { BoundingBox } from '../../../../packages/types/src/index.ts'
 
 async function markers() {
   const url = Deno.env.get('SUPABASE_URL')

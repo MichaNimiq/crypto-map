@@ -13,9 +13,9 @@ likely we also need to update things in the UI, so not really a downside!
     -> And so on
  */
 
-import type { Cryptocity, CryptocityDatabase } from './cryptocity.js'
-import type { RawLocation } from './location.js'
-import type { BoundingBox, Markers } from './map.js'
+import type { Cryptocity, CryptocityDatabase } from './cryptocity.ts'
+import type { RawLocation } from './location.ts'
+import type { BoundingBox, Markers } from './map.ts'
 
 export enum Category {
   CarsBikes = 'cars_bikes',

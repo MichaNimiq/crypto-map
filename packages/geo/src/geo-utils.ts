@@ -1,6 +1,6 @@
 import { bboxPolygon, booleanWithin, featureCollection, intersect, multiPolygon, point, pointsWithinPolygon, union } from '@turf/turf'
 import type { Feature, Point as GeoJSONPoint, MultiPolygon } from 'geojson'
-import type { BoundingBox, Point } from 'types'
+import type { BoundingBox, Point } from '../../types/src/index.ts'
 
 /**
  * Returns a GeoJSON Point from a location. You can pass an object like a Location which will be stored as a property of the point

@@ -1,7 +1,7 @@
-import type { Args, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, RawLocation, Returns } from 'types'
-import { AuthWriteDbFunction } from 'types'
-import { authenticateUser } from './auth.js'
-import { fetchDb } from './fetch.js'
+import type { Args, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, RawLocation, Returns } from '../../types/src/index.ts'
+import { AuthWriteDbFunction } from '../../types/src/index.ts'
+import { authenticateUser } from './auth.ts'
+import { fetchDb } from './fetch.ts'
 
 export async function addLocation(dbArgs: DatabaseAuthArgs | DatabaseAuthenticateUserArgs, location: Omit<RawLocation, 'uuid'>) {
   return await fetchDb<Location>(AuthWriteDbFunction.UpsertRawLocation, await authenticateUser(dbArgs), { body: { location } })

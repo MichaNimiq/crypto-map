@@ -2,8 +2,8 @@ import {
   DefineWorkflow,
   Schema,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { SendContext } from '../functions/send_context.js'
-import { PostMarkers } from '../functions/post_markers.js'
+import { SendContext } from '../functions/send_context.ts'
+import { PostMarkers } from '../functions/post_markers.ts'
 
 const PostMarkersWorkflow = DefineWorkflow({
   callback_id: 'post_markers_wf',

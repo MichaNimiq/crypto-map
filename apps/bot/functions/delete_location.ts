@@ -5,9 +5,9 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { deleteLocation } from '../../../database/functions.js'
-import { getDbAuthUserArgs } from '../util/db-args.js'
-import { LocationType } from '../types/location.js'
+import { deleteLocation } from '../../../packages/database/src/index.ts'
+import { getDbAuthUserArgs } from '../util/db-args.ts'
+import { LocationType } from '../types/location.ts'
 
 export const DeleteLocation = DefineFunction({
   callback_id: 'delete_location',

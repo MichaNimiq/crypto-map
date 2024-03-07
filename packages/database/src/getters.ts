@@ -1,8 +1,8 @@
 import type { FeatureCollection } from 'geojson'
-import type { Args, BoundingBox, DatabaseAnonArgs, DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, Returns, Suggestion } from 'types'
-import { AnonReadDbFunction, AnyUserReadDbFunction, AuthReadDbFunction, Category, Cryptocity, Currency, DatabaseUser, Provider } from 'types'
-import { fetchDb } from './fetch.js'
-import { authenticateUser } from './auth.js'
+import type { Args, BoundingBox, DatabaseAnonArgs, DatabaseArgs, DatabaseAuthArgs, DatabaseAuthenticateUserArgs, Location, Returns, Suggestion } from '../../types/src/index.ts'
+import { AnonReadDbFunction, AnyUserReadDbFunction, AuthReadDbFunction, Category, Cryptocity, Currency, DatabaseUser, Provider } from '../../types/src/index.ts'
+import { fetchDb } from './fetch.ts'
+import { authenticateUser } from './auth.ts'
 
 /**
  * We hardcode these values here, because they are rarely updated.

@@ -2,10 +2,10 @@ import {
   DefineWorkflow,
   Schema,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { VerifyCaptcha } from '../functions/verify_captcha.js'
-import { HandleCandidateMessage } from '../functions/handle_candidate_message.js'
-import { CreateLocationWithPlaceId } from '../functions/create_location_with_place_id.js'
-import { UpdateContextMessage } from '../functions/update_context_message.js'
+import { VerifyCaptcha } from '../functions/verify_captcha.ts'
+import { HandleCandidateMessage } from '../functions/handle_candidate_message.ts'
+import { CreateLocationWithPlaceId } from '../functions/create_location_with_place_id.ts'
+import { UpdateContextMessage } from '../functions/update_context_message.ts'
 
 const HandleCandidateWorkflow = DefineWorkflow({
   callback_id: 'handle_candidate_wf',

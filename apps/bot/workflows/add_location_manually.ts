@@ -2,9 +2,10 @@ import {
   DefineWorkflow,
   Schema,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { CreateRawLocation } from '../functions/create_raw_location.js'
-import { SendContext } from '../functions/send_context.js'
-import { Currency } from '../../types/index.ts'
+import { CreateRawLocation } from '../functions/create_raw_location.ts'
+import { PostUploadPhoto } from '../functions/post_upload_photo.ts'
+import { SendContext } from '../functions/send_context.ts'
+import { Currency, Provider } from '../../../packages/types/src/index.ts'
 
 const CreateAddLocationRawWorkflow = DefineWorkflow({
   callback_id: 'add_location_wf',
@@ -91,6 +92,11 @@ const formData = CreateAddLocationRawWorkflow.addStep(
           'The username in facebook of the location. What follows you see after facebook.com/',
         type: Schema.types.string,
       }, {
+        name: 'photo',
+        title: 'Photo',
+        description: 'An URL of the image or a data URI of the image. You can get it from https://webutility.io/image-to-data-uri-converter.',
+        type: Schema.types.string,
+      }, {
         name: 'accepts',
         title: 'Currencies that the location accepts',
         type: Schema.types.array,
@@ -103,12 +109,19 @@ const formData = CreateAddLocationRawWorkflow.addStep(
         },
         description: 'The list of cryptos that the location accepts',
       }, {
+        name: 'provider',
+        title: 'Provider',
+        description: 'The provider of the location',
+        type: Schema.types.string,
+        enum: Object.values(Provider),
+        default: 'DefaultShop',
+      }, {
         name: 'environment',
         title: 'Environment',
-        description: 'From which environment it should be deleted',
+        description: 'Which database to use',
         type: Schema.types.string,
         enum: ['Test', 'Production'],
-        default: 'Test',
+        default: 'Production',
       }],
       required: [
         'name',
@@ -118,6 +131,7 @@ const formData = CreateAddLocationRawWorkflow.addStep(
         'category',
         'environment',
         'accepts',
+        'provider'
       ],
     },
   },
@@ -136,6 +150,14 @@ const locationStep = CreateAddLocationRawWorkflow.addStep(
     instagram: formData.outputs.fields.instagram,
     rating: formData.outputs.fields.rating,
     environment: formData.outputs.fields.environment,
+  },
+)
+
+CreateAddLocationRawWorkflow.addStep(
+  PostUploadPhoto,
+  {
+    uuid: locationStep.outputs.location.uuid,
+    photo: formData.outputs.fields.photo,
   },
 )
 

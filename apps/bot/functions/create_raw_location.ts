@@ -5,12 +5,12 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { addLocation } from '../../../database/functions.js'
-import type { RawLocation } from '../../types/location.ts'
-import { LocationType } from '../types/location.js'
-import { Provider } from '../../types/database.ts'
-import type { Category, Currency } from '../../types/database.ts'
-import { getDbAuthUserArgs } from '../util/db-args.js'
+import { addLocation } from '../../../packages/database/src/index.ts'
+import type { RawLocation } from '../../../packages/types/src/index.ts'
+import { LocationType } from '../types/location.ts'
+import { Provider } from '../../../packages/types/src/database.ts'
+import type { Category, Currency } from '../../../packages/types/src/database.ts'
+import { getDbAuthUserArgs } from '../util/db-args.ts'
 
 export const CreateRawLocation = DefineFunction({
   callback_id: 'create_raw_location',

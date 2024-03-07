@@ -5,9 +5,9 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { getMessageString } from '../util/message_location.js'
-import { LocationType } from '../types/location.js'
-import type { RawLocation } from '../../types/location.ts'
+import { getMessageString } from '../util/message_location.ts'
+import { LocationType } from '../types/location.ts'
+import type { RawLocation } from '../../../packages/types/src/index.ts'
 
 export const HandleIssueMessage = DefineFunction({
   callback_id: 'handle_issue_message',
@@ -152,8 +152,7 @@ export default SlackFunction(
     }
 
     console.log(
-      `The user ${reviewer} chose ${action.value}. So,${
-        action.value === 'delete_location' ? 'deleted' : 'ignored'
+      `The user ${reviewer} chose ${action.value}. So,${action.value === 'delete_location' ? 'deleted' : 'ignored'
       } the location ${body.function_data.inputs.location?.uuid}`,
     )
     const type = action.value === 'delete_location'

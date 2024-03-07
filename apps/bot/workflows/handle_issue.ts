@@ -2,11 +2,11 @@ import {
   DefineWorkflow,
   Schema,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { VerifyCaptcha } from '../functions/verify_captcha.js'
-import { UpdateContextMessage } from '../functions/update_context_message.js'
-import { GetLocation } from '../functions/get_location.js'
-import { DeleteLocation } from '../functions/delete_location.js'
-import { HandleIssueMessage } from '../functions/handle_issue_message.js'
+import { VerifyCaptcha } from '../functions/verify_captcha.ts'
+import { UpdateContextMessage } from '../functions/update_context_message.ts'
+import { GetLocation } from '../functions/get_location.ts'
+import { DeleteLocation } from '../functions/delete_location.ts'
+import { HandleIssueMessage } from '../functions/handle_issue_message.ts'
 
 const HandleIssueWorkflow = DefineWorkflow({
   callback_id: 'handle_issue_wf',

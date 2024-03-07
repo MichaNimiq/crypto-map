@@ -3,8 +3,8 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { getMessageString } from '../util/message_location.js'
-import type { Currency } from '../../types/database.ts'
+import { getMessageString } from '../util/message_location.ts'
+import type { Currency } from '../../../packages/types/src/database.ts'
 
 export const HandleCandidateMessage = DefineFunction({
   callback_id: 'handle_candidate_message',

@@ -3,9 +3,9 @@ import {
   Schema,
   SlackFunction,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { LocationType } from '../types/location.js'
-import { getMessageString } from '../util/message_location.js'
-import type { RawLocation } from '../../types/location.ts'
+import { LocationType } from '../types/location.ts'
+import { getMessageString } from '../util/message_location.ts'
+import type { RawLocation } from '../../../packages/types/src/index.ts'
 
 export const UpdateContextMessage = DefineFunction({
   callback_id: 'update_context_message',

@@ -2,9 +2,9 @@ import {
   DefineWorkflow,
   Schema,
 } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { SendContext } from '../functions/send_context.js'
-import { CreateLocationWithPlaceId } from '../functions/create_location_with_place_id.js'
-import { Currency } from '../../types/index.ts'
+import { SendContext } from '../functions/send_context.ts'
+import { CreateLocationWithPlaceId } from '../functions/create_location_with_place_id.ts'
+import { Currency } from '../../../packages/types/src/index.ts'
 
 const CreateAddLocationPlaceIdWorkflow = DefineWorkflow({
   callback_id: 'add_location_placeid_wf',

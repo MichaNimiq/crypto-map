@@ -1,3 +1,3 @@
-export * from './getters.js'
-export * from './functions.js'
-export * from './auth.js'
+export * from './getters.ts'
+export * from './functions.ts'
+export * from './auth.ts'

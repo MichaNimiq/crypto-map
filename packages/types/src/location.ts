@@ -2,7 +2,7 @@
 Since the UI is quite flexible, better to define all cases using types, and we develop the UI from these types.
  */
 
-import type { Category, Currency, Provider } from './database.js'
+import type { Category, Currency, Provider } from './database.ts'
 
 export enum LocationType {
   Shop = 'shop',

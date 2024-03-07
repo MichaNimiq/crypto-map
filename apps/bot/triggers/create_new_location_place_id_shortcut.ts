@@ -3,7 +3,7 @@ import {
   TriggerContextData,
   TriggerTypes,
 } from 'https://deno.land/x/deno_slack_api@2.1.1/mod.ts'
-import CreateAddLocationPlaceIdWorkflow from '../workflows/add_location_place_id.js'
+import CreateAddLocationPlaceIdWorkflow from '../workflows/add_location_place_id.ts'
 
 const CreateNewLocationWithPlaceIdShortcut: Trigger<
   typeof CreateAddLocationPlaceIdWorkflow.definition
