@@ -1,27 +1,14 @@
-// Deno.serve(async (req) => {
-// const { name } = await req.json()
-// const data = {
-//   message: `Hello ${name}!`,
-// }
-// console.log('req', req)
-// return new Response('Hello world' + name)
-
-// return new Response(JSON.stringify({ data: 'ho' }), { headers: { 'Content-Type': 'application/json' } })
-// })
 import { defineEventHandler, toWebHandler, createApp, readMultipartFormData, readBody } from "https://esm.sh/h3@latest";
-// import sharp from 'https://esm.sh/sharp@0.33.2'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js'
-import { request } from "http";
 
 export const app = createApp();
 app.use(defineEventHandler(async (event) => {
-
   /**
    * The user can upload two types of photos:
    *    - Using a multipart form with the field name `photo` and the header `Content-Type: multipart/form-data`
    *    - Using a base64 encoded string with the field name `photo`, `uuid`, and the `format`. Also the header `Content-Type: application/json`
    */
-  let photoBuffer, filename
+  let photoBuffer, filename, mimeType
   if (event.headers.get('Content-Type') === 'application/json') {
     const body = await readBody(event)
     if (!body.photo || !body.uuid || !body.format) {
@@ -29,15 +16,17 @@ app.use(defineEventHandler(async (event) => {
     }
     photoBuffer = Buffer.from(body.photo, 'base64')
     filename = `${body.uuid}.${body.format}`
+    mimeType = `image/${body.format}`
   } else if (event.headers.get('Content-Type')?.startsWith('multipart/form-data')) {
     const form = await readMultipartFormData(event)
     const photo = form?.find(f => f.name === 'photo')
-    if (!photo || !photo.filename)
-      return new Response('The field `photo` and `filename` are required', { status: 400 })
+    if (!photo || !photo.filename || !photo.type)
+      return new Response('The field `photo`, `filename` and `type` are required' + JSON.stringify(photo), { status: 400 })
 
     photoBuffer = photo.data
     filename = photo.filename
-  } else {Missing environment variables
+    mimeType = photo.type
+  } else {
     return new Response('The field `photo` is required. Use `Content-Type: application/json` or `Content-Type: multipart/form-data`. Got `Content-Type`: ' + event.headers.get('Content-Type'), { status: 400 })
   }
 
@@ -47,17 +36,24 @@ app.use(defineEventHandler(async (event) => {
   const password = Deno.env.get('DB_AUTH_PASSWORD')
 
   if (!url || !apikey || !email || !password) {
-    return new Response('Missing environment variables', { status: 500 })
+    return new Response(`Missing environment variables ${JSON.stringify({ url, apikey, email, password })}`, { status: 500 })
   }
 
   const client = createClient(url, apikey)
+  const { error: errorUser } = await client.auth.signInWithPassword({ email, password })
+  if (errorUser)
+    return new Response(`Error signing in. ${JSON.stringify(errorUser)}`, { status: 500 })
+
   console.log('Image conversion and resizing successful.');
   const bucket = client.storage.from('locations-photo')
 
-  const { data, error } = await bucket.update(filename, photoBuffer)
-  if (error)
-    return new Response('Error updating image', { status: 500 })
+  const { data: signedUrl, error: errorSignedUrl } = await bucket.createSignedUploadUrl(filename)
+  if (errorSignedUrl)
+    return new Response(`Error creating signed url. ${JSON.stringify(errorSignedUrl)}`, { status: 500 })
 
+  const { data, error } = await bucket.uploadToSignedUrl(filename, signedUrl.token, photoBuffer, { contentType: mimeType })
+  if (error)
+    return new Response(`Error updating image. ${JSON.stringify(error)}`, { status: 500 })
 
   return new Response(JSON.stringify({ data }), { headers: { 'Content-Type': 'text/plain' } })
 }));
