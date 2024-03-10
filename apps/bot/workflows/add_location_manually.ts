@@ -1,9 +1,8 @@
 import {
   DefineWorkflow,
   Schema,
-} from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
+} from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
 import { CreateRawLocation } from '../functions/create_raw_location.ts'
-import { PostUploadPhoto } from '../functions/post_upload_photo.ts'
 import { SendContext } from '../functions/send_context.ts'
 import { Currency, Provider } from '../../../packages/types/src/index.ts'
 
@@ -93,18 +92,20 @@ const formData = CreateAddLocationRawWorkflow.addStep(
         type: Schema.types.string,
       }, {
         name: 'photo',
-        title: 'Photo',
-        description: 'An URL of the image or a data URI of the image. You can get it from https://webutility.io/image-to-data-uri-converter.',
-        type: Schema.types.string,
+        title: 'Enter a picture',
+        description: 'An image of the location. It is preferable to use a .webp file. e.g. https://www.freefileconvert.com/',
+        maxItems: 1,
+        type: Schema.types.array,
+        items: {
+          type: Schema.slack.types.file_id,
+          allowed_filetypes_group: 'IMAGES_ONLY',
+        },
       }, {
         name: 'accepts',
         title: 'Currencies that the location accepts',
         type: Schema.types.array,
         items: {
           type: Schema.types.string,
-          // I would like to know if it possible to fetch this from the database
-          // But it seems that the only option is to have the formData as first
-          // step of the workflow
           enum: Object.values(Currency),
         },
         description: 'The list of cryptos that the location accepts',
@@ -114,7 +115,7 @@ const formData = CreateAddLocationRawWorkflow.addStep(
         description: 'The provider of the location',
         type: Schema.types.string,
         enum: Object.values(Provider),
-        default: 'DefaultShop',
+        default: Provider.DefaultShop,
       }, {
         name: 'environment',
         title: 'Environment',
@@ -149,15 +150,9 @@ const locationStep = CreateAddLocationRawWorkflow.addStep(
     facebook: formData.outputs.fields.facebook,
     instagram: formData.outputs.fields.instagram,
     rating: formData.outputs.fields.rating,
-    environment: formData.outputs.fields.environment,
-  },
-)
-
-CreateAddLocationRawWorkflow.addStep(
-  PostUploadPhoto,
-  {
-    uuid: locationStep.outputs.location.uuid,
     photo: formData.outputs.fields.photo,
+    provider: formData.outputs.fields.provider,
+    environment: formData.outputs.fields.environment,
   },
 )
 

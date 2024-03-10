@@ -4,13 +4,13 @@ import {
   DefineFunction,
   Schema,
   SlackFunction,
-} from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
+} from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
 import { addLocation } from '../../../packages/database/src/index.ts'
-import type { RawLocation } from '../../../packages/types/src/index.ts'
 import { LocationType } from '../types/location.ts'
 import { Provider } from '../../../packages/types/src/database.ts'
 import type { Category, Currency } from '../../../packages/types/src/database.ts'
 import { getDbAuthUserArgs } from '../util/db-args.ts'
+
 
 export const CreateRawLocation = DefineFunction({
   callback_id: 'create_raw_location',
@@ -51,6 +51,20 @@ export const CreateRawLocation = DefineFunction({
         type: Schema.types.string,
         description: 'Facebook of the location',
       },
+      photo: {
+        type: Schema.types.array,
+        description: 'Photo of the location',
+        items: {
+          type: Schema.slack.types.file_id,
+        },
+      },
+      provider: {
+        title: 'Provider',
+        description: 'The provider of the location',
+        type: Schema.types.string,
+        enum: Object.values(Provider),
+        default: Provider.DefaultShop,
+      },
       accepts: {
         type: Schema.types.array,
         items: {
@@ -71,6 +85,7 @@ export const CreateRawLocation = DefineFunction({
       'category',
       'environment',
       'accepts',
+      'provider'
     ],
   },
   output_parameters: {
@@ -85,28 +100,81 @@ export const CreateRawLocation = DefineFunction({
 
 export default SlackFunction(
   CreateRawLocation,
-  async ({ inputs, env }) => {
-    const locationInput: Omit<RawLocation, 'uuid'> = {
+  async ({ inputs, env, token }) => {
+    console.log(`Creating location with ${JSON.stringify(inputs)}`)
+    const args = await getDbAuthUserArgs(env, inputs.environment === 'Test')
+    const { apikey, authToken, url } = args
+
+    const storageUrl = `${url}/storage/v1`
+    const bucket = 'locations-photo'
+
+    const photoId = inputs.photo?.at(0)
+    let filename: string
+
+    console.log({ photoId })
+
+    const uuid = globalThis.crypto.randomUUID();
+    if (photoId) {
+      const fileInfoUrl = new URL(`https://slack.com/api/files.info`)
+      fileInfoUrl.searchParams.append('file', photoId)
+      const headersToken = { 'Authorization': `Bearer ${token}` }
+
+      const fileInfo = await fetch(fileInfoUrl.href, { headers: headersToken })
+      const photoJson = await fileInfo.json()
+      if (!fileInfo.ok || !photoJson.ok) {
+        return { error: `Error fetching photo info: ${JSON.stringify({ fileInfo, photoJson })}` }
+      }
+      const photo = photoJson.file
+
+      console.log(`Photo info: ${JSON.stringify(photo)}`)
+
+      const mimetype = photo.mimetype
+      if (mimetype === undefined || mimetype === null) {
+        return { error: `Invalid file: ${photo.mimeType}. Only images are allowed.` }
+      }
+      filename = `${uuid}.${photo.filetype}`
+
+      console.log(`Fetching photo ${photo.name}(${photo.id})`, headersToken)
+      const res = await fetch(photo.thumb_360, { headers: headersToken })
+      const photoBuffer = await res.arrayBuffer()
+      console.log(`Photo buffer: ${photoBuffer.byteLength}`)
+
+      const uploadHeaders = {
+        'Authorization': `Bearer ${authToken}`,
+        'cache-control': `max-age=3600`,
+        'content-type': photo.mimetype,
+        apikey
+      }
+
+      const postUrl = `${storageUrl}/object/${bucket}/${filename}`
+      console.log(`Uploading ${filename} to ${postUrl}`)
+      fetch(postUrl, { method: 'POST', body: photoBuffer, headers: uploadHeaders })
+    }
+
+    console.log(`Photo handled`)
+    const locationInput = {
+      uuid,
       name: inputs.name,
       address: inputs.address,
       lat: inputs.lat,
       lng: inputs.lng,
       category: inputs.category as Category,
       rating: inputs.rating,
-      provider: Provider.DefaultShop,
+      provider: inputs.provider as Provider,
       accepts: inputs.accepts as Currency[],
       sells: [],
+      photo: photoId ? `${storageUrl}/object/public/${bucket}/${filename!}` : undefined,
       facebook: inputs.facebook,
       instagram: inputs.instagram,
       gmaps_types: [],
     }
     const res = await addLocation(
-      await getDbAuthUserArgs(env, inputs.environment === 'Test'),
+      args,
       locationInput,
     )
     console.log(`Added ${JSON.stringify(res)}`)
-    return !res || typeof res === 'string'
-      ? { error: JSON.stringify(res) }
-      : { outputs: { location: res } }
+    if (!res) return { error: 'Error adding location' }
+
+    return { outputs: { location: res } }
   },
 )

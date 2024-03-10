@@ -1,4 +1,4 @@
-import { Manifest } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
+import { Manifest } from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
 import { LocationType } from './types/location.ts'
 import CreateAddLocationPlaceIdWorkflow from './workflows/add_location_place_id.ts'
 import CreateAddLocationRawWorkflow from './workflows/add_location_manually.ts'
@@ -28,7 +28,8 @@ export default Manifest({
   outgoingDomains: [
     'www.google.com',
     'mycbdmurjytbdahjljoh.supabase.co',
+    'files.slack.com',
   ],
   types: [LocationType],
-  botScopes: ['commands', 'chat:write', 'chat:write.public'],
+  botScopes: ['commands', 'chat:write', 'chat:write.public', 'files:read'],
 })

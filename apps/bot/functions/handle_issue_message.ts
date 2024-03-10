@@ -4,7 +4,7 @@ import {
   DefineFunction,
   Schema,
   SlackFunction,
-} from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
+} from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
 import { getMessageString } from '../util/message_location.ts'
 import { LocationType } from '../types/location.ts'
 import type { RawLocation } from '../../../packages/types/src/index.ts'

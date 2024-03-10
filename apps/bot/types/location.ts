@@ -1,5 +1,5 @@
-import { Schema } from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
-import { DefineType } from 'https://deno.land/x/deno_slack_sdk@2.2.0/types/mod.ts'
+import { Schema } from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
+import { DefineType } from 'https://deno.land/x/deno_slack_sdk@2.7.0/types/mod.ts'
 
 const LocationType = DefineType({
   name: 'Location',

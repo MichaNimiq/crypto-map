@@ -1,7 +1,7 @@
 import {
   DefineWorkflow,
   Schema,
-} from 'https://deno.land/x/deno_slack_sdk@2.2.0/mod.ts'
+} from 'https://deno.land/x/deno_slack_sdk@2.7.0/mod.ts'
 import { VerifyCaptcha } from '../functions/verify_captcha.ts'
 import { UpdateContextMessage } from '../functions/update_context_message.ts'
 import { GetLocation } from '../functions/get_location.ts'

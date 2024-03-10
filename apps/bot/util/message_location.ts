@@ -190,5 +190,9 @@ export function getMessageString(input: Input) {
     }
   }
 
+  if (input.type === 'location_added' && input.photo) {
+    text += `:camera: <${input.photo}|Photo of the location>\n`
+  }
+
   return text
 }
