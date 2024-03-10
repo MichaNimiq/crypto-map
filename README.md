@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/nimiq/crypto-map">
-    <img src="public/logo.svg" alt="Logo" width="130" />
+    <img src="apps/web/public/logo.svg" alt="Logo" width="130" />
   </a>
 
 <h1 align="center">
