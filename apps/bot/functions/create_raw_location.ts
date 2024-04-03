@@ -113,6 +113,12 @@ export default SlackFunction(
     if (!inputs.lat.toString().match(re) || !inputs.lng.toString().match(re)) {
       return { error: `Invalid latitude or longitude: ${inputs.lat}, ${inputs.lng}. Make sure to use a decimal number.` }
     }
+    // check is in between -180 and 180
+    const latNumber = parseFloat(inputs.lat.toString())
+    const lngNumber = parseFloat(inputs.lng.toString())
+    if (latNumber < -180 || latNumber > 180 || lngNumber < -180 || lngNumber > 180) {
+      return { error: `Invalid latitude or longitude: ${inputs.lat}, ${inputs.lng}. Make sure to use a number between -180 and 180.` }
+    }
 
     const { apikey, authToken, url } = args
 
