@@ -47,13 +47,13 @@ const formData = CreateAddLocationRawWorkflow.addStep(
         title: 'Longitude',
         description:
           'The longitude of the location. Use a pin in Google Maps to get it. San Jose\'s longitude is -84.089013',
-        type: Schema.types.number,
+        type: Schema.types.string,
       }, {
         name: 'lat',
         title: 'Latitude',
         description:
           'The latitude of the location. Use a pin in Google Maps to get it. San Jose\'s latitude is 9.934739',
-        type: Schema.types.number,
+        type: Schema.types.string,
       }, {
         name: 'rating',
         title: 'Rating',
@@ -93,7 +93,7 @@ const formData = CreateAddLocationRawWorkflow.addStep(
       }, {
         name: 'photo',
         title: 'Enter a picture',
-        description: 'An image of the location. It is preferable to use a .webp file. e.g. https://www.freefileconvert.com/',
+        description: 'An image of the location. It is preferable to use a .webp file. Use https://www.freefileconvert.com/',
         maxItems: 1,
         type: Schema.types.array,
         items: {
@@ -145,6 +145,8 @@ const locationStep = CreateAddLocationRawWorkflow.addStep(
     address: formData.outputs.fields.address,
     category: formData.outputs.fields.category,
     accepts: formData.outputs.fields.accepts,
+    // lat and lng need to be processed as string in the form as 
+    // Slack contains some issues with float numbers
     lat: formData.outputs.fields.lat,
     lng: formData.outputs.fields.lng,
     facebook: formData.outputs.fields.facebook,
