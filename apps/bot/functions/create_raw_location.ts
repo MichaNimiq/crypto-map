@@ -109,7 +109,7 @@ export default SlackFunction(
     // "16".toString().match(/\d+\.\d+/) --> not valid
     // "16.".toString().match(/\d+\.\d+/) --> not valid
     // "16.123".toString().match(/\d+\.\d+/) --> valid
-    const re = new RegExp(/\d+\.\d+/)
+    const re = new RegExp(/^-?\d+\.\d+/)
     if (!inputs.lat.toString().match(re) || !inputs.lng.toString().match(re)) {
       return { error: `Invalid latitude or longitude: ${inputs.lat}, ${inputs.lng}. Make sure to use a decimal number.` }
     }
