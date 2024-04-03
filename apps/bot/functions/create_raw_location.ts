@@ -103,6 +103,17 @@ export default SlackFunction(
   async ({ inputs, env, token }) => {
     console.log(`Creating location with ${JSON.stringify(inputs)}`)
     const args = await getDbAuthUserArgs(env, inputs.environment === 'Test')
+
+    // check that args.lat and args.lng are numbers with at least a dot and some numbers after it.
+    // we do not allow the user to put a lat like: 16. It needs to be 16.1234
+    // "16".toString().match(/\d+\.\d+/) --> not valid
+    // "16.".toString().match(/\d+\.\d+/) --> not valid
+    // "16.123".toString().match(/\d+\.\d+/) --> valid
+    const re = new RegExp(/\d+\.\d+/)
+    if (!inputs.lat.toString().match(re) || !inputs.lng.toString().match(re)) {
+      return { error: `Invalid latitude or longitude: ${inputs.lat}, ${inputs.lng}. Make sure to use a decimal number.` }
+    }
+
     const { apikey, authToken, url } = args
 
     const storageUrl = `${url}/storage/v1`
