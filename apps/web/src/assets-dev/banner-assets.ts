@@ -37,8 +37,8 @@ const cardConfiguration: Record<Banner, BannerConfiguration> = {
     get bannerTooltip() {
       return i18n.t('Nimiq Pay enables self-custodial payments with NIM wherever BTC Lightning is accepted.')
     },
-    bannerGooglePlay: 'https://play.google.com/store/apps/',
-    bannerAppStore: 'https://apps.apple.com/app/nimiq-pay',
+    bannerGooglePlay: 'https://play.google.com/store/apps/details?id=com.nimiq.pay',
+    bannerAppStore: 'https://apps.apple.com/app/id6471844738',
   },
   [Provider.NAKA]: {
     theme: Theme.Dark,
