@@ -1,6 +1,6 @@
 {
   "imports": {
-    "@turf/": "https://esm.sh/@turf/@^7.0.0-alpha.113/",
-    "std/": "https://deno.land/std@0.219.0/"
+    "@turf/": "https://esm.sh/@turf/@^7.0.0-alpha.113",
+    "std/": "https://deno.land/std@0.219.0"
   }
 }

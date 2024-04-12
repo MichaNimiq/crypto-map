@@ -65,7 +65,7 @@ function onClusterClick({ expansionZoom, lat, lng }: Cluster) {
             class="grid text-sm font-bold text-white transition-colors rounded-full shadow cursor-pointer aspect-square place-content-center bg-space hover:bg-[#35395A] focus:bg-[#35395A] border border-white/20 max-desktop:clickable" :style="`width: ${c.diameter}px; font-size: clamp(14px, ${0.14 * c.count + 4}px, 18px)`"
             @pointerdown="isMobile && c.cryptocities.length > 0 ? toggleClusterExpansion(c) : onClusterClick(c)"
           >
-            {{ c.count < 100 ? c.count : '99+' }}
+            {{ c.count < 1000 ? c.count : '999+' }}
           </div>
         </li>
 

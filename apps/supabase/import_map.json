@@ -1,7 +1,7 @@
 {
   "imports": {
     "supercluster": "https://esm.sh/supercluster",
-    "@turf/": "https://esm.sh/@turf/@^7.0.0-alpha.113",
+    "@turf/": "https://esm.sh/@turf/",
     "h3": "https://esm.sh/h3"
   }
 }
