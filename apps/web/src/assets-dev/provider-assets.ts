@@ -1,8 +1,8 @@
 import { Provider, Theme } from 'types'
-import type { Location } from 'types'
+import type { Banner, Location } from 'types'
 import { i18n } from '@/i18n/i18n-setup'
 
-// A dummy implementation of i18n.t that simply passes through the translation key. For usage for providerLabels, for
+// A dummy implementation of i18n.t that simply passes through the translation key. For usage for bannerLabels, for
 // which the actual translation is happening in i18n-t in ProviderBanner, and for which a pre-translation here via the
 // actual i18n.t would lead to the translation used as translation key there, being an unknown translation key. Thus, we
 // simply pass the original translation key, such that it can get handled in ProviderBanner's i18n-t. Note that on usage
@@ -13,12 +13,12 @@ const i18nKeyPassThrough = {
   t: (key: string) => key,
 }
 
-// Note that providerLabel is defined as a getter to be able to use the i18nKeyPassThrough, as the actual translation
-// for providerLabel is happening in i18n-t in ProviderBanner, and providerTooltip is defined as a getter to not be
-// constant but re-computed on language changes. providerLabel can include a {provider} placeholder which gets handled
+// Note that bannerLabel is defined as a getter to be able to use the i18nKeyPassThrough, as the actual translation
+// for bannerLabel is happening in i18n-t in ProviderBanner, and bannerTooltip is defined as a getter to not be
+// constant but re-computed on language changes. bannerLabel can include a {provider} placeholder which gets handled
 // in i18n-t in ProviderBanner.
-export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | 'providerLabel' | 'providerTooltip' | 'providerTooltipCta' | 'providerTooltipLabel'>> = {
-  [Provider.DefaultShop]: {
+const cardConfiguration: Record<Banner, Pick<Location, 'bg' | 'theme' | 'bannerLabel' | 'bannerTooltip' | 'bannerTooltipCta' | 'bannerTooltipLabel'>> = {
+  'None': {
     bg: ['white', undefined],
     theme: Theme.Light,
   },
@@ -26,95 +26,99 @@ export const providersAssets: Record<Provider, Pick<Location, 'bg' | 'theme' | '
     theme: Theme.Dark,
     bg: ['radial-gradient(100% 100% at 100% 100%, #4D4C96 0%, #5F4B8B 100%)', 'radial-gradient(100% 100% at 100% 100%, hsl(241, 33%, 41%) 0%, hsl(259, 30%, 39%) 100%)'],
   },
-  [Provider.NimiqPay]: {
+  'Nimiq-Pay': {
     bg: ['#E9B213', undefined],
     theme: Theme.Light,
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Pay with {provider}')
     },
-    get providerTooltip() {
-      return i18n.t('Self-custodial & instant payments with NIM and BTC Lightning. Featuring learn-to-earn and loyalty rewards.')
+    get bannerTooltip() {
+      return i18n.t('Nimiq Pay enables self-custodial payments with NIM wherever BTC Lightning is accepted.')
     },
-    providerTooltipCta: 'https://nimiq.com/nimiq-pay',
-  },
-  [Provider.GoCrypto]: {
-    theme: Theme.Light,
-    bg: ['#F0BF4C', undefined],
-    get providerLabel() {
-      const i18n = i18nKeyPassThrough
-      return i18n.t('Powered by {provider}')
-    },
-    get providerTooltip() {
-      return i18n.t('GoCrypto is a global payment network that enables merchants to accept crypto payments.')
-    },
-    providerTooltipCta: 'https://gocrypto.com',
+    bannerTooltipCta: 'https://nimiq.com/nimiq-pay',
   },
   [Provider.NAKA]: {
     theme: Theme.Dark,
     bg: ['#293FFF', undefined],
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Powered by {provider}')
     },
-    get providerTooltip() {
+    get bannerTooltip() {
       return i18n.t('NAKA is a global payment network that enables merchants to accept crypto payments.')
     },
-    providerTooltipCta: 'https://naka.com',
+    bannerTooltipCta: 'https://naka.com',
   },
   [Provider.Kurant]: {
     theme: Theme.Dark,
     bg: ['#A92E19', 'hsl(9, 74%, 35%)'],
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Register with {provider}')
     },
-    get providerTooltip() {
+    get bannerTooltip() {
       return i18n.t('Kurant enables users to easily purchase cryptocurrencies through a network of ATMs.')
     },
-    providerTooltipCta: 'https://kurant.net',
+    bannerTooltipCta: 'https://kurant.net',
   },
   [Provider.Bluecode]: {
     bg: ['#004899', undefined],
     theme: Theme.Dark,
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Powered by {provider}')
     },
-    get providerTooltip() {
+    get bannerTooltip() {
       return i18n.t('Bluecode is a payment method that allows secure transactions directly through the smartphone.')
     },
-    get providerTooltipLabel() {
+    get bannerTooltipLabel() {
       return i18n.t('Coming soon')
     },
-    providerTooltipCta: 'https://bluecode.com',
+    bannerTooltipCta: 'https://bluecode.com',
   },
   [Provider.CryptopaymentLink]: {
     bg: ['#5C6CFF', undefined],
     theme: Theme.Dark,
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Powered by {provider}')
     },
-    get providerTooltip() {
+    get bannerTooltip() {
       return i18n.t('With CryptoPayment Link, you can quickly and easily receive cryptocurrency payments from your customers.')
     },
-    providerTooltipCta: 'https://cplink.com',
+    bannerTooltipCta: 'https://cplink.com',
   },
   [Provider.Edenia]: {
     bg: ['#00B2B0', 'hsl(179, 100%, 32%)'],
     theme: Theme.Dark,
-    get providerLabel() {
+    get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Register with {provider}')
     },
-    get providerTooltip() {
+    get bannerTooltip() {
       return i18n.t('Edenia enables users to easily purchase cryptocurrencies through a network of ATMs')
     },
-    providerTooltipCta: 'https://edenia.com/',
+    bannerTooltipCta: 'https://edenia.com/',
   },
-  [Provider.BitcoinJungle]: {
-    bg: ['white', undefined],
-    theme: Theme.Light,
-  },
+}
+
+const bannerMap: Record<Provider, Banner> = {
+  [Provider.AcceptLightning]: 'Nimiq-Pay',
+  [Provider.BtcMap]: 'Nimiq-Pay',
+  [Provider.Bridge2Bitcoin]: 'Nimiq-Pay',
+  [Provider.Coinmap]: 'Nimiq-Pay',
+  [Provider.NAKA]: Provider.NAKA,
+  [Provider.Kurant]: Provider.Kurant,
+  [Provider.Bluecode]: Provider.Bluecode,
+  [Provider.CryptopaymentLink]: Provider.CryptopaymentLink,
+  [Provider.Edenia]: Provider.Edenia,
+  [Provider.DefaultAtm]: Provider.DefaultAtm,
+  [Provider.DefaultShop]: 'None',
+  [Provider.BitcoinJungle]: 'None',
+}
+
+export function getCardConfiguration(provider: Provider): typeof cardConfiguration[Banner] & Pick<Location, 'banner'> {
+  const banner = bannerMap[provider]
+  return { banner, ...cardConfiguration[banner] }
 }

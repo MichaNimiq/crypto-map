@@ -7,7 +7,7 @@ import LocationSocialButton from '@/components/elements/LocationSocialButton.vue
 import CryptoList from '@/components/atoms/CryptoList.vue'
 import BasicInfo from '@/components/cards/location/BasicInfoLocation.vue'
 import CardBg from '@/components/cards/location/LocationCardBg.vue'
-import ProviderBanner from '@/components/elements/ProviderBanner.vue'
+import Banner from '@/components/elements/Banner.vue'
 import CardDotsMenu from '@/components/cards/location/LocationCardDotsMenu.vue'
 
 defineProps({
@@ -94,8 +94,8 @@ function arrayEquals(arrA: string[], arrB: string[]): boolean {
       <LocationSocialButton v-if="location.photo && location.url && progress > 0.5" :location="location" class="absolute z-20 top-4 right-4" />
     </transition>
 
-    <ProviderBanner
-      v-if="progress > 0 && location.hasBottomBanner" :location="location"
+    <Banner
+      v-if="progress > 0 && location.banner !== 'None'" :location="location"
       class="absolute max-desktop:w-screen -mt-9"
       :class="{ 'rounded-b-lg': progress < 1 || !isMobile }"
       :style="{

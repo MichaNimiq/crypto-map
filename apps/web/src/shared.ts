@@ -1,7 +1,7 @@
 import { PROVIDERS } from 'database'
 import type { DatabaseAnonArgs, DatabaseArgs, Location } from 'types'
 import { DatabaseUser, LocationLink, Provider, Theme } from 'types'
-import { providersAssets } from './assets-dev/provider-assets'
+import { getCardConfiguration } from './assets-dev/provider-assets'
 import { translateCategory } from './translations'
 import { useApp } from './stores/app'
 
@@ -44,12 +44,11 @@ export function parseLocation(location: Location) {
   location.linkTo = location.gmaps ? LocationLink.GMaps : location.instagram ? LocationLink.Instagram : location.facebook ? LocationLink.Facebook : undefined
   location.url = location.gmaps || location.instagram || location.facebook
 
-  Object.assign(location, providersAssets[location.provider]) // Assing all the keys from the asset to the location
+  Object.assign(location, getCardConfiguration(location.provider)) // Assing all the keys from the asset to the location
 
   location.isAtm = isAtm
   location.isDark = location.theme === Theme.Dark
   location.isLight = location.theme === Theme.Light
-  location.hasBottomBanner = location.provider !== Provider.DefaultShop && location.provider !== Provider.DefaultAtm
 
   // Make the translation reactive in case user change language
   Object.defineProperty(location, 'category_label', {

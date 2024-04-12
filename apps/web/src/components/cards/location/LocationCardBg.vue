@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { type Location, Provider } from 'types'
-import ProviderLogo from '@/components/icons/providers/ProviderLogo.vue'
+import BannerLogo from '@/components/icons/providers/BannerLogo.vue'
 
 defineProps({
   location: {
@@ -28,11 +28,11 @@ defineProps({
         <div
           class="absolute p-1.5 rounded-full w-9 h-9 right-4 bottom-4 place-content-center bg-white"
           :class="{
-            '!bg-[#1F2348]': location.provider === Provider.NimiqPay,
-            '!bg-[#b7ff00]': location.provider === Provider.NAKA,
+            '!bg-[#1F2348]': location.banner === 'Nimiq-Pay',
+            '!bg-[#b7ff00]': location.banner === Provider.NAKA,
           }"
         >
-          <ProviderLogo :provider="location.provider" class="w-6 h-6" />
+          <BannerLogo :banner="location.banner" class="w-6 h-6" />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@ defineProps({
       <div
         class="absolute -bottom-1.5 -right-1.5 bg-[url(@/assets/atm-provider-rings-bg.svg)] bg-no-repeat h-[118px] w-[118px]"
       />
-      <ProviderLogo :provider="location.provider" class="absolute w-8 h-8 bottom-9 right-9" />
+      <BannerLogo :banner="location.banner" class="absolute w-8 h-8 bottom-9 right-9" />
     </div>
   </template>
 </template>

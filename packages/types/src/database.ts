@@ -49,15 +49,16 @@ export enum Currency {
 export enum Provider {
   DefaultShop = 'DefaultShop',
   DefaultAtm = 'DefaultAtm',
-  /** @deprecated */
-  GoCrypto = 'GoCrypto',
   NAKA = 'NAKA',
   Kurant = 'Kurant',
   Bluecode = 'Bluecode',
   CryptopaymentLink = 'Cryptopayment Link',
   Edenia = 'Edenia',
   BitcoinJungle = 'Bitcoing Jungle',
-  NimiqPay = 'Nimiq Pay',
+  Coinmap = 'Coinmap',
+  AcceptLightning = 'Accept Lightning',
+  Bridge2Bitcoin = 'Bridge2Bitcoin',
+  BtcMap = 'BtcMap',
 }
 
 export enum DatabaseUser {

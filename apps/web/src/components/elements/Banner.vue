@@ -7,7 +7,7 @@ import type { Location } from 'types'
 import CardBg from '@/components/cards/location/LocationCardBg.vue'
 import Button from '@/components/atoms/Button.vue'
 import InfoIcon from '@/components/icons/icon-info.vue'
-import ProviderCircleLogo from '@/components/icons/providers/ProviderCircleLogo.vue'
+import BannerCircleLogo from '@/components/icons/providers/BannerCircleLogo.vue'
 
 defineProps({
   location: {
@@ -21,22 +21,29 @@ defineProps({
 })
 
 const isMobile = useBreakpoints(screens).smaller('md')
+
+// For the banner Nimiq Pay, the label should be Nimiq Pay
+function handleProviderPlaceholder({banner, provider}: Location) {
+  if (banner === 'Nimiq-Pay') return 'Nimiq Pay'
+  return provider
+
+}
 </script>
 
 <template>
-  <footer class="relative flex items-center" :class="{ 'h-16': location.providerLabel, 'h-9': !location.providerLabel }">
-    <CardBg v-if="!location.isAtm && location.providerLabel" :location="location" />
+  <footer class="relative flex items-center" :class="{ 'h-16': location.bannerLabel, 'h-9': !location.bannerLabel }">
+    <CardBg v-if="!location.isAtm && location.bannerLabel" :location="location" />
 
-    <div v-if="location.providerLabel" class="z-20 flex items-center pt-1.5 pl-6 pr-[72px] text-xs gap-x-1.5">
+    <div v-if="location.bannerLabel" class="z-20 flex items-center pt-1.5 pl-6 pr-[72px] text-xs gap-x-1.5">
       <i18n-t
-        :keypath="location.providerLabel" tag="p" :class="{
+        :keypath="location.bannerLabel" tag="p" :class="{
           'text-white/60 [&>b]:text-white': location.isDark,
           'text-space/60 [&>b]:text-space': location.isLight,
         }"
       >
         <!-- The name in the label can optionally be written bold by including a {provider} placeholder -->
         <template #provider>
-          <b>{{ location.provider }}</b>
+          <b>{{ handleProviderPlaceholder(location) }}</b>
         </template>
       </i18n-t>
 
@@ -52,24 +59,24 @@ const isMobile = useBreakpoints(screens).smaller('md')
           >
             <div>
               <header class="flex items-center justify-start gap-x-2">
-                <ProviderCircleLogo :provider="location.provider" />
+                <BannerCircleLogo :banner="location.banner" />
                 <h4 class="font-semibold truncate [text-wrap:balance]">
-                  {{ location.provider }}
+                  {{ handleProviderPlaceholder(location) }}
                 </h4>
                 <div
-                  v-if="location.providerTooltipLabel"
+                  v-if="location.bannerTooltipLabel"
                   class="ml-auto uppercase text-xs text-white/60 tracking-wider bg-white/[0.08] shadow-sm shadow-white/[0.2] font-semibold px-2 py-0.5 ring-1 ring-white/20 rounded-full"
                 >
-                  {{ location.providerTooltipLabel }}
+                  {{ location.bannerTooltipLabel }}
                 </div>
               </header>
 
               <p class="mt-2 text-sm text-white/60 text-pretty">
-                {{ location.providerTooltip }}
+                {{ location.bannerTooltip }}
               </p>
 
               <Button
-                v-if="location.providerTooltipCta" :href="location.providerTooltipCta" bg-color="transparent"
+                v-if="location.bannerTooltipCta" :href="location.bannerTooltipCta" bg-color="transparent"
                 text-color="white" class="!px-0 opacity-60"
               >
                 <template #label>

@@ -21,6 +21,9 @@ export enum LocationLink {
   Facebook = 'facebook',
 }
 
+// The different Banner designs
+export type Banner = Provider.Bluecode | Provider.CryptopaymentLink | Provider.Edenia | Provider.Kurant | Provider.NAKA | 'Nimiq-Pay' | Provider.DefaultAtm | 'None'
+
 export interface Location extends RawLocation {
   category_label: string
 
@@ -33,17 +36,18 @@ export interface Location extends RawLocation {
   theme: Theme
   bg: [string /* primary color */, string | undefined /* Active for atm */]
 
-  // Provider text
-  providerLabel?: string
-  providerTooltip?: string
-  providerTooltipCta?: string
-  providerTooltipLabel?: string
-
+  
   // Quick getters
   isAtm: boolean
   isDark: boolean
   isLight: boolean
-  hasBottomBanner: boolean
+  
+  // Banner: The design of the banner can be a provider or a Nimiq-Pay banner for specific providers.
+  banner: Banner
+  bannerLabel?: string
+  bannerTooltip?: string
+  bannerTooltipCta?: string
+  bannerTooltipLabel?: string
 }
 
 export interface RawLocation {
