@@ -17,7 +17,8 @@ const i18nKeyPassThrough = {
 // for bannerLabel is happening in i18n-t in ProviderBanner, and bannerTooltip is defined as a getter to not be
 // constant but re-computed on language changes. bannerLabel can include a {provider} placeholder which gets handled
 // in i18n-t in ProviderBanner.
-const cardConfiguration: Record<Banner, Pick<Location, 'bg' | 'theme' | 'bannerLabel' | 'bannerTooltip' | 'bannerTooltipCta' | 'bannerTooltipLabel'>> = {
+type BannerConfiguration = Pick<Location, 'bg' | 'theme' | 'bannerLabel' | 'bannerTooltip' | 'bannerTooltipCta' | 'bannerTooltipLabel' | 'bannerGooglePlay' | 'bannerAppStore'>
+const cardConfiguration: Record<Banner, BannerConfiguration> = {
   'None': {
     bg: ['white', undefined],
     theme: Theme.Light,
@@ -36,7 +37,8 @@ const cardConfiguration: Record<Banner, Pick<Location, 'bg' | 'theme' | 'bannerL
     get bannerTooltip() {
       return i18n.t('Nimiq Pay enables self-custodial payments with NIM wherever BTC Lightning is accepted.')
     },
-    bannerTooltipCta: 'https://nimiq.com/nimiq-pay',
+    bannerGooglePlay: 'https://play.google.com/store/apps/',
+    bannerAppStore: 'https://apps.apple.com/app/nimiq-pay',
   },
   [Provider.NAKA]: {
     theme: Theme.Dark,

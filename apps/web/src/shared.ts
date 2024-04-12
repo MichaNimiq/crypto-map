@@ -1,7 +1,7 @@
 import { PROVIDERS } from 'database'
 import type { DatabaseAnonArgs, DatabaseArgs, Location } from 'types'
 import { DatabaseUser, LocationLink, Provider, Theme } from 'types'
-import { getCardConfiguration } from './assets-dev/provider-assets'
+import { getCardConfiguration } from './assets-dev/banner-assets'
 import { translateCategory } from './translations'
 import { useApp } from './stores/app'
 

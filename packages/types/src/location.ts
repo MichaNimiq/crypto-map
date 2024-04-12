@@ -48,6 +48,8 @@ export interface Location extends RawLocation {
   bannerTooltip?: string
   bannerTooltipCta?: string
   bannerTooltipLabel?: string
+  bannerGooglePlay?: string
+  bannerAppStore?: string
 }
 
 export interface RawLocation {
