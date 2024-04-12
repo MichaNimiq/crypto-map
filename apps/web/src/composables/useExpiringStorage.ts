@@ -48,14 +48,34 @@ interface UseExpiringStorageAsyncOptions<T> extends UseExpiringStorageBaseOption
   getAsyncValue?: () => Promise<T>
 }
 
-const storage = globalThis.localStorage
+// const storage = globalThis.localStorage
 const halfDay = 12 * 60 * 60 * 1000
 
 const hasExpired = (expiryDate: string) => new Date(expiryDate).getTime() <= Date.now()
 
+// Use it for localStorage
+// function getStoredValue<T>(key: string, serializer: Serializer<ExpiringValue<T>>): ExpiringValue<T> | undefined {
+//   const stored = storage.getItem(key)
+//   return stored ? serializer.read(stored) as ExpiringValue<T> : undefined
+// }
+
 function getStoredValue<T>(key: string, serializer: Serializer<ExpiringValue<T>>): ExpiringValue<T> | undefined {
-  const stored = storage.getItem(key)
-  return stored ? serializer.read(stored) as ExpiringValue<T> : undefined
+  const cookie = getCookieValue(key);
+  return cookie ? serializer.read(cookie) as ExpiringValue<T> : undefined;
+}
+
+function getCookieValue(key: string): string | null {
+  const b = document.cookie.match('(^|;)\\s*' + key + '\\s*=\\s*([^;]+)');
+  return b?.pop() ?? null;
+}
+
+function setCookie(key: string, value: string, expiresIn: number) {
+  const expires = new Date(Date.now() + expiresIn).toUTCString();
+  document.cookie = `${key}=${value}; expires=${expires}; path=/`;
+}
+
+function deleteCookie(key: string) {
+  document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
 }
 
 /**
@@ -99,7 +119,8 @@ export function useExpiringStorage<T>(_key: string, options: UseExpiringStorageS
 
   // Write the value to the storage
   watch(stored, (newValue) => {
-    storage.setItem(key, serializer.write({ value: newValue, expires: new Date(Date.now() + expiresIn).toISOString(), timestamp }))
+    // storage.setItem(key, serializer.write({ value: newValue, expires: new Date(Date.now() + expiresIn).toISOString(), timestamp }))
+    setCookie(key, serializer.write({ value: newValue, expires: new Date(Date.now() + expiresIn).toISOString(), timestamp }), expiresIn);
   }, { immediate: true, deep: true })
 
   const refreshData = async (remainingTime: number) => {
@@ -125,6 +146,7 @@ export function useExpiringStorage<T>(_key: string, options: UseExpiringStorageS
   return {
     payload: computed(() => stored.value),
     init,
-    clean: () => storage.removeItem(key),
+    // clean: () => storage.removeItem(key),
+    clean: () => deleteCookie(key),
   }
 }
