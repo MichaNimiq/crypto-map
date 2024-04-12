@@ -2,7 +2,7 @@ import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { checker } from 'vite-plugin-checker'
+// import { checker } from 'vite-plugin-checker'
 
 // @ts-expect-error webpack-i18n-tools does currently not expose types
 import poLoader from 'webpack-i18n-tools/loader/rollup'
@@ -16,7 +16,7 @@ export default defineConfig({
     poLoader(),
     poOptimizer(),
     vue({ script: { defineModel: true } }),
-    checker({ vueTsc: true, typescript: true }),
+    // checker({ vueTsc: true, typescript: true }), // Waiting for https://github.com/fi3ework/vite-plugin-checker/issues/306#issuecomment-1995606874
   ],
   resolve: {
     alias: {

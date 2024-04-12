@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import { useBreakpoints } from '@vueuse/core'
 import { screens } from 'tailwindcss-nimiq-theme'
 import type { Location } from 'types'
@@ -10,16 +9,7 @@ import CardBg from '@/components/cards/location/LocationCardBg.vue'
 import Banner from '@/components/elements/Banner.vue'
 import CardDotsMenu from '@/components/cards/location/LocationCardDotsMenu.vue'
 
-defineProps({
-  location: {
-    type: Object as PropType<Location>,
-    required: true,
-  },
-  progress: {
-    type: Number,
-    required: true,
-  },
-})
+defineProps<{ location: Location, progress: number }>()
 
 const isMobile = useBreakpoints(screens).smaller('md')
 
@@ -51,8 +41,8 @@ function arrayEquals(arrA: string[], arrB: string[]): boolean {
         :alt="$tc('Picture of {name}, a place to buy with crypto in {city}, {country}. {providedBy}',
                   {
                     name: location.name,
-                    city: location.address.split(',').at(-2)?.split(' ').at(-1),
-                    country: location.address.split(',').at(-1),
+                    city: location.address?.split(',').at(-2)?.split(' ').at(-1) || '',
+                    country: location.address?.split(',').at(-1),
                     providedBy: $tc('Provided by {provider}', location.provider),
                   })"
         draggable="false"

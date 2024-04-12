@@ -10,7 +10,7 @@ import { useCryptocities } from '@/stores/cryptocities'
 
 const props = defineProps({
   cryptocity: {
-    type: Object as PropType<Cryptocity>,
+    type: String as PropType<Cryptocity>,
     required: true,
   },
 })
