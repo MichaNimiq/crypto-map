@@ -87,10 +87,10 @@ function handleProviderPlaceholder({banner, provider}: Location) {
               <template v-if="location.bannerAppStore || location.bannerGooglePlay">
                 <div class="flex items-center gap-6 text-white/70 !mt-4">
                   <a v-if="location.bannerAppStore" :href="location.bannerAppStore" target="_blank" rel="noopener noreferrer" class="flex-1">
-                    <img src="@/assets/google-play-badge.svg" :alt="$t('Download on Play Store')" class="w-full" />
+                    <img src="@/assets/app-store-badge.svg" :alt="$t('Download on App Store')" class="w-full" />
                   </a>
                   <a v-if="location.bannerGooglePlay" :href="location.bannerGooglePlay" target="_blank" rel="noopener noreferrer" class="flex-1">
-                    <img src="@/assets/app-store-badge.svg" :alt="$t('Download on App Store')" class="w-full" />
+                    <img src="@/assets/google-play-badge.svg" :alt="$t('Download on Play Store')" class="w-full" />
                   </a>
                 </div>
               </template>
