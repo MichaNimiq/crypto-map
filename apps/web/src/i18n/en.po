@@ -53,7 +53,7 @@ msgstr ""
 msgid "BTC +50"
 msgstr ""
 
-#: src/components/cards/location/LocationCard.vue:48
+#: src/components/cards/location/LocationCard.vue:42
 msgid "Buy"
 msgstr ""
 
@@ -141,11 +141,11 @@ msgstr ""
 msgid "Describe the issue"
 msgstr ""
 
-#: src/components/elements/Banner.vue:61
+#: src/components/elements/Banner.vue:58
 msgid "Download on App Store"
 msgstr ""
 
-#: src/components/elements/Banner.vue:58
+#: src/components/elements/Banner.vue:61
 msgid "Download on Play Store"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgid "Pay with {provider}"
 msgstr ""
 
 #: src/components/cards/location/LocationCard.vue:21
-msgid "Picture of {name}, a place to buy with crypto in {city}, {country}. {providedBy}"
+msgid "Picture of {name}"
 msgstr ""
 
 #: src/assets-dev/banner-assets.ts:48
@@ -288,10 +288,6 @@ msgstr ""
 #: src/components/elements/CryptoMapModal.vue:26
 #: src/components/elements/TheMapInstance.vue:11
 msgid "Privacy Policy"
-msgstr ""
-
-#: src/components/cards/location/LocationCard.vue:26
-msgid "Provided by {provider}"
 msgstr ""
 
 #: src/assets-dev/banner-assets.ts:60
@@ -342,7 +338,7 @@ msgstr ""
 msgid "Select issue"
 msgstr ""
 
-#: src/components/cards/location/LocationCard.vue:52
+#: src/components/cards/location/LocationCard.vue:46
 msgid "Sell"
 msgstr ""
 

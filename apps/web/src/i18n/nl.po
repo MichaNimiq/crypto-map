@@ -1,10 +1,10 @@
 # 
 # Translators:
-# Stefan, 2023
+# Stefan, 2024
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Stefan, 2023\n"
+"Last-Translator: Stefan, 2024\n"
 "Language-Team: Dutch (https://app.transifex.com/nimiq-foundation/teams/110181/nl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: nl\n"
@@ -53,7 +53,7 @@ msgid ""
 "            establishments supporting Binance Pay."
 msgstr ""
 
-#: src/assets-dev/provider-assets.ts:85
+#: src/assets-dev/banner-assets.ts:75
 msgid ""
 "Bluecode is a payment method that allows secure transactions directly "
 "through the smartphone."
@@ -65,7 +65,7 @@ msgstr ""
 msgid "BTC +50"
 msgstr "BTC +50"
 
-#: src/components/cards/location/LocationCard.vue:48
+#: src/components/cards/location/LocationCard.vue:42
 msgid "Buy"
 msgstr "Kopen"
 
@@ -102,9 +102,9 @@ msgstr "Leegmaken"
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/assets-dev/provider-assets.ts:88
+#: src/assets-dev/banner-assets.ts:78
 msgid "Coming soon"
-msgstr ""
+msgstr "Binnenkort beschikbaar"
 
 #: src/translations.ts:8
 msgid "Computer & Electronics"
@@ -157,7 +157,15 @@ msgstr "Beschrijving"
 msgid "Describe the issue"
 msgstr "Omschrijf het probleem"
 
-#: src/assets-dev/provider-assets.ts:112
+#: src/components/elements/Banner.vue:58
+msgid "Download on App Store"
+msgstr ""
+
+#: src/components/elements/Banner.vue:61
+msgid "Download on Play Store"
+msgstr ""
+
+#: src/assets-dev/banner-assets.ts:102
 msgid ""
 "Edenia enables users to easily purchase cryptocurrencies through a network "
 "of ATMs"
@@ -198,14 +206,6 @@ msgstr "Zoek locatie"
 msgid "Food & Drinks"
 msgstr "Eten & drinken"
 
-#: src/assets-dev/provider-assets.ts:49
-msgid ""
-"GoCrypto is a global payment network that enables merchants to accept crypto"
-" payments."
-msgstr ""
-"GoCrypto is een wereldwijd betalingsnetwerk waarmee ondernemers crypto "
-"betalingen kunnen accepteren."
-
 #: src/components/icons/cryptos/CryptoIcon.vue:40
 msgid "GoCrypto supports Binance Pay"
 msgstr "GoCrypto ondersteund Binance Pay"
@@ -234,7 +234,7 @@ msgstr ""
 "Kryptostadt Mannheim maakt deel uit van het wereldwijde Cryptocity "
 "Initiatief onder leiding van Nimiq en zijn partners."
 
-#: src/assets-dev/provider-assets.ts:73
+#: src/assets-dev/banner-assets.ts:63
 msgid ""
 "Kurant enables users to easily purchase cryptocurrencies through a network "
 "of ATMs."
@@ -242,7 +242,7 @@ msgstr ""
 "Met Kurant kunnen gebruikers eenvoudig cryptocurrencies kopen via een "
 "netwerk van geldautomaten."
 
-#: src/components/elements/ProviderBanner.vue:51
+#: src/components/elements/Banner.vue:51
 msgid "Learn more"
 msgstr "Meer informatie"
 
@@ -277,10 +277,18 @@ msgstr "Diversen"
 msgid "More cryptocurrencies supported in the future"
 msgstr "In de toekomst worden meer cryptovaluta's ondersteund"
 
-#: src/assets-dev/provider-assets.ts:61
+#: src/assets-dev/banner-assets.ts:51
 msgid ""
 "NAKA is a global payment network that enables merchants to accept crypto "
 "payments."
+msgstr ""
+"NAKA is een wereldwijd betalingsnetwerk waarmee ondernemers crypto "
+"betalingen kunnen accepteren."
+
+#: src/assets-dev/banner-assets.ts:38
+msgid ""
+"Nimiq Pay enables self-custodial payments with NIM wherever BTC Lightning is"
+" accepted."
 msgstr ""
 
 #: src/translations.ts:29
@@ -299,20 +307,16 @@ msgstr "Oeps, er zijn hier geen bedrijven"
 msgid "Other"
 msgstr "Anders"
 
-#: src/assets-dev/provider-assets.ts:34
+#: src/assets-dev/banner-assets.ts:35
 msgid "Pay with {provider}"
-msgstr ""
+msgstr "Betaal met {provider}"
 
 #: src/components/cards/location/LocationCard.vue:21
-msgid ""
-"Picture of {name}, a place to buy with crypto in {city}, {country}. "
-"{providedBy}"
+msgid "Picture of {name}"
 msgstr ""
-"Foto van {name}, een plek om te kopen met crypto in {city}, {country}. "
-"{providedBy}"
 
-#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:58
-#: src/assets-dev/provider-assets.ts:82 src/assets-dev/provider-assets.ts:97
+#: src/assets-dev/banner-assets.ts:48 src/assets-dev/banner-assets.ts:72
+#: src/assets-dev/banner-assets.ts:87
 msgid "Powered by {provider}"
 msgstr "Mogelijk gemaakt door {provider}"
 
@@ -321,11 +325,7 @@ msgstr "Mogelijk gemaakt door {provider}"
 msgid "Privacy Policy"
 msgstr "Privacybeleid"
 
-#: src/components/cards/location/LocationCard.vue:26
-msgid "Provided by {provider}"
-msgstr "Aangeboden door {provider}"
-
-#: src/assets-dev/provider-assets.ts:109 src/assets-dev/provider-assets.ts:70
+#: src/assets-dev/banner-assets.ts:60 src/assets-dev/banner-assets.ts:99
 msgid "Register with {provider}"
 msgstr "Registreer bij {provider}"
 
@@ -371,13 +371,7 @@ msgstr "Selecteer cryptovaluta"
 msgid "Select issue"
 msgstr "Selecteer probleem"
 
-#: src/assets-dev/provider-assets.ts:37
-msgid ""
-"Self-custodial & instant payments with NIM and BTC Lightning. Featuring "
-"learn-to-earn and loyalty rewards."
-msgstr ""
-
-#: src/components/cards/location/LocationCard.vue:52
+#: src/components/cards/location/LocationCard.vue:46
 msgid "Sell"
 msgstr "Verkopen"
 
@@ -502,7 +496,7 @@ msgstr ""
 "We werken strategisch samen met lokale bedrijven om de regionale economie te"
 " stimuleren door het innovatieve gebruik van cryptocurrency."
 
-#: src/assets-dev/provider-assets.ts:100
+#: src/assets-dev/banner-assets.ts:90
 msgid ""
 "With CryptoPayment Link, you can quickly and easily receive cryptocurrency "
 "payments from your customers."

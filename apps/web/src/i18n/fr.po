@@ -1,10 +1,10 @@
 # 
 # Translators:
-# Robinson BARAIS, 2023
+# Robinson BARAIS, 2024
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Robinson BARAIS, 2023\n"
+"Last-Translator: Robinson BARAIS, 2024\n"
 "Language-Team: French (https://app.transifex.com/nimiq-foundation/teams/110181/fr/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: fr\n"
@@ -52,8 +52,10 @@ msgid ""
 "Binance Pay is a cryptocurrency payment service that empowers users to pay with crypto at shops and\n"
 "            establishments supporting Binance Pay."
 msgstr ""
+"Binance Pay est un service de paiement en crypto-monnaie qui permet aux utilisateurs de payer avec des crypto-monnaies dans les magasins et les\n"
+"établissements qui acceptent Binance Pay."
 
-#: src/assets-dev/provider-assets.ts:85
+#: src/assets-dev/banner-assets.ts:75
 msgid ""
 "Bluecode is a payment method that allows secure transactions directly "
 "through the smartphone."
@@ -65,7 +67,7 @@ msgstr ""
 msgid "BTC +50"
 msgstr "BTC +50"
 
-#: src/components/cards/location/LocationCard.vue:48
+#: src/components/cards/location/LocationCard.vue:42
 msgid "Buy"
 msgstr "Acheter"
 
@@ -102,9 +104,9 @@ msgstr "Effacer"
 msgid "Close"
 msgstr "Fermer"
 
-#: src/assets-dev/provider-assets.ts:88
+#: src/assets-dev/banner-assets.ts:78
 msgid "Coming soon"
-msgstr ""
+msgstr "Bientôt disponible"
 
 #: src/translations.ts:8
 msgid "Computer & Electronics"
@@ -157,7 +159,15 @@ msgstr "Décrire ici"
 msgid "Describe the issue"
 msgstr "Décrivez le problème"
 
-#: src/assets-dev/provider-assets.ts:112
+#: src/components/elements/Banner.vue:58
+msgid "Download on App Store"
+msgstr ""
+
+#: src/components/elements/Banner.vue:61
+msgid "Download on Play Store"
+msgstr ""
+
+#: src/assets-dev/banner-assets.ts:102
 msgid ""
 "Edenia enables users to easily purchase cryptocurrencies through a network "
 "of ATMs"
@@ -198,14 +208,6 @@ msgstr "Trouver un lieu"
 msgid "Food & Drinks"
 msgstr "Nourriture & boissons"
 
-#: src/assets-dev/provider-assets.ts:49
-msgid ""
-"GoCrypto is a global payment network that enables merchants to accept crypto"
-" payments."
-msgstr ""
-"GoCrypto est un réseau de paiement mondial qui permet aux commerçants "
-"d'accepter les paiements en cryptomonnaie."
-
 #: src/components/icons/cryptos/CryptoIcon.vue:40
 msgid "GoCrypto supports Binance Pay"
 msgstr "GoCrypto supporte Binance Pay"
@@ -234,7 +236,7 @@ msgstr ""
 "Kryptostadt Mannheim fait partie de l'initiative mondiale Cryptocity menée "
 "par Nimiq et ses partenaires."
 
-#: src/assets-dev/provider-assets.ts:73
+#: src/assets-dev/banner-assets.ts:63
 msgid ""
 "Kurant enables users to easily purchase cryptocurrencies through a network "
 "of ATMs."
@@ -242,7 +244,7 @@ msgstr ""
 "Kurant permet aux utilisateurs d'acheter facilement des crypto-monnaies par "
 "l'intermédiaire d'un réseau de distributeurs automatiques de billets."
 
-#: src/components/elements/ProviderBanner.vue:51
+#: src/components/elements/Banner.vue:51
 msgid "Learn more"
 msgstr "En savoir plus"
 
@@ -277,10 +279,18 @@ msgstr "Autres"
 msgid "More cryptocurrencies supported in the future"
 msgstr "Plus de cryptomonnaies seront prises en charge à l'avenir"
 
-#: src/assets-dev/provider-assets.ts:61
+#: src/assets-dev/banner-assets.ts:51
 msgid ""
 "NAKA is a global payment network that enables merchants to accept crypto "
 "payments."
+msgstr ""
+"NAKA est un réseau de paiement mondial qui permet aux commerçants d'accepter"
+" les paiements en crypto-monnaie."
+
+#: src/assets-dev/banner-assets.ts:38
+msgid ""
+"Nimiq Pay enables self-custodial payments with NIM wherever BTC Lightning is"
+" accepted."
 msgstr ""
 
 #: src/translations.ts:29
@@ -299,20 +309,16 @@ msgstr "Oups, aucun commerce dans le coin"
 msgid "Other"
 msgstr "Autre"
 
-#: src/assets-dev/provider-assets.ts:34
+#: src/assets-dev/banner-assets.ts:35
 msgid "Pay with {provider}"
-msgstr ""
+msgstr "Payer avec {provider}"
 
 #: src/components/cards/location/LocationCard.vue:21
-msgid ""
-"Picture of {name}, a place to buy with crypto in {city}, {country}. "
-"{providedBy}"
+msgid "Picture of {name}"
 msgstr ""
-"Illustration de {name}, un lieu où acheter avec de la crypto à{city}, "
-"{country}, {providedBy}"
 
-#: src/assets-dev/provider-assets.ts:46 src/assets-dev/provider-assets.ts:58
-#: src/assets-dev/provider-assets.ts:82 src/assets-dev/provider-assets.ts:97
+#: src/assets-dev/banner-assets.ts:48 src/assets-dev/banner-assets.ts:72
+#: src/assets-dev/banner-assets.ts:87
 msgid "Powered by {provider}"
 msgstr "Propulsé par {provider}"
 
@@ -321,11 +327,7 @@ msgstr "Propulsé par {provider}"
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
-#: src/components/cards/location/LocationCard.vue:26
-msgid "Provided by {provider}"
-msgstr "Fourni par {provider}"
-
-#: src/assets-dev/provider-assets.ts:109 src/assets-dev/provider-assets.ts:70
+#: src/assets-dev/banner-assets.ts:60 src/assets-dev/banner-assets.ts:99
 msgid "Register with {provider}"
 msgstr "S'inscrire sur {provider}"
 
@@ -371,13 +373,7 @@ msgstr "Sélectionner une cryptomonnaie"
 msgid "Select issue"
 msgstr "Sélectionner une question"
 
-#: src/assets-dev/provider-assets.ts:37
-msgid ""
-"Self-custodial & instant payments with NIM and BTC Lightning. Featuring "
-"learn-to-earn and loyalty rewards."
-msgstr ""
-
-#: src/components/cards/location/LocationCard.vue:52
+#: src/components/cards/location/LocationCard.vue:46
 msgid "Sell"
 msgstr "Vendre"
 
@@ -502,7 +498,7 @@ msgstr ""
 "Nous travaillons stratégiquement avec des entreprises locales pour stimuler "
 "l'économie régionale grâce à l'utilisation innovante des cryptomonnaies."
 
-#: src/assets-dev/provider-assets.ts:100
+#: src/assets-dev/banner-assets.ts:90
 msgid ""
 "With CryptoPayment Link, you can quickly and easily receive cryptocurrency "
 "payments from your customers."
