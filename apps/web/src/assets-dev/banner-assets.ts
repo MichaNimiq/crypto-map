@@ -20,7 +20,7 @@ const i18nKeyPassThrough = {
 type BannerConfiguration = Pick<Location, 'bg' | 'theme' | 'bannerLabel' | 'bannerTooltip' | 'bannerTooltipCta' | 'bannerTooltipLabel' | 'bannerGooglePlay' | 'bannerAppStore'>
 const cardConfiguration: Record<Banner, BannerConfiguration> = {
   'None': {
-    bg: ['white', undefined],
+    bg: ['rgb(var(--nq-neutral-0))', undefined],
     theme: Theme.Light,
   },
   [Provider.DefaultAtm]: {
@@ -28,8 +28,8 @@ const cardConfiguration: Record<Banner, BannerConfiguration> = {
     bg: ['radial-gradient(100% 100% at 100% 100%, #4D4C96 0%, #5F4B8B 100%)', 'radial-gradient(100% 100% at 100% 100%, hsl(241, 33%, 41%) 0%, hsl(259, 30%, 39%) 100%)'],
   },
   'Nimiq-Pay': {
-    bg: ['#E9B213', undefined],
-    theme: Theme.Light,
+    bg: ['rgb(var(--nq-gold))', 'rgb(var(--nq-gold-1100))'],
+    theme: Theme.Dark,
     get bannerLabel() {
       const i18n = i18nKeyPassThrough
       return i18n.t('Pay with {provider}')

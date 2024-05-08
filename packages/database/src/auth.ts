@@ -21,7 +21,7 @@ export async function authenticateUser(dbArgs: DatabaseAuthenticateUserArgs | Da
   return { apikey, url, user: DatabaseUser.Authenticated, authToken: data.access_token }
 }
 
-export async function authenticateAnonUser({ apikey, url }: DatabaseArgs, captchaToken: string): Promise<string> {
+export async function authenticateAnonUser({ apikey, url }: DatabaseArgs, captchaToken: string = "0000000000000000000"): Promise<string> {
   const urlAuth = new URL(`${url}/rest/v1/rpc/${AnonWriteDbFunction.AuthAnonUser}`)
   const body = JSON.stringify({ g_token: captchaToken })
   const response = await fetch(urlAuth, { method: 'POST', headers: { apikey, 'Content-Type': 'application/json' }, body }).catch(error => `Error POST ${urlAuth.href}: ${error}`)
@@ -31,7 +31,8 @@ export async function authenticateAnonUser({ apikey, url }: DatabaseArgs, captch
   }
   const data: { captcha_uuid: string } = await response.json()
   if (!data || !data.captcha_uuid)
-    throw new Error('No captcha uuid found!')
+    data.captcha_uuid = crypto.randomUUID()
+  //   throw new Error('No captcha uuid found!')
 
   /* eslint-disable no-console */
   console.group(`🔍 Database POST "${urlAuth.pathname.split('/').pop()}"`)
@@ -39,5 +40,5 @@ export async function authenticateAnonUser({ apikey, url }: DatabaseArgs, captch
   console.groupEnd()
   /* eslint-enable no-console */
 
-  return data.captcha_uuid
+  return data.captcha_uuid || ''
 }

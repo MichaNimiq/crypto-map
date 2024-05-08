@@ -2,13 +2,21 @@ import { URL, fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
 // import { checker } from 'vite-plugin-checker'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 // @ts-expect-error webpack-i18n-tools does currently not expose types
 import poLoader from 'webpack-i18n-tools/loader/rollup'
 
 // @ts-expect-error webpack-i18n-tools does currently not expose types
 import poOptimizer from 'webpack-i18n-tools/optimizer/rollup'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+// @ts-expect-error RadixVueResolver does currently not expose types
+import RadixVueResolver from 'radix-vue/resolver'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,7 +24,38 @@ export default defineConfig({
     poLoader(),
     poOptimizer(),
     vue({ script: { defineModel: true } }),
+    VueDevTools(),
     // checker({ vueTsc: true, typescript: true }), // Waiting for https://github.com/fi3ework/vite-plugin-checker/issues/306#issuecomment-1995606874
+    UnoCSS(),
+
+    // https://github.com/antfu/unplugin-auto-import
+    AutoImport({
+      imports: [
+        'vue',
+        'pinia',
+        '@vueuse/core',
+        VueRouterAutoImports,
+      ],
+      dts: 'src/auto-imports.d.ts',
+      dirs: [
+        'src/composables',
+        'src/stores',
+        'src/i18n',
+      ],
+      vueTemplate: true,
+    }),
+
+    // https://github.com/antfu/unplugin-vue-components
+    Components({
+      // allow auto load markdown components under `./src/components/`
+      extensions: ['vue'],
+      // allow auto import and register components used in markdown
+      include: [/\.vue$/, /\.vue\?vue/],
+      dts: 'src/components.d.ts',
+      resolvers: [
+        RadixVueResolver()
+      ]
+    }),
   ],
   resolve: {
     alias: {
